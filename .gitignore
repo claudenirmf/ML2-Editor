@@ -1,3 +1,23 @@
+#################
+## Eclipse
+#################
+
+bin/
+target/
+tmp/
+*.pydevproject
+*.tmp
+*.bak
+*.swp
+*~.nib
+*.xtendbin
+*.java_trace
+*._trace
+~.*
+local.properties
+.loadpath
+.classpath
+
 *.class
 
 # Mobile Tools for Java (J2ME)
