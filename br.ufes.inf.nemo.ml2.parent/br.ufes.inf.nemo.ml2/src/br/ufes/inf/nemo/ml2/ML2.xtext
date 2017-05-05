@@ -84,7 +84,8 @@ RegularityFeature returns Feature:
 
 Attribute:
 	'att'? name=ID ':' 
-	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']') ? _type=[DataType|QualifiedName]
+	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']') ? 
+	(primitiveType=PrimitiveType | _type=[DataType|QualifiedName])
 	('subsets' subsetOf+=[Attribute|QualifiedName] 
 		(',' subsetOf+=[Attribute|QualifiedName])* ) ? ;
 
@@ -97,7 +98,8 @@ Reference:
 
 RegularityAttribute returns Attribute:
 	'regularity' 'att'? name=ID ':' 
-	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']') ? _type=[DataType|QualifiedName]
+	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']') ? 
+	(primitiveType=PrimitiveType | _type=[DataType|QualifiedName])
 	('subsets' subsetOf+=[Attribute|QualifiedName] 
 		(',' subsetOf+=[Attribute|QualifiedName])* ) ?
 	regularityType=RegularityFeatureType regulatedFeature=[Feature|QualifiedName] ;
@@ -112,6 +114,10 @@ RegularityReference returns Reference:
 
 ELEMENTBOUND returns ecore::EInt:
 	'*' | INT ;
+	
+enum PrimitiveType returns PrimitiveType:
+	STRING | NUMBER | BOOLEAN ;
+
 
 enum RegularityFeatureType:
 	DETERMINES_VALUE | DETERMINES_TYPE |DETERMINES_MIN_VALUE
@@ -122,15 +128,15 @@ FeatureAssignment:
 
 SingleAttributeAssignment returns AttributeAssignment: 
 	'att'? attribute=[Attribute|QualifiedName] '='
-	( entityAssignments+=[Individual|QualifiedName]
+	( individualAssignments+=[Individual|QualifiedName]
 		| unnamedIndividualAssignments+=UnnamedIndividual
 		| literalAssignments+=Literal ) ;
 
 MultipleAttributeAssignment returns AttributeAssignment: 
 	'att'? attribute=[Attribute|QualifiedName] '=' '{'
 	((literalAssignments+=Literal (',' literalAssignments+=Literal)*)
-		| ((entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
-			(',' (entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
+		| ((individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
+			(',' (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
 		) 
 	)?  '}';
 
@@ -156,20 +162,20 @@ BOOLEAN returns ecore::EBoolean:
 	'true' | 'false';
 
 NUMBER returns ecore::EDouble:
-	'-'? INT ( '.' INT (('E'|'e') '-'? INT)? )? ;
+	'-'? INT ( '.' INT )? ;
 
 UnnamedIndividual returns Individual:
 	{Individual} '[' assignments+=SimpleAttributeAssignment* ']' ;
 
 SimpleAttributeAssignment returns AttributeAssignment:
 	attribute=[Attribute|QualifiedName] '='
-	( entityAssignments+=[Individual|QualifiedName]
+	( individualAssignments+=[Individual|QualifiedName]
 		| unnamedIndividualAssignments+=UnnamedIndividual
 		| literalAssignments+=Literal
 		| '{'
 			((literalAssignments+=Literal (',' literalAssignments+=Literal)*)
-			| ((entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
-				(',' (entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)
+			| ((individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
+				(',' (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)
 		)? '}' ) ;
 
 

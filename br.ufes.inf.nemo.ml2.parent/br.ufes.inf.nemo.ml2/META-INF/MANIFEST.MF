@@ -18,6 +18,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: br.ufes.inf.nemo.ml2,
  br.ufes.inf.nemo.ml2.formatting,
  br.ufes.inf.nemo.ml2.generator,
+ br.ufes.inf.nemo.ml2.lib,
  br.ufes.inf.nemo.ml2.parser.antlr,
  br.ufes.inf.nemo.ml2.parser.antlr.internal,
  br.ufes.inf.nemo.ml2.scoping,

@@ -105,6 +105,7 @@ enum RegularityFeatureType
 
 class Attribute extends Feature
 {
+	PrimitiveType primitiveType
 	refers DataType _type
 	refers Attribute[] subsetOf
 }
@@ -116,12 +117,18 @@ class Reference extends Feature
 	refers Reference oppositeTo
 }
 
+enum PrimitiveType {
+	STRING as "String"
+	NUMBER as "Number"
+	BOOLEAN as "Boolean"
+}
+
 class FeatureAssignment extends ModelElement {}
 
 class AttributeAssignment extends FeatureAssignment
 {
 	refers Attribute attribute
-	refers Individual[] entityAssignments
+	refers Individual[] individualAssignments
 	contains Individual[] unnamedIndividualAssignments
 	contains Literal[] literalAssignments
 }

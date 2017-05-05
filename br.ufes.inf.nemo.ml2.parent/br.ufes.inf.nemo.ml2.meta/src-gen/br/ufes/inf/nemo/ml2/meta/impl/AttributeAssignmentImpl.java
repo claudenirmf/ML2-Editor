@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.impl.AttributeAssignmentImpl#getAttribute <em>Attribute</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.meta.impl.AttributeAssignmentImpl#getEntityAssignments <em>Entity Assignments</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.meta.impl.AttributeAssignmentImpl#getIndividualAssignments <em>Individual Assignments</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.impl.AttributeAssignmentImpl#getUnnamedIndividualAssignments <em>Unnamed Individual Assignments</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.impl.AttributeAssignmentImpl#getLiteralAssignments <em>Literal Assignments</em>}</li>
  * </ul>
@@ -52,14 +52,14 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 	protected Attribute attribute;
 
 	/**
-	 * The cached value of the '{@link #getEntityAssignments() <em>Entity Assignments</em>}' reference list.
+	 * The cached value of the '{@link #getIndividualAssignments() <em>Individual Assignments</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEntityAssignments()
+	 * @see #getIndividualAssignments()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Individual> entityAssignments;
+	protected EList<Individual> individualAssignments;
 
 	/**
 	 * The cached value of the '{@link #getUnnamedIndividualAssignments() <em>Unnamed Individual Assignments</em>}' containment reference list.
@@ -143,11 +143,11 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Individual> getEntityAssignments() {
-		if (entityAssignments == null) {
-			entityAssignments = new EObjectResolvingEList<Individual>(Individual.class, this, MetaPackage.ATTRIBUTE_ASSIGNMENT__ENTITY_ASSIGNMENTS);
+	public EList<Individual> getIndividualAssignments() {
+		if (individualAssignments == null) {
+			individualAssignments = new EObjectResolvingEList<Individual>(Individual.class, this, MetaPackage.ATTRIBUTE_ASSIGNMENT__INDIVIDUAL_ASSIGNMENTS);
 		}
-		return entityAssignments;
+		return individualAssignments;
 	}
 
 	/**
@@ -201,8 +201,8 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE:
 				if (resolve) return getAttribute();
 				return basicGetAttribute();
-			case MetaPackage.ATTRIBUTE_ASSIGNMENT__ENTITY_ASSIGNMENTS:
-				return getEntityAssignments();
+			case MetaPackage.ATTRIBUTE_ASSIGNMENT__INDIVIDUAL_ASSIGNMENTS:
+				return getIndividualAssignments();
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__UNNAMED_INDIVIDUAL_ASSIGNMENTS:
 				return getUnnamedIndividualAssignments();
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__LITERAL_ASSIGNMENTS:
@@ -223,9 +223,9 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE:
 				setAttribute((Attribute)newValue);
 				return;
-			case MetaPackage.ATTRIBUTE_ASSIGNMENT__ENTITY_ASSIGNMENTS:
-				getEntityAssignments().clear();
-				getEntityAssignments().addAll((Collection<? extends Individual>)newValue);
+			case MetaPackage.ATTRIBUTE_ASSIGNMENT__INDIVIDUAL_ASSIGNMENTS:
+				getIndividualAssignments().clear();
+				getIndividualAssignments().addAll((Collection<? extends Individual>)newValue);
 				return;
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__UNNAMED_INDIVIDUAL_ASSIGNMENTS:
 				getUnnamedIndividualAssignments().clear();
@@ -250,8 +250,8 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE:
 				setAttribute((Attribute)null);
 				return;
-			case MetaPackage.ATTRIBUTE_ASSIGNMENT__ENTITY_ASSIGNMENTS:
-				getEntityAssignments().clear();
+			case MetaPackage.ATTRIBUTE_ASSIGNMENT__INDIVIDUAL_ASSIGNMENTS:
+				getIndividualAssignments().clear();
 				return;
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__UNNAMED_INDIVIDUAL_ASSIGNMENTS:
 				getUnnamedIndividualAssignments().clear();
@@ -273,8 +273,8 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 		switch (featureID) {
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE:
 				return attribute != null;
-			case MetaPackage.ATTRIBUTE_ASSIGNMENT__ENTITY_ASSIGNMENTS:
-				return entityAssignments != null && !entityAssignments.isEmpty();
+			case MetaPackage.ATTRIBUTE_ASSIGNMENT__INDIVIDUAL_ASSIGNMENTS:
+				return individualAssignments != null && !individualAssignments.isEmpty();
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__UNNAMED_INDIVIDUAL_ASSIGNMENTS:
 				return unnamedIndividualAssignments != null && !unnamedIndividualAssignments.isEmpty();
 			case MetaPackage.ATTRIBUTE_ASSIGNMENT__LITERAL_ASSIGNMENTS:

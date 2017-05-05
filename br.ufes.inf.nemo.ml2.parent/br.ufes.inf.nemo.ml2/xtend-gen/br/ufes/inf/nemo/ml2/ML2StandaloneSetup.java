@@ -4,7 +4,9 @@
 package br.ufes.inf.nemo.ml2;
 
 import br.ufes.inf.nemo.ml2.ML2StandaloneSetupGenerated;
+import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 import com.google.inject.Injector;
+import org.eclipse.emf.ecore.EPackage;
 
 /**
  * Initialization support for running Xtext languages without Equinox extension registry.
@@ -18,8 +20,11 @@ public class ML2StandaloneSetup extends ML2StandaloneSetupGenerated {
   
   @Override
   public void register(final Injector injector) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field MetaPackage is undefined"
-      + "\neINSTANCE cannot be resolved");
+    boolean _containsKey = EPackage.Registry.INSTANCE.containsKey("http://www.nemo.inf.ufes.br/ml2/ML2");
+    boolean _not = (!_containsKey);
+    if (_not) {
+      EPackage.Registry.INSTANCE.put("http://www.nemo.inf.ufes.br/ml2/ML2", MetaPackage.eINSTANCE);
+    }
+    super.register(injector);
   }
 }

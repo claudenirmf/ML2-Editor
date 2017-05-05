@@ -207,7 +207,7 @@ public class ML2SemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     (
 	 *         name=ID 
 	 *         (lowerBound=ELEMENTBOUND upperBound=ELEMENTBOUND)? 
-	 *         _type=[DataType|QualifiedName] 
+	 *         (primitiveType=PrimitiveType | _type=[DataType|QualifiedName]) 
 	 *         (subsetOf+=[Attribute|QualifiedName] subsetOf+=[Attribute|QualifiedName]*)?
 	 *     )
 	 */
@@ -225,13 +225,13 @@ public class ML2SemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *         (
 	 *             name=ID 
 	 *             (lowerBound=ELEMENTBOUND upperBound=ELEMENTBOUND)? 
-	 *             _type=[DataType|QualifiedName] 
+	 *             (primitiveType=PrimitiveType | _type=[DataType|QualifiedName]) 
 	 *             (subsetOf+=[Attribute|QualifiedName] subsetOf+=[Attribute|QualifiedName]*)?
 	 *         ) | 
 	 *         (
 	 *             name=ID 
 	 *             (lowerBound=ELEMENTBOUND upperBound=ELEMENTBOUND)? 
-	 *             _type=[DataType|QualifiedName] 
+	 *             (primitiveType=PrimitiveType | _type=[DataType|QualifiedName]) 
 	 *             (subsetOf+=[Attribute|QualifiedName] subsetOf+=[Attribute|QualifiedName]*)? 
 	 *             regularityType=RegularityFeatureType 
 	 *             regulatedFeature=[Feature|QualifiedName]
@@ -564,9 +564,9 @@ public class ML2SemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *         (
 	 *             (literalAssignments+=Literal literalAssignments+=Literal*) | 
 	 *             (
-	 *                 (entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
-	 *                 entityAssignments+=[Individual|QualifiedName]? 
-	 *                 (unnamedIndividualAssignments+=UnnamedIndividual? entityAssignments+=[Individual|QualifiedName]?)*
+	 *                 (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
+	 *                 individualAssignments+=[Individual|QualifiedName]? 
+	 *                 (unnamedIndividualAssignments+=UnnamedIndividual? individualAssignments+=[Individual|QualifiedName]?)*
 	 *             )
 	 *         )?
 	 *     )
@@ -584,13 +584,13 @@ public class ML2SemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     (
 	 *         (
 	 *             attribute=[Attribute|QualifiedName] 
-	 *             (entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal)
+	 *             (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal)
 	 *         ) | 
 	 *         (
 	 *             attribute=[Attribute|QualifiedName] 
-	 *             (entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
-	 *             entityAssignments+=[Individual|QualifiedName]? 
-	 *             (unnamedIndividualAssignments+=UnnamedIndividual? entityAssignments+=[Individual|QualifiedName]?)*
+	 *             (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
+	 *             individualAssignments+=[Individual|QualifiedName]? 
+	 *             (unnamedIndividualAssignments+=UnnamedIndividual? individualAssignments+=[Individual|QualifiedName]?)*
 	 *         ) | 
 	 *         (attribute=[Attribute|QualifiedName] (literalAssignments+=Literal literalAssignments+=Literal*)?)
 	 *     )
@@ -712,7 +712,7 @@ public class ML2SemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     (
 	 *         name=ID 
 	 *         (lowerBound=ELEMENTBOUND upperBound=ELEMENTBOUND)? 
-	 *         _type=[DataType|QualifiedName] 
+	 *         (primitiveType=PrimitiveType | _type=[DataType|QualifiedName]) 
 	 *         (subsetOf+=[Attribute|QualifiedName] subsetOf+=[Attribute|QualifiedName]*)? 
 	 *         regularityType=RegularityFeatureType 
 	 *         regulatedFeature=[Feature|QualifiedName]
@@ -752,14 +752,14 @@ public class ML2SemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     (
 	 *         attribute=[Attribute|QualifiedName] 
 	 *         (
-	 *             entityAssignments+=[Individual|QualifiedName] | 
+	 *             individualAssignments+=[Individual|QualifiedName] | 
 	 *             unnamedIndividualAssignments+=UnnamedIndividual | 
 	 *             literalAssignments+=Literal | 
 	 *             (literalAssignments+=Literal literalAssignments+=Literal*) | 
 	 *             (
-	 *                 (entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
-	 *                 entityAssignments+=[Individual|QualifiedName]? 
-	 *                 (unnamedIndividualAssignments+=UnnamedIndividual? entityAssignments+=[Individual|QualifiedName]?)*
+	 *                 (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
+	 *                 individualAssignments+=[Individual|QualifiedName]? 
+	 *                 (unnamedIndividualAssignments+=UnnamedIndividual? individualAssignments+=[Individual|QualifiedName]?)*
 	 *             )
 	 *         )?
 	 *     )
@@ -776,7 +776,7 @@ public class ML2SemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 * Constraint:
 	 *     (
 	 *         attribute=[Attribute|QualifiedName] 
-	 *         (entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal)
+	 *         (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal)
 	 *     )
 	 */
 	protected void sequence_SingleAttributeAssignment(ISerializationContext context, AttributeAssignment semanticObject) {

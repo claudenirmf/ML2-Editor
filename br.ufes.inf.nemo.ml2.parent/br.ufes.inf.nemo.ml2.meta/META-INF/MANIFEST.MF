@@ -7,7 +7,9 @@ Bundle-ClassPath: .
 Bundle-Vendor: NEMO
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: br.ufes.inf.nemo.ml2.meta;uses:="org.eclipse.emf.ecore,org.eclipse.emf.common.util",
+Export-Package: br.ufes.inf.nemo.ml2.meta;
+  uses:="org.eclipse.emf.ecore,
+   org.eclipse.emf.common.util",
  br.ufes.inf.nemo.ml2.meta.impl;
   uses:="org.eclipse.emf.ecore,
    org.eclipse.emf.ecore.impl,

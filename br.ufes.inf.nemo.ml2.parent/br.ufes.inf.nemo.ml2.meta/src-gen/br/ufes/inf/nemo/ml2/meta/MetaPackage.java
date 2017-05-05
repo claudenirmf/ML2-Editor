@@ -1271,13 +1271,22 @@ public interface MetaPackage extends EPackage {
 	int ATTRIBUTE__REGULATED_FEATURE = FEATURE__REGULATED_FEATURE;
 
 	/**
+	 * The feature id for the '<em><b>Primitive Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__PRIMITIVE_TYPE = FEATURE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE__TYPE = FEATURE_FEATURE_COUNT + 0;
+	int ATTRIBUTE__TYPE = FEATURE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Subset Of</b></em>' reference list.
@@ -1286,7 +1295,7 @@ public interface MetaPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE__SUBSET_OF = FEATURE_FEATURE_COUNT + 1;
+	int ATTRIBUTE__SUBSET_OF = FEATURE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Attribute</em>' class.
@@ -1295,7 +1304,7 @@ public interface MetaPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_FEATURE_COUNT = FEATURE_FEATURE_COUNT + 2;
+	int ATTRIBUTE_FEATURE_COUNT = FEATURE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Attribute</em>' class.
@@ -1454,13 +1463,13 @@ public interface MetaPackage extends EPackage {
 	int ATTRIBUTE_ASSIGNMENT__ATTRIBUTE = FEATURE_ASSIGNMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Entity Assignments</b></em>' reference list.
+	 * The feature id for the '<em><b>Individual Assignments</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_ASSIGNMENT__ENTITY_ASSIGNMENTS = FEATURE_ASSIGNMENT_FEATURE_COUNT + 1;
+	int ATTRIBUTE_ASSIGNMENT__INDIVIDUAL_ASSIGNMENTS = FEATURE_ASSIGNMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Unnamed Individual Assignments</b></em>' containment reference list.
@@ -1703,6 +1712,16 @@ public interface MetaPackage extends EPackage {
 	 */
 	int REGULARITY_FEATURE_TYPE = 23;
 
+
+	/**
+	 * The meta object id for the '{@link br.ufes.inf.nemo.ml2.meta.PrimitiveType <em>Primitive Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see br.ufes.inf.nemo.ml2.meta.PrimitiveType
+	 * @see br.ufes.inf.nemo.ml2.meta.impl.MetaPackageImpl#getPrimitiveType()
+	 * @generated
+	 */
+	int PRIMITIVE_TYPE = 24;
 
 	/**
 	 * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.meta.ML2Model <em>ML2 Model</em>}'.
@@ -2140,6 +2159,17 @@ public interface MetaPackage extends EPackage {
 	EClass getAttribute();
 
 	/**
+	 * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.meta.Attribute#getPrimitiveType <em>Primitive Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Primitive Type</em>'.
+	 * @see br.ufes.inf.nemo.ml2.meta.Attribute#getPrimitiveType()
+	 * @see #getAttribute()
+	 * @generated
+	 */
+	EAttribute getAttribute_PrimitiveType();
+
+	/**
 	 * Returns the meta object for the reference '{@link br.ufes.inf.nemo.ml2.meta.Attribute#get_type <em>type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2236,15 +2266,15 @@ public interface MetaPackage extends EPackage {
 	EReference getAttributeAssignment_Attribute();
 
 	/**
-	 * Returns the meta object for the reference list '{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getEntityAssignments <em>Entity Assignments</em>}'.
+	 * Returns the meta object for the reference list '{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getIndividualAssignments <em>Individual Assignments</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Entity Assignments</em>'.
-	 * @see br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getEntityAssignments()
+	 * @return the meta object for the reference list '<em>Individual Assignments</em>'.
+	 * @see br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getIndividualAssignments()
 	 * @see #getAttributeAssignment()
 	 * @generated
 	 */
-	EReference getAttributeAssignment_EntityAssignments();
+	EReference getAttributeAssignment_IndividualAssignments();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getUnnamedIndividualAssignments <em>Unnamed Individual Assignments</em>}'.
@@ -2392,6 +2422,16 @@ public interface MetaPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getRegularityFeatureType();
+
+	/**
+	 * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.meta.PrimitiveType <em>Primitive Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Primitive Type</em>'.
+	 * @see br.ufes.inf.nemo.ml2.meta.PrimitiveType
+	 * @generated
+	 */
+	EEnum getPrimitiveType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -2773,6 +2813,14 @@ public interface MetaPackage extends EPackage {
 		EClass ATTRIBUTE = eINSTANCE.getAttribute();
 
 		/**
+		 * The meta object literal for the '<em><b>Primitive Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ATTRIBUTE__PRIMITIVE_TYPE = eINSTANCE.getAttribute_PrimitiveType();
+
+		/**
 		 * The meta object literal for the '<em><b>type</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2851,12 +2899,12 @@ public interface MetaPackage extends EPackage {
 		EReference ATTRIBUTE_ASSIGNMENT__ATTRIBUTE = eINSTANCE.getAttributeAssignment_Attribute();
 
 		/**
-		 * The meta object literal for the '<em><b>Entity Assignments</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Individual Assignments</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ATTRIBUTE_ASSIGNMENT__ENTITY_ASSIGNMENTS = eINSTANCE.getAttributeAssignment_EntityAssignments();
+		EReference ATTRIBUTE_ASSIGNMENT__INDIVIDUAL_ASSIGNMENTS = eINSTANCE.getAttributeAssignment_IndividualAssignments();
 
 		/**
 		 * The meta object literal for the '<em><b>Unnamed Individual Assignments</b></em>' containment reference list feature.
@@ -2983,6 +3031,16 @@ public interface MetaPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum REGULARITY_FEATURE_TYPE = eINSTANCE.getRegularityFeatureType();
+
+		/**
+		 * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.meta.PrimitiveType <em>Primitive Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see br.ufes.inf.nemo.ml2.meta.PrimitiveType
+		 * @see br.ufes.inf.nemo.ml2.meta.impl.MetaPackageImpl#getPrimitiveType()
+		 * @generated
+		 */
+		EEnum PRIMITIVE_TYPE = eINSTANCE.getPrimitiveType();
 
 	}
 

@@ -3,13 +3,29 @@
  */
 package br.ufes.inf.nemo.ml2.scoping;
 
+import br.ufes.inf.nemo.ml2.meta.Attribute;
+import br.ufes.inf.nemo.ml2.meta.AttributeAssignment;
+import br.ufes.inf.nemo.ml2.meta.EntityDeclaration;
+import br.ufes.inf.nemo.ml2.meta.FeatureAssignment;
+import br.ufes.inf.nemo.ml2.meta.ML2Class;
+import br.ufes.inf.nemo.ml2.meta.MetaPackage;
+import br.ufes.inf.nemo.ml2.meta.Reference;
+import br.ufes.inf.nemo.ml2.meta.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.scoping.AbstractML2ScopeProvider;
 import br.ufes.inf.nemo.ml2.util.ML2Util;
+import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.inject.Inject;
+import java.util.Set;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 /**
  * This class contains custom scoping description.
@@ -25,127 +41,180 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
   
   @Override
   public IScope getScope(final EObject context, final EReference reference) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nAttributeAssignment cannot be resolved to a type."
-      + "\nReferenceAssignment cannot be resolved to a type."
-      + "\nAttribute cannot be resolved to a type."
-      + "\nReference cannot be resolved to a type."
-      + "\nReference cannot be resolved to a type."
-      + "\nAttribute cannot be resolved to a type."
-      + "\nReference cannot be resolved to a type."
-      + "\nThe method or field MetaPackage is undefined"
-      + "\nThe method or field MetaPackage is undefined"
-      + "\nThe method or field MetaPackage is undefined"
-      + "\nThe method or field MetaPackage is undefined"
-      + "\nThe method or field MetaPackage is undefined"
-      + "\nThe method or field MetaPackage is undefined"
-      + "\nThe method or field MetaPackage is undefined"
-      + "\neINSTANCE cannot be resolved"
-      + "\nattributeAssignment_Attribute cannot be resolved"
-      + "\neINSTANCE cannot be resolved"
-      + "\nreferenceAssignment_Reference cannot be resolved"
-      + "\neINSTANCE cannot be resolved"
-      + "\nattribute_SubsetOf cannot be resolved"
-      + "\neINSTANCE cannot be resolved"
-      + "\nreference_SubsetOf cannot be resolved"
-      + "\neINSTANCE cannot be resolved"
-      + "\nreference_OppositeTo cannot be resolved"
-      + "\neINSTANCE cannot be resolved"
-      + "\nfeature_RegulatedFeature cannot be resolved"
-      + "\neINSTANCE cannot be resolved"
-      + "\nfeature_RegulatedFeature cannot be resolved");
+    if (((context instanceof AttributeAssignment) && Objects.equal(reference, MetaPackage.eINSTANCE.getAttributeAssignment_Attribute()))) {
+      return this.getScopeForAttributeAssignmentOnAttributeAssignment_Attribute(context, reference);
+    } else {
+      if (((context instanceof ReferenceAssignment) && Objects.equal(reference, MetaPackage.eINSTANCE.getReferenceAssignment_Reference()))) {
+        return this.getScopeForReferenceAssignmentOnReferenceAssignment_Reference(context, reference);
+      } else {
+        if (((context instanceof Attribute) && Objects.equal(reference, MetaPackage.eINSTANCE.getAttribute_SubsetOf()))) {
+          return this.getScopeForAttributeOnAttribute_SubsetOf(context, reference);
+        } else {
+          if (((context instanceof Reference) && Objects.equal(reference, MetaPackage.eINSTANCE.getReference_SubsetOf()))) {
+            return this.getScopeForReferenceOnReference_SubsetOf(context, reference);
+          } else {
+            if (((context instanceof Reference) && Objects.equal(reference, MetaPackage.eINSTANCE.getReference_OppositeTo()))) {
+              return this.getScopeForReferenceOnReference_OppositeTo(context, reference);
+            } else {
+              if (((context instanceof Attribute) && Objects.equal(reference, MetaPackage.eINSTANCE.getFeature_RegulatedFeature()))) {
+                return this.getScopeForAttributeOnProperty_ReguletedProperty(context, reference);
+              } else {
+                if (((context instanceof Reference) && Objects.equal(reference, MetaPackage.eINSTANCE.getFeature_RegulatedFeature()))) {
+                  return this.getScopeForReferenceOnProperty_ReguletedProperty(context, reference);
+                } else {
+                  return super.getScope(context, reference);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
   
   private IScope getScopeForAttributeAssignmentOnAttributeAssignment_Attribute(final EObject context, final EReference reference) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nEntityDeclaration cannot be resolved to a type."
-      + "\nEntityDeclaration cannot be resolved to a type."
-      + "\nThe method or field name is undefined for the type Object"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nallAttributes cannot be resolved"
-      + "\nassignments cannot be resolved"
-      + "\nexists cannot be resolved"
-      + "\nequals cannot be resolved"
-      + "\n&& cannot be resolved"
-      + "\nname cannot be resolved");
+    EObject _eContainer = context.eContainer();
+    final EntityDeclaration entity = ((EntityDeclaration) _eContainer);
+    final Set<Attribute> attributes = this._mL2Util.getAllAttributes(entity);
+    final Function<Attribute, QualifiedName> _function = (Attribute att) -> {
+      final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+        return Boolean.valueOf((it.getName().equals(att.getName()) && (!Objects.equal(it, att))));
+      };
+      boolean _exists = IterableExtensions.<Attribute>exists(attributes, _function_1);
+      if (_exists) {
+        EObject _eContainer_1 = att.eContainer();
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = att.getName();
+        return QualifiedName.create(_name, _name_1);
+      } else {
+        String _name_2 = att.getName();
+        return QualifiedName.create(_name_2);
+      }
+    };
+    EList<FeatureAssignment> _assignments = entity.getAssignments();
+    IScope _scopeFor = Scopes.scopeFor(_assignments);
+    return Scopes.<Attribute>scopeFor(attributes, _function, _scopeFor);
   }
   
   private IScope getScopeForReferenceAssignmentOnReferenceAssignment_Reference(final EObject context, final EReference reference) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nEntityDeclaration cannot be resolved to a type."
-      + "\nEntityDeclaration cannot be resolved to a type."
-      + "\nThe method or field name is undefined for the type Object"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nallReferences cannot be resolved"
-      + "\nassignments cannot be resolved"
-      + "\nexists cannot be resolved"
-      + "\nequals cannot be resolved"
-      + "\n&& cannot be resolved"
-      + "\nname cannot be resolved");
+    EObject _eContainer = context.eContainer();
+    final EntityDeclaration entity = ((EntityDeclaration) _eContainer);
+    final Set<Reference> references = this._mL2Util.getAllReferences(entity);
+    final Function<Reference, QualifiedName> _function = (Reference ref) -> {
+      final Function1<Reference, Boolean> _function_1 = (Reference it) -> {
+        return Boolean.valueOf((it.getName().equals(ref.getName()) && (!Objects.equal(it, ref))));
+      };
+      boolean _exists = IterableExtensions.<Reference>exists(references, _function_1);
+      if (_exists) {
+        EObject _eContainer_1 = ref.eContainer();
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = ref.getName();
+        return QualifiedName.create(_name, _name_1);
+      } else {
+        String _name_2 = ref.getName();
+        return QualifiedName.create(_name_2);
+      }
+    };
+    EList<FeatureAssignment> _assignments = entity.getAssignments();
+    IScope _scopeFor = Scopes.scopeFor(_assignments);
+    return Scopes.<Reference>scopeFor(references, _function, _scopeFor);
   }
   
   private IScope getScopeForAttributeOnAttribute_SubsetOf(final EObject context, final EReference reference) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nML2Class cannot be resolved to a type."
-      + "\nEntityDeclaration cannot be resolved to a type."
-      + "\nThe method or field name is undefined for the type Object"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nallInheritedAttributes cannot be resolved"
-      + "\nattributes cannot be resolved"
-      + "\nexists cannot be resolved"
-      + "\nequals cannot be resolved"
-      + "\n&& cannot be resolved"
-      + "\nname cannot be resolved");
+    EObject _eContainer = context.eContainer();
+    final ML2Class c = ((ML2Class) _eContainer);
+    final Set<Attribute> inheritedAtts = this._mL2Util.getAllInheritedAttributes(c);
+    final Function<Attribute, QualifiedName> _function = (Attribute att) -> {
+      final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+        return Boolean.valueOf((it.getName().equals(att.getName()) && (!Objects.equal(it, att))));
+      };
+      boolean _exists = IterableExtensions.<Attribute>exists(inheritedAtts, _function_1);
+      if (_exists) {
+        EObject _eContainer_1 = att.eContainer();
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = att.getName();
+        return QualifiedName.create(_name, _name_1);
+      } else {
+        String _name_2 = att.getName();
+        return QualifiedName.create(_name_2);
+      }
+    };
+    EList<Attribute> _attributes = c.getAttributes();
+    IScope _scopeFor = Scopes.scopeFor(_attributes);
+    return Scopes.<Attribute>scopeFor(inheritedAtts, _function, _scopeFor);
   }
   
   private IScope getScopeForReferenceOnReference_SubsetOf(final EObject context, final EReference reference) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nML2Class cannot be resolved to a type."
-      + "\nEntityDeclaration cannot be resolved to a type."
-      + "\nThe method or field name is undefined for the type Object"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\nallInheritedReferences cannot be resolved"
-      + "\nreferences cannot be resolved"
-      + "\nexists cannot be resolved"
-      + "\nequals cannot be resolved"
-      + "\n&& cannot be resolved"
-      + "\nname cannot be resolved");
+    EObject _eContainer = context.eContainer();
+    final ML2Class c = ((ML2Class) _eContainer);
+    final Set<Reference> inheritedRefs = this._mL2Util.getAllInheritedReferences(c);
+    final Function<Reference, QualifiedName> _function = (Reference ref) -> {
+      final Function1<Reference, Boolean> _function_1 = (Reference it) -> {
+        return Boolean.valueOf((it.getName().equals(ref.getName()) && (!Objects.equal(it, ref))));
+      };
+      boolean _exists = IterableExtensions.<Reference>exists(inheritedRefs, _function_1);
+      if (_exists) {
+        EObject _eContainer_1 = ref.eContainer();
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = ref.getName();
+        return QualifiedName.create(_name, _name_1);
+      } else {
+        String _name_2 = ref.getName();
+        return QualifiedName.create(_name_2);
+      }
+    };
+    EList<Reference> _references = c.getReferences();
+    IScope _scopeFor = Scopes.scopeFor(_references);
+    return Scopes.<Reference>scopeFor(inheritedRefs, _function, _scopeFor);
   }
   
   private IScope getScopeForReferenceOnReference_OppositeTo(final EObject context, final EReference reference) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nML2Class cannot be resolved to a type."
-      + "\nReference cannot be resolved to a type."
-      + "\nThe method or field _type is undefined for the type Object"
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\n_type cannot be resolved"
-      + "\nreferences cannot be resolved"
-      + "\nfilter cannot be resolved"
-      + "\n== cannot be resolved"
-      + "\nreferences cannot be resolved");
+    EObject _eContainer = context.eContainer();
+    final ML2Class c = ((ML2Class) _eContainer);
+    final Reference ref = ((Reference) context);
+    ML2Class __type = ref.get_type();
+    EList<Reference> _references = __type.getReferences();
+    final Function1<Reference, Boolean> _function = (Reference it) -> {
+      ML2Class __type_1 = it.get_type();
+      return Boolean.valueOf(Objects.equal(__type_1, c));
+    };
+    Iterable<Reference> _filter = IterableExtensions.<Reference>filter(_references, _function);
+    final Function<Reference, QualifiedName> _function_1 = (Reference it) -> {
+      String _name = it.getName();
+      return QualifiedName.create(_name);
+    };
+    EList<Reference> _references_1 = c.getReferences();
+    IScope _scopeFor = Scopes.scopeFor(_references_1);
+    return Scopes.<Reference>scopeFor(_filter, _function_1, _scopeFor);
   }
   
   private IScope getScopeForAttributeOnProperty_ReguletedProperty(final EObject context, final EReference reference) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nML2Class cannot be resolved to a type."
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\ncategorizedClass cannot be resolved"
-      + "\nattributes cannot be resolved");
+    EObject _eContainer = context.eContainer();
+    final ML2Class c = ((ML2Class) _eContainer);
+    ML2Class _categorizedClass = null;
+    if (c!=null) {
+      _categorizedClass=c.getCategorizedClass();
+    }
+    final EList<Attribute> elements = _categorizedClass.getAttributes();
+    final Function<Attribute, QualifiedName> _function = (Attribute it) -> {
+      String _name = it.getName();
+      return QualifiedName.create(_name);
+    };
+    return Scopes.<Attribute>scopeFor(elements, _function, IScope.NULLSCOPE);
   }
   
   private IScope getScopeForReferenceOnProperty_ReguletedProperty(final EObject context, final EReference reference) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nML2Class cannot be resolved to a type."
-      + "\nThe method or field name is undefined for the type EObject"
-      + "\ncategorizedClass cannot be resolved"
-      + "\nreferences cannot be resolved");
+    EObject _eContainer = context.eContainer();
+    final ML2Class c = ((ML2Class) _eContainer);
+    ML2Class _categorizedClass = null;
+    if (c!=null) {
+      _categorizedClass=c.getCategorizedClass();
+    }
+    final EList<Reference> elements = _categorizedClass.getReferences();
+    final Function<Reference, QualifiedName> _function = (Reference it) -> {
+      String _name = it.getName();
+      return QualifiedName.create(_name);
+    };
+    return Scopes.<Reference>scopeFor(elements, _function, IScope.NULLSCOPE);
   }
 }

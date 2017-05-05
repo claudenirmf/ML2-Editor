@@ -1,0 +1,40 @@
+module ml2.core.base
+{
+		
+	import ml2.core.meta.*;
+	import ml2.core.endurant.*;
+	
+	include ml2.core.meta;
+	include ml2.core.endurant;
+	
+	/*
+	 *	requires ml2.core.meta;
+	 *	requires ml2.core.ontology;
+	 */
+	
+	orderless class Thing : OrderlessClass, Category;
+	
+	orderless class Class : OrderlessClass, Category specializes Thing, Endurant;
+	class Individual : FirstOrderClass, Category specializes Thing;
+	
+	disjoint complete genset has_instances
+		general Thing
+		specifics Class, Individual;
+	
+	orderless class OrderlessClass : OrderlessClass, Category specializes Class;
+	orderless class OrderedClass : OrderlessClass, Category specializes Class;
+	
+	disjoint complete genset fixed_order
+		general Class
+		specifics OrderedClass, OrderlessClass;
+	
+	order 2 class FirstOrderClass : HighOrderClass, Category
+		specializes OrderedClass isPowertypeOf Individual;
+	orderless class HighOrderClass : OrderlessClass, Category
+			specializes OrderedClass;
+	
+	disjoint complete genset high_order
+		general OrderedClass
+		specifics FirstOrderClass, HighOrderClass;
+	
+}

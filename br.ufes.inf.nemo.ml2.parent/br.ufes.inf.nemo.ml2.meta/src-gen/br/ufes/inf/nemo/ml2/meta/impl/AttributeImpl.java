@@ -6,6 +6,7 @@ import br.ufes.inf.nemo.ml2.meta.Attribute;
 import br.ufes.inf.nemo.ml2.meta.DataType;
 import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 
+import br.ufes.inf.nemo.ml2.meta.PrimitiveType;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -27,6 +28,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link br.ufes.inf.nemo.ml2.meta.impl.AttributeImpl#getPrimitiveType <em>Primitive Type</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.impl.AttributeImpl#get_type <em>type</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.impl.AttributeImpl#getSubsetOf <em>Subset Of</em>}</li>
  * </ul>
@@ -34,6 +36,26 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * @generated
  */
 public class AttributeImpl extends FeatureImpl implements Attribute {
+	/**
+	 * The default value of the '{@link #getPrimitiveType() <em>Primitive Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPrimitiveType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final PrimitiveType PRIMITIVE_TYPE_EDEFAULT = PrimitiveType.STRING;
+
+	/**
+	 * The cached value of the '{@link #getPrimitiveType() <em>Primitive Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPrimitiveType()
+	 * @generated
+	 * @ordered
+	 */
+	protected PrimitiveType primitiveType = PRIMITIVE_TYPE_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #get_type() <em>type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -71,6 +93,27 @@ public class AttributeImpl extends FeatureImpl implements Attribute {
 	@Override
 	protected EClass eStaticClass() {
 		return MetaPackage.Literals.ATTRIBUTE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PrimitiveType getPrimitiveType() {
+		return primitiveType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPrimitiveType(PrimitiveType newPrimitiveType) {
+		PrimitiveType oldPrimitiveType = primitiveType;
+		primitiveType = newPrimitiveType == null ? PRIMITIVE_TYPE_EDEFAULT : newPrimitiveType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetaPackage.ATTRIBUTE__PRIMITIVE_TYPE, oldPrimitiveType, primitiveType));
 	}
 
 	/**
@@ -131,6 +174,8 @@ public class AttributeImpl extends FeatureImpl implements Attribute {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case MetaPackage.ATTRIBUTE__PRIMITIVE_TYPE:
+				return getPrimitiveType();
 			case MetaPackage.ATTRIBUTE__TYPE:
 				if (resolve) return get_type();
 				return basicGet_type();
@@ -149,6 +194,9 @@ public class AttributeImpl extends FeatureImpl implements Attribute {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case MetaPackage.ATTRIBUTE__PRIMITIVE_TYPE:
+				setPrimitiveType((PrimitiveType)newValue);
+				return;
 			case MetaPackage.ATTRIBUTE__TYPE:
 				set_type((DataType)newValue);
 				return;
@@ -168,6 +216,9 @@ public class AttributeImpl extends FeatureImpl implements Attribute {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case MetaPackage.ATTRIBUTE__PRIMITIVE_TYPE:
+				setPrimitiveType(PRIMITIVE_TYPE_EDEFAULT);
+				return;
 			case MetaPackage.ATTRIBUTE__TYPE:
 				set_type((DataType)null);
 				return;
@@ -186,12 +237,30 @@ public class AttributeImpl extends FeatureImpl implements Attribute {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case MetaPackage.ATTRIBUTE__PRIMITIVE_TYPE:
+				return primitiveType != PRIMITIVE_TYPE_EDEFAULT;
 			case MetaPackage.ATTRIBUTE__TYPE:
 				return _type != null;
 			case MetaPackage.ATTRIBUTE__SUBSET_OF:
 				return subsetOf != null && !subsetOf.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (primitiveType: ");
+		result.append(primitiveType);
+		result.append(')');
+		return result.toString();
 	}
 
 } //AttributeImpl

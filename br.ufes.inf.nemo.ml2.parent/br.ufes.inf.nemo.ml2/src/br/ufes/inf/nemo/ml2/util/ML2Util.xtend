@@ -15,6 +15,10 @@ import br.ufes.inf.nemo.ml2.meta.ModelElement
 import br.ufes.inf.nemo.ml2.meta.Reference
 import java.util.LinkedHashSet
 import java.util.Set
+import org.eclipse.emf.ecore.EObject
+import br.ufes.inf.nemo.ml2.meta.ML2String
+import br.ufes.inf.nemo.ml2.meta.ML2Number
+import br.ufes.inf.nemo.ml2.meta.ML2Boolean
 
 class ML2Util {
 	
@@ -150,16 +154,16 @@ class ML2Util {
 	 * 
 	 * @author Claudenir Fonseca
 	 */
-//	def boolean isConformantTo(EObject assignment, ML2Class assigType) {
-//		if(assignment instanceof ML2String){
-//			return true
-//		} else if(assignment instanceof ML2Number){
-//			return true
-//		} else if(assignment instanceof ML2Boolean){
-//			return true
-//		} else if(assignment instanceof EntityDeclaration){
-//			if(assignment.allInstantiatedClasses.contains(assigType))
-//				 return true
+	def boolean isConformantTo(EObject assignment, ML2Class assigType) {
+		if(assignment instanceof ML2String){
+			return true
+		} else if(assignment instanceof ML2Number){
+			return true
+		} else if(assignment instanceof ML2Boolean){
+			return true
+		} else if(assignment instanceof EntityDeclaration){
+			if(assignment.allInstantiatedClasses.contains(assigType))
+				 return true
 //		} else if(assignment instanceof ComplexDataValue){
 //			val actualValue = if(assignment.value!=null) assignment.value	else assignment.unnamedValue
 //			if(actualValue.allInstantiatedClasses.contains(assigType))
@@ -169,8 +173,8 @@ class ML2Util {
 //				return false
 //			else
 //				return true
-//		}
-//		return false
-//	}
+		}
+		return false
+	}
 
 }

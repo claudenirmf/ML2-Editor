@@ -47,8 +47,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//ML2Model:
-		//	'module' name=QualifiedName '{' ('include' includes+=[ML2Model|QualifiedName] ';' | elements+=ModelElement)*
-		//	'}';
+		//	'module' name=QualifiedName '{' ('include' includes+=[ML2Model|QualifiedName] ';' | elements+=ModelElement)* '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'module' name=QualifiedName '{' ('include' includes+=[ML2Model|QualifiedName] ';' | elements+=ModelElement)* '}'
@@ -237,9 +236,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
 		
 		//Individual:
-		//	'individual' name=ID
-		//	':' instantiatedClasses+=[ML2Class|QualifiedName] (',' instantiatedClasses+=[ML2Class|QualifiedName])* ('{'
-		//	assignments+=FeatureAssignment* '}')?;
+		//	'individual' name=ID ':' instantiatedClasses+=[ML2Class|QualifiedName] (','
+		//	instantiatedClasses+=[ML2Class|QualifiedName])* ('{' assignments+=FeatureAssignment* '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'individual' name=ID ':' instantiatedClasses+=[ML2Class|QualifiedName] (','
@@ -798,9 +796,9 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cSpecificsML2ClassQualifiedNameParserRuleCall_8_1_0_1 = (RuleCall)cSpecificsML2ClassCrossReference_8_1_0.eContents().get(1);
 		
 		//GeneralizationSet:
-		//	(isDisjoint?='disjoint'? & isComplete?='complete'?) 'genset' name=ID?
-		//	'general' general=[ML2Class|QualifiedName] ('categorizer' categorizer=[ML2Class|QualifiedName])?
-		//	'specifics' specifics+=[ML2Class|QualifiedName] (',' specifics+=[ML2Class|QualifiedName])+;
+		//	(isDisjoint?='disjoint'? & isComplete?='complete'?) 'genset' name=ID? 'general' general=[ML2Class|QualifiedName]
+		//	('categorizer' categorizer=[ML2Class|QualifiedName])? 'specifics' specifics+=[ML2Class|QualifiedName] (','
+		//	specifics+=[ML2Class|QualifiedName])+;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//(isDisjoint?='disjoint'? & isComplete?='complete'?) 'genset' name=ID? 'general' general=[ML2Class|QualifiedName]
@@ -958,9 +956,12 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cUpperBoundAssignment_3_3 = (Assignment)cGroup_3.eContents().get(3);
 		private final RuleCall cUpperBoundELEMENTBOUNDParserRuleCall_3_3_0 = (RuleCall)cUpperBoundAssignment_3_3.eContents().get(0);
 		private final Keyword cRightSquareBracketKeyword_3_4 = (Keyword)cGroup_3.eContents().get(4);
-		private final Assignment c_typeAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final CrossReference c_typeDataTypeCrossReference_4_0 = (CrossReference)c_typeAssignment_4.eContents().get(0);
-		private final RuleCall c_typeDataTypeQualifiedNameParserRuleCall_4_0_1 = (RuleCall)c_typeDataTypeCrossReference_4_0.eContents().get(1);
+		private final Alternatives cAlternatives_4 = (Alternatives)cGroup.eContents().get(4);
+		private final Assignment cPrimitiveTypeAssignment_4_0 = (Assignment)cAlternatives_4.eContents().get(0);
+		private final RuleCall cPrimitiveTypePrimitiveTypeEnumRuleCall_4_0_0 = (RuleCall)cPrimitiveTypeAssignment_4_0.eContents().get(0);
+		private final Assignment c_typeAssignment_4_1 = (Assignment)cAlternatives_4.eContents().get(1);
+		private final CrossReference c_typeDataTypeCrossReference_4_1_0 = (CrossReference)c_typeAssignment_4_1.eContents().get(0);
+		private final RuleCall c_typeDataTypeQualifiedNameParserRuleCall_4_1_0_1 = (RuleCall)c_typeDataTypeCrossReference_4_1_0.eContents().get(1);
 		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
 		private final Keyword cSubsetsKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
 		private final Assignment cSubsetOfAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
@@ -973,12 +974,14 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cSubsetOfAttributeQualifiedNameParserRuleCall_5_2_1_0_1 = (RuleCall)cSubsetOfAttributeCrossReference_5_2_1_0.eContents().get(1);
 		
 		//Attribute:
-		//	'att'? name=ID ':' ('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? _type=[DataType|QualifiedName]
-		//	('subsets' subsetOf+=[Attribute|QualifiedName] (',' subsetOf+=[Attribute|QualifiedName])*)?;
+		//	'att'? name=ID ':' ('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? (primitiveType=PrimitiveType |
+		//	_type=[DataType|QualifiedName]) ('subsets' subsetOf+=[Attribute|QualifiedName] (','
+		//	subsetOf+=[Attribute|QualifiedName])*)?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'att'? name=ID ':' ('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? _type=[DataType|QualifiedName]
-		//('subsets' subsetOf+=[Attribute|QualifiedName] (',' subsetOf+=[Attribute|QualifiedName])*)?
+		//'att'? name=ID ':' ('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? (primitiveType=PrimitiveType |
+		//_type=[DataType|QualifiedName]) ('subsets' subsetOf+=[Attribute|QualifiedName] (','
+		//subsetOf+=[Attribute|QualifiedName])*)?
 		public Group getGroup() { return cGroup; }
 		
 		//'att'?
@@ -1017,14 +1020,23 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//']'
 		public Keyword getRightSquareBracketKeyword_3_4() { return cRightSquareBracketKeyword_3_4; }
 		
+		//(primitiveType=PrimitiveType | _type=[DataType|QualifiedName])
+		public Alternatives getAlternatives_4() { return cAlternatives_4; }
+		
+		//primitiveType=PrimitiveType
+		public Assignment getPrimitiveTypeAssignment_4_0() { return cPrimitiveTypeAssignment_4_0; }
+		
+		//PrimitiveType
+		public RuleCall getPrimitiveTypePrimitiveTypeEnumRuleCall_4_0_0() { return cPrimitiveTypePrimitiveTypeEnumRuleCall_4_0_0; }
+		
 		//_type=[DataType|QualifiedName]
-		public Assignment get_typeAssignment_4() { return c_typeAssignment_4; }
+		public Assignment get_typeAssignment_4_1() { return c_typeAssignment_4_1; }
 		
 		//[DataType|QualifiedName]
-		public CrossReference get_typeDataTypeCrossReference_4_0() { return c_typeDataTypeCrossReference_4_0; }
+		public CrossReference get_typeDataTypeCrossReference_4_1_0() { return c_typeDataTypeCrossReference_4_1_0; }
 		
 		//QualifiedName
-		public RuleCall get_typeDataTypeQualifiedNameParserRuleCall_4_0_1() { return c_typeDataTypeQualifiedNameParserRuleCall_4_0_1; }
+		public RuleCall get_typeDataTypeQualifiedNameParserRuleCall_4_1_0_1() { return c_typeDataTypeQualifiedNameParserRuleCall_4_1_0_1; }
 		
 		//('subsets' subsetOf+=[Attribute|QualifiedName] (',' subsetOf+=[Attribute|QualifiedName])*)?
 		public Group getGroup_5() { return cGroup_5; }
@@ -1207,9 +1219,12 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cUpperBoundAssignment_4_3 = (Assignment)cGroup_4.eContents().get(3);
 		private final RuleCall cUpperBoundELEMENTBOUNDParserRuleCall_4_3_0 = (RuleCall)cUpperBoundAssignment_4_3.eContents().get(0);
 		private final Keyword cRightSquareBracketKeyword_4_4 = (Keyword)cGroup_4.eContents().get(4);
-		private final Assignment c_typeAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final CrossReference c_typeDataTypeCrossReference_5_0 = (CrossReference)c_typeAssignment_5.eContents().get(0);
-		private final RuleCall c_typeDataTypeQualifiedNameParserRuleCall_5_0_1 = (RuleCall)c_typeDataTypeCrossReference_5_0.eContents().get(1);
+		private final Alternatives cAlternatives_5 = (Alternatives)cGroup.eContents().get(5);
+		private final Assignment cPrimitiveTypeAssignment_5_0 = (Assignment)cAlternatives_5.eContents().get(0);
+		private final RuleCall cPrimitiveTypePrimitiveTypeEnumRuleCall_5_0_0 = (RuleCall)cPrimitiveTypeAssignment_5_0.eContents().get(0);
+		private final Assignment c_typeAssignment_5_1 = (Assignment)cAlternatives_5.eContents().get(1);
+		private final CrossReference c_typeDataTypeCrossReference_5_1_0 = (CrossReference)c_typeAssignment_5_1.eContents().get(0);
+		private final RuleCall c_typeDataTypeQualifiedNameParserRuleCall_5_1_0_1 = (RuleCall)c_typeDataTypeCrossReference_5_1_0.eContents().get(1);
 		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
 		private final Keyword cSubsetsKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
 		private final Assignment cSubsetOfAssignment_6_1 = (Assignment)cGroup_6.eContents().get(1);
@@ -1228,13 +1243,12 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		
 		//RegularityAttribute Attribute:
 		//	'regularity' 'att'? name=ID ':' ('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')?
-		//	_type=[DataType|QualifiedName] ('subsets' subsetOf+=[Attribute|QualifiedName] (','
-		//	subsetOf+=[Attribute|QualifiedName])*)?
-		//	regularityType=RegularityFeatureType regulatedFeature=[Feature|QualifiedName]
+		//	(primitiveType=PrimitiveType | _type=[DataType|QualifiedName]) ('subsets' subsetOf+=[Attribute|QualifiedName] (','
+		//	subsetOf+=[Attribute|QualifiedName])*)? regularityType=RegularityFeatureType regulatedFeature=[Feature|QualifiedName]
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'regularity' 'att'? name=ID ':' ('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')?
-		//_type=[DataType|QualifiedName] ('subsets' subsetOf+=[Attribute|QualifiedName] (','
+		//(primitiveType=PrimitiveType | _type=[DataType|QualifiedName]) ('subsets' subsetOf+=[Attribute|QualifiedName] (','
 		//subsetOf+=[Attribute|QualifiedName])*)? regularityType=RegularityFeatureType regulatedFeature=[Feature|QualifiedName]
 		public Group getGroup() { return cGroup; }
 		
@@ -1277,14 +1291,23 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//']'
 		public Keyword getRightSquareBracketKeyword_4_4() { return cRightSquareBracketKeyword_4_4; }
 		
+		//(primitiveType=PrimitiveType | _type=[DataType|QualifiedName])
+		public Alternatives getAlternatives_5() { return cAlternatives_5; }
+		
+		//primitiveType=PrimitiveType
+		public Assignment getPrimitiveTypeAssignment_5_0() { return cPrimitiveTypeAssignment_5_0; }
+		
+		//PrimitiveType
+		public RuleCall getPrimitiveTypePrimitiveTypeEnumRuleCall_5_0_0() { return cPrimitiveTypePrimitiveTypeEnumRuleCall_5_0_0; }
+		
 		//_type=[DataType|QualifiedName]
-		public Assignment get_typeAssignment_5() { return c_typeAssignment_5; }
+		public Assignment get_typeAssignment_5_1() { return c_typeAssignment_5_1; }
 		
 		//[DataType|QualifiedName]
-		public CrossReference get_typeDataTypeCrossReference_5_0() { return c_typeDataTypeCrossReference_5_0; }
+		public CrossReference get_typeDataTypeCrossReference_5_1_0() { return c_typeDataTypeCrossReference_5_1_0; }
 		
 		//QualifiedName
-		public RuleCall get_typeDataTypeQualifiedNameParserRuleCall_5_0_1() { return c_typeDataTypeQualifiedNameParserRuleCall_5_0_1; }
+		public RuleCall get_typeDataTypeQualifiedNameParserRuleCall_5_1_0_1() { return c_typeDataTypeQualifiedNameParserRuleCall_5_1_0_1; }
 		
 		//('subsets' subsetOf+=[Attribute|QualifiedName] (',' subsetOf+=[Attribute|QualifiedName])*)?
 		public Group getGroup_6() { return cGroup_6; }
@@ -1543,21 +1566,20 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cAttributeAttributeQualifiedNameParserRuleCall_1_0_1 = (RuleCall)cAttributeAttributeCrossReference_1_0.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Alternatives cAlternatives_3 = (Alternatives)cGroup.eContents().get(3);
-		private final Assignment cEntityAssignmentsAssignment_3_0 = (Assignment)cAlternatives_3.eContents().get(0);
-		private final CrossReference cEntityAssignmentsIndividualCrossReference_3_0_0 = (CrossReference)cEntityAssignmentsAssignment_3_0.eContents().get(0);
-		private final RuleCall cEntityAssignmentsIndividualQualifiedNameParserRuleCall_3_0_0_1 = (RuleCall)cEntityAssignmentsIndividualCrossReference_3_0_0.eContents().get(1);
+		private final Assignment cIndividualAssignmentsAssignment_3_0 = (Assignment)cAlternatives_3.eContents().get(0);
+		private final CrossReference cIndividualAssignmentsIndividualCrossReference_3_0_0 = (CrossReference)cIndividualAssignmentsAssignment_3_0.eContents().get(0);
+		private final RuleCall cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_3_0_0_1 = (RuleCall)cIndividualAssignmentsIndividualCrossReference_3_0_0.eContents().get(1);
 		private final Assignment cUnnamedIndividualAssignmentsAssignment_3_1 = (Assignment)cAlternatives_3.eContents().get(1);
 		private final RuleCall cUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_3_1_0 = (RuleCall)cUnnamedIndividualAssignmentsAssignment_3_1.eContents().get(0);
 		private final Assignment cLiteralAssignmentsAssignment_3_2 = (Assignment)cAlternatives_3.eContents().get(2);
 		private final RuleCall cLiteralAssignmentsLiteralParserRuleCall_3_2_0 = (RuleCall)cLiteralAssignmentsAssignment_3_2.eContents().get(0);
 		
 		//SingleAttributeAssignment AttributeAssignment:
-		//	'att'? attribute=[Attribute|QualifiedName] '=' (entityAssignments+=[Individual|QualifiedName] |
-		//	unnamedIndividualAssignments+=UnnamedIndividual
-		//	| literalAssignments+=Literal)
+		//	'att'? attribute=[Attribute|QualifiedName] '=' (individualAssignments+=[Individual|QualifiedName] |
+		//	unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal)
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'att'? attribute=[Attribute|QualifiedName] '=' (entityAssignments+=[Individual|QualifiedName] |
+		//'att'? attribute=[Attribute|QualifiedName] '=' (individualAssignments+=[Individual|QualifiedName] |
 		//unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal)
 		public Group getGroup() { return cGroup; }
 		
@@ -1576,18 +1598,18 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//'='
 		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
 		
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual |
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual |
 		//literalAssignments+=Literal)
 		public Alternatives getAlternatives_3() { return cAlternatives_3; }
 		
-		//entityAssignments+=[Individual|QualifiedName]
-		public Assignment getEntityAssignmentsAssignment_3_0() { return cEntityAssignmentsAssignment_3_0; }
+		//individualAssignments+=[Individual|QualifiedName]
+		public Assignment getIndividualAssignmentsAssignment_3_0() { return cIndividualAssignmentsAssignment_3_0; }
 		
 		//[Individual|QualifiedName]
-		public CrossReference getEntityAssignmentsIndividualCrossReference_3_0_0() { return cEntityAssignmentsIndividualCrossReference_3_0_0; }
+		public CrossReference getIndividualAssignmentsIndividualCrossReference_3_0_0() { return cIndividualAssignmentsIndividualCrossReference_3_0_0; }
 		
 		//QualifiedName
-		public RuleCall getEntityAssignmentsIndividualQualifiedNameParserRuleCall_3_0_0_1() { return cEntityAssignmentsIndividualQualifiedNameParserRuleCall_3_0_0_1; }
+		public RuleCall getIndividualAssignmentsIndividualQualifiedNameParserRuleCall_3_0_0_1() { return cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_3_0_0_1; }
 		
 		//unnamedIndividualAssignments+=UnnamedIndividual
 		public Assignment getUnnamedIndividualAssignmentsAssignment_3_1() { return cUnnamedIndividualAssignmentsAssignment_3_1; }
@@ -1620,30 +1642,30 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cLiteralAssignmentsLiteralParserRuleCall_4_0_1_1_0 = (RuleCall)cLiteralAssignmentsAssignment_4_0_1_1.eContents().get(0);
 		private final Group cGroup_4_1 = (Group)cAlternatives_4.eContents().get(1);
 		private final Alternatives cAlternatives_4_1_0 = (Alternatives)cGroup_4_1.eContents().get(0);
-		private final Assignment cEntityAssignmentsAssignment_4_1_0_0 = (Assignment)cAlternatives_4_1_0.eContents().get(0);
-		private final CrossReference cEntityAssignmentsIndividualCrossReference_4_1_0_0_0 = (CrossReference)cEntityAssignmentsAssignment_4_1_0_0.eContents().get(0);
-		private final RuleCall cEntityAssignmentsIndividualQualifiedNameParserRuleCall_4_1_0_0_0_1 = (RuleCall)cEntityAssignmentsIndividualCrossReference_4_1_0_0_0.eContents().get(1);
+		private final Assignment cIndividualAssignmentsAssignment_4_1_0_0 = (Assignment)cAlternatives_4_1_0.eContents().get(0);
+		private final CrossReference cIndividualAssignmentsIndividualCrossReference_4_1_0_0_0 = (CrossReference)cIndividualAssignmentsAssignment_4_1_0_0.eContents().get(0);
+		private final RuleCall cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_4_1_0_0_0_1 = (RuleCall)cIndividualAssignmentsIndividualCrossReference_4_1_0_0_0.eContents().get(1);
 		private final Assignment cUnnamedIndividualAssignmentsAssignment_4_1_0_1 = (Assignment)cAlternatives_4_1_0.eContents().get(1);
 		private final RuleCall cUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_4_1_0_1_0 = (RuleCall)cUnnamedIndividualAssignmentsAssignment_4_1_0_1.eContents().get(0);
 		private final Group cGroup_4_1_1 = (Group)cGroup_4_1.eContents().get(1);
 		private final Keyword cCommaKeyword_4_1_1_0 = (Keyword)cGroup_4_1_1.eContents().get(0);
 		private final Alternatives cAlternatives_4_1_1_1 = (Alternatives)cGroup_4_1_1.eContents().get(1);
-		private final Assignment cEntityAssignmentsAssignment_4_1_1_1_0 = (Assignment)cAlternatives_4_1_1_1.eContents().get(0);
-		private final CrossReference cEntityAssignmentsIndividualCrossReference_4_1_1_1_0_0 = (CrossReference)cEntityAssignmentsAssignment_4_1_1_1_0.eContents().get(0);
-		private final RuleCall cEntityAssignmentsIndividualQualifiedNameParserRuleCall_4_1_1_1_0_0_1 = (RuleCall)cEntityAssignmentsIndividualCrossReference_4_1_1_1_0_0.eContents().get(1);
+		private final Assignment cIndividualAssignmentsAssignment_4_1_1_1_0 = (Assignment)cAlternatives_4_1_1_1.eContents().get(0);
+		private final CrossReference cIndividualAssignmentsIndividualCrossReference_4_1_1_1_0_0 = (CrossReference)cIndividualAssignmentsAssignment_4_1_1_1_0.eContents().get(0);
+		private final RuleCall cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_4_1_1_1_0_0_1 = (RuleCall)cIndividualAssignmentsIndividualCrossReference_4_1_1_1_0_0.eContents().get(1);
 		private final Assignment cUnnamedIndividualAssignmentsAssignment_4_1_1_1_1 = (Assignment)cAlternatives_4_1_1_1.eContents().get(1);
 		private final RuleCall cUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_4_1_1_1_1_0 = (RuleCall)cUnnamedIndividualAssignmentsAssignment_4_1_1_1_1.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//MultipleAttributeAssignment AttributeAssignment:
 		//	'att'? attribute=[Attribute|QualifiedName] '=' '{' (literalAssignments+=Literal (',' literalAssignments+=Literal)* |
-		//	(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
-		//	(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}'
+		//	(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
+		//	(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}'
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'att'? attribute=[Attribute|QualifiedName] '=' '{' (literalAssignments+=Literal (',' literalAssignments+=Literal)* |
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}'
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}'
 		public Group getGroup() { return cGroup; }
 		
 		//'att'?
@@ -1664,8 +1686,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_3() { return cLeftCurlyBracketKeyword_3; }
 		
-		//(literalAssignments+=Literal (',' literalAssignments+=Literal)* | (entityAssignments+=[Individual|QualifiedName] |
-		//unnamedIndividualAssignments+=UnnamedIndividual) (',' (entityAssignments+=[Individual|QualifiedName] |
+		//(literalAssignments+=Literal (',' literalAssignments+=Literal)* | (individualAssignments+=[Individual|QualifiedName] |
+		//unnamedIndividualAssignments+=UnnamedIndividual) (',' (individualAssignments+=[Individual|QualifiedName] |
 		//unnamedIndividualAssignments+=UnnamedIndividual))*)?
 		public Alternatives getAlternatives_4() { return cAlternatives_4; }
 		
@@ -1690,21 +1712,21 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//Literal
 		public RuleCall getLiteralAssignmentsLiteralParserRuleCall_4_0_1_1_0() { return cLiteralAssignmentsLiteralParserRuleCall_4_0_1_1_0; }
 		
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
 		public Group getGroup_4_1() { return cGroup_4_1; }
 		
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
 		public Alternatives getAlternatives_4_1_0() { return cAlternatives_4_1_0; }
 		
-		//entityAssignments+=[Individual|QualifiedName]
-		public Assignment getEntityAssignmentsAssignment_4_1_0_0() { return cEntityAssignmentsAssignment_4_1_0_0; }
+		//individualAssignments+=[Individual|QualifiedName]
+		public Assignment getIndividualAssignmentsAssignment_4_1_0_0() { return cIndividualAssignmentsAssignment_4_1_0_0; }
 		
 		//[Individual|QualifiedName]
-		public CrossReference getEntityAssignmentsIndividualCrossReference_4_1_0_0_0() { return cEntityAssignmentsIndividualCrossReference_4_1_0_0_0; }
+		public CrossReference getIndividualAssignmentsIndividualCrossReference_4_1_0_0_0() { return cIndividualAssignmentsIndividualCrossReference_4_1_0_0_0; }
 		
 		//QualifiedName
-		public RuleCall getEntityAssignmentsIndividualQualifiedNameParserRuleCall_4_1_0_0_0_1() { return cEntityAssignmentsIndividualQualifiedNameParserRuleCall_4_1_0_0_0_1; }
+		public RuleCall getIndividualAssignmentsIndividualQualifiedNameParserRuleCall_4_1_0_0_0_1() { return cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_4_1_0_0_0_1; }
 		
 		//unnamedIndividualAssignments+=UnnamedIndividual
 		public Assignment getUnnamedIndividualAssignmentsAssignment_4_1_0_1() { return cUnnamedIndividualAssignmentsAssignment_4_1_0_1; }
@@ -1712,23 +1734,23 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//UnnamedIndividual
 		public RuleCall getUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_4_1_0_1_0() { return cUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_4_1_0_1_0; }
 		
-		//(',' (entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
+		//(',' (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
 		public Group getGroup_4_1_1() { return cGroup_4_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_4_1_1_0() { return cCommaKeyword_4_1_1_0; }
 		
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
 		public Alternatives getAlternatives_4_1_1_1() { return cAlternatives_4_1_1_1; }
 		
-		//entityAssignments+=[Individual|QualifiedName]
-		public Assignment getEntityAssignmentsAssignment_4_1_1_1_0() { return cEntityAssignmentsAssignment_4_1_1_1_0; }
+		//individualAssignments+=[Individual|QualifiedName]
+		public Assignment getIndividualAssignmentsAssignment_4_1_1_1_0() { return cIndividualAssignmentsAssignment_4_1_1_1_0; }
 		
 		//[Individual|QualifiedName]
-		public CrossReference getEntityAssignmentsIndividualCrossReference_4_1_1_1_0_0() { return cEntityAssignmentsIndividualCrossReference_4_1_1_1_0_0; }
+		public CrossReference getIndividualAssignmentsIndividualCrossReference_4_1_1_1_0_0() { return cIndividualAssignmentsIndividualCrossReference_4_1_1_1_0_0; }
 		
 		//QualifiedName
-		public RuleCall getEntityAssignmentsIndividualQualifiedNameParserRuleCall_4_1_1_1_0_0_1() { return cEntityAssignmentsIndividualQualifiedNameParserRuleCall_4_1_1_1_0_0_1; }
+		public RuleCall getIndividualAssignmentsIndividualQualifiedNameParserRuleCall_4_1_1_1_0_0_1() { return cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_4_1_1_1_0_0_1; }
 		
 		//unnamedIndividualAssignments+=UnnamedIndividual
 		public Assignment getUnnamedIndividualAssignmentsAssignment_4_1_1_1_1() { return cUnnamedIndividualAssignmentsAssignment_4_1_1_1_1; }
@@ -1928,18 +1950,12 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
 		private final Keyword cFullStopKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
 		private final RuleCall cINTTerminalRuleCall_2_1 = (RuleCall)cGroup_2.eContents().get(1);
-		private final Group cGroup_2_2 = (Group)cGroup_2.eContents().get(2);
-		private final Alternatives cAlternatives_2_2_0 = (Alternatives)cGroup_2_2.eContents().get(0);
-		private final Keyword cEKeyword_2_2_0_0 = (Keyword)cAlternatives_2_2_0.eContents().get(0);
-		private final Keyword cEKeyword_2_2_0_1 = (Keyword)cAlternatives_2_2_0.eContents().get(1);
-		private final Keyword cHyphenMinusKeyword_2_2_1 = (Keyword)cGroup_2_2.eContents().get(1);
-		private final RuleCall cINTTerminalRuleCall_2_2_2 = (RuleCall)cGroup_2_2.eContents().get(2);
 		
 		//NUMBER ecore::EDouble:
-		//	'-'? INT ('.' INT (('E' | 'e') '-'? INT)?)?
+		//	'-'? INT ('.' INT)?
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'-'? INT ('.' INT (('E' | 'e') '-'? INT)?)?
+		//'-'? INT ('.' INT)?
 		public Group getGroup() { return cGroup; }
 		
 		//'-'?
@@ -1948,7 +1964,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//INT
 		public RuleCall getINTTerminalRuleCall_1() { return cINTTerminalRuleCall_1; }
 		
-		//('.' INT (('E' | 'e') '-'? INT)?)?
+		//('.' INT)?
 		public Group getGroup_2() { return cGroup_2; }
 		
 		//'.'
@@ -1956,24 +1972,6 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		
 		//INT
 		public RuleCall getINTTerminalRuleCall_2_1() { return cINTTerminalRuleCall_2_1; }
-		
-		//(('E' | 'e') '-'? INT)?
-		public Group getGroup_2_2() { return cGroup_2_2; }
-		
-		//('E' | 'e')
-		public Alternatives getAlternatives_2_2_0() { return cAlternatives_2_2_0; }
-		
-		//'E'
-		public Keyword getEKeyword_2_2_0_0() { return cEKeyword_2_2_0_0; }
-		
-		//'e'
-		public Keyword getEKeyword_2_2_0_1() { return cEKeyword_2_2_0_1; }
-		
-		//'-'?
-		public Keyword getHyphenMinusKeyword_2_2_1() { return cHyphenMinusKeyword_2_2_1; }
-		
-		//INT
-		public RuleCall getINTTerminalRuleCall_2_2_2() { return cINTTerminalRuleCall_2_2_2; }
 	}
 	public class UnnamedIndividualElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
@@ -2014,9 +2012,9 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cAttributeAttributeQualifiedNameParserRuleCall_0_0_1 = (RuleCall)cAttributeAttributeCrossReference_0_0.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
-		private final Assignment cEntityAssignmentsAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
-		private final CrossReference cEntityAssignmentsIndividualCrossReference_2_0_0 = (CrossReference)cEntityAssignmentsAssignment_2_0.eContents().get(0);
-		private final RuleCall cEntityAssignmentsIndividualQualifiedNameParserRuleCall_2_0_0_1 = (RuleCall)cEntityAssignmentsIndividualCrossReference_2_0_0.eContents().get(1);
+		private final Assignment cIndividualAssignmentsAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final CrossReference cIndividualAssignmentsIndividualCrossReference_2_0_0 = (CrossReference)cIndividualAssignmentsAssignment_2_0.eContents().get(0);
+		private final RuleCall cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_2_0_0_1 = (RuleCall)cIndividualAssignmentsIndividualCrossReference_2_0_0.eContents().get(1);
 		private final Assignment cUnnamedIndividualAssignmentsAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
 		private final RuleCall cUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_2_1_0 = (RuleCall)cUnnamedIndividualAssignmentsAssignment_2_1.eContents().get(0);
 		private final Assignment cLiteralAssignmentsAssignment_2_2 = (Assignment)cAlternatives_2.eContents().get(2);
@@ -2033,34 +2031,33 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cLiteralAssignmentsLiteralParserRuleCall_2_3_1_0_1_1_0 = (RuleCall)cLiteralAssignmentsAssignment_2_3_1_0_1_1.eContents().get(0);
 		private final Group cGroup_2_3_1_1 = (Group)cAlternatives_2_3_1.eContents().get(1);
 		private final Alternatives cAlternatives_2_3_1_1_0 = (Alternatives)cGroup_2_3_1_1.eContents().get(0);
-		private final Assignment cEntityAssignmentsAssignment_2_3_1_1_0_0 = (Assignment)cAlternatives_2_3_1_1_0.eContents().get(0);
-		private final CrossReference cEntityAssignmentsIndividualCrossReference_2_3_1_1_0_0_0 = (CrossReference)cEntityAssignmentsAssignment_2_3_1_1_0_0.eContents().get(0);
-		private final RuleCall cEntityAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_0_0_0_1 = (RuleCall)cEntityAssignmentsIndividualCrossReference_2_3_1_1_0_0_0.eContents().get(1);
+		private final Assignment cIndividualAssignmentsAssignment_2_3_1_1_0_0 = (Assignment)cAlternatives_2_3_1_1_0.eContents().get(0);
+		private final CrossReference cIndividualAssignmentsIndividualCrossReference_2_3_1_1_0_0_0 = (CrossReference)cIndividualAssignmentsAssignment_2_3_1_1_0_0.eContents().get(0);
+		private final RuleCall cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_0_0_0_1 = (RuleCall)cIndividualAssignmentsIndividualCrossReference_2_3_1_1_0_0_0.eContents().get(1);
 		private final Assignment cUnnamedIndividualAssignmentsAssignment_2_3_1_1_0_1 = (Assignment)cAlternatives_2_3_1_1_0.eContents().get(1);
 		private final RuleCall cUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_2_3_1_1_0_1_0 = (RuleCall)cUnnamedIndividualAssignmentsAssignment_2_3_1_1_0_1.eContents().get(0);
 		private final Group cGroup_2_3_1_1_1 = (Group)cGroup_2_3_1_1.eContents().get(1);
 		private final Keyword cCommaKeyword_2_3_1_1_1_0 = (Keyword)cGroup_2_3_1_1_1.eContents().get(0);
 		private final Alternatives cAlternatives_2_3_1_1_1_1 = (Alternatives)cGroup_2_3_1_1_1.eContents().get(1);
-		private final Assignment cEntityAssignmentsAssignment_2_3_1_1_1_1_0 = (Assignment)cAlternatives_2_3_1_1_1_1.eContents().get(0);
-		private final CrossReference cEntityAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0 = (CrossReference)cEntityAssignmentsAssignment_2_3_1_1_1_1_0.eContents().get(0);
-		private final RuleCall cEntityAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_1_1_0_0_1 = (RuleCall)cEntityAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0.eContents().get(1);
+		private final Assignment cIndividualAssignmentsAssignment_2_3_1_1_1_1_0 = (Assignment)cAlternatives_2_3_1_1_1_1.eContents().get(0);
+		private final CrossReference cIndividualAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0 = (CrossReference)cIndividualAssignmentsAssignment_2_3_1_1_1_1_0.eContents().get(0);
+		private final RuleCall cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_1_1_0_0_1 = (RuleCall)cIndividualAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0.eContents().get(1);
 		private final Assignment cUnnamedIndividualAssignmentsAssignment_2_3_1_1_1_1_1 = (Assignment)cAlternatives_2_3_1_1_1_1.eContents().get(1);
 		private final RuleCall cUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_2_3_1_1_1_1_1_0 = (RuleCall)cUnnamedIndividualAssignmentsAssignment_2_3_1_1_1_1_1.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_2_3_2 = (Keyword)cGroup_2_3.eContents().get(2);
 		
 		//SimpleAttributeAssignment AttributeAssignment:
-		//	attribute=[Attribute|QualifiedName] '=' (entityAssignments+=[Individual|QualifiedName] |
-		//	unnamedIndividualAssignments+=UnnamedIndividual
-		//	| literalAssignments+=Literal
-		//	| '{' (literalAssignments+=Literal (',' literalAssignments+=Literal)* |
-		//	(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
-		//	(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}')
+		//	attribute=[Attribute|QualifiedName] '=' (individualAssignments+=[Individual|QualifiedName] |
+		//	unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal | '{' (literalAssignments+=Literal (','
+		//	literalAssignments+=Literal)* | (individualAssignments+=[Individual|QualifiedName] |
+		//	unnamedIndividualAssignments+=UnnamedIndividual) (',' (individualAssignments+=[Individual|QualifiedName] |
+		//	unnamedIndividualAssignments+=UnnamedIndividual))*)? '}')
 		@Override public ParserRule getRule() { return rule; }
 		
-		//attribute=[Attribute|QualifiedName] '=' (entityAssignments+=[Individual|QualifiedName] |
+		//attribute=[Attribute|QualifiedName] '=' (individualAssignments+=[Individual|QualifiedName] |
 		//unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal | '{' (literalAssignments+=Literal (','
-		//literalAssignments+=Literal)* | (entityAssignments+=[Individual|QualifiedName] |
-		//unnamedIndividualAssignments+=UnnamedIndividual) (',' (entityAssignments+=[Individual|QualifiedName] |
+		//literalAssignments+=Literal)* | (individualAssignments+=[Individual|QualifiedName] |
+		//unnamedIndividualAssignments+=UnnamedIndividual) (',' (individualAssignments+=[Individual|QualifiedName] |
 		//unnamedIndividualAssignments+=UnnamedIndividual))*)? '}')
 		public Group getGroup() { return cGroup; }
 		
@@ -2076,20 +2073,20 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//'='
 		public Keyword getEqualsSignKeyword_1() { return cEqualsSignKeyword_1; }
 		
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual |
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual |
 		//literalAssignments+=Literal | '{' (literalAssignments+=Literal (',' literalAssignments+=Literal)* |
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}')
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}')
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 		
-		//entityAssignments+=[Individual|QualifiedName]
-		public Assignment getEntityAssignmentsAssignment_2_0() { return cEntityAssignmentsAssignment_2_0; }
+		//individualAssignments+=[Individual|QualifiedName]
+		public Assignment getIndividualAssignmentsAssignment_2_0() { return cIndividualAssignmentsAssignment_2_0; }
 		
 		//[Individual|QualifiedName]
-		public CrossReference getEntityAssignmentsIndividualCrossReference_2_0_0() { return cEntityAssignmentsIndividualCrossReference_2_0_0; }
+		public CrossReference getIndividualAssignmentsIndividualCrossReference_2_0_0() { return cIndividualAssignmentsIndividualCrossReference_2_0_0; }
 		
 		//QualifiedName
-		public RuleCall getEntityAssignmentsIndividualQualifiedNameParserRuleCall_2_0_0_1() { return cEntityAssignmentsIndividualQualifiedNameParserRuleCall_2_0_0_1; }
+		public RuleCall getIndividualAssignmentsIndividualQualifiedNameParserRuleCall_2_0_0_1() { return cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_2_0_0_1; }
 		
 		//unnamedIndividualAssignments+=UnnamedIndividual
 		public Assignment getUnnamedIndividualAssignmentsAssignment_2_1() { return cUnnamedIndividualAssignmentsAssignment_2_1; }
@@ -2103,16 +2100,16 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//Literal
 		public RuleCall getLiteralAssignmentsLiteralParserRuleCall_2_2_0() { return cLiteralAssignmentsLiteralParserRuleCall_2_2_0; }
 		
-		//'{' (literalAssignments+=Literal (',' literalAssignments+=Literal)* | (entityAssignments+=[Individual|QualifiedName] |
-		//unnamedIndividualAssignments+=UnnamedIndividual) (',' (entityAssignments+=[Individual|QualifiedName] |
+		//'{' (literalAssignments+=Literal (',' literalAssignments+=Literal)* | (individualAssignments+=[Individual|QualifiedName]
+		//| unnamedIndividualAssignments+=UnnamedIndividual) (',' (individualAssignments+=[Individual|QualifiedName] |
 		//unnamedIndividualAssignments+=UnnamedIndividual))*)? '}'
 		public Group getGroup_2_3() { return cGroup_2_3; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_2_3_0() { return cLeftCurlyBracketKeyword_2_3_0; }
 		
-		//(literalAssignments+=Literal (',' literalAssignments+=Literal)* | (entityAssignments+=[Individual|QualifiedName] |
-		//unnamedIndividualAssignments+=UnnamedIndividual) (',' (entityAssignments+=[Individual|QualifiedName] |
+		//(literalAssignments+=Literal (',' literalAssignments+=Literal)* | (individualAssignments+=[Individual|QualifiedName] |
+		//unnamedIndividualAssignments+=UnnamedIndividual) (',' (individualAssignments+=[Individual|QualifiedName] |
 		//unnamedIndividualAssignments+=UnnamedIndividual))*)?
 		public Alternatives getAlternatives_2_3_1() { return cAlternatives_2_3_1; }
 		
@@ -2137,21 +2134,21 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//Literal
 		public RuleCall getLiteralAssignmentsLiteralParserRuleCall_2_3_1_0_1_1_0() { return cLiteralAssignmentsLiteralParserRuleCall_2_3_1_0_1_1_0; }
 		
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
 		public Group getGroup_2_3_1_1() { return cGroup_2_3_1_1; }
 		
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
 		public Alternatives getAlternatives_2_3_1_1_0() { return cAlternatives_2_3_1_1_0; }
 		
-		//entityAssignments+=[Individual|QualifiedName]
-		public Assignment getEntityAssignmentsAssignment_2_3_1_1_0_0() { return cEntityAssignmentsAssignment_2_3_1_1_0_0; }
+		//individualAssignments+=[Individual|QualifiedName]
+		public Assignment getIndividualAssignmentsAssignment_2_3_1_1_0_0() { return cIndividualAssignmentsAssignment_2_3_1_1_0_0; }
 		
 		//[Individual|QualifiedName]
-		public CrossReference getEntityAssignmentsIndividualCrossReference_2_3_1_1_0_0_0() { return cEntityAssignmentsIndividualCrossReference_2_3_1_1_0_0_0; }
+		public CrossReference getIndividualAssignmentsIndividualCrossReference_2_3_1_1_0_0_0() { return cIndividualAssignmentsIndividualCrossReference_2_3_1_1_0_0_0; }
 		
 		//QualifiedName
-		public RuleCall getEntityAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_0_0_0_1() { return cEntityAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_0_0_0_1; }
+		public RuleCall getIndividualAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_0_0_0_1() { return cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_0_0_0_1; }
 		
 		//unnamedIndividualAssignments+=UnnamedIndividual
 		public Assignment getUnnamedIndividualAssignmentsAssignment_2_3_1_1_0_1() { return cUnnamedIndividualAssignmentsAssignment_2_3_1_1_0_1; }
@@ -2159,23 +2156,23 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//UnnamedIndividual
 		public RuleCall getUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_2_3_1_1_0_1_0() { return cUnnamedIndividualAssignmentsUnnamedIndividualParserRuleCall_2_3_1_1_0_1_0; }
 		
-		//(',' (entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
+		//(',' (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
 		public Group getGroup_2_3_1_1_1() { return cGroup_2_3_1_1_1; }
 		
 		//','
 		public Keyword getCommaKeyword_2_3_1_1_1_0() { return cCommaKeyword_2_3_1_1_1_0; }
 		
-		//(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
+		//(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
 		public Alternatives getAlternatives_2_3_1_1_1_1() { return cAlternatives_2_3_1_1_1_1; }
 		
-		//entityAssignments+=[Individual|QualifiedName]
-		public Assignment getEntityAssignmentsAssignment_2_3_1_1_1_1_0() { return cEntityAssignmentsAssignment_2_3_1_1_1_1_0; }
+		//individualAssignments+=[Individual|QualifiedName]
+		public Assignment getIndividualAssignmentsAssignment_2_3_1_1_1_1_0() { return cIndividualAssignmentsAssignment_2_3_1_1_1_1_0; }
 		
 		//[Individual|QualifiedName]
-		public CrossReference getEntityAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0() { return cEntityAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0; }
+		public CrossReference getIndividualAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0() { return cIndividualAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0; }
 		
 		//QualifiedName
-		public RuleCall getEntityAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_1_1_0_0_1() { return cEntityAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_1_1_0_0_1; }
+		public RuleCall getIndividualAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_1_1_0_0_1() { return cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_2_3_1_1_1_1_0_0_1; }
 		
 		//unnamedIndividualAssignments+=UnnamedIndividual
 		public Assignment getUnnamedIndividualAssignmentsAssignment_2_3_1_1_1_1_1() { return cUnnamedIndividualAssignmentsAssignment_2_3_1_1_1_1_1; }
@@ -2231,6 +2228,41 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		
 		//"partitions"
 		public Keyword getPARTITIONERPartitionsKeyword_3_0() { return cPARTITIONERPartitionsKeyword_3_0; }
+	}
+	public class PrimitiveTypeElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.PrimitiveType");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cSTRINGEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cSTRINGStringKeyword_0_0 = (Keyword)cSTRINGEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cNUMBEREnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cNUMBERNumberKeyword_1_0 = (Keyword)cNUMBEREnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cBOOLEANEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cBOOLEANBooleanKeyword_2_0 = (Keyword)cBOOLEANEnumLiteralDeclaration_2.eContents().get(0);
+		
+		//enum PrimitiveType:
+		//	STRING="String" | NUMBER="Number" | BOOLEAN="Boolean";
+		public EnumRule getRule() { return rule; }
+		
+		//STRING="String" | NUMBER="Number" | BOOLEAN="Boolean"
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//STRING="String"
+		public EnumLiteralDeclaration getSTRINGEnumLiteralDeclaration_0() { return cSTRINGEnumLiteralDeclaration_0; }
+		
+		//"String"
+		public Keyword getSTRINGStringKeyword_0_0() { return cSTRINGStringKeyword_0_0; }
+		
+		//NUMBER="Number"
+		public EnumLiteralDeclaration getNUMBEREnumLiteralDeclaration_1() { return cNUMBEREnumLiteralDeclaration_1; }
+		
+		//"Number"
+		public Keyword getNUMBERNumberKeyword_1_0() { return cNUMBERNumberKeyword_1_0; }
+		
+		//BOOLEAN="Boolean"
+		public EnumLiteralDeclaration getBOOLEANEnumLiteralDeclaration_2() { return cBOOLEANEnumLiteralDeclaration_2; }
+		
+		//"Boolean"
+		public Keyword getBOOLEANBooleanKeyword_2_0() { return cBOOLEANBooleanKeyword_2_0; }
 	}
 	public class RegularityFeatureTypeElements extends AbstractEnumRuleElementFinder {
 		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.RegularityFeatureType");
@@ -2320,6 +2352,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	private final RegularityAttributeElements pRegularityAttribute;
 	private final RegularityReferenceElements pRegularityReference;
 	private final ELEMENTBOUNDElements pELEMENTBOUND;
+	private final PrimitiveTypeElements ePrimitiveType;
 	private final RegularityFeatureTypeElements eRegularityFeatureType;
 	private final FeatureAssignmentElements pFeatureAssignment;
 	private final SingleAttributeAssignmentElements pSingleAttributeAssignment;
@@ -2367,6 +2400,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		this.pRegularityAttribute = new RegularityAttributeElements();
 		this.pRegularityReference = new RegularityReferenceElements();
 		this.pELEMENTBOUND = new ELEMENTBOUNDElements();
+		this.ePrimitiveType = new PrimitiveTypeElements();
 		this.eRegularityFeatureType = new RegularityFeatureTypeElements();
 		this.pFeatureAssignment = new FeatureAssignmentElements();
 		this.pSingleAttributeAssignment = new SingleAttributeAssignmentElements();
@@ -2410,8 +2444,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//ML2Model:
-	//	'module' name=QualifiedName '{' ('include' includes+=[ML2Model|QualifiedName] ';' | elements+=ModelElement)*
-	//	'}';
+	//	'module' name=QualifiedName '{' ('include' includes+=[ML2Model|QualifiedName] ';' | elements+=ModelElement)* '}';
 	public ML2ModelElements getML2ModelAccess() {
 		return pML2Model;
 	}
@@ -2471,9 +2504,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Individual:
-	//	'individual' name=ID
-	//	':' instantiatedClasses+=[ML2Class|QualifiedName] (',' instantiatedClasses+=[ML2Class|QualifiedName])* ('{'
-	//	assignments+=FeatureAssignment* '}')?;
+	//	'individual' name=ID ':' instantiatedClasses+=[ML2Class|QualifiedName] (','
+	//	instantiatedClasses+=[ML2Class|QualifiedName])* ('{' assignments+=FeatureAssignment* '}')?;
 	public IndividualElements getIndividualAccess() {
 		return pIndividual;
 	}
@@ -2570,9 +2602,9 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//GeneralizationSet:
-	//	(isDisjoint?='disjoint'? & isComplete?='complete'?) 'genset' name=ID?
-	//	'general' general=[ML2Class|QualifiedName] ('categorizer' categorizer=[ML2Class|QualifiedName])?
-	//	'specifics' specifics+=[ML2Class|QualifiedName] (',' specifics+=[ML2Class|QualifiedName])+;
+	//	(isDisjoint?='disjoint'? & isComplete?='complete'?) 'genset' name=ID? 'general' general=[ML2Class|QualifiedName]
+	//	('categorizer' categorizer=[ML2Class|QualifiedName])? 'specifics' specifics+=[ML2Class|QualifiedName] (','
+	//	specifics+=[ML2Class|QualifiedName])+;
 	public GeneralizationSetElements getGeneralizationSetAccess() {
 		return pGeneralizationSet;
 	}
@@ -2612,8 +2644,9 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Attribute:
-	//	'att'? name=ID ':' ('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? _type=[DataType|QualifiedName]
-	//	('subsets' subsetOf+=[Attribute|QualifiedName] (',' subsetOf+=[Attribute|QualifiedName])*)?;
+	//	'att'? name=ID ':' ('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? (primitiveType=PrimitiveType |
+	//	_type=[DataType|QualifiedName]) ('subsets' subsetOf+=[Attribute|QualifiedName] (','
+	//	subsetOf+=[Attribute|QualifiedName])*)?;
 	public AttributeElements getAttributeAccess() {
 		return pAttribute;
 	}
@@ -2636,9 +2669,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	
 	//RegularityAttribute Attribute:
 	//	'regularity' 'att'? name=ID ':' ('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')?
-	//	_type=[DataType|QualifiedName] ('subsets' subsetOf+=[Attribute|QualifiedName] (','
-	//	subsetOf+=[Attribute|QualifiedName])*)?
-	//	regularityType=RegularityFeatureType regulatedFeature=[Feature|QualifiedName]
+	//	(primitiveType=PrimitiveType | _type=[DataType|QualifiedName]) ('subsets' subsetOf+=[Attribute|QualifiedName] (','
+	//	subsetOf+=[Attribute|QualifiedName])*)? regularityType=RegularityFeatureType regulatedFeature=[Feature|QualifiedName]
 	public RegularityAttributeElements getRegularityAttributeAccess() {
 		return pRegularityAttribute;
 	}
@@ -2670,6 +2702,16 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		return getELEMENTBOUNDAccess().getRule();
 	}
 	
+	//enum PrimitiveType:
+	//	STRING="String" | NUMBER="Number" | BOOLEAN="Boolean";
+	public PrimitiveTypeElements getPrimitiveTypeAccess() {
+		return ePrimitiveType;
+	}
+	
+	public EnumRule getPrimitiveTypeRule() {
+		return getPrimitiveTypeAccess().getRule();
+	}
+	
 	//enum RegularityFeatureType:
 	//	DETERMINES_VALUE="determinesValue" | DETERMINES_TYPE="determinesType" | DETERMINES_MIN_VALUE="determinesMinValue" |
 	//	DETERMINES_ALLOWED_VALUES="determinesAllowedValues" | DETERMINES_ALLOWED_TYPES="determinesAllowedTypes" |
@@ -2693,9 +2735,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//SingleAttributeAssignment AttributeAssignment:
-	//	'att'? attribute=[Attribute|QualifiedName] '=' (entityAssignments+=[Individual|QualifiedName] |
-	//	unnamedIndividualAssignments+=UnnamedIndividual
-	//	| literalAssignments+=Literal)
+	//	'att'? attribute=[Attribute|QualifiedName] '=' (individualAssignments+=[Individual|QualifiedName] |
+	//	unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal)
 	public SingleAttributeAssignmentElements getSingleAttributeAssignmentAccess() {
 		return pSingleAttributeAssignment;
 	}
@@ -2706,8 +2747,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	
 	//MultipleAttributeAssignment AttributeAssignment:
 	//	'att'? attribute=[Attribute|QualifiedName] '=' '{' (literalAssignments+=Literal (',' literalAssignments+=Literal)* |
-	//	(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
-	//	(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}'
+	//	(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
+	//	(individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}'
 	public MultipleAttributeAssignmentElements getMultipleAttributeAssignmentAccess() {
 		return pMultipleAttributeAssignment;
 	}
@@ -2778,7 +2819,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//NUMBER ecore::EDouble:
-	//	'-'? INT ('.' INT (('E' | 'e') '-'? INT)?)?
+	//	'-'? INT ('.' INT)?
 	public NUMBERElements getNUMBERAccess() {
 		return pNUMBER;
 	}
@@ -2798,12 +2839,11 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//SimpleAttributeAssignment AttributeAssignment:
-	//	attribute=[Attribute|QualifiedName] '=' (entityAssignments+=[Individual|QualifiedName] |
-	//	unnamedIndividualAssignments+=UnnamedIndividual
-	//	| literalAssignments+=Literal
-	//	| '{' (literalAssignments+=Literal (',' literalAssignments+=Literal)* |
-	//	(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) (','
-	//	(entityAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)? '}')
+	//	attribute=[Attribute|QualifiedName] '=' (individualAssignments+=[Individual|QualifiedName] |
+	//	unnamedIndividualAssignments+=UnnamedIndividual | literalAssignments+=Literal | '{' (literalAssignments+=Literal (','
+	//	literalAssignments+=Literal)* | (individualAssignments+=[Individual|QualifiedName] |
+	//	unnamedIndividualAssignments+=UnnamedIndividual) (',' (individualAssignments+=[Individual|QualifiedName] |
+	//	unnamedIndividualAssignments+=UnnamedIndividual))*)? '}')
 	public SimpleAttributeAssignmentElements getSimpleAttributeAssignmentAccess() {
 		return pSimpleAttributeAssignment;
 	}

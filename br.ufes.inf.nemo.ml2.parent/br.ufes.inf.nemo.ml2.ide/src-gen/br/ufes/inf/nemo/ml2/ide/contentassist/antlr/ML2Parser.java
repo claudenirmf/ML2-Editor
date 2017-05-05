@@ -46,6 +46,8 @@ public class ML2Parser extends AbstractContentAssistParser {
 					put(grammarAccess.getFeatureAccess().getAlternatives(), "rule__Feature__Alternatives");
 					put(grammarAccess.getCommonFeatureAccess().getAlternatives(), "rule__CommonFeature__Alternatives");
 					put(grammarAccess.getRegularityFeatureAccess().getAlternatives(), "rule__RegularityFeature__Alternatives");
+					put(grammarAccess.getAttributeAccess().getAlternatives_4(), "rule__Attribute__Alternatives_4");
+					put(grammarAccess.getRegularityAttributeAccess().getAlternatives_5(), "rule__RegularityAttribute__Alternatives_5");
 					put(grammarAccess.getELEMENTBOUNDAccess().getAlternatives(), "rule__ELEMENTBOUND__Alternatives");
 					put(grammarAccess.getFeatureAssignmentAccess().getAlternatives(), "rule__FeatureAssignment__Alternatives");
 					put(grammarAccess.getSingleAttributeAssignmentAccess().getAlternatives_3(), "rule__SingleAttributeAssignment__Alternatives_3");
@@ -55,12 +57,12 @@ public class ML2Parser extends AbstractContentAssistParser {
 					put(grammarAccess.getReferenceAssignmentAccess().getAlternatives_3(), "rule__ReferenceAssignment__Alternatives_3");
 					put(grammarAccess.getLiteralAccess().getAlternatives(), "rule__Literal__Alternatives");
 					put(grammarAccess.getBOOLEANAccess().getAlternatives(), "rule__BOOLEAN__Alternatives");
-					put(grammarAccess.getNUMBERAccess().getAlternatives_2_2_0(), "rule__NUMBER__Alternatives_2_2_0");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getAlternatives_2(), "rule__SimpleAttributeAssignment__Alternatives_2");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getAlternatives_2_3_1(), "rule__SimpleAttributeAssignment__Alternatives_2_3_1");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getAlternatives_2_3_1_1_0(), "rule__SimpleAttributeAssignment__Alternatives_2_3_1_1_0");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getAlternatives_2_3_1_1_1_1(), "rule__SimpleAttributeAssignment__Alternatives_2_3_1_1_1_1");
 					put(grammarAccess.getCategorizationTypeAccess().getAlternatives(), "rule__CategorizationType__Alternatives");
+					put(grammarAccess.getPrimitiveTypeAccess().getAlternatives(), "rule__PrimitiveType__Alternatives");
 					put(grammarAccess.getRegularityFeatureTypeAccess().getAlternatives(), "rule__RegularityFeatureType__Alternatives");
 					put(grammarAccess.getML2ModelAccess().getGroup(), "rule__ML2Model__Group__0");
 					put(grammarAccess.getML2ModelAccess().getGroup_3_0(), "rule__ML2Model__Group_3_0__0");
@@ -124,7 +126,6 @@ public class ML2Parser extends AbstractContentAssistParser {
 					put(grammarAccess.getReferenceAssignmentAccess().getGroup_3_1_2(), "rule__ReferenceAssignment__Group_3_1_2__0");
 					put(grammarAccess.getNUMBERAccess().getGroup(), "rule__NUMBER__Group__0");
 					put(grammarAccess.getNUMBERAccess().getGroup_2(), "rule__NUMBER__Group_2__0");
-					put(grammarAccess.getNUMBERAccess().getGroup_2_2(), "rule__NUMBER__Group_2_2__0");
 					put(grammarAccess.getUnnamedIndividualAccess().getGroup(), "rule__UnnamedIndividual__Group__0");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getGroup(), "rule__SimpleAttributeAssignment__Group__0");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getGroup_2_3(), "rule__SimpleAttributeAssignment__Group_2_3__0");
@@ -170,7 +171,8 @@ public class ML2Parser extends AbstractContentAssistParser {
 					put(grammarAccess.getAttributeAccess().getNameAssignment_1(), "rule__Attribute__NameAssignment_1");
 					put(grammarAccess.getAttributeAccess().getLowerBoundAssignment_3_1(), "rule__Attribute__LowerBoundAssignment_3_1");
 					put(grammarAccess.getAttributeAccess().getUpperBoundAssignment_3_3(), "rule__Attribute__UpperBoundAssignment_3_3");
-					put(grammarAccess.getAttributeAccess().get_typeAssignment_4(), "rule__Attribute___typeAssignment_4");
+					put(grammarAccess.getAttributeAccess().getPrimitiveTypeAssignment_4_0(), "rule__Attribute__PrimitiveTypeAssignment_4_0");
+					put(grammarAccess.getAttributeAccess().get_typeAssignment_4_1(), "rule__Attribute___typeAssignment_4_1");
 					put(grammarAccess.getAttributeAccess().getSubsetOfAssignment_5_1(), "rule__Attribute__SubsetOfAssignment_5_1");
 					put(grammarAccess.getAttributeAccess().getSubsetOfAssignment_5_2_1(), "rule__Attribute__SubsetOfAssignment_5_2_1");
 					put(grammarAccess.getReferenceAccess().getNameAssignment_1(), "rule__Reference__NameAssignment_1");
@@ -183,7 +185,8 @@ public class ML2Parser extends AbstractContentAssistParser {
 					put(grammarAccess.getRegularityAttributeAccess().getNameAssignment_2(), "rule__RegularityAttribute__NameAssignment_2");
 					put(grammarAccess.getRegularityAttributeAccess().getLowerBoundAssignment_4_1(), "rule__RegularityAttribute__LowerBoundAssignment_4_1");
 					put(grammarAccess.getRegularityAttributeAccess().getUpperBoundAssignment_4_3(), "rule__RegularityAttribute__UpperBoundAssignment_4_3");
-					put(grammarAccess.getRegularityAttributeAccess().get_typeAssignment_5(), "rule__RegularityAttribute___typeAssignment_5");
+					put(grammarAccess.getRegularityAttributeAccess().getPrimitiveTypeAssignment_5_0(), "rule__RegularityAttribute__PrimitiveTypeAssignment_5_0");
+					put(grammarAccess.getRegularityAttributeAccess().get_typeAssignment_5_1(), "rule__RegularityAttribute___typeAssignment_5_1");
 					put(grammarAccess.getRegularityAttributeAccess().getSubsetOfAssignment_6_1(), "rule__RegularityAttribute__SubsetOfAssignment_6_1");
 					put(grammarAccess.getRegularityAttributeAccess().getSubsetOfAssignment_6_2_1(), "rule__RegularityAttribute__SubsetOfAssignment_6_2_1");
 					put(grammarAccess.getRegularityAttributeAccess().getRegularityTypeAssignment_7(), "rule__RegularityAttribute__RegularityTypeAssignment_7");
@@ -198,15 +201,15 @@ public class ML2Parser extends AbstractContentAssistParser {
 					put(grammarAccess.getRegularityReferenceAccess().getRegularityTypeAssignment_8(), "rule__RegularityReference__RegularityTypeAssignment_8");
 					put(grammarAccess.getRegularityReferenceAccess().getRegulatedFeatureAssignment_9(), "rule__RegularityReference__RegulatedFeatureAssignment_9");
 					put(grammarAccess.getSingleAttributeAssignmentAccess().getAttributeAssignment_1(), "rule__SingleAttributeAssignment__AttributeAssignment_1");
-					put(grammarAccess.getSingleAttributeAssignmentAccess().getEntityAssignmentsAssignment_3_0(), "rule__SingleAttributeAssignment__EntityAssignmentsAssignment_3_0");
+					put(grammarAccess.getSingleAttributeAssignmentAccess().getIndividualAssignmentsAssignment_3_0(), "rule__SingleAttributeAssignment__IndividualAssignmentsAssignment_3_0");
 					put(grammarAccess.getSingleAttributeAssignmentAccess().getUnnamedIndividualAssignmentsAssignment_3_1(), "rule__SingleAttributeAssignment__UnnamedIndividualAssignmentsAssignment_3_1");
 					put(grammarAccess.getSingleAttributeAssignmentAccess().getLiteralAssignmentsAssignment_3_2(), "rule__SingleAttributeAssignment__LiteralAssignmentsAssignment_3_2");
 					put(grammarAccess.getMultipleAttributeAssignmentAccess().getAttributeAssignment_1(), "rule__MultipleAttributeAssignment__AttributeAssignment_1");
 					put(grammarAccess.getMultipleAttributeAssignmentAccess().getLiteralAssignmentsAssignment_4_0_0(), "rule__MultipleAttributeAssignment__LiteralAssignmentsAssignment_4_0_0");
 					put(grammarAccess.getMultipleAttributeAssignmentAccess().getLiteralAssignmentsAssignment_4_0_1_1(), "rule__MultipleAttributeAssignment__LiteralAssignmentsAssignment_4_0_1_1");
-					put(grammarAccess.getMultipleAttributeAssignmentAccess().getEntityAssignmentsAssignment_4_1_0_0(), "rule__MultipleAttributeAssignment__EntityAssignmentsAssignment_4_1_0_0");
+					put(grammarAccess.getMultipleAttributeAssignmentAccess().getIndividualAssignmentsAssignment_4_1_0_0(), "rule__MultipleAttributeAssignment__IndividualAssignmentsAssignment_4_1_0_0");
 					put(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedIndividualAssignmentsAssignment_4_1_0_1(), "rule__MultipleAttributeAssignment__UnnamedIndividualAssignmentsAssignment_4_1_0_1");
-					put(grammarAccess.getMultipleAttributeAssignmentAccess().getEntityAssignmentsAssignment_4_1_1_1_0(), "rule__MultipleAttributeAssignment__EntityAssignmentsAssignment_4_1_1_1_0");
+					put(grammarAccess.getMultipleAttributeAssignmentAccess().getIndividualAssignmentsAssignment_4_1_1_1_0(), "rule__MultipleAttributeAssignment__IndividualAssignmentsAssignment_4_1_1_1_0");
 					put(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedIndividualAssignmentsAssignment_4_1_1_1_1(), "rule__MultipleAttributeAssignment__UnnamedIndividualAssignmentsAssignment_4_1_1_1_1");
 					put(grammarAccess.getReferenceAssignmentAccess().getReferenceAssignment_1(), "rule__ReferenceAssignment__ReferenceAssignment_1");
 					put(grammarAccess.getReferenceAssignmentAccess().getAssignmentsAssignment_3_0(), "rule__ReferenceAssignment__AssignmentsAssignment_3_0");
@@ -217,14 +220,14 @@ public class ML2Parser extends AbstractContentAssistParser {
 					put(grammarAccess.getML2BooleanAccess().getValueAssignment(), "rule__ML2Boolean__ValueAssignment");
 					put(grammarAccess.getUnnamedIndividualAccess().getAssignmentsAssignment_2(), "rule__UnnamedIndividual__AssignmentsAssignment_2");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getAttributeAssignment_0(), "rule__SimpleAttributeAssignment__AttributeAssignment_0");
-					put(grammarAccess.getSimpleAttributeAssignmentAccess().getEntityAssignmentsAssignment_2_0(), "rule__SimpleAttributeAssignment__EntityAssignmentsAssignment_2_0");
+					put(grammarAccess.getSimpleAttributeAssignmentAccess().getIndividualAssignmentsAssignment_2_0(), "rule__SimpleAttributeAssignment__IndividualAssignmentsAssignment_2_0");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getUnnamedIndividualAssignmentsAssignment_2_1(), "rule__SimpleAttributeAssignment__UnnamedIndividualAssignmentsAssignment_2_1");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getLiteralAssignmentsAssignment_2_2(), "rule__SimpleAttributeAssignment__LiteralAssignmentsAssignment_2_2");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getLiteralAssignmentsAssignment_2_3_1_0_0(), "rule__SimpleAttributeAssignment__LiteralAssignmentsAssignment_2_3_1_0_0");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getLiteralAssignmentsAssignment_2_3_1_0_1_1(), "rule__SimpleAttributeAssignment__LiteralAssignmentsAssignment_2_3_1_0_1_1");
-					put(grammarAccess.getSimpleAttributeAssignmentAccess().getEntityAssignmentsAssignment_2_3_1_1_0_0(), "rule__SimpleAttributeAssignment__EntityAssignmentsAssignment_2_3_1_1_0_0");
+					put(grammarAccess.getSimpleAttributeAssignmentAccess().getIndividualAssignmentsAssignment_2_3_1_1_0_0(), "rule__SimpleAttributeAssignment__IndividualAssignmentsAssignment_2_3_1_1_0_0");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getUnnamedIndividualAssignmentsAssignment_2_3_1_1_0_1(), "rule__SimpleAttributeAssignment__UnnamedIndividualAssignmentsAssignment_2_3_1_1_0_1");
-					put(grammarAccess.getSimpleAttributeAssignmentAccess().getEntityAssignmentsAssignment_2_3_1_1_1_1_0(), "rule__SimpleAttributeAssignment__EntityAssignmentsAssignment_2_3_1_1_1_1_0");
+					put(grammarAccess.getSimpleAttributeAssignmentAccess().getIndividualAssignmentsAssignment_2_3_1_1_1_1_0(), "rule__SimpleAttributeAssignment__IndividualAssignmentsAssignment_2_3_1_1_1_1_0");
 					put(grammarAccess.getSimpleAttributeAssignmentAccess().getUnnamedIndividualAssignmentsAssignment_2_3_1_1_1_1_1(), "rule__SimpleAttributeAssignment__UnnamedIndividualAssignmentsAssignment_2_3_1_1_1_1_1");
 					put(grammarAccess.getGeneralizationSetAccess().getUnorderedGroup_0(), "rule__GeneralizationSet__UnorderedGroup_0");
 				}

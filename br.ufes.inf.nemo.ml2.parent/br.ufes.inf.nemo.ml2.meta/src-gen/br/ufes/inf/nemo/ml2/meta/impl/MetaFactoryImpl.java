@@ -91,6 +91,8 @@ public class MetaFactoryImpl extends EFactoryImpl implements MetaFactory {
 				return createCategorizationTypeFromString(eDataType, initialValue);
 			case MetaPackage.REGULARITY_FEATURE_TYPE:
 				return createRegularityFeatureTypeFromString(eDataType, initialValue);
+			case MetaPackage.PRIMITIVE_TYPE:
+				return createPrimitiveTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -108,6 +110,8 @@ public class MetaFactoryImpl extends EFactoryImpl implements MetaFactory {
 				return convertCategorizationTypeToString(eDataType, instanceValue);
 			case MetaPackage.REGULARITY_FEATURE_TYPE:
 				return convertRegularityFeatureTypeToString(eDataType, instanceValue);
+			case MetaPackage.PRIMITIVE_TYPE:
+				return convertPrimitiveTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -320,6 +324,26 @@ public class MetaFactoryImpl extends EFactoryImpl implements MetaFactory {
 	 * @generated
 	 */
 	public String convertRegularityFeatureTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PrimitiveType createPrimitiveTypeFromString(EDataType eDataType, String initialValue) {
+		PrimitiveType result = PrimitiveType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertPrimitiveTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

@@ -1504,24 +1504,46 @@ ruleAttribute returns [EObject current=null]
 		)?
 		(
 			(
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getAttributeRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getAttributeAccess().getPrimitiveTypePrimitiveTypeEnumRuleCall_4_0_0());
 					}
-				}
-				{
-					newCompositeNode(grammarAccess.getAttributeAccess().get_typeDataTypeCrossReference_4_0());
-				}
-				ruleQualifiedName
-				{
-					afterParserOrEnumRuleCall();
-				}
+					lv_primitiveType_8_0=rulePrimitiveType
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAttributeRule());
+						}
+						set(
+							$current,
+							"primitiveType",
+							lv_primitiveType_8_0,
+							"br.ufes.inf.nemo.ml2.ML2.PrimitiveType");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getAttributeRule());
+						}
+					}
+					{
+						newCompositeNode(grammarAccess.getAttributeAccess().get_typeDataTypeCrossReference_4_1_0());
+					}
+					ruleQualifiedName
+					{
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
 		)
 		(
-			otherlv_9='subsets'
+			otherlv_10='subsets'
 			{
-				newLeafNode(otherlv_9, grammarAccess.getAttributeAccess().getSubsetsKeyword_5_0());
+				newLeafNode(otherlv_10, grammarAccess.getAttributeAccess().getSubsetsKeyword_5_0());
 			}
 			(
 				(
@@ -1540,9 +1562,9 @@ ruleAttribute returns [EObject current=null]
 				)
 			)
 			(
-				otherlv_11=','
+				otherlv_12=','
 				{
-					newLeafNode(otherlv_11, grammarAccess.getAttributeAccess().getCommaKeyword_5_2_0());
+					newLeafNode(otherlv_12, grammarAccess.getAttributeAccess().getCommaKeyword_5_2_0());
 				}
 				(
 					(
@@ -1846,24 +1868,46 @@ ruleRegularityAttribute returns [EObject current=null]
 		)?
 		(
 			(
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getRegularityAttributeRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getRegularityAttributeAccess().getPrimitiveTypePrimitiveTypeEnumRuleCall_5_0_0());
 					}
-				}
-				{
-					newCompositeNode(grammarAccess.getRegularityAttributeAccess().get_typeDataTypeCrossReference_5_0());
-				}
-				ruleQualifiedName
-				{
-					afterParserOrEnumRuleCall();
-				}
+					lv_primitiveType_9_0=rulePrimitiveType
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getRegularityAttributeRule());
+						}
+						set(
+							$current,
+							"primitiveType",
+							lv_primitiveType_9_0,
+							"br.ufes.inf.nemo.ml2.ML2.PrimitiveType");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getRegularityAttributeRule());
+						}
+					}
+					{
+						newCompositeNode(grammarAccess.getRegularityAttributeAccess().get_typeDataTypeCrossReference_5_1_0());
+					}
+					ruleQualifiedName
+					{
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
 		)
 		(
-			otherlv_10='subsets'
+			otherlv_11='subsets'
 			{
-				newLeafNode(otherlv_10, grammarAccess.getRegularityAttributeAccess().getSubsetsKeyword_6_0());
+				newLeafNode(otherlv_11, grammarAccess.getRegularityAttributeAccess().getSubsetsKeyword_6_0());
 			}
 			(
 				(
@@ -1882,9 +1926,9 @@ ruleRegularityAttribute returns [EObject current=null]
 				)
 			)
 			(
-				otherlv_12=','
+				otherlv_13=','
 				{
-					newLeafNode(otherlv_12, grammarAccess.getRegularityAttributeAccess().getCommaKeyword_6_2_0());
+					newLeafNode(otherlv_13, grammarAccess.getRegularityAttributeAccess().getCommaKeyword_6_2_0());
 				}
 				(
 					(
@@ -1909,7 +1953,7 @@ ruleRegularityAttribute returns [EObject current=null]
 				{
 					newCompositeNode(grammarAccess.getRegularityAttributeAccess().getRegularityTypeRegularityFeatureTypeEnumRuleCall_7_0());
 				}
-				lv_regularityType_14_0=ruleRegularityFeatureType
+				lv_regularityType_15_0=ruleRegularityFeatureType
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getRegularityAttributeRule());
@@ -1917,7 +1961,7 @@ ruleRegularityAttribute returns [EObject current=null]
 					set(
 						$current,
 						"regularityType",
-						lv_regularityType_14_0,
+						lv_regularityType_15_0,
 						"br.ufes.inf.nemo.ml2.ML2.RegularityFeatureType");
 					afterParserOrEnumRuleCall();
 				}
@@ -2288,7 +2332,7 @@ ruleSingleAttributeAssignment returns [EObject current=null]
 						}
 					}
 					{
-						newCompositeNode(grammarAccess.getSingleAttributeAssignmentAccess().getEntityAssignmentsIndividualCrossReference_3_0_0());
+						newCompositeNode(grammarAccess.getSingleAttributeAssignmentAccess().getIndividualAssignmentsIndividualCrossReference_3_0_0());
 					}
 					ruleQualifiedName
 					{
@@ -2444,7 +2488,7 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 								}
 							}
 							{
-								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getEntityAssignmentsIndividualCrossReference_4_1_0_0_0());
+								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getIndividualAssignmentsIndividualCrossReference_4_1_0_0_0());
 							}
 							ruleQualifiedName
 							{
@@ -2487,7 +2531,7 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 									}
 								}
 								{
-									newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getEntityAssignmentsIndividualCrossReference_4_1_1_1_0_0());
+									newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getIndividualAssignmentsIndividualCrossReference_4_1_1_1_0_0());
 								}
 								ruleQualifiedName
 								{
@@ -2861,35 +2905,6 @@ ruleNUMBER returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 			{
 				newLeafNode(this_INT_3, grammarAccess.getNUMBERAccess().getINTTerminalRuleCall_2_1());
 			}
-			(
-				(
-					kw='E'
-					{
-						$current.merge(kw);
-						newLeafNode(kw, grammarAccess.getNUMBERAccess().getEKeyword_2_2_0_0());
-					}
-					    |
-					kw='e'
-					{
-						$current.merge(kw);
-						newLeafNode(kw, grammarAccess.getNUMBERAccess().getEKeyword_2_2_0_1());
-					}
-				)
-				(
-					kw='-'
-					{
-						$current.merge(kw);
-						newLeafNode(kw, grammarAccess.getNUMBERAccess().getHyphenMinusKeyword_2_2_1());
-					}
-				)?
-				this_INT_7=RULE_INT
-				{
-					$current.merge(this_INT_7);
-				}
-				{
-					newLeafNode(this_INT_7, grammarAccess.getNUMBERAccess().getINTTerminalRuleCall_2_2_2());
-				}
-			)?
 		)?
 	)
 ;
@@ -2992,7 +3007,7 @@ ruleSimpleAttributeAssignment returns [EObject current=null]
 						}
 					}
 					{
-						newCompositeNode(grammarAccess.getSimpleAttributeAssignmentAccess().getEntityAssignmentsIndividualCrossReference_2_0_0());
+						newCompositeNode(grammarAccess.getSimpleAttributeAssignmentAccess().getIndividualAssignmentsIndividualCrossReference_2_0_0());
 					}
 					ruleQualifiedName
 					{
@@ -3104,7 +3119,7 @@ ruleSimpleAttributeAssignment returns [EObject current=null]
 										}
 									}
 									{
-										newCompositeNode(grammarAccess.getSimpleAttributeAssignmentAccess().getEntityAssignmentsIndividualCrossReference_2_3_1_1_0_0_0());
+										newCompositeNode(grammarAccess.getSimpleAttributeAssignmentAccess().getIndividualAssignmentsIndividualCrossReference_2_3_1_1_0_0_0());
 									}
 									ruleQualifiedName
 									{
@@ -3147,7 +3162,7 @@ ruleSimpleAttributeAssignment returns [EObject current=null]
 											}
 										}
 										{
-											newCompositeNode(grammarAccess.getSimpleAttributeAssignmentAccess().getEntityAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0());
+											newCompositeNode(grammarAccess.getSimpleAttributeAssignmentAccess().getIndividualAssignmentsIndividualCrossReference_2_3_1_1_1_1_0_0());
 										}
 										ruleQualifiedName
 										{
@@ -3226,6 +3241,41 @@ ruleCategorizationType returns [Enumerator current=null]
 			{
 				$current = grammarAccess.getCategorizationTypeAccess().getPARTITIONEREnumLiteralDeclaration_3().getEnumLiteral().getInstance();
 				newLeafNode(enumLiteral_3, grammarAccess.getCategorizationTypeAccess().getPARTITIONEREnumLiteralDeclaration_3());
+			}
+		)
+	)
+;
+
+// Rule PrimitiveType
+rulePrimitiveType returns [Enumerator current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			enumLiteral_0='String'
+			{
+				$current = grammarAccess.getPrimitiveTypeAccess().getSTRINGEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_0, grammarAccess.getPrimitiveTypeAccess().getSTRINGEnumLiteralDeclaration_0());
+			}
+		)
+		    |
+		(
+			enumLiteral_1='Number'
+			{
+				$current = grammarAccess.getPrimitiveTypeAccess().getNUMBEREnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_1, grammarAccess.getPrimitiveTypeAccess().getNUMBEREnumLiteralDeclaration_1());
+			}
+		)
+		    |
+		(
+			enumLiteral_2='Boolean'
+			{
+				$current = grammarAccess.getPrimitiveTypeAccess().getBOOLEANEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_2, grammarAccess.getPrimitiveTypeAccess().getBOOLEANEnumLiteralDeclaration_2());
 			}
 		)
 	)

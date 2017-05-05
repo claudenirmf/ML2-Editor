@@ -3,11 +3,15 @@
  */
 package br.ufes.inf.nemo.ml2.tests;
 
+import br.ufes.inf.nemo.ml2.meta.ML2Model;
 import br.ufes.inf.nemo.ml2.tests.ML2InjectorProvider;
 import com.google.inject.Inject;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.junit4.util.ParseHelper;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,11 +20,18 @@ import org.junit.runner.RunWith;
 @SuppressWarnings("all")
 public class ML2ParsingTest {
   @Inject
-  private /* ParseHelper<ML2Model> */Object parseHelper;
+  private ParseHelper<ML2Model> parseHelper;
   
   @Test
   public void loadModel() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field ML2ParsingTest.parseHelper refers to the missing type ML2Model");
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Hello Xtext!");
+      _builder.newLine();
+      final ML2Model result = this.parseHelper.parse(_builder);
+      Assert.assertNotNull(result);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
 }

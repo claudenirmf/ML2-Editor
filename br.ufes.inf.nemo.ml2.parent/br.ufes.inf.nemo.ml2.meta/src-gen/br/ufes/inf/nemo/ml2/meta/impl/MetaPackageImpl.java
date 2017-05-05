@@ -25,6 +25,7 @@ import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 import br.ufes.inf.nemo.ml2.meta.ModelElement;
 import br.ufes.inf.nemo.ml2.meta.OrderedClass;
 import br.ufes.inf.nemo.ml2.meta.OrderlessClass;
+import br.ufes.inf.nemo.ml2.meta.PrimitiveType;
 import br.ufes.inf.nemo.ml2.meta.Reference;
 import br.ufes.inf.nemo.ml2.meta.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.meta.RegularityFeatureType;
@@ -213,6 +214,13 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 * @generated
 	 */
 	private EEnum regularityFeatureTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum primitiveTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -652,8 +660,17 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getAttribute_PrimitiveType() {
+		return (EAttribute)attributeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getAttribute__type() {
-		return (EReference)attributeEClass.getEStructuralFeatures().get(0);
+		return (EReference)attributeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -662,7 +679,7 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 * @generated
 	 */
 	public EReference getAttribute_SubsetOf() {
-		return (EReference)attributeEClass.getEStructuralFeatures().get(1);
+		return (EReference)attributeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -733,7 +750,7 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAttributeAssignment_EntityAssignments() {
+	public EReference getAttributeAssignment_IndividualAssignments() {
 		return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -868,6 +885,15 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getPrimitiveType() {
+		return primitiveTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public MetaFactory getMetaFactory() {
 		return (MetaFactory)getEFactoryInstance();
 	}
@@ -945,6 +971,7 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 		createEReference(featureEClass, FEATURE__REGULATED_FEATURE);
 
 		attributeEClass = createEClass(ATTRIBUTE);
+		createEAttribute(attributeEClass, ATTRIBUTE__PRIMITIVE_TYPE);
 		createEReference(attributeEClass, ATTRIBUTE__TYPE);
 		createEReference(attributeEClass, ATTRIBUTE__SUBSET_OF);
 
@@ -957,7 +984,7 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 
 		attributeAssignmentEClass = createEClass(ATTRIBUTE_ASSIGNMENT);
 		createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__ATTRIBUTE);
-		createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__ENTITY_ASSIGNMENTS);
+		createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__INDIVIDUAL_ASSIGNMENTS);
 		createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__UNNAMED_INDIVIDUAL_ASSIGNMENTS);
 		createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__LITERAL_ASSIGNMENTS);
 
@@ -979,6 +1006,7 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 		// Create enums
 		categorizationTypeEEnum = createEEnum(CATEGORIZATION_TYPE);
 		regularityFeatureTypeEEnum = createEEnum(REGULARITY_FEATURE_TYPE);
+		primitiveTypeEEnum = createEEnum(PRIMITIVE_TYPE);
 	}
 
 	/**
@@ -1090,6 +1118,7 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 		initEReference(getFeature_RegulatedFeature(), this.getFeature(), null, "regulatedFeature", null, 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAttribute_PrimitiveType(), this.getPrimitiveType(), "primitiveType", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAttribute__type(), this.getDataType(), null, "_type", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAttribute_SubsetOf(), this.getAttribute(), null, "subsetOf", null, 0, -1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1102,7 +1131,7 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 
 		initEClass(attributeAssignmentEClass, AttributeAssignment.class, "AttributeAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAttributeAssignment_Attribute(), this.getAttribute(), null, "attribute", null, 0, 1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAttributeAssignment_EntityAssignments(), this.getIndividual(), null, "entityAssignments", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAttributeAssignment_IndividualAssignments(), this.getIndividual(), null, "individualAssignments", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAttributeAssignment_UnnamedIndividualAssignments(), this.getIndividual(), null, "unnamedIndividualAssignments", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAttributeAssignment_LiteralAssignments(), this.getLiteral(), null, "literalAssignments", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1135,6 +1164,11 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 		addEEnumLiteral(regularityFeatureTypeEEnum, RegularityFeatureType.DETERMINES_ALLOWED_VALUES);
 		addEEnumLiteral(regularityFeatureTypeEEnum, RegularityFeatureType.DETERMINES_TYPE);
 		addEEnumLiteral(regularityFeatureTypeEEnum, RegularityFeatureType.DETERMINES_ALLOWED_TYPES);
+
+		initEEnum(primitiveTypeEEnum, PrimitiveType.class, "PrimitiveType");
+		addEEnumLiteral(primitiveTypeEEnum, PrimitiveType.STRING);
+		addEEnumLiteral(primitiveTypeEEnum, PrimitiveType.NUMBER);
+		addEEnumLiteral(primitiveTypeEEnum, PrimitiveType.BOOLEAN);
 
 		// Create resource
 		createResource(eNS_URI);

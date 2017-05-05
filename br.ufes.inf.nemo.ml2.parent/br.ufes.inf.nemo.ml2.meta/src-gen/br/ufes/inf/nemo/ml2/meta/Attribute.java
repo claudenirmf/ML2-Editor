@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link br.ufes.inf.nemo.ml2.meta.Attribute#getPrimitiveType <em>Primitive Type</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.Attribute#get_type <em>type</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.Attribute#getSubsetOf <em>Subset Of</em>}</li>
  * </ul>
@@ -22,6 +23,35 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Attribute extends Feature {
+	/**
+	 * Returns the value of the '<em><b>Primitive Type</b></em>' attribute.
+	 * The literals are from the enumeration {@link br.ufes.inf.nemo.ml2.meta.PrimitiveType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Primitive Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Primitive Type</em>' attribute.
+	 * @see br.ufes.inf.nemo.ml2.meta.PrimitiveType
+	 * @see #setPrimitiveType(PrimitiveType)
+	 * @see br.ufes.inf.nemo.ml2.meta.MetaPackage#getAttribute_PrimitiveType()
+	 * @model unique="false"
+	 * @generated
+	 */
+	PrimitiveType getPrimitiveType();
+
+	/**
+	 * Sets the value of the '{@link br.ufes.inf.nemo.ml2.meta.Attribute#getPrimitiveType <em>Primitive Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Primitive Type</em>' attribute.
+	 * @see br.ufes.inf.nemo.ml2.meta.PrimitiveType
+	 * @see #getPrimitiveType()
+	 * @generated
+	 */
+	void setPrimitiveType(PrimitiveType value);
+
 	/**
 	 * Returns the value of the '<em><b>type</b></em>' reference.
 	 * <!-- begin-user-doc -->

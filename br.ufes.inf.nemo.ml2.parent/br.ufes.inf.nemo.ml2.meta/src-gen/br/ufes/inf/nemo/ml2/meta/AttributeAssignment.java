@@ -14,7 +14,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getAttribute <em>Attribute</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getEntityAssignments <em>Entity Assignments</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getIndividualAssignments <em>Individual Assignments</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getUnnamedIndividualAssignments <em>Unnamed Individual Assignments</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getLiteralAssignments <em>Literal Assignments</em>}</li>
  * </ul>
@@ -51,20 +51,20 @@ public interface AttributeAssignment extends FeatureAssignment {
 	void setAttribute(Attribute value);
 
 	/**
-	 * Returns the value of the '<em><b>Entity Assignments</b></em>' reference list.
+	 * Returns the value of the '<em><b>Individual Assignments</b></em>' reference list.
 	 * The list contents are of type {@link br.ufes.inf.nemo.ml2.meta.Individual}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Entity Assignments</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Individual Assignments</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Entity Assignments</em>' reference list.
-	 * @see br.ufes.inf.nemo.ml2.meta.MetaPackage#getAttributeAssignment_EntityAssignments()
+	 * @return the value of the '<em>Individual Assignments</em>' reference list.
+	 * @see br.ufes.inf.nemo.ml2.meta.MetaPackage#getAttributeAssignment_IndividualAssignments()
 	 * @model
 	 * @generated
 	 */
-	EList<Individual> getEntityAssignments();
+	EList<Individual> getIndividualAssignments();
 
 	/**
 	 * Returns the value of the '<em><b>Unnamed Individual Assignments</b></em>' containment reference list.

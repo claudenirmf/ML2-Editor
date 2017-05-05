@@ -3,7 +3,36 @@
  */
 package br.ufes.inf.nemo.ml2.validation;
 
+import br.ufes.inf.nemo.ml2.lib.ML2Lib;
+import br.ufes.inf.nemo.ml2.meta.EntityDeclaration;
+import br.ufes.inf.nemo.ml2.meta.FOClass;
+import br.ufes.inf.nemo.ml2.meta.Feature;
+import br.ufes.inf.nemo.ml2.meta.FeatureAssignment;
+import br.ufes.inf.nemo.ml2.meta.GeneralizationSet;
+import br.ufes.inf.nemo.ml2.meta.HOClass;
+import br.ufes.inf.nemo.ml2.meta.ML2Class;
+import br.ufes.inf.nemo.ml2.meta.MetaPackage;
+import br.ufes.inf.nemo.ml2.util.ML2Util;
 import br.ufes.inf.nemo.ml2.validation.AbstractML2Validator;
+import br.ufes.inf.nemo.ml2.validation.LinguisticRules;
+import br.ufes.inf.nemo.ml2.validation.MLTRules;
+import br.ufes.inf.nemo.ml2.validation.UFORules;
+import br.ufes.inf.nemo.ml2.validation.ValidationError;
+import br.ufes.inf.nemo.ml2.validation.ValidationIssue;
+import br.ufes.inf.nemo.ml2.validation.ValidationWarning;
+import com.google.common.base.Objects;
+import com.google.inject.Inject;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.validation.Check;
+import org.eclipse.xtext.validation.CheckType;
+import org.eclipse.xtext.xbase.lib.Extension;
 
 /**
  * This class contains custom validation rules.
@@ -12,4 +41,406 @@ import br.ufes.inf.nemo.ml2.validation.AbstractML2Validator;
  */
 @SuppressWarnings("all")
 public class ML2Validator extends AbstractML2Validator {
+  @Inject
+  @Extension
+  private ML2Util _mL2Util;
+  
+  @Inject
+  @Extension
+  private ML2Lib _mL2Lib;
+  
+  @Inject
+  @Extension
+  private LinguisticRules _linguisticRules;
+  
+  @Inject
+  @Extension
+  private MLTRules _mLTRules;
+  
+  @Inject
+  @Extension
+  private UFORules _uFORules;
+  
+  public final static String INSTANTIATION_OF_DISJOINT_TYPES = "br.ufes.inf.nemo.ontol.InstantiationOfDisjointTypes";
+  
+  public final static String MISSING_COMPLETE_INSTANTIATION = "br.ufes.inf.nemo.ontol.MissingCompleteInstantiation";
+  
+  public final static String POWERTYPE_COMPLETE_SPECIALIZATION = "br.ufes.inf.nemo.ontol.PowertypeCompleteSpecialization";
+  
+  public final static String COMPLETE_CHARACTERIZATION_AND_COMPLETENESS = "br.ufes.inf.nemo.ontol.CompleteCharacterizationAndCompleteness";
+  
+  public final static String DISJOINT_CHARACTERIZATION_AND_DISJOINTNESS = "br.ufes.inf.nemo.ontol.DisjointCharacterizationAndDisjointness";
+  
+  public final static String MANDATORY_SPECIALIZATION_OF_ENDURANT = "br.ufes.inf.nemo.ontol.MandaorySpecializationOfEndurant";
+  
+  public final static String NONSORTAL_SPECIALIZING_SORTAL = "br.ufes.inf.nemo.ontol.NonSortalSpecializingSortal";
+  
+  public final static String RIGID_SPECIALIZING_ANTIRIGID = "br.ufes.inf.nemo.ontol.RigidSpecializingAntiRigid";
+  
+  public final static String SEMIRIGID_SPECIALIZING_ANTIRIGID = "br.ufes.inf.nemo.ontol.SemiRigidSpecializingAntiRigid";
+  
+  public final static String MULTIPLE_IDENTITIES = "br.ufes.inf.nemo.ontol.MultipleIdentities";
+  
+  public final static String MISSING_IDENTITY = "br.ufes.inf.nemo.ontol.MissingIdentity";
+  
+  public final static String NECESSARY_INSTANTIATION = "br.ufes.inf.nemo.ontol.NecessaryInstantiation";
+  
+  public final static String MISSING_SPECIALIZATION_TO_BASETYPE = "br.ufes.inf.nemo.ontol.MissingSpecializationToBasetype";
+  
+  public final static String UFO_A_MISSING_MUST_INSTANTIATION = "br.ufes.inf.nemo.ontol.ufo.a.MissingMustInstantiation";
+  
+  public final static String UFO_A_ILLEGAL_SORTAL_SPECIALIZATION = "br.ufes.inf.nemo.ontol.ufo.a.IllegalSortalSpecialization";
+  
+  public final static String UFO_A_ILLEGAL_RIGID_SPECIALIZATION = "br.ufes.inf.nemo.ontol.ufo.a.IllegalRigidSpecialization";
+  
+  public final static String NON_CONFORMANT_ASSIGNMENT = "br.ufes.inf.nemo.ontol.NonConformantAssigment";
+  
+  @Check(CheckType.FAST)
+  public void fastChecksOnEntityDeclaration(final EntityDeclaration e) {
+    boolean _isNameValid = this._linguisticRules.isNameValid(e);
+    boolean _not = (!_isNameValid);
+    if (_not) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Entity name must start with a capital letter.");
+      EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+      this.error(_builder.toString(), _entityDeclaration_Name, 
+        LinguisticRules.INVALID_ENTITY_DECLARATION_NAME);
+    }
+    boolean _duplicatedEntityName = this._linguisticRules.duplicatedEntityName(e);
+    if (_duplicatedEntityName) {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Entity name must be unique.");
+      EAttribute _entityDeclaration_Name_1 = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+      this.error(_builder_1.toString(), _entityDeclaration_Name_1, 
+        LinguisticRules.DUPLICATED_ENTITY_NAME);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void fastCheckOnClass(final ML2Class c) {
+    final Set<ML2Class> ch = this._mL2Util.classHierarchy(c);
+    boolean _isValidSpecialization = this._linguisticRules.isValidSpecialization(c);
+    boolean _not = (!_isValidSpecialization);
+    if (_not) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Invalid specialization.");
+      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      this.error(_builder.toString(), _mL2Class_SuperClasses, 
+        LinguisticRules.INVALID_CLASS_SPECIALIZATION);
+    }
+    boolean _hasCyclicSpecialization = this._linguisticRules.hasCyclicSpecialization(c, ch);
+    if (_hasCyclicSpecialization) {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Invalid cyclic specialization.");
+      EReference _mL2Class_SuperClasses_1 = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      this.error(_builder_1.toString(), _mL2Class_SuperClasses_1, 
+        LinguisticRules.CYCLIC_SPECIALIZATION);
+    }
+    boolean _hasValidBasetype = this._linguisticRules.hasValidBasetype(c);
+    boolean _not_1 = (!_hasValidBasetype);
+    if (_not_1) {
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("Invalid basetype.");
+      EReference _mL2Class_CategorizedClass = MetaPackage.eINSTANCE.getML2Class_CategorizedClass();
+      this.error(_builder_2.toString(), _mL2Class_CategorizedClass, 
+        LinguisticRules.INVALID_CATEGORIZED_CLASS);
+    }
+    boolean _hasValidPowertypeRelation = this._linguisticRules.hasValidPowertypeRelation(c);
+    boolean _not_2 = (!_hasValidPowertypeRelation);
+    if (_not_2) {
+      StringConcatenation _builder_3 = new StringConcatenation();
+      _builder_3.append("Invalid powertype relation.");
+      EReference _mL2Class_PowertypeOf = MetaPackage.eINSTANCE.getML2Class_PowertypeOf();
+      this.error(_builder_3.toString(), _mL2Class_PowertypeOf, 
+        LinguisticRules.INVALID_POWERTYPE_RELATION);
+    }
+    boolean _hasValidSubordinators = this._linguisticRules.hasValidSubordinators(c);
+    boolean _not_3 = (!_hasValidSubordinators);
+    if (_not_3) {
+      StringConcatenation _builder_4 = new StringConcatenation();
+      _builder_4.append("Invalid subordinator.");
+      EReference _mL2Class_Subordinators = MetaPackage.eINSTANCE.getML2Class_Subordinators();
+      this.error(_builder_4.toString(), _mL2Class_Subordinators, 
+        LinguisticRules.INVALID_SUBORDINATOR);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void fastChecksOnHOClass(final HOClass ho) {
+    boolean _minOrder = this._mLTRules.minOrder(ho);
+    boolean _not = (!_minOrder);
+    if (_not) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Order must be of ");
+      _builder.append(MLTRules.MIN_ORDER, "");
+      _builder.append(" or greater.");
+      EAttribute _hOClass_Order = MetaPackage.eINSTANCE.getHOClass_Order();
+      this.error(_builder.toString(), _hOClass_Order, 
+        MLTRules.INVALID_HO_CLASS_ORDER);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void fastChecksOnGeneralizationSet(final GeneralizationSet gs) {
+    boolean _hasValidMembers = this._linguisticRules.hasValidMembers(gs);
+    boolean _not = (!_hasValidMembers);
+    if (_not) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("This generalization set has invalid members.");
+      EAttribute _generalizationSet_Name = MetaPackage.eINSTANCE.getGeneralizationSet_Name();
+      this.error(_builder.toString(), _generalizationSet_Name, 
+        LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void fastChecksOnProperty(final Feature f) {
+    ValidationIssue _checkSubsettedMultiplicity = this._linguisticRules.checkSubsettedMultiplicity(f);
+    if (_checkSubsettedMultiplicity!=null) {
+      this.runIssue(_checkSubsettedMultiplicity);
+    }
+    ValidationIssue _checkRegularityAndContainer = this._linguisticRules.checkRegularityAndContainer(f);
+    if (_checkRegularityAndContainer!=null) {
+      this.runIssue(_checkRegularityAndContainer);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void fastChecksOnPropertyAssignment(final FeatureAssignment fa) {
+    ValidationIssue _checkMultiplicityAndAssignment = this._linguisticRules.checkMultiplicityAndAssignment(fa);
+    if (_checkMultiplicityAndAssignment!=null) {
+      this.runIssue(_checkMultiplicityAndAssignment);
+    }
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void normalChecksOnPropertyAssignment(final FeatureAssignment fa) {
+    ValidationIssue _checkPropertyAssignmentType = this._linguisticRules.checkPropertyAssignmentType(fa);
+    if (_checkPropertyAssignmentType!=null) {
+      this.runIssue(_checkPropertyAssignmentType);
+    }
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void normalChecksOnEntity(final EntityDeclaration e) {
+    final LinkedHashSet<ML2Class> iof = this._mL2Util.getAllInstantiatedClasses(e);
+    ValidationIssue _isInstanceOfDisjointClasses = this._linguisticRules.isInstanceOfDisjointClasses(e, iof);
+    if (_isInstanceOfDisjointClasses!=null) {
+      this.runIssue(_isInstanceOfDisjointClasses);
+    }
+    ValidationIssue _missingInstantiationByCompleteness = this._linguisticRules.missingInstantiationByCompleteness(e, iof);
+    if (_missingInstantiationByCompleteness!=null) {
+      this.runIssue(_missingInstantiationByCompleteness);
+    }
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void normalChecksOnClass(final ML2Class c) {
+    final Set<ML2Class> ch = this._mL2Util.classHierarchy(c);
+    final LinkedHashSet<ML2Class> iof = this._mL2Util.getAllInstantiatedClasses(c);
+    boolean _isMissingSpecializationThroughPowertype = this._mLTRules.isMissingSpecializationThroughPowertype(c, ch);
+    if (_isMissingSpecializationThroughPowertype) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Missing specialization through powertype relation.");
+      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      this.error(_builder.toString(), _mL2Class_SuperClasses, MLTRules.MISSING_SPECIALIZATION_THROUGH_POWERTYPE);
+    }
+    boolean _obeysSubordination = this._linguisticRules.obeysSubordination(c, ch, iof);
+    boolean _not = (!_obeysSubordination);
+    if (_not) {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Missing specialization through subordination.");
+      EReference _mL2Class_SuperClasses_1 = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      this.error(_builder_1.toString(), _mL2Class_SuperClasses_1, 
+        LinguisticRules.MISSING_SPECIALIZATION_THROUGH_SUBODINATION);
+    }
+    boolean _hasSimpleSubordinationCycle = this._linguisticRules.hasSimpleSubordinationCycle(c);
+    if (_hasSimpleSubordinationCycle) {
+      StringConcatenation _builder_2 = new StringConcatenation();
+      String _name = c.getName();
+      _builder_2.append(_name, "");
+      _builder_2.append(" is in a subordination cycle.");
+      EReference _mL2Class_Subordinators = MetaPackage.eINSTANCE.getML2Class_Subordinators();
+      this.error(_builder_2.toString(), _mL2Class_Subordinators, 
+        LinguisticRules.SIMPLE_SUBORDINATION_CYCLE);
+    }
+    ValidationIssue _isSpecializingDisjointClasses = this._linguisticRules.isSpecializingDisjointClasses(c, ch);
+    if (_isSpecializingDisjointClasses!=null) {
+      this.runIssue(_isSpecializingDisjointClasses);
+    }
+    ValidationIssue _checkInstantiatedRegularities = this._linguisticRules.checkInstantiatedRegularities(c);
+    if (_checkInstantiatedRegularities!=null) {
+      this.runIssue(_checkInstantiatedRegularities);
+    }
+  }
+  
+  @Check(CheckType.EXPENSIVE)
+  public void expensiveChecksOnFOClass(final FOClass c) {
+    final Set<ML2Class> ch = this._mL2Util.classHierarchy(((ML2Class) c));
+    final LinkedHashSet<ML2Class> iof = this._mL2Util.getAllInstantiatedClasses(((ML2Class) c));
+    final ML2Class endurant = this._mL2Lib.getUFOEndurant(c);
+    final Set<ML2Class> mustInstantiate = this._mL2Lib.getUFOMustInstantiateClasses(c);
+    final ML2Class mixinclass = this._mL2Lib.getLibClass(c, ML2Lib.UFO_MIXIN_CLASS);
+    final ML2Class rigidclass = this._mL2Lib.getLibClass(c, ML2Lib.UFO_RIGID_CLASS);
+    final ML2Class semirigidclass = this._mL2Lib.getLibClass(c, ML2Lib.UFO_SEMI_RIGID_CLASS);
+    ValidationIssue _mustInstantiateUFOMetaproperties = this._uFORules.mustInstantiateUFOMetaproperties(c, ch, iof, endurant, mustInstantiate);
+    if (_mustInstantiateUFOMetaproperties!=null) {
+      this.runIssue(_mustInstantiateUFOMetaproperties);
+    }
+    ValidationIssue _checkSpecializationAndSortality = this._uFORules.checkSpecializationAndSortality(c, ch, iof, mixinclass);
+    if (_checkSpecializationAndSortality!=null) {
+      this.runIssue(_checkSpecializationAndSortality);
+    }
+    ValidationIssue _checkSpecializationAndRigidity = this._uFORules.checkSpecializationAndRigidity(c, ch, iof, rigidclass, semirigidclass);
+    if (_checkSpecializationAndRigidity!=null) {
+      this.runIssue(_checkSpecializationAndRigidity);
+    }
+  }
+  
+  private void _runIssue(final ValidationError issue) {
+    final ValidationError it = issue;
+    if (((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
+      String _message = it.getMessage();
+      EObject _source = it.getSource();
+      EStructuralFeature _feature = it.getFeature();
+      int _index = it.getIndex();
+      String _code = it.getCode();
+      String[] _issueData = it.getIssueData();
+      this.error(_message, _source, _feature, _index, _code, _issueData);
+    } else {
+      if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (!Objects.equal(it.getCode(), null)))) {
+        String _message_1 = it.getMessage();
+        EObject _source_1 = it.getSource();
+        EStructuralFeature _feature_1 = it.getFeature();
+        String _code_1 = it.getCode();
+        String[] _issueData_1 = it.getIssueData();
+        this.error(_message_1, _source_1, _feature_1, _code_1, _issueData_1);
+      } else {
+        if ((((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
+          String _message_2 = it.getMessage();
+          EStructuralFeature _feature_2 = it.getFeature();
+          int _index_1 = it.getIndex();
+          String _code_2 = it.getCode();
+          String[] _issueData_2 = it.getIssueData();
+          this.error(_message_2, _feature_2, _index_1, _code_2, _issueData_2);
+        } else {
+          if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1)))) {
+            String _message_3 = it.getMessage();
+            EObject _source_2 = it.getSource();
+            EStructuralFeature _feature_3 = it.getFeature();
+            int _index_2 = it.getIndex();
+            this.error(_message_3, _source_2, _feature_3, _index_2);
+          } else {
+            if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
+              String _message_4 = it.getMessage();
+              EObject _source_3 = it.getSource();
+              EStructuralFeature _feature_4 = it.getFeature();
+              this.error(_message_4, _source_3, _feature_4);
+            } else {
+              if (((!Objects.equal(it.getFeature(), null)) && (!Objects.equal(it.getCode(), null)))) {
+                String _message_5 = it.getMessage();
+                EStructuralFeature _feature_5 = it.getFeature();
+                String _code_3 = it.getCode();
+                String[] _issueData_3 = it.getIssueData();
+                this.error(_message_5, _feature_5, _code_3, _issueData_3);
+              } else {
+                if (((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1)))) {
+                  String _message_6 = it.getMessage();
+                  EStructuralFeature _feature_6 = it.getFeature();
+                  int _index_3 = it.getIndex();
+                  this.error(_message_6, _feature_6, _index_3);
+                } else {
+                  if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
+                    String _message_7 = it.getMessage();
+                    EStructuralFeature _feature_7 = it.getFeature();
+                    this.error(_message_7, _feature_7);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  private void _runIssue(final ValidationWarning issue) {
+    final ValidationWarning it = issue;
+    if (((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
+      String _message = it.getMessage();
+      EObject _source = it.getSource();
+      EStructuralFeature _feature = it.getFeature();
+      int _index = it.getIndex();
+      String _code = it.getCode();
+      String[] _issueData = it.getIssueData();
+      this.warning(_message, _source, _feature, _index, _code, _issueData);
+    } else {
+      if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (!Objects.equal(it.getCode(), null)))) {
+        String _message_1 = it.getMessage();
+        EObject _source_1 = it.getSource();
+        EStructuralFeature _feature_1 = it.getFeature();
+        String _code_1 = it.getCode();
+        String[] _issueData_1 = it.getIssueData();
+        this.warning(_message_1, _source_1, _feature_1, _code_1, _issueData_1);
+      } else {
+        if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1)))) {
+          String _message_2 = it.getMessage();
+          EObject _source_2 = it.getSource();
+          EStructuralFeature _feature_2 = it.getFeature();
+          int _index_1 = it.getIndex();
+          this.warning(_message_2, _source_2, _feature_2, _index_1);
+        } else {
+          if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
+            String _message_3 = it.getMessage();
+            EObject _source_3 = it.getSource();
+            EStructuralFeature _feature_3 = it.getFeature();
+            this.warning(_message_3, _source_3, _feature_3);
+          } else {
+            if ((((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
+              String _message_4 = it.getMessage();
+              EStructuralFeature _feature_4 = it.getFeature();
+              int _index_2 = it.getIndex();
+              String _code_2 = it.getCode();
+              String[] _issueData_2 = it.getIssueData();
+              this.warning(_message_4, _feature_4, _index_2, _code_2, _issueData_2);
+            } else {
+              if (((!Objects.equal(it.getFeature(), null)) && (!Objects.equal(it.getCode(), null)))) {
+                String _message_5 = it.getMessage();
+                EStructuralFeature _feature_5 = it.getFeature();
+                String _code_3 = it.getCode();
+                String[] _issueData_3 = it.getIssueData();
+                this.warning(_message_5, _feature_5, _code_3, _issueData_3);
+              } else {
+                if (((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1)))) {
+                  String _message_6 = it.getMessage();
+                  EStructuralFeature _feature_6 = it.getFeature();
+                  int _index_3 = it.getIndex();
+                  this.warning(_message_6, _feature_6, _index_3);
+                } else {
+                  if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
+                    String _message_7 = it.getMessage();
+                    EStructuralFeature _feature_7 = it.getFeature();
+                    this.warning(_message_7, _feature_7);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  private void runIssue(final ValidationIssue issue) {
+    if (issue instanceof ValidationError) {
+      _runIssue((ValidationError)issue);
+      return;
+    } else if (issue instanceof ValidationWarning) {
+      _runIssue((ValidationWarning)issue);
+      return;
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(issue).toString());
+    }
+  }
 }
