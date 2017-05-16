@@ -3,10 +3,10 @@ package br.ufes.inf.nemo.ml2.tests
 import com.google.inject.Inject
 import java.util.Set
 import org.eclipse.emf.common.util.BasicEList
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,6 +14,7 @@ import br.ufes.inf.nemo.ml2.meta.ML2Model
 import br.ufes.inf.nemo.ml2.util.ML2Util
 import br.ufes.inf.nemo.ml2.meta.ML2Class
 import br.ufes.inf.nemo.ml2.meta.MetaPackage
+import br.ufes.inf.nemo.ml2.validation.LinguisticRules
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(ML2InjectorProvider))
@@ -53,7 +54,7 @@ class ML2UtilTest {
 			class B specializes A;
 		}
 		'''.parse
-		//model.assertError(MetaPackage.eINSTANCE.ML2Class,LinguisticRules.CYCLIC_SPECIALIZATION)
+		model.assertError(MetaPackage.eINSTANCE.ML2Class,LinguisticRules.CYCLIC_SPECIALIZATION)
 	}
 	
 	@Test def void testAllInstantiatedClasses(){

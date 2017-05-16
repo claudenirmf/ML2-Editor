@@ -46,4 +46,13 @@ public interface ML2Boolean extends Literal {
 	 */
 	void setValue(boolean value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false" objUnique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if ((obj instanceof <%br.ufes.inf.nemo.ml2.meta.ML2Boolean%>))\n{\n\tboolean _isValue = this.isValue();\n\tboolean _isValue_1 = ((<%br.ufes.inf.nemo.ml2.meta.ML2Boolean%>)obj).isValue();\n\treturn (<%java.lang.Boolean%>.valueOf(_isValue) == <%java.lang.Boolean%>.valueOf(_isValue_1));\n}\nelse\n{\n\treturn super.equals(obj);\n}'"
+	 * @generated
+	 */
+	boolean equals(Object obj);
+
 } // ML2Boolean

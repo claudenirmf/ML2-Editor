@@ -98,4 +98,40 @@ public interface AttributeAssignment extends FeatureAssignment {
 	 */
 	EList<Literal> getLiteralAssignments();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return ((!this.getIndividualAssignments().isEmpty()) || (!this.getUnnamedIndividualAssignments().isEmpty()));'"
+	 * @generated
+	 */
+	boolean hasIndividualAssignments();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='boolean _isEmpty = this.getLiteralAssignments().isEmpty();\nreturn (!_isEmpty);'"
+	 * @generated
+	 */
+	boolean hasLiteralAssignments();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Individual%>> l = new <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Individual%>>();\nl.addAll(this.getIndividualAssignments());\nl.addAll(this.getUnnamedIndividualAssignments());\nreturn l;'"
+	 * @generated
+	 */
+	EList<Individual> getAllIndividualAssignments();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final <%org.eclipse.emf.common.util.BasicEList%><<%java.lang.Object%>> l = new <%org.eclipse.emf.common.util.BasicEList%><<%java.lang.Object%>>();\nl.addAll(this.getIndividualAssignments());\nl.addAll(this.getUnnamedIndividualAssignments());\nl.addAll(this.getLiteralAssignments());\nreturn l;'"
+	 * @generated
+	 */
+	EList<Object> getAllAssignments();
+
 } // AttributeAssignment

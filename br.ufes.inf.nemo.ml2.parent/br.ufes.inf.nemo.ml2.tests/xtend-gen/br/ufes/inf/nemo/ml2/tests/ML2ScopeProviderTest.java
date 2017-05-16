@@ -4,10 +4,10 @@ import br.ufes.inf.nemo.ml2.meta.ML2Model;
 import br.ufes.inf.nemo.ml2.tests.ML2InjectorProvider;
 import com.google.inject.Inject;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
-import org.eclipse.xtext.junit4.util.ParseHelper;
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
+import org.eclipse.xtext.testing.InjectWith;
+import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.util.ParseHelper;
+import org.eclipse.xtext.testing.validation.ValidationTestHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.junit.Test;
@@ -109,6 +109,38 @@ public class ML2ScopeProviderTest {
       _builder.newLine();
       _builder.append("\t");
       _builder.append("class C { ref a:A isOppositeTo c };");
+      _builder.newLine();
+      _builder.append("}");
+      final ML2Model model = this._parseHelper.parse(_builder);
+      this._validationTestHelper.assertNoErrors(model);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  @Test
+  public void testRefreneceScopeForRegularityFeature() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("module t {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("orderless class CA categorizes A {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("regularity ref ra : A determinesAllowedValues a");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("};");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("orderless class A {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("ref a : A");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("};");
       _builder.newLine();
       _builder.append("}");
       final ML2Model model = this._parseHelper.parse(_builder);

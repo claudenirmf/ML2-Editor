@@ -8,15 +8,13 @@ import br.ufes.inf.nemo.ml2.validation.ML2Validator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.function.Consumer;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
-import org.eclipse.xtext.junit4.util.ParseHelper;
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
+import org.eclipse.xtext.testing.InjectWith;
+import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.util.ParseHelper;
+import org.eclipse.xtext.testing.validation.ValidationTestHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.junit.Test;
@@ -25,7 +23,7 @@ import org.junit.runner.RunWith;
 @RunWith(XtextRunner.class)
 @InjectWith(ML2InjectorProvider.class)
 @SuppressWarnings("all")
-public class LibraryTest {
+public class ML2LibraryTest {
   @Inject
   @Extension
   private ParseHelper<ML2Model> _parseHelper;
@@ -53,15 +51,15 @@ public class LibraryTest {
   public static CharSequence includeStatements() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("include ");
-    _builder.append(ML2Lib.UFO_BASE_LIB, "");
+    _builder.append(ML2Lib.UFO_BASE_LIB);
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     _builder.append("include ");
-    _builder.append(ML2Lib.UFO_ENDURANT_LIB, "");
+    _builder.append(ML2Lib.UFO_ENDURANT_LIB);
     _builder.append(";");
     _builder.newLineIfNotEmpty();
     _builder.append("include ");
-    _builder.append(ML2Lib.UFO_META_LIB, "");
+    _builder.append(ML2Lib.UFO_META_LIB);
     _builder.append(";");
     return _builder;
   }
@@ -70,11 +68,10 @@ public class LibraryTest {
   public void testDefaultLibs() {
     final ResourceSet rs = this.resourceSetProvider.get();
     this._mL2Lib.loadUFOLib(rs);
-    EList<Resource> _resources = rs.getResources();
     final Consumer<Resource> _function = (Resource it) -> {
       this._validationTestHelper.assertNoErrors(it);
     };
-    _resources.forEach(_function);
+    rs.getResources().forEach(_function);
   }
   
   @Test
@@ -85,7 +82,7 @@ public class LibraryTest {
       _builder.append("module t {");
       _builder.newLine();
       _builder.append("\t\t\t\t");
-      CharSequence _includeStatements = LibraryTest.includeStatements();
+      CharSequence _includeStatements = ML2LibraryTest.includeStatements();
       _builder.append(_includeStatements, "\t\t\t\t");
       _builder.newLineIfNotEmpty();
       _builder.append("\t\t\t\t");
@@ -96,13 +93,12 @@ public class LibraryTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModel = this._parseHelper.parse(_builder, rs);
-      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
-      this._validationTestHelper.assertError(incorrectModel, _mL2Class, ML2Validator.UFO_A_MISSING_MUST_INSTANTIATION);
+      this._validationTestHelper.assertError(incorrectModel, MetaPackage.eINSTANCE.getML2Class(), ML2Validator.UFO_A_MISSING_MUST_INSTANTIATION);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t {");
       _builder_1.newLine();
       _builder_1.append("\t\t\t\t");
-      CharSequence _includeStatements_1 = LibraryTest.includeStatements();
+      CharSequence _includeStatements_1 = ML2LibraryTest.includeStatements();
       _builder_1.append(_includeStatements_1, "\t\t\t\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t\t\t");
@@ -129,7 +125,7 @@ public class LibraryTest {
       _builder.append("module t {");
       _builder.newLine();
       _builder.append("\t\t\t\t");
-      CharSequence _includeStatements = LibraryTest.includeStatements();
+      CharSequence _includeStatements = ML2LibraryTest.includeStatements();
       _builder.append(_includeStatements, "\t\t\t\t");
       _builder.newLineIfNotEmpty();
       _builder.append("\t\t\t\t");
@@ -145,13 +141,12 @@ public class LibraryTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModel = this._parseHelper.parse(_builder, rs);
-      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
-      this._validationTestHelper.assertError(incorrectModel, _mL2Class, ML2Validator.UFO_A_ILLEGAL_SORTAL_SPECIALIZATION);
+      this._validationTestHelper.assertError(incorrectModel, MetaPackage.eINSTANCE.getML2Class(), ML2Validator.UFO_A_ILLEGAL_SORTAL_SPECIALIZATION);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t {");
       _builder_1.newLine();
       _builder_1.append("\t\t\t\t");
-      CharSequence _includeStatements_1 = LibraryTest.includeStatements();
+      CharSequence _includeStatements_1 = ML2LibraryTest.includeStatements();
       _builder_1.append(_includeStatements_1, "\t\t\t\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t\t\t");
@@ -181,7 +176,7 @@ public class LibraryTest {
       _builder.append("module t {");
       _builder.newLine();
       _builder.append("\t\t\t\t");
-      CharSequence _includeStatements = LibraryTest.includeStatements();
+      CharSequence _includeStatements = ML2LibraryTest.includeStatements();
       _builder.append(_includeStatements, "\t\t\t\t");
       _builder.newLineIfNotEmpty();
       _builder.append("\t\t\t\t");
@@ -197,13 +192,12 @@ public class LibraryTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModel1 = this._parseHelper.parse(_builder, rs);
-      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
-      this._validationTestHelper.assertError(incorrectModel1, _mL2Class, ML2Validator.UFO_A_ILLEGAL_RIGID_SPECIALIZATION);
+      this._validationTestHelper.assertError(incorrectModel1, MetaPackage.eINSTANCE.getML2Class(), ML2Validator.UFO_A_ILLEGAL_RIGID_SPECIALIZATION);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t {");
       _builder_1.newLine();
       _builder_1.append("\t\t\t\t");
-      CharSequence _includeStatements_1 = LibraryTest.includeStatements();
+      CharSequence _includeStatements_1 = ML2LibraryTest.includeStatements();
       _builder_1.append(_includeStatements_1, "\t\t\t\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t\t\t");
@@ -219,13 +213,12 @@ public class LibraryTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model incorrectModel2 = this._parseHelper.parse(_builder_1, rs);
-      EClass _mL2Class_1 = MetaPackage.eINSTANCE.getML2Class();
-      this._validationTestHelper.assertError(incorrectModel2, _mL2Class_1, ML2Validator.UFO_A_ILLEGAL_RIGID_SPECIALIZATION);
+      this._validationTestHelper.assertError(incorrectModel2, MetaPackage.eINSTANCE.getML2Class(), ML2Validator.UFO_A_ILLEGAL_RIGID_SPECIALIZATION);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t {");
       _builder_2.newLine();
       _builder_2.append("\t\t\t\t");
-      CharSequence _includeStatements_2 = LibraryTest.includeStatements();
+      CharSequence _includeStatements_2 = ML2LibraryTest.includeStatements();
       _builder_2.append(_includeStatements_2, "\t\t\t\t");
       _builder_2.newLineIfNotEmpty();
       _builder_2.append("\t\t\t\t");

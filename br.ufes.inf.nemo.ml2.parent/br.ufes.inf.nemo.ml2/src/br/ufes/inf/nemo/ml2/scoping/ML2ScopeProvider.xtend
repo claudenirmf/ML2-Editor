@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.naming.QualifiedName
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
+import org.eclipse.emf.common.util.BasicEList
 
 /**
  * This class contains custom scoping description.
@@ -54,7 +55,6 @@ class ML2ScopeProvider extends AbstractML2ScopeProvider {
 	}
 	
 	def private IScope getScopeForAttributeAssignmentOnAttributeAssignment_Attribute(EObject context, EReference reference){
-		// TODO Add options to scope
 		val entity = context.eContainer as EntityDeclaration
 		val attributes = entity.allAttributes
 		return Scopes.scopeFor(attributes, [ att |
@@ -66,10 +66,10 @@ class ML2ScopeProvider extends AbstractML2ScopeProvider {
 	}
 	
 	def private IScope getScopeForReferenceAssignmentOnReferenceAssignment_Reference(EObject context, EReference reference){
-		// TODO Add options to scope
 		val entity = context.eContainer as EntityDeclaration
 		val references = entity.allReferences
-		return Scopes.scopeFor(references, [ ref |
+		val dup = references + references
+		return Scopes.scopeFor(dup, [ ref |
 			if (references.exists[it.name.equals(ref.name) && it != ref])
 				return QualifiedName.create((ref.eContainer as EntityDeclaration).name, ref.name)
 			else
@@ -108,13 +108,15 @@ class ML2ScopeProvider extends AbstractML2ScopeProvider {
 	
 	def private getScopeForAttributeOnProperty_ReguletedProperty(EObject context, EReference reference) {
 		val c = context.eContainer as ML2Class
-		val elements = c?.categorizedClass.attributes
+		val elements = new BasicEList<Attribute>()
+		if(c.categorizedClass!==null)	elements.addAll(c.categorizedClass.attributes)
 		return Scopes.scopeFor(elements, [ QualifiedName.create(it.name) ], IScope.NULLSCOPE)
 	}
 	
 	def private getScopeForReferenceOnProperty_ReguletedProperty(EObject context, EReference reference) {
 		val c = context.eContainer as ML2Class
-		val elements = c?.categorizedClass.references
+		val elements = new BasicEList<Reference>()
+		if(c.categorizedClass!==null)	elements.addAll(c.categorizedClass.references)
 		return Scopes.scopeFor(elements, [ QualifiedName.create(it.name) ], IScope.NULLSCOPE)
 	}
 }

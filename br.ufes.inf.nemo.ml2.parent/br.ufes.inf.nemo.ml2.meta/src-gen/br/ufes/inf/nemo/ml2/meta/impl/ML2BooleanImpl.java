@@ -4,9 +4,9 @@ package br.ufes.inf.nemo.ml2.meta.impl;
 
 import br.ufes.inf.nemo.ml2.meta.ML2Boolean;
 import br.ufes.inf.nemo.ml2.meta.MetaPackage;
-
+import java.lang.reflect.InvocationTargetException;
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -90,6 +90,22 @@ public class ML2BooleanImpl extends LiteralImpl implements ML2Boolean {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean equals(final Object obj) {
+		if ((obj instanceof ML2Boolean)) {
+			boolean _isValue = this.isValue();
+			boolean _isValue_1 = ((ML2Boolean)obj).isValue();
+			return (Boolean.valueOf(_isValue) == Boolean.valueOf(_isValue_1));
+		}
+		else {
+			return super.equals(obj);
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -141,6 +157,20 @@ public class ML2BooleanImpl extends LiteralImpl implements ML2Boolean {
 				return value != VALUE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case MetaPackage.ML2_BOOLEAN___EQUALS__OBJECT:
+				return equals(arguments.get(0));
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**

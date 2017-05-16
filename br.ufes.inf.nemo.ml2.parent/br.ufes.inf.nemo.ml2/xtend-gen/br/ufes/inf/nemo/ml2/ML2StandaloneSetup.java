@@ -14,8 +14,7 @@ import org.eclipse.emf.ecore.EPackage;
 @SuppressWarnings("all")
 public class ML2StandaloneSetup extends ML2StandaloneSetupGenerated {
   public static void doSetup() {
-    ML2StandaloneSetup _mL2StandaloneSetup = new ML2StandaloneSetup();
-    _mL2StandaloneSetup.createInjectorAndDoEMFRegistration();
+    new ML2StandaloneSetup().createInjectorAndDoEMFRegistration();
   }
   
   @Override

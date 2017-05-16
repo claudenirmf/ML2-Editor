@@ -16,6 +16,7 @@ import br.ufes.inf.nemo.ml2.meta.FeatureAssignment
 import br.ufes.inf.nemo.ml2.meta.EntityDeclaration
 import br.ufes.inf.nemo.ml2.meta.FOClass
 import br.ufes.inf.nemo.ml2.lib.ML2Lib
+import br.ufes.inf.nemo.ml2.meta.DataType
 
 /**
  * This class contains custom validation rules. 
@@ -75,7 +76,7 @@ class ML2Validator extends AbstractML2Validator {
 			error('''Invalid cyclic specialization.''',
 				MetaPackage.eINSTANCE.ML2Class_SuperClasses,
 				LinguisticRules.CYCLIC_SPECIALIZATION)
-		if(!c.hasValidBasetype)
+		if(!c.hasValidCategorizedClass)
 			error('''Invalid basetype.''',
 				MetaPackage.eINSTANCE.ML2Class_CategorizedClass,
 				LinguisticRules.INVALID_CATEGORIZED_CLASS)
@@ -87,6 +88,11 @@ class ML2Validator extends AbstractML2Validator {
 			error('''Invalid subordinator.''',
 				MetaPackage.eINSTANCE.ML2Class_Subordinators,
 				LinguisticRules.INVALID_SUBORDINATOR)
+	}
+	
+	@Check(CheckType.FAST)
+	def void fastChecksOnDataTypes(DataType d){
+		d.containsReferences?.runIssue
 	}
 	
 	@Check(CheckType.FAST)
@@ -106,19 +112,20 @@ class ML2Validator extends AbstractML2Validator {
 	}
 	
 	@Check(CheckType.FAST)
-	def void fastChecksOnProperty(Feature f){
+	def void fastChecksOnFeature(Feature f){
 		f.checkSubsettedMultiplicity?.runIssue
 		f.checkRegularityAndContainer?.runIssue
 	}
 	
 	@Check(CheckType.FAST)
-	def void fastChecksOnPropertyAssignment(FeatureAssignment fa){
+	def void fastChecksOnFeatureAssignment(FeatureAssignment fa){
 		fa.checkMultiplicityAndAssignment?.runIssue
 	}
 	
 	@Check(CheckType.NORMAL)
-	def void normalChecksOnPropertyAssignment(FeatureAssignment fa){
-		fa.checkPropertyAssignmentType?.runIssue
+	def void normalChecksOnFeatureAssignment(FeatureAssignment fa){
+		fa.checkFeatureAssignmentType?.runIssue
+		fa.checkRegularityFeatureConformance?.runIssue
 	}
 	
 	@Check(CheckType.NORMAL)

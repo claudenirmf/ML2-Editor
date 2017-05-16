@@ -26,7 +26,9 @@ public enum PrimitiveType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	STRING(0, "STRING", "String"), /**
+	STRING(0, "STRING", "String"),
+
+	/**
 	 * The '<em><b>NUMBER</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -34,7 +36,9 @@ public enum PrimitiveType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NUMBER(0, "NUMBER", "Number"), /**
+	NUMBER(0, "NUMBER", "Number"),
+
+	/**
 	 * The '<em><b>BOOLEAN</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

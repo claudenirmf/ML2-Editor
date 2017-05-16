@@ -81,4 +81,13 @@ public interface EntityDeclaration extends ModelElement {
 	 */
 	EList<FeatureAssignment> getAssignments();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='return ((this.getName() == null) || <%com.google.common.base.Objects%>.equal(this.getName(), \"\"));'"
+	 * @generated
+	 */
+	boolean isUnnamed();
+
 } // EntityDeclaration

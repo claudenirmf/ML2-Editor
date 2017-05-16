@@ -24,6 +24,11 @@ abstract class EntityDeclaration extends ModelElement
 	refers ML2Class[] instantiatedClasses
 	
 	contains FeatureAssignment[] assignments
+	
+	op boolean isUnnamed() 
+	{ 
+		return name===null || name==""
+	}
 }
 
 class Individual extends EntityDeclaration {}
@@ -117,7 +122,8 @@ class Reference extends Feature
 	refers Reference oppositeTo
 }
 
-enum PrimitiveType {
+enum PrimitiveType 
+{
 	STRING as "String"
 	NUMBER as "Number"
 	BOOLEAN as "Boolean"
@@ -131,6 +137,30 @@ class AttributeAssignment extends FeatureAssignment
 	refers Individual[] individualAssignments
 	contains Individual[] unnamedIndividualAssignments
 	contains Literal[] literalAssignments
+	
+	op boolean hasIndividualAssignments()
+	{
+		return !individualAssignments.isEmpty || !unnamedIndividualAssignments.isEmpty
+	}
+	op boolean hasLiteralAssignments()
+	{
+		return !literalAssignments.isEmpty
+	}
+	op Individual[] getAllIndividualAssignments()
+	{
+		val l = new BasicEList<Individual>
+		l.addAll(individualAssignments)
+		l.addAll(unnamedIndividualAssignments)
+		return l
+	}
+	op Object[] getAllAssignments()
+	{
+		val l = new BasicEList<Object>
+		l.addAll(individualAssignments)
+		l.addAll(unnamedIndividualAssignments)
+		l.addAll(literalAssignments)
+		return l
+	}
 }
 
 class ReferenceAssignment extends FeatureAssignment
@@ -144,14 +174,32 @@ abstract class Literal extends ModelElement {}
 class ML2String extends Literal
 {
 	String value
+	
+	op boolean equals(Object obj)
+	{
+		if(obj instanceof ML2String)	return value == obj.value
+		else	return super.equals(obj)
+	}
 }
 
 class ML2Number extends Literal
 {
 	double value
+	
+	op boolean equals(Object obj)
+	{
+		if(obj instanceof ML2Number)	return value === obj.value
+		else	return super.equals(obj)
+	}
 }
 
 class ML2Boolean extends Literal
 {
 	boolean value
+	
+	op boolean equals(Object obj)
+	{
+		if(obj instanceof ML2Boolean)	return value === obj.value
+		else	return super.equals(obj)
+	}
 }

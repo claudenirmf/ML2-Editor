@@ -1,10 +1,10 @@
 package br.ufes.inf.nemo.ml2.tests
 
 import com.google.inject.Inject
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.google.inject.Provider
@@ -16,7 +16,7 @@ import br.ufes.inf.nemo.ml2.validation.LinguisticRules
 
 @RunWith(typeof(XtextRunner))
 @InjectWith(typeof(ML2InjectorProvider))
-class LinguistcRulesTest {
+class ML2LinguistcRulesTest {
 	
 	@Inject extension ParseHelper<ML2Model>
 	@Inject extension ValidationTestHelper
@@ -373,28 +373,54 @@ class LinguistcRulesTest {
 			LinguisticRules.INVALID_MULTIPLICITY)
 		correctModel.assertNoWarnings(MetaPackage.eINSTANCE.attributeAssignment,
 			LinguisticRules.INVALID_MULTIPLICITY)
+		
+		
 	}
 	
-//	@Test def testCheckPropertyAssignmentType(){
-//		val rs = resourceSetProvider.get
-////		rs.loadDatatypeLib
-//		val correctModelB = '''module t {
-//				include «ML2Lib.DATATYPES_LIB»;
-//				import «ML2Lib.DATATYPES_LIB».*;
-//				class Color specializes «ML2Lib.DATATYPES_DATATYPE» {
-//					att red : «ML2Lib.DATATYPES_NUMBER»
-//					att blue : «ML2Lib.DATATYPES_NUMBER»
-//					att green : «ML2Lib.DATATYPES_NUMBER»
-//				};
-//				individual Black : Color { att red=0 att green=0 att blue=0 };
-//				class ColoredObject { att color : [1..2] Color };
-//				individual SomeCube : ColoredObject { att color = {[ red=255, green=255, blue=255 ]} };
-//				individual OtherCube : ColoredObject { att color = Black };
-//			}'''.parse(rs)
-//		correctModelB.assertNoErrors(MetaPackage.eINSTANCE.attributeAssignment,
-//			LinguisticRules.NON_CONFORMANT_ASSIGNMENT)
-//		correctModelB.assertNoErrors
-//	}
+	@Test def testCheckFeatureAssignmentType(){
+		val correctModelB = '''module t {
+				datatype Color {
+					red:Number blue:Number green:Number
+				};
+				individual Black : Color { red=0 green=0 blue=0 };
+				class ColoredObject { color : [1..2] Color };
+				individual SomeCube : ColoredObject { 
+					color = {Black,[ red=255 green=255 blue=255 ]}
+				};
+				individual OtherCube : ColoredObject { color = Black };
+			}'''.parse
+		correctModelB.assertNoErrors(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_ASSIGNMENT)
+		correctModelB.assertNoErrors
+	}
+	
+	@Test def testCheckRegularityAndContainer() {
+		val incorrectModelA = '''module t {
+				class HA { regularity h_name : String determinesValue name };
+				class A { name : String };
+			}'''.parse
+		incorrectModelA.assertError(MetaPackage.eINSTANCE.feature,
+			LinguisticRules.FIRST_ORDER_REGULARITY)
+		val incorrectModelB = '''module t {
+				class HA { regularity ref h_a : A determinesValue name };
+				class A { ref a : A };
+			}'''.parse
+		incorrectModelB.assertError(MetaPackage.eINSTANCE.feature,
+			LinguisticRules.FIRST_ORDER_REGULARITY)
+		
+		val incorrectModelC = '''module t {
+				order 2 class HA categorizes A { regularity ref h_a : A determinesMaxValue a };
+				class A { ref a : A };
+			}'''.parse
+		incorrectModelC.assertError(MetaPackage.eINSTANCE.feature,
+			LinguisticRules.RESTRICTED_REGULARITY_TYPE)
+		val incorrectModelD = '''module t {
+				order 2 class HA categorizes A { regularity h_name : String determinesType name };
+				class A { name : String };
+			}'''.parse
+		incorrectModelD.assertError(MetaPackage.eINSTANCE.feature,
+			LinguisticRules.RESTRICTED_REGULARITY_TYPE)
+	}
 	
 	@Test def testCheckInstantiatedRegularities(){
 		val incorretModel = '''module t {
@@ -420,6 +446,173 @@ class LinguistcRulesTest {
 			}'''.parse
 		corretModel.assertNoWarnings(MetaPackage.eINSTANCE.ML2Class,
 			LinguisticRules.MISSING_ASSIGNMENT_BY_REGULARITY)
+	}
+	
+	@Test def testCheckRegularityFeatureConformance(){
+		val incorretModelA = '''module t {
+				order 2 class HA categorizes A {
+					regularity ref ha_ref : [0..*] A determinesValue a_ref };
+				class A { ref a_ref : [0..*] A };
+				class B :HA specializes A { ref ha_ref = {A1,A3} };
+				individual A1 :A;
+				individual A2 :A;
+				individual A3 :A;
+				individual B1 :B { ref a_ref = {A2} };
+			}'''.parse
+		incorretModelA.assertWarning(MetaPackage.eINSTANCE.referenceAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+			
+		val corretModelA = '''module t {
+				order 2 class HA categorizes A {
+					regularity ref ha_ref : [0..*] A determinesValue a_ref };
+				class A { ref a_ref : [0..*] A };
+				class B :HA specializes A { ref ha_ref = {A1,A3} };
+				individual A1 :A;
+				individual A3 :A;
+				individual B1 :B { ref a_ref = {A1,A3} };
+			}'''.parse
+		corretModelA.assertNoWarnings(MetaPackage.eINSTANCE.referenceAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val incorretModelB = '''module t {
+				order 2 class HA categorizes A {
+					regularity ref ha_ref : [0..*] A determinesAllowedValues a_ref };
+				class A { ref a_ref : [0..*] A };
+				class B :HA specializes A { ref ha_ref = {A1,A3} };
+				individual A1 :A;
+				individual A2 :A;
+				individual A3 :A;
+				individual B1 :B { ref a_ref = {A2} };
+			}'''.parse
+		incorretModelB.assertWarning(MetaPackage.eINSTANCE.referenceAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val corretModelB = '''module t {
+				order 2 class HA categorizes A {
+					regularity ref ha_ref : [0..*] A determinesAllowedValues a_ref };
+				class A { ref a_ref : [0..*] A };
+				class B :HA specializes A { ref ha_ref = {A1,A3} };
+				individual A1 :A;
+				individual A3 :A;
+				individual B1 :B { ref a_ref = {} };
+				individual B2 :B { ref a_ref = {A3} };
+			}'''.parse
+		corretModelB.assertNoWarnings(MetaPackage.eINSTANCE.referenceAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val incorretModelC1 = '''module t {
+				order 2 class HA categorizes A {
+					regularity limit : Number determinesMaxValue number };
+				class A { number : [0..*] Number };
+				class B :HA specializes A { limit = 50 };
+				individual B1 :B { number = 51 };
+			}'''.parse
+		incorretModelC1.assertWarning(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val incorretModelC2 = '''module t {
+				order 2 class HA categorizes A {
+					regularity limit : Number determinesMinValue number };
+				class A { number : [0..*] Number };
+				class B :HA specializes A { limit = 50 };
+				individual B1 :B { number = 49 };
+			}'''.parse
+		incorretModelC2.assertWarning(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val corretModelC = '''module t {
+				order 2 class HA categorizes A {
+					regularity max_limit : Number determinesMaxValue number
+					regularity min_limit : Number determinesMinValue number
+				 };
+				class A { number : [0..*] Number };
+				class B :HA specializes A { max_limit = 50	min_limit = 50 };
+				individual B1 :B { number = 50 };
+			}'''.parse
+		corretModelC.assertNoWarnings(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val incorretModelD1 = '''module t {
+				order 2 class HA categorizes A {
+					regularity predefine : Boolean determinesValue b };
+				class A { b : Boolean };
+				class B :HA specializes A { predefine = true };
+				individual B1 :B { b = false };
+			}'''.parse
+		incorretModelD1.assertWarning(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val incorretModelD2 = '''module t {
+				datatype Color { value : Number };
+				individual Black :Color { value = 0 };
+				order 2 class HA categorizes A {
+					regularity predefine : Color determinesValue color };
+				class A { color : Color };
+				class B :HA specializes A { predefine = Black };
+				individual B1 :B { color = [value=0] };
+			}'''.parse
+		incorretModelD2.assertWarning(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val incorretModelD = '''module t {
+				datatype Color { value : Number };
+				individual Black :Color { value = 0 };
+				order 2 class HA categorizes A {
+					regularity predefine : Color determinesValue color };
+				class A { color : Color };
+				class B :HA specializes A { predefine = Black };
+				individual B1 :B { color = Black };
+				
+				order 2 class DHA categorizes DA {
+					regularity predefine : Boolean determinesValue b };
+				class DA { b : Boolean };
+				class DB :DHA specializes DA { predefine = false };
+				individual DB1 :DB { b = false };
+			}'''.parse
+		incorretModelD.assertNoWarnings(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val incorretModelE1 = '''module t {
+				order 2 class HA categorizes A {
+					regularity predefine : [0..*] String determinesAllowedValues names };
+				class A { names : [0..*] String };
+				class B :HA specializes A { predefine = {"abc","bac"} };
+				individual B1 :B { names = "aaa" };
+			}'''.parse
+		incorretModelE1.assertWarning(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val incorretModelE2 = '''module t {
+				datatype Color { value : Number };
+				individual Black :Color { value = 0 };
+				individual White :Color { value = 100 };
+				order 2 class HA categorizes A {
+					regularity predefine : Color determinesAllowedValues color };
+				class A { color : Color };
+				class B :HA specializes A { predefine = {Black,White} };
+				individual B1 :B { color = [value=0] };
+			}'''.parse
+		incorretModelE2.assertWarning(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
+		
+		val corretModelE = '''module t {
+				datatype Color { value : Number };
+				individual Black :Color { value = 0 };
+				individual White :Color { value = 100 };
+				order 2 class HA categorizes A {
+					regularity predefine : [0..*] Color determinesAllowedValues color };
+				class A { color : Color };
+				class B :HA specializes A { predefine = {Black,White} };
+				individual B1 :B { color = White };
+				
+				order 2 class EHA categorizes EA {
+					regularity predefine : [0..*] String determinesAllowedValues names };
+				class EA { names : [0..*] String };
+				class EB :EHA specializes EA { predefine = {"abc","bac"} };
+				individual EB1 :EB { names = {"abc","bac"} };
+			}'''.parse
+		corretModelE.assertNoWarnings(MetaPackage.eINSTANCE.attributeAssignment,
+			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
 	}
 	
 }

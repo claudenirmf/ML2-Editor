@@ -46,4 +46,13 @@ public interface ML2String extends Literal {
 	 */
 	void setValue(String value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false" objUnique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if ((obj instanceof <%br.ufes.inf.nemo.ml2.meta.ML2String%>))\n{\n\t<%java.lang.String%> _value = this.getValue();\n\t<%java.lang.String%> _value_1 = ((<%br.ufes.inf.nemo.ml2.meta.ML2String%>)obj).getValue();\n\treturn <%com.google.common.base.Objects%>.equal(_value, _value_1);\n}\nelse\n{\n\treturn super.equals(obj);\n}'"
+	 * @generated
+	 */
+	boolean equals(Object obj);
+
 } // ML2String

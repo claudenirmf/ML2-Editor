@@ -226,13 +226,22 @@ public interface MetaPackage extends EPackage {
 	int ENTITY_DECLARATION_FEATURE_COUNT = MODEL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The operation id for the '<em>Is Unnamed</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY_DECLARATION___IS_UNNAMED = MODEL_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>Entity Declaration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_DECLARATION_OPERATION_COUNT = MODEL_ELEMENT_OPERATION_COUNT + 0;
+	int ENTITY_DECLARATION_OPERATION_COUNT = MODEL_ELEMENT_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link br.ufes.inf.nemo.ml2.meta.impl.IndividualImpl <em>Individual</em>}' class.
@@ -279,6 +288,15 @@ public interface MetaPackage extends EPackage {
 	 * @ordered
 	 */
 	int INDIVIDUAL_FEATURE_COUNT = ENTITY_DECLARATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Is Unnamed</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INDIVIDUAL___IS_UNNAMED = ENTITY_DECLARATION___IS_UNNAMED;
 
 	/**
 	 * The number of operations of the '<em>Individual</em>' class.
@@ -388,6 +406,15 @@ public interface MetaPackage extends EPackage {
 	 * @ordered
 	 */
 	int ML2_CLASS_FEATURE_COUNT = ENTITY_DECLARATION_FEATURE_COUNT + 6;
+
+	/**
+	 * The operation id for the '<em>Is Unnamed</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ML2_CLASS___IS_UNNAMED = ENTITY_DECLARATION___IS_UNNAMED;
 
 	/**
 	 * The operation id for the '<em>Get Attributes</em>' operation.
@@ -517,6 +544,15 @@ public interface MetaPackage extends EPackage {
 	int ORDERLESS_CLASS_FEATURE_COUNT = ML2_CLASS_FEATURE_COUNT + 0;
 
 	/**
+	 * The operation id for the '<em>Is Unnamed</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERLESS_CLASS___IS_UNNAMED = ML2_CLASS___IS_UNNAMED;
+
+	/**
 	 * The operation id for the '<em>Get Attributes</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -642,6 +678,15 @@ public interface MetaPackage extends EPackage {
 	 * @ordered
 	 */
 	int ORDERED_CLASS_FEATURE_COUNT = ML2_CLASS_FEATURE_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Is Unnamed</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_CLASS___IS_UNNAMED = ML2_CLASS___IS_UNNAMED;
 
 	/**
 	 * The operation id for the '<em>Get Attributes</em>' operation.
@@ -780,6 +825,15 @@ public interface MetaPackage extends EPackage {
 	int HO_CLASS_FEATURE_COUNT = ORDERED_CLASS_FEATURE_COUNT + 1;
 
 	/**
+	 * The operation id for the '<em>Is Unnamed</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HO_CLASS___IS_UNNAMED = ORDERED_CLASS___IS_UNNAMED;
+
+	/**
 	 * The operation id for the '<em>Get Attributes</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -907,6 +961,15 @@ public interface MetaPackage extends EPackage {
 	int FO_CLASS_FEATURE_COUNT = ORDERED_CLASS_FEATURE_COUNT + 0;
 
 	/**
+	 * The operation id for the '<em>Is Unnamed</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FO_CLASS___IS_UNNAMED = ORDERED_CLASS___IS_UNNAMED;
+
+	/**
 	 * The operation id for the '<em>Get Attributes</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1032,6 +1095,15 @@ public interface MetaPackage extends EPackage {
 	 * @ordered
 	 */
 	int DATA_TYPE_FEATURE_COUNT = FO_CLASS_FEATURE_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Is Unnamed</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DATA_TYPE___IS_UNNAMED = FO_CLASS___IS_UNNAMED;
 
 	/**
 	 * The operation id for the '<em>Get Attributes</em>' operation.
@@ -1499,13 +1571,49 @@ public interface MetaPackage extends EPackage {
 	int ATTRIBUTE_ASSIGNMENT_FEATURE_COUNT = FEATURE_ASSIGNMENT_FEATURE_COUNT + 4;
 
 	/**
+	 * The operation id for the '<em>Has Individual Assignments</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_ASSIGNMENT___HAS_INDIVIDUAL_ASSIGNMENTS = FEATURE_ASSIGNMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Has Literal Assignments</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_ASSIGNMENT___HAS_LITERAL_ASSIGNMENTS = FEATURE_ASSIGNMENT_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get All Individual Assignments</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_ASSIGNMENT___GET_ALL_INDIVIDUAL_ASSIGNMENTS = FEATURE_ASSIGNMENT_OPERATION_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get All Assignments</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_ASSIGNMENT___GET_ALL_ASSIGNMENTS = FEATURE_ASSIGNMENT_OPERATION_COUNT + 3;
+
+	/**
 	 * The number of operations of the '<em>Attribute Assignment</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_ASSIGNMENT_OPERATION_COUNT = FEATURE_ASSIGNMENT_OPERATION_COUNT + 0;
+	int ATTRIBUTE_ASSIGNMENT_OPERATION_COUNT = FEATURE_ASSIGNMENT_OPERATION_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link br.ufes.inf.nemo.ml2.meta.impl.ReferenceAssignmentImpl <em>Reference Assignment</em>}' class.
@@ -1610,13 +1718,22 @@ public interface MetaPackage extends EPackage {
 	int ML2_STRING_FEATURE_COUNT = LITERAL_FEATURE_COUNT + 1;
 
 	/**
+	 * The operation id for the '<em>Equals</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ML2_STRING___EQUALS__OBJECT = LITERAL_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>ML2 String</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ML2_STRING_OPERATION_COUNT = LITERAL_OPERATION_COUNT + 0;
+	int ML2_STRING_OPERATION_COUNT = LITERAL_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link br.ufes.inf.nemo.ml2.meta.impl.ML2NumberImpl <em>ML2 Number</em>}' class.
@@ -1647,13 +1764,22 @@ public interface MetaPackage extends EPackage {
 	int ML2_NUMBER_FEATURE_COUNT = LITERAL_FEATURE_COUNT + 1;
 
 	/**
+	 * The operation id for the '<em>Equals</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ML2_NUMBER___EQUALS__OBJECT = LITERAL_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>ML2 Number</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ML2_NUMBER_OPERATION_COUNT = LITERAL_OPERATION_COUNT + 0;
+	int ML2_NUMBER_OPERATION_COUNT = LITERAL_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link br.ufes.inf.nemo.ml2.meta.impl.ML2BooleanImpl <em>ML2 Boolean</em>}' class.
@@ -1684,13 +1810,22 @@ public interface MetaPackage extends EPackage {
 	int ML2_BOOLEAN_FEATURE_COUNT = LITERAL_FEATURE_COUNT + 1;
 
 	/**
+	 * The operation id for the '<em>Equals</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ML2_BOOLEAN___EQUALS__OBJECT = LITERAL_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>ML2 Boolean</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ML2_BOOLEAN_OPERATION_COUNT = LITERAL_OPERATION_COUNT + 0;
+	int ML2_BOOLEAN_OPERATION_COUNT = LITERAL_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link br.ufes.inf.nemo.ml2.meta.CategorizationType <em>Categorization Type</em>}' enum.
@@ -1712,7 +1847,6 @@ public interface MetaPackage extends EPackage {
 	 */
 	int REGULARITY_FEATURE_TYPE = 23;
 
-
 	/**
 	 * The meta object id for the '{@link br.ufes.inf.nemo.ml2.meta.PrimitiveType <em>Primitive Type</em>}' enum.
 	 * <!-- begin-user-doc -->
@@ -1722,6 +1856,7 @@ public interface MetaPackage extends EPackage {
 	 * @generated
 	 */
 	int PRIMITIVE_TYPE = 24;
+
 
 	/**
 	 * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.meta.ML2Model <em>ML2 Model</em>}'.
@@ -1839,6 +1974,16 @@ public interface MetaPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEntityDeclaration_Assignments();
+
+	/**
+	 * Returns the meta object for the '{@link br.ufes.inf.nemo.ml2.meta.EntityDeclaration#isUnnamed() <em>Is Unnamed</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Unnamed</em>' operation.
+	 * @see br.ufes.inf.nemo.ml2.meta.EntityDeclaration#isUnnamed()
+	 * @generated
+	 */
+	EOperation getEntityDeclaration__IsUnnamed();
 
 	/**
 	 * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.meta.Individual <em>Individual</em>}'.
@@ -2299,6 +2444,46 @@ public interface MetaPackage extends EPackage {
 	EReference getAttributeAssignment_LiteralAssignments();
 
 	/**
+	 * Returns the meta object for the '{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#hasIndividualAssignments() <em>Has Individual Assignments</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Has Individual Assignments</em>' operation.
+	 * @see br.ufes.inf.nemo.ml2.meta.AttributeAssignment#hasIndividualAssignments()
+	 * @generated
+	 */
+	EOperation getAttributeAssignment__HasIndividualAssignments();
+
+	/**
+	 * Returns the meta object for the '{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#hasLiteralAssignments() <em>Has Literal Assignments</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Has Literal Assignments</em>' operation.
+	 * @see br.ufes.inf.nemo.ml2.meta.AttributeAssignment#hasLiteralAssignments()
+	 * @generated
+	 */
+	EOperation getAttributeAssignment__HasLiteralAssignments();
+
+	/**
+	 * Returns the meta object for the '{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getAllIndividualAssignments() <em>Get All Individual Assignments</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get All Individual Assignments</em>' operation.
+	 * @see br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getAllIndividualAssignments()
+	 * @generated
+	 */
+	EOperation getAttributeAssignment__GetAllIndividualAssignments();
+
+	/**
+	 * Returns the meta object for the '{@link br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getAllAssignments() <em>Get All Assignments</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get All Assignments</em>' operation.
+	 * @see br.ufes.inf.nemo.ml2.meta.AttributeAssignment#getAllAssignments()
+	 * @generated
+	 */
+	EOperation getAttributeAssignment__GetAllAssignments();
+
+	/**
 	 * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.meta.ReferenceAssignment <em>Reference Assignment</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2362,6 +2547,16 @@ public interface MetaPackage extends EPackage {
 	EAttribute getML2String_Value();
 
 	/**
+	 * Returns the meta object for the '{@link br.ufes.inf.nemo.ml2.meta.ML2String#equals(java.lang.Object) <em>Equals</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Equals</em>' operation.
+	 * @see br.ufes.inf.nemo.ml2.meta.ML2String#equals(java.lang.Object)
+	 * @generated
+	 */
+	EOperation getML2String__Equals__Object();
+
+	/**
 	 * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.meta.ML2Number <em>ML2 Number</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2383,6 +2578,16 @@ public interface MetaPackage extends EPackage {
 	EAttribute getML2Number_Value();
 
 	/**
+	 * Returns the meta object for the '{@link br.ufes.inf.nemo.ml2.meta.ML2Number#equals(java.lang.Object) <em>Equals</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Equals</em>' operation.
+	 * @see br.ufes.inf.nemo.ml2.meta.ML2Number#equals(java.lang.Object)
+	 * @generated
+	 */
+	EOperation getML2Number__Equals__Object();
+
+	/**
 	 * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.meta.ML2Boolean <em>ML2 Boolean</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2402,6 +2607,16 @@ public interface MetaPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getML2Boolean_Value();
+
+	/**
+	 * Returns the meta object for the '{@link br.ufes.inf.nemo.ml2.meta.ML2Boolean#equals(java.lang.Object) <em>Equals</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Equals</em>' operation.
+	 * @see br.ufes.inf.nemo.ml2.meta.ML2Boolean#equals(java.lang.Object)
+	 * @generated
+	 */
+	EOperation getML2Boolean__Equals__Object();
 
 	/**
 	 * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.meta.CategorizationType <em>Categorization Type</em>}'.
@@ -2551,6 +2766,14 @@ public interface MetaPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ENTITY_DECLARATION__ASSIGNMENTS = eINSTANCE.getEntityDeclaration_Assignments();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Unnamed</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ENTITY_DECLARATION___IS_UNNAMED = eINSTANCE.getEntityDeclaration__IsUnnamed();
 
 		/**
 		 * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.meta.impl.IndividualImpl <em>Individual</em>}' class.
@@ -2923,6 +3146,38 @@ public interface MetaPackage extends EPackage {
 		EReference ATTRIBUTE_ASSIGNMENT__LITERAL_ASSIGNMENTS = eINSTANCE.getAttributeAssignment_LiteralAssignments();
 
 		/**
+		 * The meta object literal for the '<em><b>Has Individual Assignments</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ATTRIBUTE_ASSIGNMENT___HAS_INDIVIDUAL_ASSIGNMENTS = eINSTANCE.getAttributeAssignment__HasIndividualAssignments();
+
+		/**
+		 * The meta object literal for the '<em><b>Has Literal Assignments</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ATTRIBUTE_ASSIGNMENT___HAS_LITERAL_ASSIGNMENTS = eINSTANCE.getAttributeAssignment__HasLiteralAssignments();
+
+		/**
+		 * The meta object literal for the '<em><b>Get All Individual Assignments</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ATTRIBUTE_ASSIGNMENT___GET_ALL_INDIVIDUAL_ASSIGNMENTS = eINSTANCE.getAttributeAssignment__GetAllIndividualAssignments();
+
+		/**
+		 * The meta object literal for the '<em><b>Get All Assignments</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ATTRIBUTE_ASSIGNMENT___GET_ALL_ASSIGNMENTS = eINSTANCE.getAttributeAssignment__GetAllAssignments();
+
+		/**
 		 * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.meta.impl.ReferenceAssignmentImpl <em>Reference Assignment</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2977,6 +3232,14 @@ public interface MetaPackage extends EPackage {
 		EAttribute ML2_STRING__VALUE = eINSTANCE.getML2String_Value();
 
 		/**
+		 * The meta object literal for the '<em><b>Equals</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ML2_STRING___EQUALS__OBJECT = eINSTANCE.getML2String__Equals__Object();
+
+		/**
 		 * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.meta.impl.ML2NumberImpl <em>ML2 Number</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2995,6 +3258,14 @@ public interface MetaPackage extends EPackage {
 		EAttribute ML2_NUMBER__VALUE = eINSTANCE.getML2Number_Value();
 
 		/**
+		 * The meta object literal for the '<em><b>Equals</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ML2_NUMBER___EQUALS__OBJECT = eINSTANCE.getML2Number__Equals__Object();
+
+		/**
 		 * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.meta.impl.ML2BooleanImpl <em>ML2 Boolean</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3011,6 +3282,14 @@ public interface MetaPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ML2_BOOLEAN__VALUE = eINSTANCE.getML2Boolean_Value();
+
+		/**
+		 * The meta object literal for the '<em><b>Equals</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ML2_BOOLEAN___EQUALS__OBJECT = eINSTANCE.getML2Boolean__Equals__Object();
 
 		/**
 		 * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.meta.CategorizationType <em>Categorization Type</em>}' enum.

@@ -28,8 +28,7 @@ public class ML2ValueConverter extends DefaultTerminalConverters {
         if (_isEmpty) {
           throw new ValueConverterException("Couldn\'t convert empty string to an integer", node, null);
         } else {
-          String _trim = string.trim();
-          boolean _equals = "*".equals(_trim);
+          boolean _equals = "*".equals(string.trim());
           if (_equals) {
             return Integer.valueOf((-1));
           } else {
@@ -67,13 +66,11 @@ public class ML2ValueConverter extends DefaultTerminalConverters {
         if (_isEmpty) {
           throw new ValueConverterException("Couldn\'t convert an empty string to a boolean.", node, null);
         } else {
-          String _trim = string.trim();
-          boolean _equals = "true".equals(_trim);
+          boolean _equals = "true".equals(string.trim());
           if (_equals) {
             return Boolean.valueOf(true);
           } else {
-            String _trim_1 = string.trim();
-            boolean _equals_1 = "false".equals(_trim_1);
+            boolean _equals_1 = "false".equals(string.trim());
             if (_equals_1) {
               return Boolean.valueOf(false);
             } else {
@@ -100,8 +97,7 @@ public class ML2ValueConverter extends DefaultTerminalConverters {
           throw new ValueConverterException("Couldn\'t convert empty string to a number.", node, null);
         } else {
           try {
-            String _trim = string.trim();
-            return Double.valueOf(Double.parseDouble(_trim));
+            return Double.valueOf(Double.parseDouble(string.trim()));
           } catch (final Throwable _t) {
             if (_t instanceof NumberFormatException) {
               final NumberFormatException e = (NumberFormatException)_t;

@@ -23,31 +23,41 @@ import br.ufes.inf.nemo.ml2.meta.Attribute
 import br.ufes.inf.nemo.ml2.meta.ReferenceAssignment
 import br.ufes.inf.nemo.ml2.meta.Feature
 import br.ufes.inf.nemo.ml2.meta.ML2Model
+import br.ufes.inf.nemo.ml2.meta.CategorizationType
+import br.ufes.inf.nemo.ml2.meta.DataType
+import br.ufes.inf.nemo.ml2.meta.RegularityFeatureType
+import br.ufes.inf.nemo.ml2.meta.PrimitiveType
+import java.util.HashSet
+import br.ufes.inf.nemo.ml2.meta.Literal
+import br.ufes.inf.nemo.ml2.meta.FeatureAssignment
 
 class LinguisticRules {
 	
 	@Inject extension ML2Util
 	@Inject extension ML2Index
 	
-	public static val INVALID_ENTITY_DECLARATION_NAME =	"br.ufes.inf.nemo.ontol.InvalidEntityDeclarationName"
-	public static val INVALID_CLASS_SPECIALIZATION = "br.ufes.inf.nemo.ontol.InvalidClassSpecialization"
-	public static val CYCLIC_SPECIALIZATION = "br.ufes.inf.nemo.ontol.CycliSpecialization"
-	public static val INVALID_CATEGORIZED_CLASS = "br.ufes.inf.nemo.ontol.InvalidCategorizedClass"
-	public static val INVALID_POWERTYPE_RELATION = "br.ufes.inf.nemo.ontol.InvalidPowertypeRelation"
-	public static val INVALID_SUBORDINATOR = "br.ufes.inf.nemo.ontol.InvalidSubordinator"
-	public static val DUPLICATED_ENTITY_NAME = "br.ufes.inf.nemo.ontol.DuplicatedEntityName"
-	public static val INVALID_GENERALIZATION_SET_MEMBERS = "br.ufes.inf.nemo.ontol.InvalidGeneralizationSetMembers"
-	public static val MISSING_SPECIALIZATION_THROUGH_SUBODINATION = "br.ufes.inf.nemo.ontol.MissingSpecializationThroughSubordination"
-	public static val SIMPLE_SUBORDINATION_CYCLE = "br.ufes.inf.nemo.ontol.SimpleSubordinationCycle"
-	public static val SPECILIZATION_OF_DISJOINT_CLASSES = "br.ufes.inf.nemo.ontol.SpecializationOfDisjointClasses"
-	public static val INSTANCE_OF_DISJOINT_CLASSES = "br.ufes.inf.nemo.ontol.InstanceOfDisjointClasses"
-	public static val MISSING_INSTANTIATION_OF_COMPLETE_GENERALIZATION_SET = "br.ufes.inf.nemo.ontol.MissingInstantiationOfCompleteGeneralizationSet"
-	public static val INVALID_MULTIPLICITY = "br.ufes.inf.nemo.ontol.InvalidMultiplicity"
+	public static val INVALID_ENTITY_DECLARATION_NAME =	"br.ufes.inf.nemo.meta.InvalidEntityDeclarationName"
+	public static val INVALID_CLASS_SPECIALIZATION = "br.ufes.inf.nemo.meta.InvalidClassSpecialization"
+	public static val CYCLIC_SPECIALIZATION = "br.ufes.inf.nemo.meta.CycliSpecialization"
+	public static val INVALID_CATEGORIZED_CLASS = "br.ufes.inf.nemo.meta.InvalidCategorizedClass"
+	public static val INVALID_POWERTYPE_RELATION = "br.ufes.inf.nemo.meta.InvalidPowertypeRelation"
+	public static val INVALID_SUBORDINATOR = "br.ufes.inf.nemo.meta.InvalidSubordinator"
+	public static val DUPLICATED_ENTITY_NAME = "br.ufes.inf.nemo.meta.DuplicatedEntityName"
+	public static val INVALID_GENERALIZATION_SET_MEMBERS = "br.ufes.inf.nemo.meta.InvalidGeneralizationSetMembers"
+	public static val MISSING_SPECIALIZATION_THROUGH_SUBODINATION = "br.ufes.inf.nemo.meta.MissingSpecializationThroughSubordination"
+	public static val SIMPLE_SUBORDINATION_CYCLE = "br.ufes.inf.nemo.meta.SimpleSubordinationCycle"
+	public static val SPECILIZATION_OF_DISJOINT_CLASSES = "br.ufes.inf.nemo.meta.SpecializationOfDisjointClasses"
+	public static val INSTANCE_OF_DISJOINT_CLASSES = "br.ufes.inf.nemo.meta.InstanceOfDisjointClasses"
+	public static val MISSING_INSTANTIATION_OF_COMPLETE_GENERALIZATION_SET = "br.ufes.inf.nemo.meta.MissingInstantiationOfCompleteGeneralizationSet"
+	public static val INVALID_MULTIPLICITY = "br.ufes.inf.nemo.meta.InvalidMultiplicity"
 	
 	// TODO Update checks table
-	public static val NON_CONFORMANT_ASSIGNMENT = "br.ufes.inf.nemo.ontol.NonConformantAssigment"
-	public static val FIRST_ORDER_REGULARITY = "br.ufes.inf.nemo.ontol.FirstOrderRegularity"
-	public static val MISSING_ASSIGNMENT_BY_REGULARITY = "br.ufes.inf.nemo.ontol.MissingAssignmentByRegularity"
+	public static val NON_CONFORMANT_ASSIGNMENT = "br.ufes.inf.nemo.meta.NonConformantAssigment"
+	public static val FIRST_ORDER_REGULARITY = "br.ufes.inf.nemo.meta.FirstOrderRegularity"
+	public static val MISSING_ASSIGNMENT_BY_REGULARITY = "br.ufes.inf.nemo.meta.MissingAssignmentByRegularity"
+	public static val UNWANTED_REFERENCES_ON_DATATYPES = "br.ufes.inf.nemo.meta.UnwantedReferencesOnDataTypes"
+	public static val RESTRICTED_REGULARITY_TYPE = "br.ufes.inf.nemo.meta.RestrictedRegularityType"
+	public static val NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT = "br.ufes.inf.nemo.meta.NonConformantRegulatedFeatureAssignment"
 	
 	def isNameValid(EntityDeclaration e){
 		if(!e.name.equals(e.name.toFirstLower) || e.eContainer instanceof AttributeAssignment)
@@ -78,50 +88,57 @@ class LinguisticRules {
 		if(ch.contains(c)) true		else false
 	}
 	
-	def hasValidBasetype(ML2Class c){
-		// TODO Add conditions for instances of WClass
-		val b = c.categorizedClass
-		if(b == null)	return true
+	def hasValidCategorizedClass(ML2Class c){
+		val cat = c.categorizedClass
+		if(cat === null)	return true
+		else if(c instanceof OrderlessClass) {
+			return cat instanceof OrderlessClass
+		}
 		else if(c instanceof HOClass){
-			if(b instanceof OrderlessClass)
-				return false
-			else if(c.order == MLTRules.MIN_ORDER){
-				if(b instanceof FOClass)	return true
-				else	return false
+			if(cat instanceof OrderlessClass) {
+				if(c.categorizationType==CategorizationType.COMPLETE_CATEGORIZER
+					|| c.categorizationType==CategorizationType.PARTITIONER)
+					return false
 			}
-			else if(c.order!=MLTRules.MIN_ORDER && b instanceof HOClass)
-				return c.order == (b as HOClass).order+1
+			else if(c.order == MLTRules.MIN_ORDER){
+				return !(cat instanceof HOClass)
+			}
+			else if(c.order != MLTRules.MIN_ORDER && cat instanceof HOClass){
+				return c.order == (cat as HOClass).order+1
+			}
 		} else {
 			return true
 		}
 	}
 	
 	def hasValidPowertypeRelation(ML2Class c){
-		// TODO Add conditions for instances of WClass
-		val b = c.powertypeOf
-		if(b == null)	return true
+		val base = c.powertypeOf
+		if(base === null)	
+			return true
+		else if(c instanceof OrderlessClass)	
+			return base instanceof OrderlessClass
 		else if(c instanceof HOClass){
-			if(b instanceof OrderlessClass)
+			if(base instanceof OrderlessClass)
 				return false
 			else if(c.order == MLTRules.MIN_ORDER){
-				if(b instanceof FOClass)	return true
-				else	return false
+				return !(base instanceof HOClass)
 			}
-			else if(c.order!=MLTRules.MIN_ORDER && b instanceof HOClass)
-				return c.order == (b as HOClass).order+1
+			else if(c.order!=MLTRules.MIN_ORDER && base instanceof HOClass)
+				return c.order == (base as HOClass).order+1
 		} else {
 			return true
 		}
 	}
 	
 	def hasValidSubordinators(ML2Class c){
-		// TODO Add conditions for instances of WClass
-		if(c instanceof HOClass)
-			return !c.subordinators.exists[ 
+		if(c instanceof OrderlessClass)	
+			return !c.subordinators.exists[ it instanceof OrderedClass ]
+		else if(c instanceof HOClass)
+			return !c.subordinators.exists[
 				if(it==c)	return true
 				else if(it instanceof FOClass)	return true
-				else if(it instanceof HOClass && (it as HOClass).order != c.order)	return true
-				else 	return false
+				else if(it instanceof HOClass)	return it.order != c.order
+				else return false			
 			]
 		else
 			return true
@@ -140,9 +157,9 @@ class LinguisticRules {
 	def hasValidMembers(GeneralizationSet gs){
 		if(gs.specifics.exists[!superClasses.contains(gs.general)])
 			return false
-		else if(gs.categorizer.categorizedClass!=null && gs.categorizer.categorizedClass!=gs.general)
+		else if(gs.categorizer.categorizedClass!==null && gs.categorizer.categorizedClass!=gs.general)
 			return false
-		else if(gs.categorizer.categorizedClass!=null && gs.specifics.exists[!instantiatedClasses.contains(gs.categorizer)])
+		else if(gs.categorizer.categorizedClass!==null && gs.specifics.exists[!instantiatedClasses.contains(gs.categorizer)])
 			return false
 		else
 			return true
@@ -150,7 +167,7 @@ class LinguisticRules {
 	
 	def obeysSubordination(ML2Class c, Set<ML2Class> ch, Set<ML2Class> iof){
 		val subordinated = new LinkedHashSet<ML2Class>()
-		iof.forEach[if(subordinators!=null) subordinated.addAll(subordinators)]
+		iof.forEach[if(subordinators!==null) subordinated.addAll(subordinators)]
 		if(subordinated.size==0)	return true
 		
 		val superClassesIof = new LinkedHashSet<ML2Class>()
@@ -165,7 +182,7 @@ class LinguisticRules {
 	 * <br> - C is subordinated to X, but C is a super class to X
 	 */
 	def hasSimpleSubordinationCycle(ML2Class c){
-		if(c.subordinators==null)	return false
+		if(c.subordinators===null)	return false
 		else return c.subordinators.exists[ sc |
 			sc == c || sc?.subordinators.contains(c) || sc.classHierarchy.contains(c)
 		]
@@ -230,7 +247,7 @@ class LinguisticRules {
 	}	
 	
 	def dispatch ValidationIssue checkSubsettedMultiplicity(Reference ref){
-		if(ref.subsetOf == null)	return null
+		if(ref.subsetOf === null)	return null
 		val issue = new ValidationError
 		issue.source = ref
 		issue.code = INVALID_MULTIPLICITY
@@ -256,7 +273,7 @@ class LinguisticRules {
 	}
 	
 	def dispatch ValidationIssue checkSubsettedMultiplicity(Attribute att){
-		if(att.subsetOf == null)	return null
+		if(att.subsetOf === null)	return null
 		val issue = new ValidationError
 		issue.source = att
 		issue.code = INVALID_MULTIPLICITY
@@ -327,7 +344,7 @@ class LinguisticRules {
 			return null
 	}
 	
-	def dispatch ValidationIssue checkPropertyAssignmentType(ReferenceAssignment ra){
+	def dispatch ValidationIssue checkFeatureAssignmentType(ReferenceAssignment ra){
 		val ref = ra.reference
 		val assigType = ref._type
 		
@@ -335,10 +352,10 @@ class LinguisticRules {
 		issue.source = ra
 		issue.feature = MetaPackage.eINSTANCE.referenceAssignment_Assignments
 		
-		for(EObject obj : ra.assignments){
-			if(!obj.isConformantTo(assigType)){
+		for(EntityDeclaration assig : ra.assignments){
+			if(!assig.isConformantTo(assigType)){
 				issue.message = '''All assignments must be instances of «assigType.name».'''
-				issue.index = ra.assignments.indexOf(obj)
+				issue.index = ra.assignments.indexOf(assig)
 				issue.code = NON_CONFORMANT_ASSIGNMENT
 				return issue
 			}
@@ -346,34 +363,28 @@ class LinguisticRules {
 		return null;
 	}
 	
-	def dispatch ValidationIssue checkPropertyAssignmentType(AttributeAssignment aa){
+	def dispatch ValidationIssue checkFeatureAssignmentType(AttributeAssignment aa){
 		val att = aa.attribute
-		val assigType = att._type
+		val entityAssigs = new HashSet<EntityDeclaration>()
+		entityAssigs.addAll(aa.individualAssignments)
+		entityAssigs.addAll(aa.unnamedIndividualAssignments)
 		
 		val issue = new ValidationError
 		issue.source = aa
 		issue.feature = MetaPackage.eINSTANCE.attributeAssignment_Attribute
 		
-		for(EObject obj : aa.individualAssignments){
-			if(!obj.isConformantTo(assigType)){
-				issue.message = '''All assignments must be instances of «assigType.name».'''
-				issue.index = aa.individualAssignments.indexOf(obj)
+		for(EntityDeclaration ent : entityAssigs){
+			if(!ent.isConformantTo(att._type)){
+				issue.message = '''All assignments must be instances of «att._type.name».'''
+//				issue.index = aa.individualAssignments.indexOf(obj)
 				issue.code = NON_CONFORMANT_ASSIGNMENT
 				return issue
 			}
 		}
-		for(EObject obj : aa.unnamedIndividualAssignments){
-			if(!obj.isConformantTo(assigType)){
-				issue.message = '''All assignments must be instances of «assigType.name».'''
-				issue.index = aa.unnamedIndividualAssignments.indexOf(obj)
-				issue.code = NON_CONFORMANT_ASSIGNMENT
-				return issue
-			}
-		}
-		for(EObject obj : aa.literalAssignments){
-			if(!obj.isConformantTo(assigType)){
-				issue.message = '''All assignments must be instances of «assigType.name».'''
-				issue.index = aa.literalAssignments.indexOf(obj)
+		for(Literal lit : aa.literalAssignments){
+			if(!lit.isConformantTo(att.primitiveType)){
+				issue.message = '''All assignments must be instances of «att.primitiveType».'''
+//				issue.index = aa.literalAssignments.indexOf(obj)
 				issue.code = NON_CONFORMANT_ASSIGNMENT
 				return issue
 			}
@@ -382,7 +393,9 @@ class LinguisticRules {
 	}
 	
 	def ValidationIssue checkRegularityAndContainer(Feature f) {
-		if(f.regulatedFeature!=null && (f.eContainer instanceof FOClass)){
+		if(f.regulatedFeature===null)
+			return null
+		else if(f.eContainer instanceof FOClass){
 			val issue = new ValidationError
 			issue.source = f
 			issue.feature = MetaPackage.eINSTANCE.feature_RegulatedFeature
@@ -390,26 +403,126 @@ class LinguisticRules {
 			issue.code = FIRST_ORDER_REGULARITY
 			return issue
 		}
+		else if(f.regularityType==RegularityFeatureType.DETERMINES_MAX_VALUE
+			|| f.regularityType==RegularityFeatureType.DETERMINES_MIN_VALUE) {
+			if(!(f instanceof Attribute) || (f as Attribute).primitiveType!=PrimitiveType.NUMBER) {
+				val issue = new ValidationError
+				issue.source = f
+				issue.feature = MetaPackage.eINSTANCE.feature_RegularityType
+				issue.message = '''This type of regularity feature only applies to numbers.'''
+				issue.code = RESTRICTED_REGULARITY_TYPE
+				return issue
+			}
+		}
+		else if(f.regularityType==RegularityFeatureType.DETERMINES_ALLOWED_TYPES
+			|| f.regularityType==RegularityFeatureType.DETERMINES_TYPE) {
+			if(f instanceof Attribute && !(f as Attribute).eIsSet(MetaPackage.eINSTANCE.attribute__type)) {
+				val issue = new ValidationError
+				issue.source = f
+				issue.feature = MetaPackage.eINSTANCE.feature_RegularityType
+				issue.message = '''This type of regularity feature do not apply to primitive types.'''
+				issue.code = RESTRICTED_REGULARITY_TYPE
+				return issue
+			}
+		}
 		return null
 	}
 	
 	def ValidationIssue checkInstantiatedRegularities(ML2Class c){
-		val features = c.allFeatures.filter[ it.regulatedFeature!=null ].toSet
+		val rFeatures = c.allFeatures.filter[ it.regulatedFeature!==null ].toSet
 		c.assignments.forEach[ f |
 			if(f instanceof AttributeAssignment)
-				features.remove(f.attribute)
+				rFeatures.remove(f.attribute)
 			else if(f instanceof ReferenceAssignment)
-				features.remove(f.reference)
-		]
+				rFeatures.remove(f.reference)]
 		
-		if(features.empty)	return null
+		if(rFeatures.empty)	return null
 		
 		val issue = new ValidationWarning
 		issue.source = c
 		issue.feature = MetaPackage.eINSTANCE.entityDeclaration_Name
-		issue.message = '''The regularity property «features.head.name» should hava an assigned value.'''
+		issue.message = '''The regularity feature «rFeatures.head.name» should have an assigned value.'''
 		issue.code = MISSING_ASSIGNMENT_BY_REGULARITY
 		return issue
+	}
+	
+	def ValidationIssue containsReferences(DataType d){
+		if(d.references.isEmpty)	return null
+		else {
+			val i = new ValidationWarning
+			i.source = d
+			i.feature = MetaPackage.eINSTANCE.entityDeclaration_Name
+			i.message = '''The use of references on datatypes might be unwanted.'''
+			i.code = UNWANTED_REFERENCES_ON_DATATYPES
+			return i
+		}
+	}
+	
+	dispatch def ValidationIssue checkRegularityFeatureConformance(AttributeAssignment atta){
+		val att = atta.attribute
+		val regAttSet = new LinkedHashSet<Attribute>
+		val knowClasses = (atta.eContainer as EntityDeclaration).rechableClasses
+		knowClasses.forEach[ c | c.attributes.forEach[
+			if(it.regulatedFeature == att)	regAttSet.add(it) ]]
+		if(regAttSet.isEmpty)	return null
+		
+		val regAttAssigSet = new LinkedHashSet<AttributeAssignment>
+		for(ML2Class c : (atta.eContainer as EntityDeclaration).instantiatedClasses) {
+			for(FeatureAssignment it : c.assignments) {
+				if(it instanceof AttributeAssignment)
+					if(regAttSet.contains(it.attribute))	regAttAssigSet.add(it)
+			}
+		}
+		if(regAttAssigSet.isEmpty)	return null
+		
+		for(AttributeAssignment regAttAssig : regAttAssigSet) {
+			for(Attribute regAtt : regAttSet) {
+				if(regAttAssig.attribute!=regAtt) {}
+				else if(!atta.isConformanTo(regAtt.regularityType, regAttAssig)) {
+					val i = new ValidationWarning
+					i.source = atta
+					i.feature = MetaPackage.eINSTANCE.attributeAssignment_Attribute
+					i.message = '''Assignment is non-conformant to the regularity feature 
+						«regAtt.name» of «(regAtt.eContainer as ML2Class).name».'''
+					i.code = NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT
+					return i
+				}
+			}
+		}
+		return null
+	}
+	
+	dispatch def ValidationIssue checkRegularityFeatureConformance(ReferenceAssignment refa){
+		val ref = refa.reference
+		val regRefSet = new LinkedHashSet<Reference>
+		val knowClasses = (refa.eContainer as EntityDeclaration).rechableClasses
+		knowClasses.forEach[ c | c.references.forEach[
+			if(it.regulatedFeature == ref)	regRefSet.add(it) ]]
+		if(regRefSet.isEmpty)	return null
+		
+		val regRefAssigSet = new LinkedHashSet<ReferenceAssignment>
+		for(ML2Class c : (refa.eContainer as EntityDeclaration).instantiatedClasses) {
+			for(FeatureAssignment it : c.assignments) {
+				if(it instanceof ReferenceAssignment)
+					if(regRefSet.contains(it.reference))	regRefAssigSet.add(it)
+			}
+		}
+		if(regRefAssigSet.isEmpty)	return null
+		
+		for(ReferenceAssignment regRefAssig : regRefAssigSet) {
+			for(Reference regRef : regRefSet) {
+				if(!refa.isConformanTo(regRef.regularityType, regRefAssig)) {
+					val i = new ValidationWarning
+					i.source = refa
+					i.feature = MetaPackage.eINSTANCE.referenceAssignment_Reference
+					i.message = '''Assignment is non-conformant to the regularity feature 
+						«regRef.name» of «(regRef.eContainer as ML2Class).name».'''
+					i.code = NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT
+					return i
+				}
+			}
+		}
+		return null
 	}
 	
 }

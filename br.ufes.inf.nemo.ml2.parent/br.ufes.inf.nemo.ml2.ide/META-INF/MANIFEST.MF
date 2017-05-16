@@ -8,7 +8,8 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: br.ufes.inf.nemo.ml2,
  br.ufes.inf.nemo.ml2.meta,
  org.eclipse.xtext.ide,
- org.eclipse.xtext.xbase.ide
+ org.eclipse.xtext.xbase.ide,
+ org.antlr.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: br.ufes.inf.nemo.ml2.ide.contentassist.antlr.internal,
  br.ufes.inf.nemo.ml2.ide.contentassist.antlr

@@ -46,4 +46,13 @@ public interface ML2Number extends Literal {
 	 */
 	void setValue(double value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model unique="false" objUnique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if ((obj instanceof <%br.ufes.inf.nemo.ml2.meta.ML2Number%>))\n{\n\tdouble _value = this.getValue();\n\tdouble _value_1 = ((<%br.ufes.inf.nemo.ml2.meta.ML2Number%>)obj).getValue();\n\treturn (_value == _value_1);\n}\nelse\n{\n\treturn super.equals(obj);\n}'"
+	 * @generated
+	 */
+	boolean equals(Object obj);
+
 } // ML2Number

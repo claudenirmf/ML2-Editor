@@ -9,25 +9,46 @@ import br.ufes.inf.nemo.ml2.meta.Attribute
 import br.ufes.inf.nemo.ml2.meta.AttributeAssignment
 import br.ufes.inf.nemo.ml2.meta.EntityDeclaration
 import br.ufes.inf.nemo.ml2.meta.Feature
+import br.ufes.inf.nemo.ml2.meta.Literal
+import br.ufes.inf.nemo.ml2.meta.ML2Boolean
 import br.ufes.inf.nemo.ml2.meta.ML2Class
 import br.ufes.inf.nemo.ml2.meta.ML2Model
+import br.ufes.inf.nemo.ml2.meta.ML2Number
+import br.ufes.inf.nemo.ml2.meta.ML2String
 import br.ufes.inf.nemo.ml2.meta.ModelElement
+import br.ufes.inf.nemo.ml2.meta.PrimitiveType
 import br.ufes.inf.nemo.ml2.meta.Reference
 import java.util.LinkedHashSet
 import java.util.Set
+import br.ufes.inf.nemo.ml2.meta.RegularityFeatureType
+import br.ufes.inf.nemo.ml2.meta.ReferenceAssignment
+import com.google.common.collect.Sets
+import java.util.Collections
+import br.ufes.inf.nemo.ml2.meta.Individual
 import org.eclipse.emf.ecore.EObject
-import br.ufes.inf.nemo.ml2.meta.ML2String
-import br.ufes.inf.nemo.ml2.meta.ML2Number
-import br.ufes.inf.nemo.ml2.meta.ML2Boolean
 
 class ML2Util {
 	
 //	@Inject extension OntoLLib
 
-	def private Set<ML2Model> getRechableModels(ModelElement elem){
+	def Set<ML2Model> getRechableModels(EntityDeclaration elem){
 		val set = new LinkedHashSet<ML2Model>
-		set.add(elem.eContainer as ML2Model)
-		set.addAll((elem.eContainer as ML2Model).includes)
+		if(elem.unnamed) {
+			var EObject obj = elem.eContainer
+			while(!(obj instanceof ML2Model)) { obj = obj.eContainer }
+			set.add(obj as ML2Model)
+			set.addAll((obj as ML2Model).includes)
+		}
+		else {
+			set.add(elem.eContainer as ML2Model)
+			set.addAll((elem.eContainer as ML2Model).includes)
+		}
+		return set
+	}
+	
+	def Set<ML2Class> getRechableClasses(EntityDeclaration elem){
+		val set = new LinkedHashSet<ML2Class>
+		elem.rechableModels.forEach[ elements?.forEach[if(it instanceof ML2Class) set.add(it)] ]
 		return set
 	}
 
@@ -77,7 +98,7 @@ class ML2Util {
 			e.rechableModels.map[elements].flatten.forEach[ 
 				if(it instanceof ML2Class){
 					val aux = powertypeOf
-					if(aux!=null && (aux==e || ch.contains(aux)))
+					if(aux!==null && (aux==e || ch.contains(aux)))
 							basicInstantiatedClasses.add(it)
 				}
 			]
@@ -154,25 +175,100 @@ class ML2Util {
 	 * 
 	 * @author Claudenir Fonseca
 	 */
-	def boolean isConformantTo(EObject assignment, ML2Class assigType) {
+	def boolean isConformantTo(EntityDeclaration assignment, ML2Class assigType) {
+		return assignment.allInstantiatedClasses.contains(assigType)
+	}
+	
+	def boolean isConformantTo(Literal assignment, PrimitiveType assigType){
 		if(assignment instanceof ML2String){
-			return true
+			return assigType==PrimitiveType.STRING
 		} else if(assignment instanceof ML2Number){
-			return true
+			return assigType==PrimitiveType.NUMBER
 		} else if(assignment instanceof ML2Boolean){
-			return true
-		} else if(assignment instanceof EntityDeclaration){
-			if(assignment.allInstantiatedClasses.contains(assigType))
-				 return true
-//		} else if(assignment instanceof ComplexDataValue){
-//			val actualValue = if(assignment.value!=null) assignment.value	else assignment.unnamedValue
-//			if(actualValue.allInstantiatedClasses.contains(assigType))
-//				return true
-//			val datatype = assigType.getLibClass(OntoLLib.DATATYPES_DATATYPE)
-//			if(!assigType.classHierarchy.contains(datatype))
-//				return false
-//			else
-//				return true
+			return assigType==PrimitiveType.BOOLEAN
+		}
+		return false
+	}
+	
+	def boolean isConformanTo(AttributeAssignment regulatedAssig, RegularityFeatureType regType,
+		AttributeAssignment regulatingAssig) {
+		switch(regType){
+			case DETERMINES_MAX_VALUE: {
+				if(regulatedAssig.hasIndividualAssignments)	return false
+				val ret = !regulatedAssig.literalAssignments.exists[
+					try {
+					!(it instanceof ML2Number)
+					|| regulatingAssig.literalAssignments?.size != 1
+					|| (it as ML2Number).value > (regulatingAssig.literalAssignments.head as ML2Number).value
+					}
+					catch(ClassCastException e) { return false }
+					catch(NullPointerException e) { return false }
+				]
+				return ret
+			}
+			case DETERMINES_MIN_VALUE: {
+				if(regulatedAssig.hasIndividualAssignments)	return false
+				val ret = !regulatedAssig.literalAssignments.exists[
+					try {
+					!(it instanceof ML2Number)
+					|| regulatingAssig.literalAssignments?.size != 1
+					|| (it as ML2Number).value < (regulatingAssig.literalAssignments.head as ML2Number).value
+					}
+					catch(ClassCastException e) { return false }
+					catch(NullPointerException e) { return false }
+				]
+				return ret
+			}
+			case DETERMINES_VALUE: {
+//				val diff = Sets.difference(regulatingAssig.allAssignments.toSet, 
+//					regulatedAssig.allAssignments.toSet)
+//				if(diff.isEmpty)	return true;
+				for(Object obj : regulatedAssig.allAssignments) {
+					if(!regulatingAssig.allAssignments.contains(obj))
+						return false
+				}
+				for(Object obj : regulatingAssig.allAssignments) {
+					if(!regulatedAssig.allAssignments.contains(obj))
+						return false
+				}
+				return true
+			}
+			case DETERMINES_ALLOWED_VALUES: {
+				return regulatingAssig.allAssignments.containsAll(regulatedAssig.allAssignments)
+			}
+			default : {}
+		}
+		
+		return false
+	}
+	
+		def boolean isConformanTo(ReferenceAssignment regulatedAssig, RegularityFeatureType regType,
+		ReferenceAssignment regulatingAssig) {
+		switch(regType){
+			case DETERMINES_VALUE: {
+				val diff = Sets.difference(regulatedAssig.assignments.toSet, 
+					regulatingAssig.assignments.toSet)
+				if(diff.isEmpty)	return true;
+			}
+			case DETERMINES_ALLOWED_VALUES: {
+				if(regulatingAssig.assignments.containsAll(regulatedAssig.assignments))
+					return true;
+			}
+			case DETERMINES_TYPE: {
+				for(EntityDeclaration value : regulatedAssig.assignments){
+					if(!value.allInstantiatedClasses.containsAll(regulatingAssig.assignments))
+						return false
+				}
+				return true
+			}
+			case DETERMINES_ALLOWED_TYPES: {
+				for(EntityDeclaration value : regulatedAssig.assignments){
+					if(Collections.disjoint(value.allInstantiatedClasses,regulatingAssig.assignments))
+						return false
+				}
+				return true
+			}
+			default: {}
 		}
 		return false
 	}

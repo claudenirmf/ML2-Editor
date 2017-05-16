@@ -5,8 +5,8 @@ package br.ufes.inf.nemo.ml2.meta.impl;
 import br.ufes.inf.nemo.ml2.meta.Attribute;
 import br.ufes.inf.nemo.ml2.meta.DataType;
 import br.ufes.inf.nemo.ml2.meta.MetaPackage;
-
 import br.ufes.inf.nemo.ml2.meta.PrimitiveType;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;

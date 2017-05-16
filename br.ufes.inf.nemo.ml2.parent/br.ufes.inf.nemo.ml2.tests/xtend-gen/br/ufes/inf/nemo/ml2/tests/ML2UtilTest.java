@@ -2,19 +2,20 @@ package br.ufes.inf.nemo.ml2.tests;
 
 import br.ufes.inf.nemo.ml2.meta.ML2Class;
 import br.ufes.inf.nemo.ml2.meta.ML2Model;
+import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 import br.ufes.inf.nemo.ml2.meta.ModelElement;
 import br.ufes.inf.nemo.ml2.tests.ML2InjectorProvider;
 import br.ufes.inf.nemo.ml2.util.ML2Util;
+import br.ufes.inf.nemo.ml2.validation.LinguisticRules;
 import com.google.inject.Inject;
 import java.util.Set;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
-import org.eclipse.xtext.junit4.util.ParseHelper;
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
+import org.eclipse.xtext.testing.InjectWith;
+import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.util.ParseHelper;
+import org.eclipse.xtext.testing.validation.ValidationTestHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.junit.Assert;
@@ -61,15 +62,13 @@ public class ML2UtilTest {
       final ML2Model model = this._parseHelper.parse(unparssedModel);
       this._validationTestHelper.assertNoErrors(model);
       final BasicEList<ML2Class> classes = new BasicEList<ML2Class>();
-      EList<ModelElement> _elements = model.getElements();
       final Consumer<ModelElement> _function = (ModelElement it) -> {
         if ((it instanceof ML2Class)) {
           classes.add(((ML2Class)it));
         }
       };
-      _elements.forEach(_function);
-      ML2Class _get = classes.get(3);
-      Set<ML2Class> list = this._mL2Util.classHierarchy(_get);
+      model.getElements().forEach(_function);
+      Set<ML2Class> list = this._mL2Util.classHierarchy(classes.get(3));
       Assert.assertTrue(
         (((list.contains(classes.get(0)) && list.contains(classes.get(1))) && list.contains(classes.get(2))) && (list.size() == 3)));
     } catch (Throwable _e) {
@@ -92,6 +91,7 @@ public class ML2UtilTest {
       _builder.append("}");
       _builder.newLine();
       final ML2Model model = this._parseHelper.parse(_builder);
+      this._validationTestHelper.assertError(model, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.CYCLIC_SPECIALIZATION);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

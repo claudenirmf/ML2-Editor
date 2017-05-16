@@ -7,6 +7,10 @@ import br.ufes.inf.nemo.ml2.meta.FeatureAssignment;
 import br.ufes.inf.nemo.ml2.meta.ML2Class;
 import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 
+import com.google.common.base.Objects;
+
+import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -148,6 +152,15 @@ public abstract class EntityDeclarationImpl extends ModelElementImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isUnnamed() {
+		return ((this.getName() == null) || Objects.equal(this.getName(), ""));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -236,6 +249,20 @@ public abstract class EntityDeclarationImpl extends ModelElementImpl implements 
 				return assignments != null && !assignments.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case MetaPackage.ENTITY_DECLARATION___IS_UNNAMED:
+				return isUnnamed();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**

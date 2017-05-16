@@ -390,6 +390,15 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getEntityDeclaration__IsUnnamed() {
+		return entityDeclarationEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIndividual() {
 		return individualEClass;
 	}
@@ -777,6 +786,42 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getAttributeAssignment__HasIndividualAssignments() {
+		return attributeAssignmentEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getAttributeAssignment__HasLiteralAssignments() {
+		return attributeAssignmentEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getAttributeAssignment__GetAllIndividualAssignments() {
+		return attributeAssignmentEClass.getEOperations().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getAttributeAssignment__GetAllAssignments() {
+		return attributeAssignmentEClass.getEOperations().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getReferenceAssignment() {
 		return referenceAssignmentEClass;
 	}
@@ -831,6 +876,15 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getML2String__Equals__Object() {
+		return ml2StringEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getML2Number() {
 		return ml2NumberEClass;
 	}
@@ -849,6 +903,15 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getML2Number__Equals__Object() {
+		return ml2NumberEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getML2Boolean() {
 		return ml2BooleanEClass;
 	}
@@ -860,6 +923,15 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 	 */
 	public EAttribute getML2Boolean_Value() {
 		return (EAttribute)ml2BooleanEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getML2Boolean__Equals__Object() {
+		return ml2BooleanEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -931,6 +1003,7 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 		createEAttribute(entityDeclarationEClass, ENTITY_DECLARATION__NAME);
 		createEReference(entityDeclarationEClass, ENTITY_DECLARATION__INSTANTIATED_CLASSES);
 		createEReference(entityDeclarationEClass, ENTITY_DECLARATION__ASSIGNMENTS);
+		createEOperation(entityDeclarationEClass, ENTITY_DECLARATION___IS_UNNAMED);
 
 		individualEClass = createEClass(INDIVIDUAL);
 
@@ -987,6 +1060,10 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 		createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__INDIVIDUAL_ASSIGNMENTS);
 		createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__UNNAMED_INDIVIDUAL_ASSIGNMENTS);
 		createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__LITERAL_ASSIGNMENTS);
+		createEOperation(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT___HAS_INDIVIDUAL_ASSIGNMENTS);
+		createEOperation(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT___HAS_LITERAL_ASSIGNMENTS);
+		createEOperation(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT___GET_ALL_INDIVIDUAL_ASSIGNMENTS);
+		createEOperation(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT___GET_ALL_ASSIGNMENTS);
 
 		referenceAssignmentEClass = createEClass(REFERENCE_ASSIGNMENT);
 		createEReference(referenceAssignmentEClass, REFERENCE_ASSIGNMENT__REFERENCE);
@@ -996,12 +1073,15 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 
 		ml2StringEClass = createEClass(ML2_STRING);
 		createEAttribute(ml2StringEClass, ML2_STRING__VALUE);
+		createEOperation(ml2StringEClass, ML2_STRING___EQUALS__OBJECT);
 
 		ml2NumberEClass = createEClass(ML2_NUMBER);
 		createEAttribute(ml2NumberEClass, ML2_NUMBER__VALUE);
+		createEOperation(ml2NumberEClass, ML2_NUMBER___EQUALS__OBJECT);
 
 		ml2BooleanEClass = createEClass(ML2_BOOLEAN);
 		createEAttribute(ml2BooleanEClass, ML2_BOOLEAN__VALUE);
+		createEOperation(ml2BooleanEClass, ML2_BOOLEAN___EQUALS__OBJECT);
 
 		// Create enums
 		categorizationTypeEEnum = createEEnum(CATEGORIZATION_TYPE);
@@ -1077,6 +1157,8 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 		initEReference(getEntityDeclaration_InstantiatedClasses(), this.getML2Class(), null, "instantiatedClasses", null, 0, -1, EntityDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEntityDeclaration_Assignments(), this.getFeatureAssignment(), null, "assignments", null, 0, -1, EntityDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEOperation(getEntityDeclaration__IsUnnamed(), theEcorePackage.getEBoolean(), "isUnnamed", 0, 1, !IS_UNIQUE, IS_ORDERED);
+
 		initEClass(individualEClass, Individual.class, "Individual", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(ml2ClassEClass, ML2Class.class, "ML2Class", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1135,6 +1217,14 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 		initEReference(getAttributeAssignment_UnnamedIndividualAssignments(), this.getIndividual(), null, "unnamedIndividualAssignments", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAttributeAssignment_LiteralAssignments(), this.getLiteral(), null, "literalAssignments", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEOperation(getAttributeAssignment__HasIndividualAssignments(), theEcorePackage.getEBoolean(), "hasIndividualAssignments", 0, 1, !IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getAttributeAssignment__HasLiteralAssignments(), theEcorePackage.getEBoolean(), "hasLiteralAssignments", 0, 1, !IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getAttributeAssignment__GetAllIndividualAssignments(), this.getIndividual(), "getAllIndividualAssignments", 0, -1, !IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getAttributeAssignment__GetAllAssignments(), theEcorePackage.getEJavaObject(), "getAllAssignments", 0, -1, !IS_UNIQUE, IS_ORDERED);
+
 		initEClass(referenceAssignmentEClass, ReferenceAssignment.class, "ReferenceAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReferenceAssignment_Reference(), this.getReference(), null, "reference", null, 0, 1, ReferenceAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReferenceAssignment_Assignments(), this.getEntityDeclaration(), null, "assignments", null, 0, -1, ReferenceAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1144,11 +1234,20 @@ public class MetaPackageImpl extends EPackageImpl implements MetaPackage {
 		initEClass(ml2StringEClass, ML2String.class, "ML2String", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getML2String_Value(), theEcorePackage.getEString(), "value", null, 0, 1, ML2String.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		EOperation op = initEOperation(getML2String__Equals__Object(), theEcorePackage.getEBoolean(), "equals", 0, 1, !IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEJavaObject(), "obj", 0, 1, !IS_UNIQUE, IS_ORDERED);
+
 		initEClass(ml2NumberEClass, ML2Number.class, "ML2Number", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getML2Number_Value(), theEcorePackage.getEDouble(), "value", null, 0, 1, ML2Number.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		op = initEOperation(getML2Number__Equals__Object(), theEcorePackage.getEBoolean(), "equals", 0, 1, !IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEJavaObject(), "obj", 0, 1, !IS_UNIQUE, IS_ORDERED);
+
 		initEClass(ml2BooleanEClass, ML2Boolean.class, "ML2Boolean", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getML2Boolean_Value(), theEcorePackage.getEBoolean(), "value", null, 0, 1, ML2Boolean.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = initEOperation(getML2Boolean__Equals__Object(), theEcorePackage.getEBoolean(), "equals", 0, 1, !IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEJavaObject(), "obj", 0, 1, !IS_UNIQUE, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(categorizationTypeEEnum, CategorizationType.class, "CategorizationType");

@@ -5,7 +5,13 @@ package br.ufes.inf.nemo.ml2.meta.impl;
 import br.ufes.inf.nemo.ml2.meta.ML2String;
 import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 
+import com.google.common.base.Objects;
+
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -90,6 +96,22 @@ public class ML2StringImpl extends LiteralImpl implements ML2String {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean equals(final Object obj) {
+		if ((obj instanceof ML2String)) {
+			String _value = this.getValue();
+			String _value_1 = ((ML2String)obj).getValue();
+			return Objects.equal(_value, _value_1);
+		}
+		else {
+			return super.equals(obj);
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -141,6 +163,20 @@ public class ML2StringImpl extends LiteralImpl implements ML2String {
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case MetaPackage.ML2_STRING___EQUALS__OBJECT:
+				return equals(arguments.get(0));
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**

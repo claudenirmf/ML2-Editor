@@ -8,11 +8,14 @@ import br.ufes.inf.nemo.ml2.meta.Individual;
 import br.ufes.inf.nemo.ml2.meta.Literal;
 import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 
+import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -179,6 +182,50 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean hasIndividualAssignments() {
+		return ((!this.getIndividualAssignments().isEmpty()) || (!this.getUnnamedIndividualAssignments().isEmpty()));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean hasLiteralAssignments() {
+		boolean _isEmpty = this.getLiteralAssignments().isEmpty();
+		return (!_isEmpty);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Individual> getAllIndividualAssignments() {
+		final BasicEList<Individual> l = new BasicEList<Individual>();
+		l.addAll(this.getIndividualAssignments());
+		l.addAll(this.getUnnamedIndividualAssignments());
+		return l;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Object> getAllAssignments() {
+		final BasicEList<Object> l = new BasicEList<Object>();
+		l.addAll(this.getIndividualAssignments());
+		l.addAll(this.getUnnamedIndividualAssignments());
+		l.addAll(this.getLiteralAssignments());
+		return l;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -281,6 +328,26 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 				return literalAssignments != null && !literalAssignments.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case MetaPackage.ATTRIBUTE_ASSIGNMENT___HAS_INDIVIDUAL_ASSIGNMENTS:
+				return hasIndividualAssignments();
+			case MetaPackage.ATTRIBUTE_ASSIGNMENT___HAS_LITERAL_ASSIGNMENTS:
+				return hasLiteralAssignments();
+			case MetaPackage.ATTRIBUTE_ASSIGNMENT___GET_ALL_INDIVIDUAL_ASSIGNMENTS:
+				return getAllIndividualAssignments();
+			case MetaPackage.ATTRIBUTE_ASSIGNMENT___GET_ALL_ASSIGNMENTS:
+				return getAllAssignments();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 } //AttributeAssignmentImpl
