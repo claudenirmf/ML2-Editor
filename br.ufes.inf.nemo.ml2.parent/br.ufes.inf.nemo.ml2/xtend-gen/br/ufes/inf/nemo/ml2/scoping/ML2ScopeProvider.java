@@ -6,6 +6,7 @@ package br.ufes.inf.nemo.ml2.scoping;
 import br.ufes.inf.nemo.ml2.meta.Attribute;
 import br.ufes.inf.nemo.ml2.meta.AttributeAssignment;
 import br.ufes.inf.nemo.ml2.meta.EntityDeclaration;
+import br.ufes.inf.nemo.ml2.meta.FeatureAssignment;
 import br.ufes.inf.nemo.ml2.meta.ML2Class;
 import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 import br.ufes.inf.nemo.ml2.meta.Reference;
@@ -18,6 +19,7 @@ import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import java.util.Set;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -83,12 +85,17 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
       boolean _exists = IterableExtensions.<Attribute>exists(attributes, _function_1);
       if (_exists) {
         EObject _eContainer_1 = att.eContainer();
-        return QualifiedName.create(((EntityDeclaration) _eContainer_1).getName(), att.getName());
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = att.getName();
+        return QualifiedName.create(_name, _name_1);
       } else {
-        return QualifiedName.create(att.getName());
+        String _name_2 = att.getName();
+        return QualifiedName.create(_name_2);
       }
     };
-    return Scopes.<Attribute>scopeFor(attributes, _function, Scopes.scopeFor(entity.getAssignments()));
+    EList<FeatureAssignment> _assignments = entity.getAssignments();
+    IScope _scopeFor = Scopes.scopeFor(_assignments);
+    return Scopes.<Attribute>scopeFor(attributes, _function, _scopeFor);
   }
   
   private IScope getScopeForReferenceAssignmentOnReferenceAssignment_Reference(final EObject context, final EReference reference) {
@@ -103,12 +110,17 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
       boolean _exists = IterableExtensions.<Reference>exists(references, _function_1);
       if (_exists) {
         EObject _eContainer_1 = ref.eContainer();
-        return QualifiedName.create(((EntityDeclaration) _eContainer_1).getName(), ref.getName());
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = ref.getName();
+        return QualifiedName.create(_name, _name_1);
       } else {
-        return QualifiedName.create(ref.getName());
+        String _name_2 = ref.getName();
+        return QualifiedName.create(_name_2);
       }
     };
-    return Scopes.<Reference>scopeFor(dup, _function, Scopes.scopeFor(entity.getAssignments()));
+    EList<FeatureAssignment> _assignments = entity.getAssignments();
+    IScope _scopeFor = Scopes.scopeFor(_assignments);
+    return Scopes.<Reference>scopeFor(dup, _function, _scopeFor);
   }
   
   private IScope getScopeForAttributeOnAttribute_SubsetOf(final EObject context, final EReference reference) {
@@ -122,12 +134,17 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
       boolean _exists = IterableExtensions.<Attribute>exists(inheritedAtts, _function_1);
       if (_exists) {
         EObject _eContainer_1 = att.eContainer();
-        return QualifiedName.create(((EntityDeclaration) _eContainer_1).getName(), att.getName());
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = att.getName();
+        return QualifiedName.create(_name, _name_1);
       } else {
-        return QualifiedName.create(att.getName());
+        String _name_2 = att.getName();
+        return QualifiedName.create(_name_2);
       }
     };
-    return Scopes.<Attribute>scopeFor(inheritedAtts, _function, Scopes.scopeFor(c.getAttributes()));
+    EList<Attribute> _attributes = c.getAttributes();
+    IScope _scopeFor = Scopes.scopeFor(_attributes);
+    return Scopes.<Attribute>scopeFor(inheritedAtts, _function, _scopeFor);
   }
   
   private IScope getScopeForReferenceOnReference_SubsetOf(final EObject context, final EReference reference) {
@@ -141,26 +158,37 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
       boolean _exists = IterableExtensions.<Reference>exists(inheritedRefs, _function_1);
       if (_exists) {
         EObject _eContainer_1 = ref.eContainer();
-        return QualifiedName.create(((EntityDeclaration) _eContainer_1).getName(), ref.getName());
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = ref.getName();
+        return QualifiedName.create(_name, _name_1);
       } else {
-        return QualifiedName.create(ref.getName());
+        String _name_2 = ref.getName();
+        return QualifiedName.create(_name_2);
       }
     };
-    return Scopes.<Reference>scopeFor(inheritedRefs, _function, Scopes.scopeFor(c.getReferences()));
+    EList<Reference> _references = c.getReferences();
+    IScope _scopeFor = Scopes.scopeFor(_references);
+    return Scopes.<Reference>scopeFor(inheritedRefs, _function, _scopeFor);
   }
   
   private IScope getScopeForReferenceOnReference_OppositeTo(final EObject context, final EReference reference) {
     EObject _eContainer = context.eContainer();
     final ML2Class c = ((ML2Class) _eContainer);
     final Reference ref = ((Reference) context);
+    ML2Class __type = ref.get_type();
+    EList<Reference> _references = __type.getReferences();
     final Function1<Reference, Boolean> _function = (Reference it) -> {
-      ML2Class __type = it.get_type();
-      return Boolean.valueOf(Objects.equal(__type, c));
+      ML2Class __type_1 = it.get_type();
+      return Boolean.valueOf(Objects.equal(__type_1, c));
     };
+    Iterable<Reference> _filter = IterableExtensions.<Reference>filter(_references, _function);
     final Function<Reference, QualifiedName> _function_1 = (Reference it) -> {
-      return QualifiedName.create(it.getName());
+      String _name = it.getName();
+      return QualifiedName.create(_name);
     };
-    return Scopes.<Reference>scopeFor(IterableExtensions.<Reference>filter(ref.get_type().getReferences(), _function), _function_1, Scopes.scopeFor(c.getReferences()));
+    EList<Reference> _references_1 = c.getReferences();
+    IScope _scopeFor = Scopes.scopeFor(_references_1);
+    return Scopes.<Reference>scopeFor(_filter, _function_1, _scopeFor);
   }
   
   private IScope getScopeForAttributeOnProperty_ReguletedProperty(final EObject context, final EReference reference) {
@@ -170,10 +198,13 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
     ML2Class _categorizedClass = c.getCategorizedClass();
     boolean _tripleNotEquals = (_categorizedClass != null);
     if (_tripleNotEquals) {
-      elements.addAll(c.getCategorizedClass().getAttributes());
+      ML2Class _categorizedClass_1 = c.getCategorizedClass();
+      EList<Attribute> _attributes = _categorizedClass_1.getAttributes();
+      elements.addAll(_attributes);
     }
     final Function<Attribute, QualifiedName> _function = (Attribute it) -> {
-      return QualifiedName.create(it.getName());
+      String _name = it.getName();
+      return QualifiedName.create(_name);
     };
     return Scopes.<Attribute>scopeFor(elements, _function, IScope.NULLSCOPE);
   }
@@ -185,10 +216,13 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
     ML2Class _categorizedClass = c.getCategorizedClass();
     boolean _tripleNotEquals = (_categorizedClass != null);
     if (_tripleNotEquals) {
-      elements.addAll(c.getCategorizedClass().getReferences());
+      ML2Class _categorizedClass_1 = c.getCategorizedClass();
+      EList<Reference> _references = _categorizedClass_1.getReferences();
+      elements.addAll(_references);
     }
     final Function<Reference, QualifiedName> _function = (Reference it) -> {
-      return QualifiedName.create(it.getName());
+      String _name = it.getName();
+      return QualifiedName.create(_name);
     };
     return Scopes.<Reference>scopeFor(elements, _function, IScope.NULLSCOPE);
   }

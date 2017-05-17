@@ -159,7 +159,7 @@ public interface ML2Class extends EntityDeclaration {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Attribute%>> l = new <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Attribute%>>();\nfinal <%java.util.function.Consumer%><<%br.ufes.inf.nemo.ml2.meta.Feature%>> _function = new <%java.util.function.Consumer%><<%br.ufes.inf.nemo.ml2.meta.Feature%>>()\n{\n\tpublic void accept(final <%br.ufes.inf.nemo.ml2.meta.Feature%> it)\n\t{\n\t\tif ((it instanceof <%br.ufes.inf.nemo.ml2.meta.Attribute%>))\n\t\t{\n\t\t\tl.add(((<%br.ufes.inf.nemo.ml2.meta.Attribute%>)it));\n\t\t}\n\t}\n};\nthis.getFeatures().forEach(_function);\nreturn l;'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Attribute%>> l = new <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Attribute%>>();\n<%org.eclipse.emf.common.util.EList%><<%br.ufes.inf.nemo.ml2.meta.Feature%>> _features = this.getFeatures();\nfinal <%java.util.function.Consumer%><<%br.ufes.inf.nemo.ml2.meta.Feature%>> _function = new <%java.util.function.Consumer%><<%br.ufes.inf.nemo.ml2.meta.Feature%>>()\n{\n\tpublic void accept(final <%br.ufes.inf.nemo.ml2.meta.Feature%> it)\n\t{\n\t\tif ((it instanceof <%br.ufes.inf.nemo.ml2.meta.Attribute%>))\n\t\t{\n\t\t\tl.add(((<%br.ufes.inf.nemo.ml2.meta.Attribute%>)it));\n\t\t}\n\t}\n};\n_features.forEach(_function);\nreturn l;'"
 	 * @generated
 	 */
 	EList<Attribute> getAttributes();
@@ -168,7 +168,7 @@ public interface ML2Class extends EntityDeclaration {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" unique="false"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Reference%>> l = new <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Reference%>>();\nfinal <%java.util.function.Consumer%><<%br.ufes.inf.nemo.ml2.meta.Feature%>> _function = new <%java.util.function.Consumer%><<%br.ufes.inf.nemo.ml2.meta.Feature%>>()\n{\n\tpublic void accept(final <%br.ufes.inf.nemo.ml2.meta.Feature%> it)\n\t{\n\t\tif ((it instanceof <%br.ufes.inf.nemo.ml2.meta.Reference%>))\n\t\t{\n\t\t\tl.add(((<%br.ufes.inf.nemo.ml2.meta.Reference%>)it));\n\t\t}\n\t}\n};\nthis.getFeatures().forEach(_function);\nreturn l;'"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='final <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Reference%>> l = new <%org.eclipse.emf.common.util.BasicEList%><<%br.ufes.inf.nemo.ml2.meta.Reference%>>();\n<%org.eclipse.emf.common.util.EList%><<%br.ufes.inf.nemo.ml2.meta.Feature%>> _features = this.getFeatures();\nfinal <%java.util.function.Consumer%><<%br.ufes.inf.nemo.ml2.meta.Feature%>> _function = new <%java.util.function.Consumer%><<%br.ufes.inf.nemo.ml2.meta.Feature%>>()\n{\n\tpublic void accept(final <%br.ufes.inf.nemo.ml2.meta.Feature%> it)\n\t{\n\t\tif ((it instanceof <%br.ufes.inf.nemo.ml2.meta.Reference%>))\n\t\t{\n\t\t\tl.add(((<%br.ufes.inf.nemo.ml2.meta.Reference%>)it));\n\t\t}\n\t}\n};\n_features.forEach(_function);\nreturn l;'"
 	 * @generated
 	 */
 	EList<Reference> getReferences();

@@ -192,7 +192,8 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 	 * @generated
 	 */
 	public boolean hasLiteralAssignments() {
-		boolean _isEmpty = this.getLiteralAssignments().isEmpty();
+		EList<Literal> _literalAssignments = this.getLiteralAssignments();
+		boolean _isEmpty = _literalAssignments.isEmpty();
 		return (!_isEmpty);
 	}
 
@@ -203,8 +204,10 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 	 */
 	public EList<Individual> getAllIndividualAssignments() {
 		final BasicEList<Individual> l = new BasicEList<Individual>();
-		l.addAll(this.getIndividualAssignments());
-		l.addAll(this.getUnnamedIndividualAssignments());
+		EList<Individual> _individualAssignments = this.getIndividualAssignments();
+		l.addAll(_individualAssignments);
+		EList<Individual> _unnamedIndividualAssignments = this.getUnnamedIndividualAssignments();
+		l.addAll(_unnamedIndividualAssignments);
 		return l;
 	}
 
@@ -215,9 +218,12 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
 	 */
 	public EList<Object> getAllAssignments() {
 		final BasicEList<Object> l = new BasicEList<Object>();
-		l.addAll(this.getIndividualAssignments());
-		l.addAll(this.getUnnamedIndividualAssignments());
-		l.addAll(this.getLiteralAssignments());
+		EList<Individual> _individualAssignments = this.getIndividualAssignments();
+		l.addAll(_individualAssignments);
+		EList<Individual> _unnamedIndividualAssignments = this.getUnnamedIndividualAssignments();
+		l.addAll(_unnamedIndividualAssignments);
+		EList<Literal> _literalAssignments = this.getLiteralAssignments();
+		l.addAll(_literalAssignments);
 		return l;
 	}
 

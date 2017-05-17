@@ -7,12 +7,13 @@ import br.ufes.inf.nemo.ml2.tests.ML2InjectorProvider;
 import br.ufes.inf.nemo.ml2.validation.LinguisticRules;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.testing.InjectWith;
-import org.eclipse.xtext.testing.XtextRunner;
-import org.eclipse.xtext.testing.util.ParseHelper;
-import org.eclipse.xtext.testing.validation.ValidationTestHelper;
+import org.eclipse.xtext.junit4.InjectWith;
+import org.eclipse.xtext.junit4.XtextRunner;
+import org.eclipse.xtext.junit4.util.ParseHelper;
+import org.eclipse.xtext.junit4.validation.ValidationTestHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.junit.Test;
@@ -49,7 +50,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append(" ");
       _builder_1.append("module t { class abc; }");
       final ML2Model incorrectModel = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModel, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_ENTITY_DECLARATION_NAME);
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModel, _mL2Class, LinguisticRules.INVALID_ENTITY_DECLARATION_NAME);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -62,22 +64,26 @@ public class ML2LinguistcRulesTest {
       _builder.append(" ");
       _builder.append("module t{ class A specializes A; }");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_CLASS_SPECIALIZATION);
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelA, _mL2Class, LinguisticRules.INVALID_CLASS_SPECIALIZATION);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append(" ");
       _builder_1.append("module t{ order 2 class A; class B specializes A; }");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_CLASS_SPECIALIZATION);
+      EClass _mL2Class_1 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelB, _mL2Class_1, LinguisticRules.INVALID_CLASS_SPECIALIZATION);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append(" ");
       _builder_2.append("module t{ order 2 class A; orderless class B specializes A; }");
       final ML2Model incorrectModelC = this._parseHelper.parse(_builder_2);
-      this._validationTestHelper.assertError(incorrectModelC, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_CLASS_SPECIALIZATION);
+      EClass _mL2Class_2 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelC, _mL2Class_2, LinguisticRules.INVALID_CLASS_SPECIALIZATION);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append(" ");
       _builder_3.append("module t{ order 2 class A; order 3 class B specializes A; }");
       final ML2Model incorrectModelD = this._parseHelper.parse(_builder_3);
-      this._validationTestHelper.assertError(incorrectModelD, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_CLASS_SPECIALIZATION);
+      EClass _mL2Class_3 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelD, _mL2Class_3, LinguisticRules.INVALID_CLASS_SPECIALIZATION);
       StringConcatenation _builder_4 = new StringConcatenation();
       _builder_4.append("module t {");
       _builder_4.newLine();
@@ -109,7 +115,8 @@ public class ML2LinguistcRulesTest {
       _builder.append(" ");
       _builder.append("module t{ class A specializes A; }");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.CYCLIC_SPECIALIZATION);
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelA, _mL2Class, LinguisticRules.CYCLIC_SPECIALIZATION);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append(" ");
       _builder_1.append("module t{");
@@ -123,7 +130,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.CYCLIC_SPECIALIZATION);
+      EClass _mL2Class_1 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelB, _mL2Class_1, LinguisticRules.CYCLIC_SPECIALIZATION);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -135,15 +143,18 @@ public class ML2LinguistcRulesTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("module t { order 2 class A categorizes B; orderless class B; }");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_CATEGORIZED_CLASS);
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelA, _mL2Class, LinguisticRules.INVALID_CATEGORIZED_CLASS);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t { order 2 class A categorizes B; order 2 class B ; }");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_CATEGORIZED_CLASS);
+      EClass _mL2Class_1 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelB, _mL2Class_1, LinguisticRules.INVALID_CATEGORIZED_CLASS);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t { order 3 class A categorizes B; order 3 class B; }");
       final ML2Model incorrectModelC = this._parseHelper.parse(_builder_2);
-      this._validationTestHelper.assertError(incorrectModelC, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_CATEGORIZED_CLASS);
+      EClass _mL2Class_2 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelC, _mL2Class_2, LinguisticRules.INVALID_CATEGORIZED_CLASS);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("module t {");
       _builder_3.newLine();
@@ -168,15 +179,18 @@ public class ML2LinguistcRulesTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("module t { order 2 class A isPowertypeOf B; orderless class B; }");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_POWERTYPE_RELATION);
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelA, _mL2Class, LinguisticRules.INVALID_POWERTYPE_RELATION);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t { order 2 class A isPowertypeOf B; order 2 class B; }");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_POWERTYPE_RELATION);
+      EClass _mL2Class_1 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelB, _mL2Class_1, LinguisticRules.INVALID_POWERTYPE_RELATION);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t { order 3 class A isPowertypeOf B; order 3 class B; }");
       final ML2Model incorrectModelC = this._parseHelper.parse(_builder_2);
-      this._validationTestHelper.assertError(incorrectModelC, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_POWERTYPE_RELATION);
+      EClass _mL2Class_2 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelC, _mL2Class_2, LinguisticRules.INVALID_POWERTYPE_RELATION);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("module t {");
       _builder_3.newLine();
@@ -201,15 +215,18 @@ public class ML2LinguistcRulesTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("module t { order 2 class A subordinatedTo A; }");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_SUBORDINATOR);
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelA, _mL2Class, LinguisticRules.INVALID_SUBORDINATOR);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t { order 2 class A subordinatedTo B; class B; }");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_SUBORDINATOR);
+      EClass _mL2Class_1 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelB, _mL2Class_1, LinguisticRules.INVALID_SUBORDINATOR);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t { order 2 class A subordinatedTo B; order 3 class B; }");
       final ML2Model incorrectModelC = this._parseHelper.parse(_builder_2);
-      this._validationTestHelper.assertError(incorrectModelC, MetaPackage.eINSTANCE.getML2Class(), LinguisticRules.INVALID_SUBORDINATOR);
+      EClass _mL2Class_2 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelC, _mL2Class_2, LinguisticRules.INVALID_SUBORDINATOR);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("module t { order 2 class A subordinatedTo B; order 2 class B; }");
       final ML2Model correctModel = this._parseHelper.parse(_builder_3);
@@ -225,7 +242,8 @@ public class ML2LinguistcRulesTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("module t{ class A; class A; }");
       final ML2Model incorrectModel = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModel, MetaPackage.eINSTANCE.getEntityDeclaration(), LinguisticRules.DUPLICATED_ENTITY_NAME);
+      EClass _entityDeclaration = MetaPackage.eINSTANCE.getEntityDeclaration();
+      this._validationTestHelper.assertError(incorrectModel, _entityDeclaration, LinguisticRules.DUPLICATED_ENTITY_NAME);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t{ class A; class B; }");
       final ML2Model correctModel = this._parseHelper.parse(_builder_1);
@@ -256,7 +274,8 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getGeneralizationSet(), 
+      EClass _generalizationSet = MetaPackage.eINSTANCE.getGeneralizationSet();
+      this._validationTestHelper.assertError(incorrectModelA, _generalizationSet, 
         LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t {");
@@ -279,7 +298,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getGeneralizationSet(), 
+      EClass _generalizationSet_1 = MetaPackage.eINSTANCE.getGeneralizationSet();
+      this._validationTestHelper.assertError(incorrectModelB, _generalizationSet_1, 
         LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t {");
@@ -302,7 +322,8 @@ public class ML2LinguistcRulesTest {
       _builder_2.append("\t\t\t");
       _builder_2.append("}");
       final ML2Model incorrectModelC = this._parseHelper.parse(_builder_2);
-      this._validationTestHelper.assertError(incorrectModelC, MetaPackage.eINSTANCE.getGeneralizationSet(), 
+      EClass _generalizationSet_2 = MetaPackage.eINSTANCE.getGeneralizationSet();
+      this._validationTestHelper.assertError(incorrectModelC, _generalizationSet_2, 
         LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("module t {");
@@ -349,7 +370,8 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModel = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModel, MetaPackage.eINSTANCE.getML2Class(), 
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModel, _mL2Class, 
         LinguisticRules.MISSING_SPECIALIZATION_THROUGH_SUBODINATION);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t{");
@@ -375,7 +397,8 @@ public class ML2LinguistcRulesTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("module t{ orderless class A subordinatedTo A; }");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getML2Class(), 
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelA, _mL2Class, 
         LinguisticRules.SIMPLE_SUBORDINATION_CYCLE);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t{");
@@ -389,7 +412,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getML2Class(), 
+      EClass _mL2Class_1 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelB, _mL2Class_1, 
         LinguisticRules.SIMPLE_SUBORDINATION_CYCLE);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t{");
@@ -403,7 +427,8 @@ public class ML2LinguistcRulesTest {
       _builder_2.append("\t\t\t");
       _builder_2.append("}");
       final ML2Model incorrectModelC = this._parseHelper.parse(_builder_2);
-      this._validationTestHelper.assertError(incorrectModelC, MetaPackage.eINSTANCE.getML2Class(), 
+      EClass _mL2Class_2 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertError(incorrectModelC, _mL2Class_2, 
         LinguisticRules.SIMPLE_SUBORDINATION_CYCLE);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("module t{");
@@ -449,7 +474,8 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModel = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertWarning(incorrectModel, MetaPackage.eINSTANCE.getML2Class(), 
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertWarning(incorrectModel, _mL2Class, 
         LinguisticRules.SPECILIZATION_OF_DISJOINT_CLASSES);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t{");
@@ -477,7 +503,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model correctModel = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertNoWarnings(correctModel, MetaPackage.eINSTANCE.getML2Class(), 
+      EClass _mL2Class_1 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertNoWarnings(correctModel, _mL2Class_1, 
         LinguisticRules.SPECILIZATION_OF_DISJOINT_CLASSES);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -510,7 +537,8 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModel = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertWarning(incorrectModel, MetaPackage.eINSTANCE.getEntityDeclaration(), 
+      EClass _entityDeclaration = MetaPackage.eINSTANCE.getEntityDeclaration();
+      this._validationTestHelper.assertWarning(incorrectModel, _entityDeclaration, 
         LinguisticRules.INSTANCE_OF_DISJOINT_CLASSES);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t{");
@@ -535,7 +563,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model correctModel = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertNoWarnings(correctModel, MetaPackage.eINSTANCE.getEntityDeclaration(), 
+      EClass _entityDeclaration_1 = MetaPackage.eINSTANCE.getEntityDeclaration();
+      this._validationTestHelper.assertNoWarnings(correctModel, _entityDeclaration_1, 
         LinguisticRules.INSTANCE_OF_DISJOINT_CLASSES);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -568,7 +597,8 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModel = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertWarning(incorrectModel, MetaPackage.eINSTANCE.getEntityDeclaration(), 
+      EClass _entityDeclaration = MetaPackage.eINSTANCE.getEntityDeclaration();
+      this._validationTestHelper.assertWarning(incorrectModel, _entityDeclaration, 
         LinguisticRules.MISSING_INSTANTIATION_OF_COMPLETE_GENERALIZATION_SET);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t{");
@@ -593,7 +623,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model correctModel = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertNoWarnings(correctModel, MetaPackage.eINSTANCE.getEntityDeclaration(), 
+      EClass _entityDeclaration_1 = MetaPackage.eINSTANCE.getEntityDeclaration();
+      this._validationTestHelper.assertNoWarnings(correctModel, _entityDeclaration_1, 
         LinguisticRules.MISSING_INSTANTIATION_OF_COMPLETE_GENERALIZATION_SET);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -635,9 +666,11 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getReference(), 
+      EClass _reference = MetaPackage.eINSTANCE.getReference();
+      this._validationTestHelper.assertError(incorrectModelA, _reference, 
         LinguisticRules.INVALID_MULTIPLICITY);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getAttribute(), 
+      EClass _attribute = MetaPackage.eINSTANCE.getAttribute();
+      this._validationTestHelper.assertError(incorrectModelA, _attribute, 
         LinguisticRules.INVALID_MULTIPLICITY);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t {");
@@ -671,9 +704,11 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getReference(), 
+      EClass _reference_1 = MetaPackage.eINSTANCE.getReference();
+      this._validationTestHelper.assertError(incorrectModelB, _reference_1, 
         LinguisticRules.INVALID_MULTIPLICITY);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getAttribute(), 
+      EClass _attribute_1 = MetaPackage.eINSTANCE.getAttribute();
+      this._validationTestHelper.assertError(incorrectModelB, _attribute_1, 
         LinguisticRules.INVALID_MULTIPLICITY);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t {");
@@ -747,9 +782,11 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertWarning(incorrectModelA, MetaPackage.eINSTANCE.getReferenceAssignment(), 
+      EClass _referenceAssignment = MetaPackage.eINSTANCE.getReferenceAssignment();
+      this._validationTestHelper.assertWarning(incorrectModelA, _referenceAssignment, 
         LinguisticRules.INVALID_MULTIPLICITY);
-      this._validationTestHelper.assertWarning(incorrectModelA, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertWarning(incorrectModelA, _attributeAssignment, 
         LinguisticRules.INVALID_MULTIPLICITY);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t {");
@@ -781,9 +818,11 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertWarning(incorrectModelB, MetaPackage.eINSTANCE.getReferenceAssignment(), 
+      EClass _referenceAssignment_1 = MetaPackage.eINSTANCE.getReferenceAssignment();
+      this._validationTestHelper.assertWarning(incorrectModelB, _referenceAssignment_1, 
         LinguisticRules.INVALID_MULTIPLICITY);
-      this._validationTestHelper.assertWarning(incorrectModelB, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_1 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertWarning(incorrectModelB, _attributeAssignment_1, 
         LinguisticRules.INVALID_MULTIPLICITY);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t {");
@@ -815,9 +854,11 @@ public class ML2LinguistcRulesTest {
       _builder_2.append("\t\t\t");
       _builder_2.append("}");
       final ML2Model correctModel = this._parseHelper.parse(_builder_2);
-      this._validationTestHelper.assertNoWarnings(correctModel, MetaPackage.eINSTANCE.getReferenceAssignment(), 
+      EClass _referenceAssignment_2 = MetaPackage.eINSTANCE.getReferenceAssignment();
+      this._validationTestHelper.assertNoWarnings(correctModel, _referenceAssignment_2, 
         LinguisticRules.INVALID_MULTIPLICITY);
-      this._validationTestHelper.assertNoWarnings(correctModel, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_2 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertNoWarnings(correctModel, _attributeAssignment_2, 
         LinguisticRules.INVALID_MULTIPLICITY);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -860,7 +901,8 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model correctModelB = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertNoErrors(correctModelB, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertNoErrors(correctModelB, _attributeAssignment, 
         LinguisticRules.NON_CONFORMANT_ASSIGNMENT);
       this._validationTestHelper.assertNoErrors(correctModelB);
     } catch (Throwable _e) {
@@ -883,7 +925,8 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorrectModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(incorrectModelA, MetaPackage.eINSTANCE.getFeature(), 
+      EClass _feature = MetaPackage.eINSTANCE.getFeature();
+      this._validationTestHelper.assertError(incorrectModelA, _feature, 
         LinguisticRules.FIRST_ORDER_REGULARITY);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t {");
@@ -897,7 +940,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, MetaPackage.eINSTANCE.getFeature(), 
+      EClass _feature_1 = MetaPackage.eINSTANCE.getFeature();
+      this._validationTestHelper.assertError(incorrectModelB, _feature_1, 
         LinguisticRules.FIRST_ORDER_REGULARITY);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t {");
@@ -911,7 +955,8 @@ public class ML2LinguistcRulesTest {
       _builder_2.append("\t\t\t");
       _builder_2.append("}");
       final ML2Model incorrectModelC = this._parseHelper.parse(_builder_2);
-      this._validationTestHelper.assertError(incorrectModelC, MetaPackage.eINSTANCE.getFeature(), 
+      EClass _feature_2 = MetaPackage.eINSTANCE.getFeature();
+      this._validationTestHelper.assertError(incorrectModelC, _feature_2, 
         LinguisticRules.RESTRICTED_REGULARITY_TYPE);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("module t {");
@@ -925,7 +970,8 @@ public class ML2LinguistcRulesTest {
       _builder_3.append("\t\t\t");
       _builder_3.append("}");
       final ML2Model incorrectModelD = this._parseHelper.parse(_builder_3);
-      this._validationTestHelper.assertError(incorrectModelD, MetaPackage.eINSTANCE.getFeature(), 
+      EClass _feature_3 = MetaPackage.eINSTANCE.getFeature();
+      this._validationTestHelper.assertError(incorrectModelD, _feature_3, 
         LinguisticRules.RESTRICTED_REGULARITY_TYPE);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -958,7 +1004,8 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorretModel = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertWarning(incorretModel, MetaPackage.eINSTANCE.getML2Class(), 
+      EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertWarning(incorretModel, _mL2Class, 
         LinguisticRules.MISSING_ASSIGNMENT_BY_REGULARITY);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t {");
@@ -989,7 +1036,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model corretModel = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertNoWarnings(corretModel, MetaPackage.eINSTANCE.getML2Class(), 
+      EClass _mL2Class_1 = MetaPackage.eINSTANCE.getML2Class();
+      this._validationTestHelper.assertNoWarnings(corretModel, _mL2Class_1, 
         LinguisticRules.MISSING_ASSIGNMENT_BY_REGULARITY);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -1029,7 +1077,8 @@ public class ML2LinguistcRulesTest {
       _builder.append("\t\t\t");
       _builder.append("}");
       final ML2Model incorretModelA = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertWarning(incorretModelA, MetaPackage.eINSTANCE.getReferenceAssignment(), 
+      EClass _referenceAssignment = MetaPackage.eINSTANCE.getReferenceAssignment();
+      this._validationTestHelper.assertWarning(incorretModelA, _referenceAssignment, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("module t {");
@@ -1058,7 +1107,8 @@ public class ML2LinguistcRulesTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("}");
       final ML2Model corretModelA = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertNoWarnings(corretModelA, MetaPackage.eINSTANCE.getReferenceAssignment(), 
+      EClass _referenceAssignment_1 = MetaPackage.eINSTANCE.getReferenceAssignment();
+      this._validationTestHelper.assertNoWarnings(corretModelA, _referenceAssignment_1, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("module t {");
@@ -1090,7 +1140,8 @@ public class ML2LinguistcRulesTest {
       _builder_2.append("\t\t\t");
       _builder_2.append("}");
       final ML2Model incorretModelB = this._parseHelper.parse(_builder_2);
-      this._validationTestHelper.assertWarning(incorretModelB, MetaPackage.eINSTANCE.getReferenceAssignment(), 
+      EClass _referenceAssignment_2 = MetaPackage.eINSTANCE.getReferenceAssignment();
+      this._validationTestHelper.assertWarning(incorretModelB, _referenceAssignment_2, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("module t {");
@@ -1122,7 +1173,8 @@ public class ML2LinguistcRulesTest {
       _builder_3.append("\t\t\t");
       _builder_3.append("}");
       final ML2Model corretModelB = this._parseHelper.parse(_builder_3);
-      this._validationTestHelper.assertNoWarnings(corretModelB, MetaPackage.eINSTANCE.getReferenceAssignment(), 
+      EClass _referenceAssignment_3 = MetaPackage.eINSTANCE.getReferenceAssignment();
+      this._validationTestHelper.assertNoWarnings(corretModelB, _referenceAssignment_3, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_4 = new StringConcatenation();
       _builder_4.append("module t {");
@@ -1145,7 +1197,8 @@ public class ML2LinguistcRulesTest {
       _builder_4.append("\t\t\t");
       _builder_4.append("}");
       final ML2Model incorretModelC1 = this._parseHelper.parse(_builder_4);
-      this._validationTestHelper.assertWarning(incorretModelC1, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertWarning(incorretModelC1, _attributeAssignment, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_5 = new StringConcatenation();
       _builder_5.append("module t {");
@@ -1168,7 +1221,8 @@ public class ML2LinguistcRulesTest {
       _builder_5.append("\t\t\t");
       _builder_5.append("}");
       final ML2Model incorretModelC2 = this._parseHelper.parse(_builder_5);
-      this._validationTestHelper.assertWarning(incorretModelC2, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_1 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertWarning(incorretModelC2, _attributeAssignment_1, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_6 = new StringConcatenation();
       _builder_6.append("module t {");
@@ -1197,7 +1251,8 @@ public class ML2LinguistcRulesTest {
       _builder_6.append("\t\t\t");
       _builder_6.append("}");
       final ML2Model corretModelC = this._parseHelper.parse(_builder_6);
-      this._validationTestHelper.assertNoWarnings(corretModelC, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_2 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertNoWarnings(corretModelC, _attributeAssignment_2, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_7 = new StringConcatenation();
       _builder_7.append("module t {");
@@ -1220,7 +1275,8 @@ public class ML2LinguistcRulesTest {
       _builder_7.append("\t\t\t");
       _builder_7.append("}");
       final ML2Model incorretModelD1 = this._parseHelper.parse(_builder_7);
-      this._validationTestHelper.assertWarning(incorretModelD1, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_3 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertWarning(incorretModelD1, _attributeAssignment_3, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_8 = new StringConcatenation();
       _builder_8.append("module t {");
@@ -1249,7 +1305,8 @@ public class ML2LinguistcRulesTest {
       _builder_8.append("\t\t\t");
       _builder_8.append("}");
       final ML2Model incorretModelD2 = this._parseHelper.parse(_builder_8);
-      this._validationTestHelper.assertWarning(incorretModelD2, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_4 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertWarning(incorretModelD2, _attributeAssignment_4, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_9 = new StringConcatenation();
       _builder_9.append("module t {");
@@ -1295,7 +1352,8 @@ public class ML2LinguistcRulesTest {
       _builder_9.append("\t\t\t");
       _builder_9.append("}");
       final ML2Model incorretModelD = this._parseHelper.parse(_builder_9);
-      this._validationTestHelper.assertNoWarnings(incorretModelD, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_5 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertNoWarnings(incorretModelD, _attributeAssignment_5, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_10 = new StringConcatenation();
       _builder_10.append("module t {");
@@ -1318,7 +1376,8 @@ public class ML2LinguistcRulesTest {
       _builder_10.append("\t\t\t");
       _builder_10.append("}");
       final ML2Model incorretModelE1 = this._parseHelper.parse(_builder_10);
-      this._validationTestHelper.assertWarning(incorretModelE1, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_6 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertWarning(incorretModelE1, _attributeAssignment_6, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_11 = new StringConcatenation();
       _builder_11.append("module t {");
@@ -1350,7 +1409,8 @@ public class ML2LinguistcRulesTest {
       _builder_11.append("\t\t\t");
       _builder_11.append("}");
       final ML2Model incorretModelE2 = this._parseHelper.parse(_builder_11);
-      this._validationTestHelper.assertWarning(incorretModelE2, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_7 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertWarning(incorretModelE2, _attributeAssignment_7, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
       StringConcatenation _builder_12 = new StringConcatenation();
       _builder_12.append("module t {");
@@ -1399,7 +1459,8 @@ public class ML2LinguistcRulesTest {
       _builder_12.append("\t\t\t");
       _builder_12.append("}");
       final ML2Model corretModelE = this._parseHelper.parse(_builder_12);
-      this._validationTestHelper.assertNoWarnings(corretModelE, MetaPackage.eINSTANCE.getAttributeAssignment(), 
+      EClass _attributeAssignment_8 = MetaPackage.eINSTANCE.getAttributeAssignment();
+      this._validationTestHelper.assertNoWarnings(corretModelE, _attributeAssignment_8, 
         LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);

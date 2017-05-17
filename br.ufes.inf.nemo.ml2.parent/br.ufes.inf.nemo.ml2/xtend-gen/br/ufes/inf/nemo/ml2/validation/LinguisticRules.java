@@ -38,7 +38,13 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -105,10 +111,11 @@ public class LinguisticRules {
   }
   
   public boolean isValidSpecialization(final ML2Class c) {
+    EList<ML2Class> _superClasses = c.getSuperClasses();
     final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
       return Boolean.valueOf(Objects.equal(it, c));
     };
-    boolean _exists = IterableExtensions.<ML2Class>exists(c.getSuperClasses(), _function);
+    boolean _exists = IterableExtensions.<ML2Class>exists(_superClasses, _function);
     if (_exists) {
       return false;
     } else {
@@ -128,6 +135,7 @@ public class LinguisticRules {
             return false;
           } else {
             if ((c instanceof HOClass)) {
+              EList<ML2Class> _superClasses_1 = ((HOClass)c).getSuperClasses();
               final Function1<ML2Class, Boolean> _function_1 = (ML2Class it) -> {
                 boolean _xifexpression = false;
                 if (((it instanceof HOClass) && (!Objects.equal(((HOClass) it).getOrder(), ((HOClass)c).getOrder())))) {
@@ -137,7 +145,7 @@ public class LinguisticRules {
                 }
                 return Boolean.valueOf(_xifexpression);
               };
-              boolean _exists_1 = IterableExtensions.<ML2Class>exists(((HOClass)c).getSuperClasses(), _function_1);
+              boolean _exists_1 = IterableExtensions.<ML2Class>exists(_superClasses_1, _function_1);
               return (!_exists_1);
             } else {
               return true;
@@ -229,13 +237,15 @@ public class LinguisticRules {
   
   public boolean hasValidSubordinators(final ML2Class c) {
     if ((c instanceof OrderlessClass)) {
+      EList<ML2Class> _subordinators = ((OrderlessClass)c).getSubordinators();
       final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
         return Boolean.valueOf((it instanceof OrderedClass));
       };
-      boolean _exists = IterableExtensions.<ML2Class>exists(((OrderlessClass)c).getSubordinators(), _function);
+      boolean _exists = IterableExtensions.<ML2Class>exists(_subordinators, _function);
       return (!_exists);
     } else {
       if ((c instanceof HOClass)) {
+        EList<ML2Class> _subordinators_1 = ((HOClass)c).getSubordinators();
         final Function1<ML2Class, Boolean> _function_1 = (ML2Class it) -> {
           boolean _equals = Objects.equal(it, c);
           if (_equals) {
@@ -254,7 +264,7 @@ public class LinguisticRules {
             }
           }
         };
-        boolean _exists_1 = IterableExtensions.<ML2Class>exists(((HOClass)c).getSubordinators(), _function_1);
+        boolean _exists_1 = IterableExtensions.<ML2Class>exists(_subordinators_1, _function_1);
         return (!_exists_1);
       } else {
         return true;
@@ -269,6 +279,7 @@ public class LinguisticRules {
     }
     EObject _eContainer_1 = e.eContainer();
     final ML2Model ML2Class = ((ML2Model) _eContainer_1);
+    EList<ModelElement> _elements = ML2Class.getElements();
     final Function1<ModelElement, Boolean> _function = (ModelElement it) -> {
       boolean _xifexpression = false;
       if ((it instanceof EntityDeclaration)) {
@@ -278,15 +289,18 @@ public class LinguisticRules {
       }
       return Boolean.valueOf(_xifexpression);
     };
-    return IterableExtensions.<ModelElement>exists(ML2Class.getElements(), _function);
+    return IterableExtensions.<ModelElement>exists(_elements, _function);
   }
   
   public boolean hasValidMembers(final GeneralizationSet gs) {
+    EList<ML2Class> _specifics = gs.getSpecifics();
     final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
-      boolean _contains = it.getSuperClasses().contains(gs.getGeneral());
+      EList<ML2Class> _superClasses = it.getSuperClasses();
+      ML2Class _general = gs.getGeneral();
+      boolean _contains = _superClasses.contains(_general);
       return Boolean.valueOf((!_contains));
     };
-    boolean _exists = IterableExtensions.<ML2Class>exists(gs.getSpecifics(), _function);
+    boolean _exists = IterableExtensions.<ML2Class>exists(_specifics, _function);
     if (_exists) {
       return false;
     } else {
@@ -294,7 +308,9 @@ public class LinguisticRules {
         return false;
       } else {
         if (((gs.getCategorizer().getCategorizedClass() != null) && IterableExtensions.<ML2Class>exists(gs.getSpecifics(), ((Function1<ML2Class, Boolean>) (ML2Class it) -> {
-          boolean _contains = it.getInstantiatedClasses().contains(gs.getCategorizer());
+          EList<ML2Class> _instantiatedClasses = it.getInstantiatedClasses();
+          ML2Class _categorizer = gs.getCategorizer();
+          boolean _contains = _instantiatedClasses.contains(_categorizer);
           return Boolean.valueOf((!_contains));
         })))) {
           return false;
@@ -311,7 +327,8 @@ public class LinguisticRules {
       EList<ML2Class> _subordinators = it.getSubordinators();
       boolean _tripleNotEquals = (_subordinators != null);
       if (_tripleNotEquals) {
-        subordinated.addAll(it.getSubordinators());
+        EList<ML2Class> _subordinators_1 = it.getSubordinators();
+        subordinated.addAll(_subordinators_1);
       }
     };
     iof.forEach(_function);
@@ -322,7 +339,8 @@ public class LinguisticRules {
     }
     final LinkedHashSet<ML2Class> superClassesIof = new LinkedHashSet<ML2Class>();
     final Consumer<ML2Class> _function_1 = (ML2Class it) -> {
-      superClassesIof.addAll(this._mL2Util.getAllInstantiatedClasses(it));
+      LinkedHashSet<ML2Class> _allInstantiatedClasses = this._mL2Util.getAllInstantiatedClasses(it);
+      superClassesIof.addAll(_allInstantiatedClasses);
     };
     ch.forEach(_function_1);
     return superClassesIof.containsAll(subordinated);
@@ -340,6 +358,7 @@ public class LinguisticRules {
     if (_tripleEquals) {
       return false;
     } else {
+      EList<ML2Class> _subordinators_1 = c.getSubordinators();
       final Function1<ML2Class, Boolean> _function = (ML2Class sc) -> {
         boolean _or = false;
         boolean _or_1 = false;
@@ -347,46 +366,53 @@ public class LinguisticRules {
         if (_equals) {
           _or_1 = true;
         } else {
-          EList<ML2Class> _subordinators_1 = null;
+          EList<ML2Class> _subordinators_2 = null;
           if (sc!=null) {
-            _subordinators_1=sc.getSubordinators();
+            _subordinators_2=sc.getSubordinators();
           }
-          boolean _contains = _subordinators_1.contains(c);
+          boolean _contains = _subordinators_2.contains(c);
           _or_1 = _contains;
         }
         if (_or_1) {
           _or = true;
         } else {
-          boolean _contains_1 = this._mL2Util.classHierarchy(sc).contains(c);
+          Set<ML2Class> _classHierarchy = this._mL2Util.classHierarchy(sc);
+          boolean _contains_1 = _classHierarchy.contains(c);
           _or = _contains_1;
         }
         return Boolean.valueOf(_or);
       };
-      return IterableExtensions.<ML2Class>exists(c.getSubordinators(), _function);
+      return IterableExtensions.<ML2Class>exists(_subordinators_1, _function);
     }
   }
   
   public ValidationIssue isSpecializingDisjointClasses(final ML2Class c, final Set<ML2Class> ch) {
-    Iterable<IEObjectDescription> _visibleEObjectDescriptions = this._mL2Index.getVisibleEObjectDescriptions(c, MetaPackage.eINSTANCE.getGeneralizationSet());
+    EClass _generalizationSet = MetaPackage.eINSTANCE.getGeneralizationSet();
+    Iterable<IEObjectDescription> _visibleEObjectDescriptions = this._mL2Index.getVisibleEObjectDescriptions(c, _generalizationSet);
     for (final IEObjectDescription obj : _visibleEObjectDescriptions) {
       {
         EObject _eObjectOrProxy = obj.getEObjectOrProxy();
         GeneralizationSet gs = ((GeneralizationSet) _eObjectOrProxy);
         boolean _eIsProxy = gs.eIsProxy();
         if (_eIsProxy) {
-          EObject _eObject = c.eResource().getResourceSet().getEObject(obj.getEObjectURI(), true);
+          Resource _eResource = c.eResource();
+          ResourceSet _resourceSet = _eResource.getResourceSet();
+          URI _eObjectURI = obj.getEObjectURI();
+          EObject _eObject = _resourceSet.getEObject(_eObjectURI, true);
           gs = ((GeneralizationSet) _eObject);
         }
         if ((gs.isIsDisjoint() && (Sets.<ML2Class>intersection(ch, IterableExtensions.<ML2Class>toSet(gs.getSpecifics())).size() > 1))) {
           final ValidationWarning issue = new ValidationWarning();
           StringConcatenation _builder = new StringConcatenation();
           String _name = c.getName();
-          _builder.append(_name);
+          _builder.append(_name, "");
           _builder.append(" is specializing disjoint classes.");
           _builder.newLineIfNotEmpty();
           _builder.append("\t\t\t\t\t");
           {
-            Sets.SetView<ML2Class> _intersection = Sets.<ML2Class>intersection(ch, IterableExtensions.<ML2Class>toSet(gs.getSpecifics()));
+            EList<ML2Class> _specifics = gs.getSpecifics();
+            Set<ML2Class> _set = IterableExtensions.<ML2Class>toSet(_specifics);
+            Sets.SetView<ML2Class> _intersection = Sets.<ML2Class>intersection(ch, _set);
             for(final ML2Class disjoint : _intersection) {
               _builder.append(" ");
               EObject _eContainer = disjoint.eContainer();
@@ -400,7 +426,8 @@ public class LinguisticRules {
           }
           _builder.append(").");
           issue.setMessage(_builder.toString());
-          issue.setFeature(MetaPackage.eINSTANCE.getEntityDeclaration_Name());
+          EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+          issue.setFeature(_entityDeclaration_Name);
           issue.setSource(c);
           issue.setCode(LinguisticRules.SPECILIZATION_OF_DISJOINT_CLASSES);
           return issue;
@@ -411,26 +438,32 @@ public class LinguisticRules {
   }
   
   public ValidationIssue isInstanceOfDisjointClasses(final EntityDeclaration e, final LinkedHashSet<ML2Class> iof) {
-    Iterable<IEObjectDescription> _visibleEObjectDescriptions = this._mL2Index.getVisibleEObjectDescriptions(e, MetaPackage.eINSTANCE.getGeneralizationSet());
+    EClass _generalizationSet = MetaPackage.eINSTANCE.getGeneralizationSet();
+    Iterable<IEObjectDescription> _visibleEObjectDescriptions = this._mL2Index.getVisibleEObjectDescriptions(e, _generalizationSet);
     for (final IEObjectDescription obj : _visibleEObjectDescriptions) {
       {
         EObject _eObjectOrProxy = obj.getEObjectOrProxy();
         GeneralizationSet gs = ((GeneralizationSet) _eObjectOrProxy);
         boolean _eIsProxy = gs.eIsProxy();
         if (_eIsProxy) {
-          EObject _eObject = e.eResource().getResourceSet().getEObject(obj.getEObjectURI(), true);
+          Resource _eResource = e.eResource();
+          ResourceSet _resourceSet = _eResource.getResourceSet();
+          URI _eObjectURI = obj.getEObjectURI();
+          EObject _eObject = _resourceSet.getEObject(_eObjectURI, true);
           gs = ((GeneralizationSet) _eObject);
         }
         if ((gs.isIsDisjoint() && (Sets.<ML2Class>intersection(iof, IterableExtensions.<ML2Class>toSet(gs.getSpecifics())).size() > 1))) {
           final ValidationWarning issue = new ValidationWarning();
           StringConcatenation _builder = new StringConcatenation();
           String _name = e.getName();
-          _builder.append(_name);
+          _builder.append(_name, "");
           _builder.append(" is instance disjoint classes.");
           _builder.newLineIfNotEmpty();
           _builder.append("\t\t\t\t\t");
           {
-            Sets.SetView<ML2Class> _intersection = Sets.<ML2Class>intersection(iof, IterableExtensions.<ML2Class>toSet(gs.getSpecifics()));
+            EList<ML2Class> _specifics = gs.getSpecifics();
+            Set<ML2Class> _set = IterableExtensions.<ML2Class>toSet(_specifics);
+            Sets.SetView<ML2Class> _intersection = Sets.<ML2Class>intersection(iof, _set);
             for(final ML2Class disjoint : _intersection) {
               _builder.append(" ");
               EObject _eContainer = disjoint.eContainer();
@@ -444,7 +477,8 @@ public class LinguisticRules {
           }
           _builder.append(").");
           issue.setMessage(_builder.toString());
-          issue.setFeature(MetaPackage.eINSTANCE.getEntityDeclaration_Name());
+          EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+          issue.setFeature(_entityDeclaration_Name);
           issue.setSource(e);
           issue.setCode(LinguisticRules.INSTANCE_OF_DISJOINT_CLASSES);
           return issue;
@@ -455,14 +489,18 @@ public class LinguisticRules {
   }
   
   public ValidationIssue missingInstantiationByCompleteness(final EntityDeclaration e, final LinkedHashSet<ML2Class> iof) {
-    Iterable<IEObjectDescription> _visibleEObjectDescriptions = this._mL2Index.getVisibleEObjectDescriptions(e, MetaPackage.eINSTANCE.getGeneralizationSet());
+    EClass _generalizationSet = MetaPackage.eINSTANCE.getGeneralizationSet();
+    Iterable<IEObjectDescription> _visibleEObjectDescriptions = this._mL2Index.getVisibleEObjectDescriptions(e, _generalizationSet);
     for (final IEObjectDescription obj : _visibleEObjectDescriptions) {
       {
         EObject _eObjectOrProxy = obj.getEObjectOrProxy();
         GeneralizationSet gs = ((GeneralizationSet) _eObjectOrProxy);
         boolean _eIsProxy = gs.eIsProxy();
         if (_eIsProxy) {
-          EObject _eObject = e.eResource().getResourceSet().getEObject(obj.getEObjectURI(), true);
+          Resource _eResource = e.eResource();
+          ResourceSet _resourceSet = _eResource.getResourceSet();
+          URI _eObjectURI = obj.getEObjectURI();
+          EObject _eObject = _resourceSet.getEObject(_eObjectURI, true);
           gs = ((GeneralizationSet) _eObject);
         }
         if (((gs.isIsComplete() && iof.contains(gs.getGeneral())) && Collections.disjoint(IterableExtensions.<ML2Class>toSet(gs.getSpecifics()), iof))) {
@@ -487,7 +525,8 @@ public class LinguisticRules {
           }
           _builder.append(").");
           issue.setMessage(_builder.toString());
-          issue.setFeature(MetaPackage.eINSTANCE.getEntityDeclaration_Name());
+          EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+          issue.setFeature(_entityDeclaration_Name);
           issue.setSource(e);
           issue.setCode(LinguisticRules.MISSING_INSTANTIATION_OF_COMPLETE_GENERALIZATION_SET);
           return issue;
@@ -512,11 +551,12 @@ public class LinguisticRules {
       int _lowerBound_1 = superRef.getLowerBound();
       boolean _lessThan = (_lowerBound < _lowerBound_1);
       if (_lessThan) {
-        issue.setFeature(MetaPackage.eINSTANCE.getFeature_LowerBound());
+        EAttribute _feature_LowerBound = MetaPackage.eINSTANCE.getFeature_LowerBound();
+        issue.setFeature(_feature_LowerBound);
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("The cardinality must be as restrictive as the the subsetted one (");
         String _name = superRef.getName();
-        _builder.append(_name);
+        _builder.append(_name, "");
         _builder.append(").");
         issue.setMessage(_builder.toString());
         return issue;
@@ -525,20 +565,22 @@ public class LinguisticRules {
           StringConcatenation _builder_1 = new StringConcatenation();
           _builder_1.append("The cardinality must be as restrictive as the the subsetted one (");
           String _name_1 = superRef.getName();
-          _builder_1.append(_name_1);
+          _builder_1.append(_name_1, "");
           _builder_1.append(").");
           issue.setMessage(_builder_1.toString());
-          issue.setFeature(MetaPackage.eINSTANCE.getFeature_UpperBound());
+          EAttribute _feature_UpperBound = MetaPackage.eINSTANCE.getFeature_UpperBound();
+          issue.setFeature(_feature_UpperBound);
           return issue;
         } else {
           if (((ref.getUpperBound() == (-1)) && (ref.getUpperBound() != superRef.getUpperBound()))) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.append("The cardinality must be as restrictive as the the subsetted one (");
             String _name_2 = superRef.getName();
-            _builder_2.append(_name_2);
+            _builder_2.append(_name_2, "");
             _builder_2.append(").");
             issue.setMessage(_builder_2.toString());
-            issue.setFeature(MetaPackage.eINSTANCE.getFeature_UpperBound());
+            EAttribute _feature_UpperBound_1 = MetaPackage.eINSTANCE.getFeature_UpperBound();
+            issue.setFeature(_feature_UpperBound_1);
             return issue;
           }
         }
@@ -562,11 +604,12 @@ public class LinguisticRules {
       int _lowerBound_1 = superAtt.getLowerBound();
       boolean _lessThan = (_lowerBound < _lowerBound_1);
       if (_lessThan) {
-        issue.setFeature(MetaPackage.eINSTANCE.getFeature_LowerBound());
+        EAttribute _feature_LowerBound = MetaPackage.eINSTANCE.getFeature_LowerBound();
+        issue.setFeature(_feature_LowerBound);
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("The cardinality must be as restrictive as the the subsetted one (");
         String _name = superAtt.getName();
-        _builder.append(_name);
+        _builder.append(_name, "");
         _builder.append(").");
         issue.setMessage(_builder.toString());
         return issue;
@@ -575,20 +618,22 @@ public class LinguisticRules {
           StringConcatenation _builder_1 = new StringConcatenation();
           _builder_1.append("The cardinality must be as restrictive as the the subsetted one (");
           String _name_1 = superAtt.getName();
-          _builder_1.append(_name_1);
+          _builder_1.append(_name_1, "");
           _builder_1.append(").");
           issue.setMessage(_builder_1.toString());
-          issue.setFeature(MetaPackage.eINSTANCE.getFeature_UpperBound());
+          EAttribute _feature_UpperBound = MetaPackage.eINSTANCE.getFeature_UpperBound();
+          issue.setFeature(_feature_UpperBound);
           return issue;
         } else {
           if (((att.getUpperBound() == (-1)) && (att.getUpperBound() != superAtt.getUpperBound()))) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.append("The cardinality must be as restrictive as the the subsetted one (");
             String _name_2 = superAtt.getName();
-            _builder_2.append(_name_2);
+            _builder_2.append(_name_2, "");
             _builder_2.append(").");
             issue.setMessage(_builder_2.toString());
-            issue.setFeature(MetaPackage.eINSTANCE.getFeature_UpperBound());
+            EAttribute _feature_UpperBound_1 = MetaPackage.eINSTANCE.getFeature_UpperBound();
+            issue.setFeature(_feature_UpperBound_1);
             return issue;
           }
         }
@@ -612,11 +657,12 @@ public class LinguisticRules {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Number of assignments must equal or greater than ");
       int _lowerBound_1 = ref.getLowerBound();
-      _builder.append(_lowerBound_1);
+      _builder.append(_lowerBound_1, "");
       _builder.append(".");
       issue.setMessage(_builder.toString());
       issue.setSource(ra);
-      issue.setFeature(MetaPackage.eINSTANCE.getReferenceAssignment_Assignments());
+      EReference _referenceAssignment_Assignments = MetaPackage.eINSTANCE.getReferenceAssignment_Assignments();
+      issue.setFeature(_referenceAssignment_Assignments);
       issue.setCode(LinguisticRules.INVALID_MULTIPLICITY);
       return issue;
     } else {
@@ -625,11 +671,12 @@ public class LinguisticRules {
         StringConcatenation _builder_1 = new StringConcatenation();
         _builder_1.append("Number of assignments must equal or less than ");
         int _upperBound = ref.getUpperBound();
-        _builder_1.append(_upperBound);
+        _builder_1.append(_upperBound, "");
         _builder_1.append(".");
         issue_1.setMessage(_builder_1.toString());
         issue_1.setSource(ra);
-        issue_1.setFeature(MetaPackage.eINSTANCE.getReferenceAssignment_Assignments());
+        EReference _referenceAssignment_Assignments_1 = MetaPackage.eINSTANCE.getReferenceAssignment_Assignments();
+        issue_1.setFeature(_referenceAssignment_Assignments_1);
         issue_1.setCode(LinguisticRules.INVALID_MULTIPLICITY);
         return issue_1;
       } else {
@@ -659,7 +706,8 @@ public class LinguisticRules {
     final Attribute att = aa.getAttribute();
     final ValidationWarning issue = new ValidationWarning();
     issue.setSource(aa);
-    issue.setFeature(MetaPackage.eINSTANCE.getAttributeAssignment_Attribute());
+    EReference _attributeAssignment_Attribute = MetaPackage.eINSTANCE.getAttributeAssignment_Attribute();
+    issue.setFeature(_attributeAssignment_Attribute);
     issue.setCode(LinguisticRules.INVALID_MULTIPLICITY);
     int _lowerBound = att.getLowerBound();
     boolean _lessThan = (nAssgns < _lowerBound);
@@ -667,7 +715,7 @@ public class LinguisticRules {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Number of assignments must equal or greater than ");
       int _lowerBound_1 = att.getLowerBound();
-      _builder.append(_lowerBound_1);
+      _builder.append(_lowerBound_1, "");
       _builder.append(".");
       issue.setMessage(_builder.toString());
       return issue;
@@ -676,7 +724,7 @@ public class LinguisticRules {
         StringConcatenation _builder_1 = new StringConcatenation();
         _builder_1.append("Number of assignments must equal or less than ");
         int _upperBound = att.getUpperBound();
-        _builder_1.append(_upperBound);
+        _builder_1.append(_upperBound, "");
         _builder_1.append(".");
         issue.setMessage(_builder_1.toString());
         return issue;
@@ -691,7 +739,8 @@ public class LinguisticRules {
     final ML2Class assigType = ref.get_type();
     final ValidationError issue = new ValidationError();
     issue.setSource(ra);
-    issue.setFeature(MetaPackage.eINSTANCE.getReferenceAssignment_Assignments());
+    EReference _referenceAssignment_Assignments = MetaPackage.eINSTANCE.getReferenceAssignment_Assignments();
+    issue.setFeature(_referenceAssignment_Assignments);
     EList<EntityDeclaration> _assignments = ra.getAssignments();
     for (final EntityDeclaration assig : _assignments) {
       boolean _isConformantTo = this._mL2Util.isConformantTo(assig, assigType);
@@ -700,10 +749,12 @@ public class LinguisticRules {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("All assignments must be instances of ");
         String _name = assigType.getName();
-        _builder.append(_name);
+        _builder.append(_name, "");
         _builder.append(".");
         issue.setMessage(_builder.toString());
-        issue.setIndex(ra.getAssignments().indexOf(assig));
+        EList<EntityDeclaration> _assignments_1 = ra.getAssignments();
+        int _indexOf = _assignments_1.indexOf(assig);
+        issue.setIndex(_indexOf);
         issue.setCode(LinguisticRules.NON_CONFORMANT_ASSIGNMENT);
         return issue;
       }
@@ -714,19 +765,24 @@ public class LinguisticRules {
   protected ValidationIssue _checkFeatureAssignmentType(final AttributeAssignment aa) {
     final Attribute att = aa.getAttribute();
     final HashSet<EntityDeclaration> entityAssigs = new HashSet<EntityDeclaration>();
-    entityAssigs.addAll(aa.getIndividualAssignments());
-    entityAssigs.addAll(aa.getUnnamedIndividualAssignments());
+    EList<Individual> _individualAssignments = aa.getIndividualAssignments();
+    entityAssigs.addAll(_individualAssignments);
+    EList<Individual> _unnamedIndividualAssignments = aa.getUnnamedIndividualAssignments();
+    entityAssigs.addAll(_unnamedIndividualAssignments);
     final ValidationError issue = new ValidationError();
     issue.setSource(aa);
-    issue.setFeature(MetaPackage.eINSTANCE.getAttributeAssignment_Attribute());
+    EReference _attributeAssignment_Attribute = MetaPackage.eINSTANCE.getAttributeAssignment_Attribute();
+    issue.setFeature(_attributeAssignment_Attribute);
     for (final EntityDeclaration ent : entityAssigs) {
-      boolean _isConformantTo = this._mL2Util.isConformantTo(ent, att.get_type());
+      DataType __type = att.get_type();
+      boolean _isConformantTo = this._mL2Util.isConformantTo(ent, __type);
       boolean _not = (!_isConformantTo);
       if (_not) {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("All assignments must be instances of ");
-        String _name = att.get_type().getName();
-        _builder.append(_name);
+        DataType __type_1 = att.get_type();
+        String _name = __type_1.getName();
+        _builder.append(_name, "");
         _builder.append(".");
         issue.setMessage(_builder.toString());
         issue.setCode(LinguisticRules.NON_CONFORMANT_ASSIGNMENT);
@@ -735,13 +791,14 @@ public class LinguisticRules {
     }
     EList<Literal> _literalAssignments = aa.getLiteralAssignments();
     for (final Literal lit : _literalAssignments) {
-      boolean _isConformantTo_1 = this._mL2Util.isConformantTo(lit, att.getPrimitiveType());
+      PrimitiveType _primitiveType = att.getPrimitiveType();
+      boolean _isConformantTo_1 = this._mL2Util.isConformantTo(lit, _primitiveType);
       boolean _not_1 = (!_isConformantTo_1);
       if (_not_1) {
         StringConcatenation _builder_1 = new StringConcatenation();
         _builder_1.append("All assignments must be instances of ");
-        PrimitiveType _primitiveType = att.getPrimitiveType();
-        _builder_1.append(_primitiveType);
+        PrimitiveType _primitiveType_1 = att.getPrimitiveType();
+        _builder_1.append(_primitiveType_1, "");
         _builder_1.append(".");
         issue.setMessage(_builder_1.toString());
         issue.setCode(LinguisticRules.NON_CONFORMANT_ASSIGNMENT);
@@ -761,7 +818,8 @@ public class LinguisticRules {
       if ((_eContainer instanceof FOClass)) {
         final ValidationError issue = new ValidationError();
         issue.setSource(f);
-        issue.setFeature(MetaPackage.eINSTANCE.getFeature_RegulatedFeature());
+        EReference _feature_RegulatedFeature = MetaPackage.eINSTANCE.getFeature_RegulatedFeature();
+        issue.setFeature(_feature_RegulatedFeature);
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("Regularity attributes do not apply to first-order classes.");
         issue.setMessage(_builder.toString());
@@ -772,7 +830,8 @@ public class LinguisticRules {
           if (((!(f instanceof Attribute)) || (!Objects.equal(((Attribute) f).getPrimitiveType(), PrimitiveType.NUMBER)))) {
             final ValidationError issue_1 = new ValidationError();
             issue_1.setSource(f);
-            issue_1.setFeature(MetaPackage.eINSTANCE.getFeature_RegularityType());
+            EAttribute _feature_RegularityType = MetaPackage.eINSTANCE.getFeature_RegularityType();
+            issue_1.setFeature(_feature_RegularityType);
             StringConcatenation _builder_1 = new StringConcatenation();
             _builder_1.append("This type of regularity feature only applies to numbers.");
             issue_1.setMessage(_builder_1.toString());
@@ -784,7 +843,8 @@ public class LinguisticRules {
             if (((f instanceof Attribute) && (!((Attribute) f).eIsSet(MetaPackage.eINSTANCE.getAttribute__type())))) {
               final ValidationError issue_2 = new ValidationError();
               issue_2.setSource(f);
-              issue_2.setFeature(MetaPackage.eINSTANCE.getFeature_RegularityType());
+              EAttribute _feature_RegularityType_1 = MetaPackage.eINSTANCE.getFeature_RegularityType();
+              issue_2.setFeature(_feature_RegularityType_1);
               StringConcatenation _builder_2 = new StringConcatenation();
               _builder_2.append("This type of regularity feature do not apply to primitive types.");
               issue_2.setMessage(_builder_2.toString());
@@ -799,32 +859,39 @@ public class LinguisticRules {
   }
   
   public ValidationIssue checkInstantiatedRegularities(final ML2Class c) {
+    Set<Feature> _allFeatures = this._mL2Util.getAllFeatures(c);
     final Function1<Feature, Boolean> _function = (Feature it) -> {
       Feature _regulatedFeature = it.getRegulatedFeature();
       return Boolean.valueOf((_regulatedFeature != null));
     };
-    final Set<Feature> rFeatures = IterableExtensions.<Feature>toSet(IterableExtensions.<Feature>filter(this._mL2Util.getAllFeatures(c), _function));
+    Iterable<Feature> _filter = IterableExtensions.<Feature>filter(_allFeatures, _function);
+    final Set<Feature> rFeatures = IterableExtensions.<Feature>toSet(_filter);
+    EList<FeatureAssignment> _assignments = c.getAssignments();
     final Consumer<FeatureAssignment> _function_1 = (FeatureAssignment f) -> {
       if ((f instanceof AttributeAssignment)) {
-        rFeatures.remove(((AttributeAssignment)f).getAttribute());
+        Attribute _attribute = ((AttributeAssignment)f).getAttribute();
+        rFeatures.remove(_attribute);
       } else {
         if ((f instanceof ReferenceAssignment)) {
-          rFeatures.remove(((ReferenceAssignment)f).getReference());
+          Reference _reference = ((ReferenceAssignment)f).getReference();
+          rFeatures.remove(_reference);
         }
       }
     };
-    c.getAssignments().forEach(_function_1);
+    _assignments.forEach(_function_1);
     boolean _isEmpty = rFeatures.isEmpty();
     if (_isEmpty) {
       return null;
     }
     final ValidationWarning issue = new ValidationWarning();
     issue.setSource(c);
-    issue.setFeature(MetaPackage.eINSTANCE.getEntityDeclaration_Name());
+    EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+    issue.setFeature(_entityDeclaration_Name);
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("The regularity feature ");
-    String _name = IterableExtensions.<Feature>head(rFeatures).getName();
-    _builder.append(_name);
+    Feature _head = IterableExtensions.<Feature>head(rFeatures);
+    String _name = _head.getName();
+    _builder.append(_name, "");
     _builder.append(" should have an assigned value.");
     issue.setMessage(_builder.toString());
     issue.setCode(LinguisticRules.MISSING_ASSIGNMENT_BY_REGULARITY);
@@ -832,13 +899,15 @@ public class LinguisticRules {
   }
   
   public ValidationIssue containsReferences(final DataType d) {
-    boolean _isEmpty = d.getReferences().isEmpty();
+    EList<Reference> _references = d.getReferences();
+    boolean _isEmpty = _references.isEmpty();
     if (_isEmpty) {
       return null;
     } else {
       final ValidationWarning i = new ValidationWarning();
       i.setSource(d);
-      i.setFeature(MetaPackage.eINSTANCE.getEntityDeclaration_Name());
+      EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+      i.setFeature(_entityDeclaration_Name);
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("The use of references on datatypes might be unwanted.");
       i.setMessage(_builder.toString());
@@ -853,6 +922,7 @@ public class LinguisticRules {
     EObject _eContainer = atta.eContainer();
     final Set<ML2Class> knowClasses = this._mL2Util.getRechableClasses(((EntityDeclaration) _eContainer));
     final Consumer<ML2Class> _function = (ML2Class c) -> {
+      EList<Attribute> _attributes = c.getAttributes();
       final Consumer<Attribute> _function_1 = (Attribute it) -> {
         Feature _regulatedFeature = it.getRegulatedFeature();
         boolean _equals = Objects.equal(_regulatedFeature, att);
@@ -860,7 +930,7 @@ public class LinguisticRules {
           regAttSet.add(it);
         }
       };
-      c.getAttributes().forEach(_function_1);
+      _attributes.forEach(_function_1);
     };
     knowClasses.forEach(_function);
     boolean _isEmpty = regAttSet.isEmpty();
@@ -874,7 +944,8 @@ public class LinguisticRules {
       EList<FeatureAssignment> _assignments = c.getAssignments();
       for (final FeatureAssignment it : _assignments) {
         if ((it instanceof AttributeAssignment)) {
-          boolean _contains = regAttSet.contains(((AttributeAssignment)it).getAttribute());
+          Attribute _attribute = ((AttributeAssignment)it).getAttribute();
+          boolean _contains = regAttSet.contains(_attribute);
           if (_contains) {
             regAttAssigSet.add(((AttributeAssignment)it));
           }
@@ -887,16 +958,18 @@ public class LinguisticRules {
     }
     for (final AttributeAssignment regAttAssig : regAttAssigSet) {
       for (final Attribute regAtt : regAttSet) {
-        Attribute _attribute = regAttAssig.getAttribute();
-        boolean _notEquals = (!Objects.equal(_attribute, regAtt));
+        Attribute _attribute_1 = regAttAssig.getAttribute();
+        boolean _notEquals = (!Objects.equal(_attribute_1, regAtt));
         if (_notEquals) {
         } else {
-          boolean _isConformanTo = this._mL2Util.isConformanTo(atta, regAtt.getRegularityType(), regAttAssig);
+          RegularityFeatureType _regularityType = regAtt.getRegularityType();
+          boolean _isConformanTo = this._mL2Util.isConformanTo(atta, _regularityType, regAttAssig);
           boolean _not = (!_isConformanTo);
           if (_not) {
             final ValidationWarning i = new ValidationWarning();
             i.setSource(atta);
-            i.setFeature(MetaPackage.eINSTANCE.getAttributeAssignment_Attribute());
+            EReference _attributeAssignment_Attribute = MetaPackage.eINSTANCE.getAttributeAssignment_Attribute();
+            i.setFeature(_attributeAssignment_Attribute);
             StringConcatenation _builder = new StringConcatenation();
             _builder.append("Assignment is non-conformant to the regularity feature ");
             _builder.newLine();
@@ -924,6 +997,7 @@ public class LinguisticRules {
     EObject _eContainer = refa.eContainer();
     final Set<ML2Class> knowClasses = this._mL2Util.getRechableClasses(((EntityDeclaration) _eContainer));
     final Consumer<ML2Class> _function = (ML2Class c) -> {
+      EList<Reference> _references = c.getReferences();
       final Consumer<Reference> _function_1 = (Reference it) -> {
         Feature _regulatedFeature = it.getRegulatedFeature();
         boolean _equals = Objects.equal(_regulatedFeature, ref);
@@ -931,7 +1005,7 @@ public class LinguisticRules {
           regRefSet.add(it);
         }
       };
-      c.getReferences().forEach(_function_1);
+      _references.forEach(_function_1);
     };
     knowClasses.forEach(_function);
     boolean _isEmpty = regRefSet.isEmpty();
@@ -945,7 +1019,8 @@ public class LinguisticRules {
       EList<FeatureAssignment> _assignments = c.getAssignments();
       for (final FeatureAssignment it : _assignments) {
         if ((it instanceof ReferenceAssignment)) {
-          boolean _contains = regRefSet.contains(((ReferenceAssignment)it).getReference());
+          Reference _reference = ((ReferenceAssignment)it).getReference();
+          boolean _contains = regRefSet.contains(_reference);
           if (_contains) {
             regRefAssigSet.add(((ReferenceAssignment)it));
           }
@@ -958,12 +1033,14 @@ public class LinguisticRules {
     }
     for (final ReferenceAssignment regRefAssig : regRefAssigSet) {
       for (final Reference regRef : regRefSet) {
-        boolean _isConformanTo = this._mL2Util.isConformanTo(refa, regRef.getRegularityType(), regRefAssig);
+        RegularityFeatureType _regularityType = regRef.getRegularityType();
+        boolean _isConformanTo = this._mL2Util.isConformanTo(refa, _regularityType, regRefAssig);
         boolean _not = (!_isConformanTo);
         if (_not) {
           final ValidationWarning i = new ValidationWarning();
           i.setSource(refa);
-          i.setFeature(MetaPackage.eINSTANCE.getReferenceAssignment_Reference());
+          EReference _referenceAssignment_Reference = MetaPackage.eINSTANCE.getReferenceAssignment_Reference();
+          i.setFeature(_referenceAssignment_Reference);
           StringConcatenation _builder = new StringConcatenation();
           _builder.append("Assignment is non-conformant to the regularity feature ");
           _builder.newLine();

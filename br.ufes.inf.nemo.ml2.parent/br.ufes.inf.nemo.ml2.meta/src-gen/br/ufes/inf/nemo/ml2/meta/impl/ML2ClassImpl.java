@@ -278,6 +278,7 @@ public abstract class ML2ClassImpl extends EntityDeclarationImpl implements ML2C
 	 */
 	public EList<Attribute> getAttributes() {
 		final BasicEList<Attribute> l = new BasicEList<Attribute>();
+		EList<Feature> _features = this.getFeatures();
 		final Consumer<Feature> _function = new Consumer<Feature>() {
 			public void accept(final Feature it) {
 				if ((it instanceof Attribute)) {
@@ -285,7 +286,7 @@ public abstract class ML2ClassImpl extends EntityDeclarationImpl implements ML2C
 				}
 			}
 		};
-		this.getFeatures().forEach(_function);
+		_features.forEach(_function);
 		return l;
 	}
 
@@ -296,6 +297,7 @@ public abstract class ML2ClassImpl extends EntityDeclarationImpl implements ML2C
 	 */
 	public EList<Reference> getReferences() {
 		final BasicEList<Reference> l = new BasicEList<Reference>();
+		EList<Feature> _features = this.getFeatures();
 		final Consumer<Feature> _function = new Consumer<Feature>() {
 			public void accept(final Feature it) {
 				if ((it instanceof Reference)) {
@@ -303,7 +305,7 @@ public abstract class ML2ClassImpl extends EntityDeclarationImpl implements ML2C
 				}
 			}
 		};
-		this.getFeatures().forEach(_function);
+		_features.forEach(_function);
 		return l;
 	}
 

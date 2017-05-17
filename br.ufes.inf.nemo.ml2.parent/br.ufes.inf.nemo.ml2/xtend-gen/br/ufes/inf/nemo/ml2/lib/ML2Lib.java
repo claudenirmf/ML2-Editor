@@ -6,11 +6,14 @@ import br.ufes.inf.nemo.ml2.util.ML2Index;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Set;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -101,12 +104,16 @@ public class ML2Lib {
   public ResourceSet loadLib(final String libname) {
     ResourceSet _xblockexpression = null;
     {
-      final InputStream stream = this.getClass().getClassLoader().getResourceAsStream(libname);
+      Class<? extends ML2Lib> _class = this.getClass();
+      ClassLoader _classLoader = _class.getClassLoader();
+      final InputStream stream = _classLoader.getResourceAsStream(libname);
       ResourceSet _get = this.resourceSetProvider.get();
       final Procedure1<ResourceSet> _function = (ResourceSet resourceSet) -> {
         try {
-          final Resource resource = resourceSet.createResource(URI.createURI(libname));
-          resource.load(stream, resourceSet.getLoadOptions());
+          URI _createURI = URI.createURI(libname);
+          final Resource resource = resourceSet.createResource(_createURI);
+          Map<Object, Object> _loadOptions = resourceSet.getLoadOptions();
+          resource.load(stream, _loadOptions);
         } catch (Throwable _e) {
           throw Exceptions.sneakyThrow(_e);
         }
@@ -119,11 +126,15 @@ public class ML2Lib {
   public ResourceSet loadLib(final String libname, final ResourceSet rs) {
     ResourceSet _xblockexpression = null;
     {
-      final InputStream stream = this.getClass().getClassLoader().getResourceAsStream(libname);
+      Class<? extends ML2Lib> _class = this.getClass();
+      ClassLoader _classLoader = _class.getClassLoader();
+      final InputStream stream = _classLoader.getResourceAsStream(libname);
       final Procedure1<ResourceSet> _function = (ResourceSet resourceSet) -> {
         try {
-          final Resource resource = resourceSet.createResource(URI.createURI(libname));
-          resource.load(stream, resourceSet.getLoadOptions());
+          URI _createURI = URI.createURI(libname);
+          final Resource resource = resourceSet.createResource(_createURI);
+          Map<Object, Object> _loadOptions = resourceSet.getLoadOptions();
+          resource.load(stream, _loadOptions);
         } catch (Throwable _e) {
           throw Exceptions.sneakyThrow(_e);
         }
@@ -134,7 +145,9 @@ public class ML2Lib {
   }
   
   public ResourceSet loadUFOLib() {
-    return this.loadLib(ML2Lib.MODEL_UFO_BASE, this.loadLib(ML2Lib.MODEL_UFO_ENDURANT, this.loadLib(ML2Lib.MODEL_UFO_META)));
+    ResourceSet _loadLib = this.loadLib(ML2Lib.MODEL_UFO_META);
+    ResourceSet _loadLib_1 = this.loadLib(ML2Lib.MODEL_UFO_ENDURANT, _loadLib);
+    return this.loadLib(ML2Lib.MODEL_UFO_BASE, _loadLib_1);
   }
   
   public ResourceSet loadUFOLib(final ResourceSet rs) {
@@ -148,28 +161,36 @@ public class ML2Lib {
   }
   
   public ML2Class getLibClass(final EObject context, final String name) {
-    EObject _modelElementFromIndex = this._mL2Index.getModelElementFromIndex(context, name, MetaPackage.eINSTANCE.getML2Class());
+    EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+    EObject _modelElementFromIndex = this._mL2Index.getModelElementFromIndex(context, name, _mL2Class);
     return ((ML2Class) _modelElementFromIndex);
   }
   
   public ML2Class getUFOEndurant(final EObject context) {
-    EObject _modelElementFromIndex = this._mL2Index.getModelElementFromIndex(context, ML2Lib.UFO_ENDURANT, MetaPackage.eINSTANCE.getML2Class());
+    EClass _mL2Class = MetaPackage.eINSTANCE.getML2Class();
+    EObject _modelElementFromIndex = this._mL2Index.getModelElementFromIndex(context, ML2Lib.UFO_ENDURANT, _mL2Class);
     return ((ML2Class) _modelElementFromIndex);
   }
   
   public Set<ML2Class> getUFOMustInstantiateClasses(final EObject context) {
+    Iterable<IEObjectDescription> _visibleEObjectDescriptions = this._mL2Index.getVisibleEObjectDescriptions(context);
     final Function1<IEObjectDescription, Boolean> _function = (IEObjectDescription it) -> {
-      final String fqn = it.getQualifiedName().toString();
+      QualifiedName _qualifiedName = it.getQualifiedName();
+      final String fqn = _qualifiedName.toString();
       return Boolean.valueOf((((((((fqn.equals(ML2Lib.UFO_KIND) || fqn.equals(ML2Lib.UFO_SUBKIND)) || fqn.equals(ML2Lib.UFO_PHASE)) || 
         fqn.equals(ML2Lib.UFO_ROLE)) || fqn.equals(ML2Lib.UFO_CATEGORY)) || fqn.equals(ML2Lib.UFO_MIXIN)) || 
         fqn.equals(ML2Lib.UFO_PHASE_MIXIN)) || fqn.equals(ML2Lib.UFO_ROLE_MIXIN)));
     };
-    final Iterable<IEObjectDescription> descs = IterableExtensions.<IEObjectDescription>filter(this._mL2Index.getVisibleEObjectDescriptions(context), _function);
+    final Iterable<IEObjectDescription> descs = IterableExtensions.<IEObjectDescription>filter(_visibleEObjectDescriptions, _function);
     final Function1<IEObjectDescription, ML2Class> _function_1 = (IEObjectDescription it) -> {
       EObject o = it.getEObjectOrProxy();
       boolean _eIsProxy = o.eIsProxy();
       if (_eIsProxy) {
-        o = context.eResource().getResourceSet().getEObject(it.getEObjectURI(), true);
+        Resource _eResource = context.eResource();
+        ResourceSet _resourceSet = _eResource.getResourceSet();
+        URI _eObjectURI = it.getEObjectURI();
+        EObject _eObject = _resourceSet.getEObject(_eObjectURI, true);
+        o = _eObject;
       }
       return ((ML2Class) o);
     };

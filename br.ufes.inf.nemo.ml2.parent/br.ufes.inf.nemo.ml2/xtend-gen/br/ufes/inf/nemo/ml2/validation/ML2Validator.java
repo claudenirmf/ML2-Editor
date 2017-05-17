@@ -26,6 +26,10 @@ import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
@@ -99,16 +103,16 @@ public class ML2Validator extends AbstractML2Validator {
     if (_not) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Entity name must start with a capital letter.");
-      this.error(_builder.toString(), 
-        MetaPackage.eINSTANCE.getEntityDeclaration_Name(), 
+      EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+      this.error(_builder.toString(), _entityDeclaration_Name, 
         LinguisticRules.INVALID_ENTITY_DECLARATION_NAME);
     }
     boolean _duplicatedEntityName = this._linguisticRules.duplicatedEntityName(e);
     if (_duplicatedEntityName) {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("Entity name must be unique.");
-      this.error(_builder_1.toString(), 
-        MetaPackage.eINSTANCE.getEntityDeclaration_Name(), 
+      EAttribute _entityDeclaration_Name_1 = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+      this.error(_builder_1.toString(), _entityDeclaration_Name_1, 
         LinguisticRules.DUPLICATED_ENTITY_NAME);
     }
   }
@@ -121,16 +125,16 @@ public class ML2Validator extends AbstractML2Validator {
     if (_not) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Invalid specialization.");
-      this.error(_builder.toString(), 
-        MetaPackage.eINSTANCE.getML2Class_SuperClasses(), 
+      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      this.error(_builder.toString(), _mL2Class_SuperClasses, 
         LinguisticRules.INVALID_CLASS_SPECIALIZATION);
     }
     boolean _hasCyclicSpecialization = this._linguisticRules.hasCyclicSpecialization(c, ch);
     if (_hasCyclicSpecialization) {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("Invalid cyclic specialization.");
-      this.error(_builder_1.toString(), 
-        MetaPackage.eINSTANCE.getML2Class_SuperClasses(), 
+      EReference _mL2Class_SuperClasses_1 = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      this.error(_builder_1.toString(), _mL2Class_SuperClasses_1, 
         LinguisticRules.CYCLIC_SPECIALIZATION);
     }
     boolean _hasValidCategorizedClass = this._linguisticRules.hasValidCategorizedClass(c);
@@ -138,8 +142,8 @@ public class ML2Validator extends AbstractML2Validator {
     if (_not_1) {
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("Invalid basetype.");
-      this.error(_builder_2.toString(), 
-        MetaPackage.eINSTANCE.getML2Class_CategorizedClass(), 
+      EReference _mL2Class_CategorizedClass = MetaPackage.eINSTANCE.getML2Class_CategorizedClass();
+      this.error(_builder_2.toString(), _mL2Class_CategorizedClass, 
         LinguisticRules.INVALID_CATEGORIZED_CLASS);
     }
     boolean _hasValidPowertypeRelation = this._linguisticRules.hasValidPowertypeRelation(c);
@@ -147,8 +151,8 @@ public class ML2Validator extends AbstractML2Validator {
     if (_not_2) {
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("Invalid powertype relation.");
-      this.error(_builder_3.toString(), 
-        MetaPackage.eINSTANCE.getML2Class_PowertypeOf(), 
+      EReference _mL2Class_PowertypeOf = MetaPackage.eINSTANCE.getML2Class_PowertypeOf();
+      this.error(_builder_3.toString(), _mL2Class_PowertypeOf, 
         LinguisticRules.INVALID_POWERTYPE_RELATION);
     }
     boolean _hasValidSubordinators = this._linguisticRules.hasValidSubordinators(c);
@@ -156,8 +160,8 @@ public class ML2Validator extends AbstractML2Validator {
     if (_not_3) {
       StringConcatenation _builder_4 = new StringConcatenation();
       _builder_4.append("Invalid subordinator.");
-      this.error(_builder_4.toString(), 
-        MetaPackage.eINSTANCE.getML2Class_Subordinators(), 
+      EReference _mL2Class_Subordinators = MetaPackage.eINSTANCE.getML2Class_Subordinators();
+      this.error(_builder_4.toString(), _mL2Class_Subordinators, 
         LinguisticRules.INVALID_SUBORDINATOR);
     }
   }
@@ -177,10 +181,10 @@ public class ML2Validator extends AbstractML2Validator {
     if (_not) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Order must be of ");
-      _builder.append(MLTRules.MIN_ORDER);
+      _builder.append(MLTRules.MIN_ORDER, "");
       _builder.append(" or greater.");
-      this.error(_builder.toString(), 
-        MetaPackage.eINSTANCE.getHOClass_Order(), 
+      EAttribute _hOClass_Order = MetaPackage.eINSTANCE.getHOClass_Order();
+      this.error(_builder.toString(), _hOClass_Order, 
         MLTRules.INVALID_HO_CLASS_ORDER);
     }
   }
@@ -192,8 +196,8 @@ public class ML2Validator extends AbstractML2Validator {
     if (_not) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("This generalization set has invalid members.");
-      this.error(_builder.toString(), 
-        MetaPackage.eINSTANCE.getGeneralizationSet_Name(), 
+      EAttribute _generalizationSet_Name = MetaPackage.eINSTANCE.getGeneralizationSet_Name();
+      this.error(_builder.toString(), _generalizationSet_Name, 
         LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS);
     }
   }
@@ -251,24 +255,26 @@ public class ML2Validator extends AbstractML2Validator {
     if (_isMissingSpecializationThroughPowertype) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Missing specialization through powertype relation.");
-      this.error(_builder.toString(), 
-        MetaPackage.eINSTANCE.getML2Class_SuperClasses(), MLTRules.MISSING_SPECIALIZATION_THROUGH_POWERTYPE);
+      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      this.error(_builder.toString(), _mL2Class_SuperClasses, MLTRules.MISSING_SPECIALIZATION_THROUGH_POWERTYPE);
     }
     boolean _obeysSubordination = this._linguisticRules.obeysSubordination(c, ch, iof);
     boolean _not = (!_obeysSubordination);
     if (_not) {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("Missing specialization through subordination.");
-      this.error(_builder_1.toString(), MetaPackage.eINSTANCE.getML2Class_SuperClasses(), 
+      EReference _mL2Class_SuperClasses_1 = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      this.error(_builder_1.toString(), _mL2Class_SuperClasses_1, 
         LinguisticRules.MISSING_SPECIALIZATION_THROUGH_SUBODINATION);
     }
     boolean _hasSimpleSubordinationCycle = this._linguisticRules.hasSimpleSubordinationCycle(c);
     if (_hasSimpleSubordinationCycle) {
       StringConcatenation _builder_2 = new StringConcatenation();
       String _name = c.getName();
-      _builder_2.append(_name);
+      _builder_2.append(_name, "");
       _builder_2.append(" is in a subordination cycle.");
-      this.error(_builder_2.toString(), MetaPackage.eINSTANCE.getML2Class_Subordinators(), 
+      EReference _mL2Class_Subordinators = MetaPackage.eINSTANCE.getML2Class_Subordinators();
+      this.error(_builder_2.toString(), _mL2Class_Subordinators, 
         LinguisticRules.SIMPLE_SUBORDINATION_CYCLE);
     }
     ValidationIssue _isSpecializingDisjointClasses = this._linguisticRules.isSpecializingDisjointClasses(c, ch);
@@ -307,28 +313,60 @@ public class ML2Validator extends AbstractML2Validator {
   private void _runIssue(final ValidationError issue) {
     final ValidationError it = issue;
     if (((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
-      this.error(it.getMessage(), it.getSource(), it.getFeature(), it.getIndex(), it.getCode(), it.getIssueData());
+      String _message = it.getMessage();
+      EObject _source = it.getSource();
+      EStructuralFeature _feature = it.getFeature();
+      int _index = it.getIndex();
+      String _code = it.getCode();
+      String[] _issueData = it.getIssueData();
+      this.error(_message, _source, _feature, _index, _code, _issueData);
     } else {
       if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (!Objects.equal(it.getCode(), null)))) {
-        this.error(it.getMessage(), it.getSource(), it.getFeature(), it.getCode(), it.getIssueData());
+        String _message_1 = it.getMessage();
+        EObject _source_1 = it.getSource();
+        EStructuralFeature _feature_1 = it.getFeature();
+        String _code_1 = it.getCode();
+        String[] _issueData_1 = it.getIssueData();
+        this.error(_message_1, _source_1, _feature_1, _code_1, _issueData_1);
       } else {
         if ((((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
-          this.error(it.getMessage(), it.getFeature(), it.getIndex(), it.getCode(), it.getIssueData());
+          String _message_2 = it.getMessage();
+          EStructuralFeature _feature_2 = it.getFeature();
+          int _index_1 = it.getIndex();
+          String _code_2 = it.getCode();
+          String[] _issueData_2 = it.getIssueData();
+          this.error(_message_2, _feature_2, _index_1, _code_2, _issueData_2);
         } else {
           if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1)))) {
-            this.error(it.getMessage(), it.getSource(), it.getFeature(), it.getIndex());
+            String _message_3 = it.getMessage();
+            EObject _source_2 = it.getSource();
+            EStructuralFeature _feature_3 = it.getFeature();
+            int _index_2 = it.getIndex();
+            this.error(_message_3, _source_2, _feature_3, _index_2);
           } else {
             if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
-              this.error(it.getMessage(), it.getSource(), it.getFeature());
+              String _message_4 = it.getMessage();
+              EObject _source_3 = it.getSource();
+              EStructuralFeature _feature_4 = it.getFeature();
+              this.error(_message_4, _source_3, _feature_4);
             } else {
               if (((!Objects.equal(it.getFeature(), null)) && (!Objects.equal(it.getCode(), null)))) {
-                this.error(it.getMessage(), it.getFeature(), it.getCode(), it.getIssueData());
+                String _message_5 = it.getMessage();
+                EStructuralFeature _feature_5 = it.getFeature();
+                String _code_3 = it.getCode();
+                String[] _issueData_3 = it.getIssueData();
+                this.error(_message_5, _feature_5, _code_3, _issueData_3);
               } else {
                 if (((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1)))) {
-                  this.error(it.getMessage(), it.getFeature(), it.getIndex());
+                  String _message_6 = it.getMessage();
+                  EStructuralFeature _feature_6 = it.getFeature();
+                  int _index_3 = it.getIndex();
+                  this.error(_message_6, _feature_6, _index_3);
                 } else {
                   if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
-                    this.error(it.getMessage(), it.getFeature());
+                    String _message_7 = it.getMessage();
+                    EStructuralFeature _feature_7 = it.getFeature();
+                    this.error(_message_7, _feature_7);
                   }
                 }
               }
@@ -342,28 +380,60 @@ public class ML2Validator extends AbstractML2Validator {
   private void _runIssue(final ValidationWarning issue) {
     final ValidationWarning it = issue;
     if (((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
-      this.warning(it.getMessage(), it.getSource(), it.getFeature(), it.getIndex(), it.getCode(), it.getIssueData());
+      String _message = it.getMessage();
+      EObject _source = it.getSource();
+      EStructuralFeature _feature = it.getFeature();
+      int _index = it.getIndex();
+      String _code = it.getCode();
+      String[] _issueData = it.getIssueData();
+      this.warning(_message, _source, _feature, _index, _code, _issueData);
     } else {
       if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (!Objects.equal(it.getCode(), null)))) {
-        this.warning(it.getMessage(), it.getSource(), it.getFeature(), it.getCode(), it.getIssueData());
+        String _message_1 = it.getMessage();
+        EObject _source_1 = it.getSource();
+        EStructuralFeature _feature_1 = it.getFeature();
+        String _code_1 = it.getCode();
+        String[] _issueData_1 = it.getIssueData();
+        this.warning(_message_1, _source_1, _feature_1, _code_1, _issueData_1);
       } else {
         if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1)))) {
-          this.warning(it.getMessage(), it.getSource(), it.getFeature(), it.getIndex());
+          String _message_2 = it.getMessage();
+          EObject _source_2 = it.getSource();
+          EStructuralFeature _feature_2 = it.getFeature();
+          int _index_1 = it.getIndex();
+          this.warning(_message_2, _source_2, _feature_2, _index_1);
         } else {
           if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
-            this.warning(it.getMessage(), it.getSource(), it.getFeature());
+            String _message_3 = it.getMessage();
+            EObject _source_3 = it.getSource();
+            EStructuralFeature _feature_3 = it.getFeature();
+            this.warning(_message_3, _source_3, _feature_3);
           } else {
             if ((((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
-              this.warning(it.getMessage(), it.getFeature(), it.getIndex(), it.getCode(), it.getIssueData());
+              String _message_4 = it.getMessage();
+              EStructuralFeature _feature_4 = it.getFeature();
+              int _index_2 = it.getIndex();
+              String _code_2 = it.getCode();
+              String[] _issueData_2 = it.getIssueData();
+              this.warning(_message_4, _feature_4, _index_2, _code_2, _issueData_2);
             } else {
               if (((!Objects.equal(it.getFeature(), null)) && (!Objects.equal(it.getCode(), null)))) {
-                this.warning(it.getMessage(), it.getFeature(), it.getCode(), it.getIssueData());
+                String _message_5 = it.getMessage();
+                EStructuralFeature _feature_5 = it.getFeature();
+                String _code_3 = it.getCode();
+                String[] _issueData_3 = it.getIssueData();
+                this.warning(_message_5, _feature_5, _code_3, _issueData_3);
               } else {
                 if (((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1)))) {
-                  this.warning(it.getMessage(), it.getFeature(), it.getIndex());
+                  String _message_6 = it.getMessage();
+                  EStructuralFeature _feature_6 = it.getFeature();
+                  int _index_3 = it.getIndex();
+                  this.warning(_message_6, _feature_6, _index_3);
                 } else {
                   if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
-                    this.warning(it.getMessage(), it.getFeature());
+                    String _message_7 = it.getMessage();
+                    EStructuralFeature _feature_7 = it.getFeature();
+                    this.warning(_message_7, _feature_7);
                   }
                 }
               }

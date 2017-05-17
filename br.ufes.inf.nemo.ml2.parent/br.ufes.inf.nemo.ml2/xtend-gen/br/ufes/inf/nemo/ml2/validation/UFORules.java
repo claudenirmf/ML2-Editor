@@ -11,6 +11,8 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import java.util.Set;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
@@ -39,7 +41,8 @@ public class UFORules {
       }
       issue.setMessage(_builder.toString());
       issue.setSource(c);
-      issue.setFeature(MetaPackage.eINSTANCE.getEntityDeclaration_InstantiatedClasses());
+      EReference _entityDeclaration_InstantiatedClasses = MetaPackage.eINSTANCE.getEntityDeclaration_InstantiatedClasses();
+      issue.setFeature(_entityDeclaration_InstantiatedClasses);
       issue.setCode(ML2Validator.UFO_A_MISSING_MUST_INSTANTIATION);
       return issue;
     }
@@ -51,7 +54,8 @@ public class UFORules {
     if (_contains) {
       final ML2Class sortalclass = this._mL2Lib.getLibClass(c, ML2Lib.UFO_SORTAL_CLASS);
       final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
-        return Boolean.valueOf(it.getInstantiatedClasses().contains(sortalclass));
+        EList<ML2Class> _instantiatedClasses = it.getInstantiatedClasses();
+        return Boolean.valueOf(_instantiatedClasses.contains(sortalclass));
       };
       final ML2Class dude = IterableExtensions.<ML2Class>findFirst(ch, _function);
       boolean _equals = Objects.equal(dude, null);
@@ -62,10 +66,11 @@ public class UFORules {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Instances of non-soral classes may not specialize the sortal class ");
       String _name = dude.getName();
-      _builder.append(_name);
+      _builder.append(_name, "");
       issue.setMessage(_builder.toString());
       issue.setSource(c);
-      issue.setFeature(MetaPackage.eINSTANCE.getML2Class_SuperClasses());
+      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      issue.setFeature(_mL2Class_SuperClasses);
       issue.setCode(ML2Validator.UFO_A_ILLEGAL_SORTAL_SPECIALIZATION);
       return issue;
     }
@@ -77,7 +82,8 @@ public class UFORules {
     if (_contains) {
       final ML2Class antirigidclass = this._mL2Lib.getLibClass(c, ML2Lib.UFO_ANTI_RIGID_CLASS);
       final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
-        return Boolean.valueOf(it.getInstantiatedClasses().contains(antirigidclass));
+        EList<ML2Class> _instantiatedClasses = it.getInstantiatedClasses();
+        return Boolean.valueOf(_instantiatedClasses.contains(antirigidclass));
       };
       final ML2Class dude = IterableExtensions.<ML2Class>findFirst(ch, _function);
       boolean _equals = Objects.equal(dude, null);
@@ -88,10 +94,11 @@ public class UFORules {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Instances of rigid classes may not specialize the anti-rigid class ");
       String _name = dude.getName();
-      _builder.append(_name);
+      _builder.append(_name, "");
       issue.setMessage(_builder.toString());
       issue.setSource(c);
-      issue.setFeature(MetaPackage.eINSTANCE.getML2Class_SuperClasses());
+      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      issue.setFeature(_mL2Class_SuperClasses);
       issue.setCode(ML2Validator.UFO_A_ILLEGAL_RIGID_SPECIALIZATION);
       return issue;
     } else {
@@ -99,7 +106,8 @@ public class UFORules {
       if (_contains_1) {
         final ML2Class antirigidclass_1 = this._mL2Lib.getLibClass(c, ML2Lib.UFO_ANTI_RIGID_CLASS);
         final Function1<ML2Class, Boolean> _function_1 = (ML2Class it) -> {
-          return Boolean.valueOf(it.getInstantiatedClasses().contains(antirigidclass_1));
+          EList<ML2Class> _instantiatedClasses = it.getInstantiatedClasses();
+          return Boolean.valueOf(_instantiatedClasses.contains(antirigidclass_1));
         };
         final ML2Class dude_1 = IterableExtensions.<ML2Class>findFirst(ch, _function_1);
         boolean _equals_1 = Objects.equal(dude_1, null);
@@ -110,10 +118,11 @@ public class UFORules {
         StringConcatenation _builder_1 = new StringConcatenation();
         _builder_1.append("Instances of semi-rigid classes may not specialize the anti-rigid class ");
         String _name_1 = dude_1.getName();
-        _builder_1.append(_name_1);
+        _builder_1.append(_name_1, "");
         issue_1.setMessage(_builder_1.toString());
         issue_1.setSource(c);
-        issue_1.setFeature(MetaPackage.eINSTANCE.getML2Class_SuperClasses());
+        EReference _mL2Class_SuperClasses_1 = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+        issue_1.setFeature(_mL2Class_SuperClasses_1);
         issue_1.setCode(ML2Validator.UFO_A_ILLEGAL_RIGID_SPECIALIZATION);
         return issue_1;
       }

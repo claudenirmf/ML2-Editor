@@ -5,6 +5,7 @@ import br.ufes.inf.nemo.ml2.meta.ML2Class;
 import br.ufes.inf.nemo.ml2.util.ML2Util;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
@@ -35,6 +36,7 @@ public class MLTRules {
   }
   
   public boolean isMissingSpecializationThroughPowertype(final ML2Class c, final Set<ML2Class> cHierarchy) {
+    LinkedHashSet<ML2Class> _allInstantiatedClasses = this._mL2Util.getAllInstantiatedClasses(c);
     final Function1<ML2Class, Boolean> _function = (ML2Class ho) -> {
       ML2Class _powertypeOf = ho.getPowertypeOf();
       boolean _notEquals = (!Objects.equal(_powertypeOf, null));
@@ -45,6 +47,6 @@ public class MLTRules {
       }
       return Boolean.valueOf(false);
     };
-    return IterableExtensions.<ML2Class>exists(this._mL2Util.getAllInstantiatedClasses(c), _function);
+    return IterableExtensions.<ML2Class>exists(_allInstantiatedClasses, _function);
   }
 }
