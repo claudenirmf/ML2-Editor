@@ -7,6 +7,13 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.common.util.URI
+import org.eclipse.xtext.EcoreUtil2
+import br.ufes.inf.nemo.ml2.meta.ML2Model
+import java.io.ByteArrayOutputStream
+import java.io.ByteArrayInputStream
 
 /**
  * Generates code from your model files on save.
@@ -15,11 +22,29 @@ import org.eclipse.xtext.generator.IGeneratorContext
  */
 class ML2Generator extends AbstractGenerator {
 
-	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(typeof(Greeting))
-//				.map[name]
-//				.join(', '))
+	def void doGenerate(Resource xtextResource, Resource xmiResource) {
+		EcoreUtil.resolveAll(xtextResource)
+		xmiResource.contents.add(xtextResource.contents.get(0))
+		xmiResource.save(null)
+	}
+
+	override void doGenerate(Resource xtextResource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		// TODO Make use of the namespace of the modules and create a different URI for xmiResource
+		val rs = new ResourceSetImpl
+		val fileName = "models\\"+xtextResource.URI.segments.last.replace(".ml2","")+".xmi"
+		val xmiResource = rs.createResource(URI.createURI(fileName))
+		
+		EcoreUtil2.resolveAll(xtextResource.resourceSet)
+		// TODO Fix IndexOutOfBounds exception
+		if(xtextResource.contents.empty)	return ;
+		val model = xtextResource.contents.get(0) as ML2Model
+		val includes = model.includes
+		xmiResource.contents.add(model)
+		if(includes!=null && includes.size>0)
+			xmiResource.contents.addAll(model.includes)
+		
+		val outStream = new ByteArrayOutputStream
+		xmiResource.save(outStream,null)
+		fsa.generateFile(fileName, ML2OutputConfigurationProvider.MODELS_OUTPUT,new ByteArrayInputStream(outStream.toByteArray))
 	}
 }

@@ -4,8 +4,20 @@
 package br.ufes.inf.nemo.ml2;
 
 import br.ufes.inf.nemo.ml2.AbstractML2RuntimeModule;
+import br.ufes.inf.nemo.ml2.generator.ML2OutputConfigurationProvider;
+import br.ufes.inf.nemo.ml2.scoping.ML2ImportedNamespaceAwareLocalScopeProvider;
 import br.ufes.inf.nemo.ml2.util.ML2ValueConverter;
+import com.google.inject.Binder;
+import com.google.inject.Singleton;
+import com.google.inject.binder.AnnotatedBindingBuilder;
+import com.google.inject.binder.LinkedBindingBuilder;
+import com.google.inject.binder.ScopedBindingBuilder;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.generator.IOutputConfigurationProvider;
+import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -15,5 +27,21 @@ public class ML2RuntimeModule extends AbstractML2RuntimeModule {
   @Override
   public Class<? extends IValueConverterService> bindIValueConverterService() {
     return ML2ValueConverter.class;
+  }
+  
+  @Override
+  public void configureIScopeProviderDelegate(final Binder binder) {
+    AnnotatedBindingBuilder<IScopeProvider> _bind = binder.<IScopeProvider>bind(IScopeProvider.class);
+    Named _named = Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE);
+    LinkedBindingBuilder<IScopeProvider> _annotatedWith = _bind.annotatedWith(_named);
+    _annotatedWith.to(ML2ImportedNamespaceAwareLocalScopeProvider.class);
+  }
+  
+  @Override
+  public void configure(final Binder binder) {
+    super.configure(binder);
+    AnnotatedBindingBuilder<IOutputConfigurationProvider> _bind = binder.<IOutputConfigurationProvider>bind(IOutputConfigurationProvider.class);
+    ScopedBindingBuilder _to = _bind.to(ML2OutputConfigurationProvider.class);
+    _to.in(Singleton.class);
   }
 }

@@ -3,10 +3,25 @@
  */
 package br.ufes.inf.nemo.ml2.generator;
 
+import br.ufes.inf.nemo.ml2.generator.ML2OutputConfigurationProvider;
+import br.ufes.inf.nemo.ml2.meta.ML2Model;
+import com.google.common.base.Objects;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 /**
  * Generates code from your model files on save.
@@ -15,7 +30,56 @@ import org.eclipse.xtext.generator.IGeneratorContext;
  */
 @SuppressWarnings("all")
 public class ML2Generator extends AbstractGenerator {
+  public void doGenerate(final Resource xtextResource, final Resource xmiResource) {
+    try {
+      EcoreUtil.resolveAll(xtextResource);
+      EList<EObject> _contents = xmiResource.getContents();
+      EList<EObject> _contents_1 = xtextResource.getContents();
+      EObject _get = _contents_1.get(0);
+      _contents.add(_get);
+      xmiResource.save(null);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
   @Override
-  public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+  public void doGenerate(final Resource xtextResource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    try {
+      final ResourceSetImpl rs = new ResourceSetImpl();
+      URI _uRI = xtextResource.getURI();
+      String[] _segments = _uRI.segments();
+      String _last = IterableExtensions.<String>last(((Iterable<String>)Conversions.doWrapArray(_segments)));
+      String _replace = _last.replace(".ml2", "");
+      String _plus = ("models\\" + _replace);
+      final String fileName = (_plus + ".xmi");
+      URI _createURI = URI.createURI(fileName);
+      final Resource xmiResource = rs.createResource(_createURI);
+      ResourceSet _resourceSet = xtextResource.getResourceSet();
+      EcoreUtil2.resolveAll(_resourceSet);
+      EList<EObject> _contents = xtextResource.getContents();
+      boolean _isEmpty = _contents.isEmpty();
+      if (_isEmpty) {
+        return;
+      }
+      EList<EObject> _contents_1 = xtextResource.getContents();
+      EObject _get = _contents_1.get(0);
+      final ML2Model model = ((ML2Model) _get);
+      final EList<ML2Model> includes = model.getIncludes();
+      EList<EObject> _contents_2 = xmiResource.getContents();
+      _contents_2.add(model);
+      if (((!Objects.equal(includes, null)) && (includes.size() > 0))) {
+        EList<EObject> _contents_3 = xmiResource.getContents();
+        EList<ML2Model> _includes = model.getIncludes();
+        _contents_3.addAll(_includes);
+      }
+      final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+      xmiResource.save(outStream, null);
+      byte[] _byteArray = outStream.toByteArray();
+      ByteArrayInputStream _byteArrayInputStream = new ByteArrayInputStream(_byteArray);
+      fsa.generateFile(fileName, ML2OutputConfigurationProvider.MODELS_OUTPUT, _byteArrayInputStream);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
 }
