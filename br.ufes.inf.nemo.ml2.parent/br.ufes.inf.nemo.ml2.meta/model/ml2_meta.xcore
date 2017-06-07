@@ -113,6 +113,11 @@ class Attribute extends Feature
 	PrimitiveType primitiveType
 	refers DataType _type
 	refers Attribute[] subsetOf
+	
+	op boolean isPrimitive()
+	{
+		return !eIsSet(MetaPackage.eINSTANCE.attribute__type)
+	}
 }
 
 class Reference extends Feature

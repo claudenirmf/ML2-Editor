@@ -94,4 +94,13 @@ public interface Attribute extends Feature {
 	 */
 	EList<Attribute> getSubsetOf();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" unique="false"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='<%org.eclipse.emf.ecore.EReference%> _attribute__type = <%br.ufes.inf.nemo.ml2.meta.MetaPackage%>.eINSTANCE.getAttribute__type();\nboolean _eIsSet = this.eIsSet(_attribute__type);\nreturn (!_eIsSet);'"
+	 * @generated
+	 */
+	boolean isPrimitive();
+
 } // Attribute

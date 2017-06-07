@@ -883,6 +883,27 @@ public class LinguisticRules {
     if (_isEmpty) {
       return null;
     }
+    Set<ML2Class> _classHierarchy = this._mL2Util.classHierarchy(c);
+    final Consumer<ML2Class> _function_2 = (ML2Class sc) -> {
+      EList<FeatureAssignment> _assignments_1 = sc.getAssignments();
+      final Consumer<FeatureAssignment> _function_3 = (FeatureAssignment f) -> {
+        if ((f instanceof AttributeAssignment)) {
+          Attribute _attribute = ((AttributeAssignment)f).getAttribute();
+          rFeatures.remove(_attribute);
+        } else {
+          if ((f instanceof ReferenceAssignment)) {
+            Reference _reference = ((ReferenceAssignment)f).getReference();
+            rFeatures.remove(_reference);
+          }
+        }
+      };
+      _assignments_1.forEach(_function_3);
+    };
+    _classHierarchy.forEach(_function_2);
+    boolean _isEmpty_1 = rFeatures.isEmpty();
+    if (_isEmpty_1) {
+      return null;
+    }
     final ValidationWarning issue = new ValidationWarning();
     issue.setSource(c);
     EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
@@ -972,14 +993,12 @@ public class LinguisticRules {
             i.setFeature(_attributeAssignment_Attribute);
             StringConcatenation _builder = new StringConcatenation();
             _builder.append("Assignment is non-conformant to the regularity feature ");
-            _builder.newLine();
-            _builder.append("\t\t\t\t\t\t");
             String _name = regAtt.getName();
-            _builder.append(_name, "\t\t\t\t\t\t");
+            _builder.append(_name, "");
             _builder.append(" of ");
             EObject _eContainer_2 = regAtt.eContainer();
             String _name_1 = ((ML2Class) _eContainer_2).getName();
-            _builder.append(_name_1, "\t\t\t\t\t\t");
+            _builder.append(_name_1, "");
             _builder.append(".");
             i.setMessage(_builder.toString());
             i.setCode(LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
@@ -1043,14 +1062,12 @@ public class LinguisticRules {
           i.setFeature(_referenceAssignment_Reference);
           StringConcatenation _builder = new StringConcatenation();
           _builder.append("Assignment is non-conformant to the regularity feature ");
-          _builder.newLine();
-          _builder.append("\t\t\t\t\t\t");
           String _name = regRef.getName();
-          _builder.append(_name, "\t\t\t\t\t\t");
+          _builder.append(_name, "");
           _builder.append(" of ");
           EObject _eContainer_2 = regRef.eContainer();
           String _name_1 = ((ML2Class) _eContainer_2).getName();
-          _builder.append(_name_1, "\t\t\t\t\t\t");
+          _builder.append(_name_1, "");
           _builder.append(".");
           i.setMessage(_builder.toString());
           i.setCode(LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);

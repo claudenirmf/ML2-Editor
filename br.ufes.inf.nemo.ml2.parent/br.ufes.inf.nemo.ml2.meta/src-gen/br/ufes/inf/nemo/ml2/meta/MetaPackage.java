@@ -1379,13 +1379,22 @@ public interface MetaPackage extends EPackage {
 	int ATTRIBUTE_FEATURE_COUNT = FEATURE_FEATURE_COUNT + 3;
 
 	/**
+	 * The operation id for the '<em>Is Primitive</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE___IS_PRIMITIVE = FEATURE_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_OPERATION_COUNT = FEATURE_OPERATION_COUNT + 0;
+	int ATTRIBUTE_OPERATION_COUNT = FEATURE_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link br.ufes.inf.nemo.ml2.meta.impl.ReferenceImpl <em>Reference</em>}' class.
@@ -2337,6 +2346,16 @@ public interface MetaPackage extends EPackage {
 	EReference getAttribute_SubsetOf();
 
 	/**
+	 * Returns the meta object for the '{@link br.ufes.inf.nemo.ml2.meta.Attribute#isPrimitive() <em>Is Primitive</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Primitive</em>' operation.
+	 * @see br.ufes.inf.nemo.ml2.meta.Attribute#isPrimitive()
+	 * @generated
+	 */
+	EOperation getAttribute__IsPrimitive();
+
+	/**
 	 * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.meta.Reference <em>Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3058,6 +3077,14 @@ public interface MetaPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ATTRIBUTE__SUBSET_OF = eINSTANCE.getAttribute_SubsetOf();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Primitive</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ATTRIBUTE___IS_PRIMITIVE = eINSTANCE.getAttribute__IsPrimitive();
 
 		/**
 		 * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.meta.impl.ReferenceImpl <em>Reference</em>}' class.

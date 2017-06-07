@@ -7,6 +7,8 @@ import br.ufes.inf.nemo.ml2.meta.DataType;
 import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 import br.ufes.inf.nemo.ml2.meta.PrimitiveType;
 
+import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -14,6 +16,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -171,6 +174,17 @@ public class AttributeImpl extends FeatureImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isPrimitive() {
+		EReference _attribute__type = MetaPackage.eINSTANCE.getAttribute__type();
+		boolean _eIsSet = this.eIsSet(_attribute__type);
+		return (!_eIsSet);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -245,6 +259,20 @@ public class AttributeImpl extends FeatureImpl implements Attribute {
 				return subsetOf != null && !subsetOf.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case MetaPackage.ATTRIBUTE___IS_PRIMITIVE:
+				return isPrimitive();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**

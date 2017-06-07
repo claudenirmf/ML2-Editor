@@ -429,6 +429,7 @@ class LinguisticRules {
 	}
 	
 	def ValidationIssue checkInstantiatedRegularities(ML2Class c){
+		/* Looks for assignments within the class */
 		val rFeatures = c.allFeatures.filter[ it.regulatedFeature!==null ].toSet
 		c.assignments.forEach[ f |
 			if(f instanceof AttributeAssignment)
@@ -436,6 +437,20 @@ class LinguisticRules {
 			else if(f instanceof ReferenceAssignment)
 				rFeatures.remove(f.reference)]
 		
+		/* If there are no regularities, returns and avoids the slower
+		 * checking bellow */
+		if(rFeatures.empty)	return null
+		
+		/* Looks for assignments within the super classes */
+		c.classHierarchy.forEach[ sc |
+			sc.assignments.forEach[ f |
+				if(f instanceof AttributeAssignment)
+					rFeatures.remove(f.attribute)
+				else if(f instanceof ReferenceAssignment)
+					rFeatures.remove(f.reference)]
+		]
+		
+		/* If there are no regularities, returns */
 		if(rFeatures.empty)	return null
 		
 		val issue = new ValidationWarning
@@ -482,8 +497,7 @@ class LinguisticRules {
 					val i = new ValidationWarning
 					i.source = atta
 					i.feature = MetaPackage.eINSTANCE.attributeAssignment_Attribute
-					i.message = '''Assignment is non-conformant to the regularity feature 
-						«regAtt.name» of «(regAtt.eContainer as ML2Class).name».'''
+					i.message = '''Assignment is non-conformant to the regularity feature «regAtt.name» of «(regAtt.eContainer as ML2Class).name».'''
 					i.code = NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT
 					return i
 				}
@@ -493,13 +507,17 @@ class LinguisticRules {
 	}
 	
 	dispatch def ValidationIssue checkRegularityFeatureConformance(ReferenceAssignment refa){
+		/* From an assignment, takes the reference and looks for regularities over it */
 		val ref = refa.reference
 		val regRefSet = new LinkedHashSet<Reference>
 		val knowClasses = (refa.eContainer as EntityDeclaration).rechableClasses
 		knowClasses.forEach[ c | c.references.forEach[
 			if(it.regulatedFeature == ref)	regRefSet.add(it) ]]
+		
+		/* If no regularity is found, returns */
 		if(regRefSet.isEmpty)	return null
 		
+		/* Then, looks for assignments of those regularities in order to know the specified regulations */
 		val regRefAssigSet = new LinkedHashSet<ReferenceAssignment>
 		for(ML2Class c : (refa.eContainer as EntityDeclaration).instantiatedClasses) {
 			for(FeatureAssignment it : c.assignments) {
@@ -507,16 +525,19 @@ class LinguisticRules {
 					if(regRefSet.contains(it.reference))	regRefAssigSet.add(it)
 			}
 		}
+		/* If no specified regulation is found, returns */
 		if(regRefAssigSet.isEmpty)	return null
 		
+		/* For each pair "regularity feature"/"specified regulation", verifies if the given 
+		 * feature conforms to it.
+		 */
 		for(ReferenceAssignment regRefAssig : regRefAssigSet) {
 			for(Reference regRef : regRefSet) {
 				if(!refa.isConformanTo(regRef.regularityType, regRefAssig)) {
 					val i = new ValidationWarning
 					i.source = refa
 					i.feature = MetaPackage.eINSTANCE.referenceAssignment_Reference
-					i.message = '''Assignment is non-conformant to the regularity feature 
-						«regRef.name» of «(regRef.eContainer as ML2Class).name».'''
+					i.message = '''Assignment is non-conformant to the regularity feature «regRef.name» of «(regRef.eContainer as ML2Class).name».'''
 					i.code = NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT
 					return i
 				}

@@ -59,10 +59,10 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
               return this.getScopeForReferenceOnReference_OppositeTo(context, reference);
             } else {
               if (((context instanceof Attribute) && Objects.equal(reference, MetaPackage.eINSTANCE.getFeature_RegulatedFeature()))) {
-                return this.getScopeForAttributeOnProperty_ReguletedProperty(context, reference);
+                return this.getScopeForAttributeOnFeature_ReguletedProperty(context, reference);
               } else {
                 if (((context instanceof Reference) && Objects.equal(reference, MetaPackage.eINSTANCE.getFeature_RegulatedFeature()))) {
-                  return this.getScopeForReferenceOnProperty_ReguletedProperty(context, reference);
+                  return this.getScopeForReferenceOnFeature_ReguletedProperty(context, reference);
                 } else {
                   return super.getScope(context, reference);
                 }
@@ -191,7 +191,7 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
     return Scopes.<Reference>scopeFor(_filter, _function_1, _scopeFor);
   }
   
-  private IScope getScopeForAttributeOnProperty_ReguletedProperty(final EObject context, final EReference reference) {
+  private IScope getScopeForAttributeOnFeature_ReguletedProperty(final EObject context, final EReference reference) {
     EObject _eContainer = context.eContainer();
     final ML2Class c = ((ML2Class) _eContainer);
     final BasicEList<Attribute> elements = new BasicEList<Attribute>();
@@ -201,15 +201,31 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
       ML2Class _categorizedClass_1 = c.getCategorizedClass();
       EList<Attribute> _attributes = _categorizedClass_1.getAttributes();
       elements.addAll(_attributes);
+      ML2Class _categorizedClass_2 = c.getCategorizedClass();
+      Set<Attribute> _allInheritedAttributes = this._mL2Util.getAllInheritedAttributes(_categorizedClass_2);
+      elements.addAll(_allInheritedAttributes);
     }
-    final Function<Attribute, QualifiedName> _function = (Attribute it) -> {
-      String _name = it.getName();
-      return QualifiedName.create(_name);
+    final Function<Attribute, QualifiedName> _function = (Attribute att) -> {
+      QualifiedName _xifexpression = null;
+      final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+        return Boolean.valueOf((Objects.equal(it.getName(), att.getName()) && (!Objects.equal(it, att))));
+      };
+      boolean _exists = IterableExtensions.<Attribute>exists(elements, _function_1);
+      if (_exists) {
+        EObject _eContainer_1 = att.eContainer();
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = att.getName();
+        _xifexpression = QualifiedName.create(_name, _name_1);
+      } else {
+        String _name_2 = att.getName();
+        _xifexpression = QualifiedName.create(_name_2);
+      }
+      return _xifexpression;
     };
     return Scopes.<Attribute>scopeFor(elements, _function, IScope.NULLSCOPE);
   }
   
-  private IScope getScopeForReferenceOnProperty_ReguletedProperty(final EObject context, final EReference reference) {
+  private IScope getScopeForReferenceOnFeature_ReguletedProperty(final EObject context, final EReference reference) {
     EObject _eContainer = context.eContainer();
     final ML2Class c = ((ML2Class) _eContainer);
     final BasicEList<Reference> elements = new BasicEList<Reference>();
@@ -219,10 +235,26 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
       ML2Class _categorizedClass_1 = c.getCategorizedClass();
       EList<Reference> _references = _categorizedClass_1.getReferences();
       elements.addAll(_references);
+      ML2Class _categorizedClass_2 = c.getCategorizedClass();
+      Set<Reference> _allInheritedReferences = this._mL2Util.getAllInheritedReferences(_categorizedClass_2);
+      elements.addAll(_allInheritedReferences);
     }
-    final Function<Reference, QualifiedName> _function = (Reference it) -> {
-      String _name = it.getName();
-      return QualifiedName.create(_name);
+    final Function<Reference, QualifiedName> _function = (Reference ref) -> {
+      QualifiedName _xifexpression = null;
+      final Function1<Reference, Boolean> _function_1 = (Reference it) -> {
+        return Boolean.valueOf((Objects.equal(it.getName(), ref.getName()) && (!Objects.equal(it, ref))));
+      };
+      boolean _exists = IterableExtensions.<Reference>exists(elements, _function_1);
+      if (_exists) {
+        EObject _eContainer_1 = ref.eContainer();
+        String _name = ((EntityDeclaration) _eContainer_1).getName();
+        String _name_1 = ref.getName();
+        _xifexpression = QualifiedName.create(_name, _name_1);
+      } else {
+        String _name_2 = ref.getName();
+        _xifexpression = QualifiedName.create(_name_2);
+      }
+      return _xifexpression;
     };
     return Scopes.<Reference>scopeFor(elements, _function, IScope.NULLSCOPE);
   }

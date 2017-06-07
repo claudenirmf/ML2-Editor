@@ -46,10 +46,10 @@ class ML2ScopeProvider extends AbstractML2ScopeProvider {
 			return getScopeForReferenceOnReference_OppositeTo(context,reference)
 		}
 		else if(context instanceof Attribute && reference==MetaPackage.eINSTANCE.feature_RegulatedFeature){
-			return getScopeForAttributeOnProperty_ReguletedProperty(context,reference)
+			return getScopeForAttributeOnFeature_ReguletedProperty(context,reference)
 		}
 		else if(context instanceof Reference && reference==MetaPackage.eINSTANCE.feature_RegulatedFeature){
-			return getScopeForReferenceOnProperty_ReguletedProperty(context,reference)
+			return getScopeForReferenceOnFeature_ReguletedProperty(context,reference)
 		}
 		else return super.getScope(context, reference)
 	}
@@ -106,17 +106,35 @@ class ML2ScopeProvider extends AbstractML2ScopeProvider {
 			[ QualifiedName.create(it.name) ], Scopes.scopeFor(c.references))
 	}
 	
-	def private getScopeForAttributeOnProperty_ReguletedProperty(EObject context, EReference reference) {
+	def private getScopeForAttributeOnFeature_ReguletedProperty(EObject context, EReference reference) {
 		val c = context.eContainer as ML2Class
 		val elements = new BasicEList<Attribute>()
-		if(c.categorizedClass!==null)	elements.addAll(c.categorizedClass.attributes)
-		return Scopes.scopeFor(elements, [ QualifiedName.create(it.name) ], IScope.NULLSCOPE)
+		if(c.categorizedClass!==null) {
+			elements.addAll(c.categorizedClass.attributes)
+			elements.addAll(c.categorizedClass.allInheritedAttributes)
+		}
+//		return Scopes.scopeFor(elements, [ QualifiedName.create(it.name) ], IScope.NULLSCOPE)
+		return Scopes.scopeFor(elements, [ att |
+				if(elements.exists[name==att.name && it!=att])
+					QualifiedName.create((att.eContainer as EntityDeclaration).name, att.name)
+				else
+					QualifiedName.create(att.name)
+			], IScope.NULLSCOPE)
 	}
 	
-	def private getScopeForReferenceOnProperty_ReguletedProperty(EObject context, EReference reference) {
+	def private getScopeForReferenceOnFeature_ReguletedProperty(EObject context, EReference reference) {
 		val c = context.eContainer as ML2Class
 		val elements = new BasicEList<Reference>()
-		if(c.categorizedClass!==null)	elements.addAll(c.categorizedClass.references)
-		return Scopes.scopeFor(elements, [ QualifiedName.create(it.name) ], IScope.NULLSCOPE)
+		if(c.categorizedClass!==null){
+			elements.addAll(c.categorizedClass.references)
+			elements.addAll(c.categorizedClass.allInheritedReferences)
+		}
+//		return Scopes.scopeFor(elements, [ QualifiedName.create(it.name) ], IScope.NULLSCOPE)
+		return Scopes.scopeFor(elements, [ ref |
+				if(elements.exists[name==ref.name && it!=ref])
+					QualifiedName.create((ref.eContainer as EntityDeclaration).name, ref.name)
+				else
+					QualifiedName.create(ref.name)
+			], IScope.NULLSCOPE)
 	}
 }
