@@ -64,6 +64,8 @@ public class LinguisticRules {
   
   public final static String INVALID_ENTITY_DECLARATION_NAME = "br.ufes.inf.nemo.meta.InvalidEntityDeclarationName";
   
+  public final static String INVALID_FEATURE_NAME = "br.ufes.inf.nemo.meta.InvalidFeatureName";
+  
   public final static String INVALID_CLASS_SPECIALIZATION = "br.ufes.inf.nemo.meta.InvalidClassSpecialization";
   
   public final static String CYCLIC_SPECIALIZATION = "br.ufes.inf.nemo.meta.CycliSpecialization";
@@ -75,6 +77,8 @@ public class LinguisticRules {
   public final static String INVALID_SUBORDINATOR = "br.ufes.inf.nemo.meta.InvalidSubordinator";
   
   public final static String DUPLICATED_ENTITY_NAME = "br.ufes.inf.nemo.meta.DuplicatedEntityName";
+  
+  public final static String DUPLICATED_FEATURE_NAME = "br.ufes.inf.nemo.meta.DuplicatedFeatureName";
   
   public final static String INVALID_GENERALIZATION_SET_MEMBERS = "br.ufes.inf.nemo.meta.InvalidGeneralizationSetMembers";
   
@@ -102,197 +106,365 @@ public class LinguisticRules {
   
   public final static String NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT = "br.ufes.inf.nemo.meta.NonConformantRegulatedFeatureAssignment";
   
-  public boolean isNameValid(final EntityDeclaration e) {
+  public final static String INVALID_INSTANTIATION = "br.ufes.inf.nemo.meta.InvalidInstantiation";
+  
+  public final static String INVALID_GENERALIZATION_SET_CATEGORIZATION_COMBINATION = "br.ufes.inf.nemo.meta.InvalidGeneralizationSetCategorizationCombination";
+  
+  public ValidationError isNameValid(final EntityDeclaration e) {
     if (((!e.getName().equals(StringExtensions.toFirstLower(e.getName()))) || (e.eContainer() instanceof AttributeAssignment))) {
-      return true;
+      return null;
     } else {
-      return false;
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Entity name must start with a capital letter.");
+      EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+      return new ValidationError(_builder.toString(), _entityDeclaration_Name, (-1), 
+        LinguisticRules.INVALID_ENTITY_DECLARATION_NAME, null, e);
     }
   }
   
-  public boolean isValidSpecialization(final ML2Class c) {
-    EList<ML2Class> _superClasses = c.getSuperClasses();
-    final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
-      return Boolean.valueOf(Objects.equal(it, c));
-    };
-    boolean _exists = IterableExtensions.<ML2Class>exists(_superClasses, _function);
-    if (_exists) {
-      return false;
-    } else {
-      if (((c instanceof OrderlessClass) && IterableExtensions.<ML2Class>exists(c.getSuperClasses(), ((Function1<ML2Class, Boolean>) (ML2Class it) -> {
-        return Boolean.valueOf((it instanceof OrderedClass));
-      })))) {
-        return false;
-      } else {
-        if (((c instanceof FOClass) && IterableExtensions.<ML2Class>exists(c.getSuperClasses(), ((Function1<ML2Class, Boolean>) (ML2Class it) -> {
-          return Boolean.valueOf((it instanceof HOClass));
-        })))) {
-          return false;
-        } else {
-          if (((c instanceof HOClass) && IterableExtensions.<ML2Class>exists(c.getSuperClasses(), ((Function1<ML2Class, Boolean>) (ML2Class it) -> {
-            return Boolean.valueOf((it instanceof FOClass));
-          })))) {
-            return false;
-          } else {
-            if ((c instanceof HOClass)) {
-              EList<ML2Class> _superClasses_1 = ((HOClass)c).getSuperClasses();
-              final Function1<ML2Class, Boolean> _function_1 = (ML2Class it) -> {
-                boolean _xifexpression = false;
-                if (((it instanceof HOClass) && (!Objects.equal(((HOClass) it).getOrder(), ((HOClass)c).getOrder())))) {
-                  _xifexpression = true;
-                } else {
-                  _xifexpression = false;
-                }
-                return Boolean.valueOf(_xifexpression);
-              };
-              boolean _exists_1 = IterableExtensions.<ML2Class>exists(_superClasses_1, _function_1);
-              return (!_exists_1);
-            } else {
-              return true;
-            }
-          }
-        }
-      }
-    }
-  }
-  
-  public boolean hasCyclicSpecialization(final ML2Class c, final Set<ML2Class> ch) {
-    boolean _xifexpression = false;
-    boolean _contains = ch.contains(c);
-    if (_contains) {
-      _xifexpression = true;
-    } else {
-      _xifexpression = false;
-    }
-    return _xifexpression;
-  }
-  
-  public boolean hasValidCategorizedClass(final ML2Class c) {
-    final ML2Class cat = c.getCategorizedClass();
-    if ((cat == null)) {
-      return true;
-    } else {
-      if ((c instanceof OrderlessClass)) {
-        return (cat instanceof OrderlessClass);
-      } else {
-        if ((c instanceof HOClass)) {
-          if ((cat instanceof OrderlessClass)) {
-            if ((Objects.equal(((HOClass)c).getCategorizationType(), CategorizationType.COMPLETE_CATEGORIZER) || Objects.equal(((HOClass)c).getCategorizationType(), CategorizationType.PARTITIONER))) {
-              return false;
-            }
-          } else {
-            Integer _order = ((HOClass)c).getOrder();
-            boolean _equals = ((_order).intValue() == MLTRules.MIN_ORDER);
-            if (_equals) {
-              return (!(cat instanceof HOClass));
-            } else {
-              if ((((((HOClass)c).getOrder()).intValue() != MLTRules.MIN_ORDER) && (cat instanceof HOClass))) {
-                Integer _order_1 = ((HOClass)c).getOrder();
-                Integer _order_2 = ((HOClass) cat).getOrder();
-                int _plus = ((_order_2).intValue() + 1);
-                return ((_order_1).intValue() == _plus);
-              }
-            }
-          }
-        } else {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-  
-  public boolean hasValidPowertypeRelation(final ML2Class c) {
-    final ML2Class base = c.getPowertypeOf();
-    if ((base == null)) {
-      return true;
-    } else {
-      if ((c instanceof OrderlessClass)) {
-        return (base instanceof OrderlessClass);
-      } else {
-        if ((c instanceof HOClass)) {
-          if ((base instanceof OrderlessClass)) {
-            return false;
-          } else {
-            Integer _order = ((HOClass)c).getOrder();
-            boolean _equals = ((_order).intValue() == MLTRules.MIN_ORDER);
-            if (_equals) {
-              return (!(base instanceof HOClass));
-            } else {
-              if ((((((HOClass)c).getOrder()).intValue() != MLTRules.MIN_ORDER) && (base instanceof HOClass))) {
-                Integer _order_1 = ((HOClass)c).getOrder();
-                Integer _order_2 = ((HOClass) base).getOrder();
-                int _plus = ((_order_2).intValue() + 1);
-                return ((_order_1).intValue() == _plus);
-              }
-            }
-          }
-        } else {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-  
-  public boolean hasValidSubordinators(final ML2Class c) {
-    if ((c instanceof OrderlessClass)) {
-      EList<ML2Class> _subordinators = ((OrderlessClass)c).getSubordinators();
+  public ValidationIssue isValidInstantiation(final EntityDeclaration e) {
+    ML2Class invalid = null;
+    if ((e instanceof Individual)) {
+      EList<ML2Class> _instantiatedClasses = ((Individual)e).getInstantiatedClasses();
       final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
-        return Boolean.valueOf((it instanceof OrderedClass));
+        return Boolean.valueOf((it instanceof HOClass));
       };
-      boolean _exists = IterableExtensions.<ML2Class>exists(_subordinators, _function);
-      return (!_exists);
+      ML2Class _findFirst = IterableExtensions.<ML2Class>findFirst(_instantiatedClasses, _function);
+      invalid = _findFirst;
     } else {
-      if ((c instanceof HOClass)) {
-        EList<ML2Class> _subordinators_1 = ((HOClass)c).getSubordinators();
+      if ((e instanceof FOClass)) {
+        EList<ML2Class> _instantiatedClasses_1 = ((FOClass)e).getInstantiatedClasses();
         final Function1<ML2Class, Boolean> _function_1 = (ML2Class it) -> {
-          boolean _equals = Objects.equal(it, c);
-          if (_equals) {
+          if ((it instanceof FOClass)) {
             return Boolean.valueOf(true);
           } else {
+            if ((it instanceof HOClass)) {
+              Integer _order = ((HOClass)it).getOrder();
+              boolean _notEquals = ((_order).intValue() != MLTRules.MIN_ORDER);
+              if (_notEquals) {
+                return Boolean.valueOf(true);
+              }
+            }
+          }
+          return Boolean.valueOf(false);
+        };
+        ML2Class _findFirst_1 = IterableExtensions.<ML2Class>findFirst(_instantiatedClasses_1, _function_1);
+        invalid = _findFirst_1;
+      } else {
+        if ((e instanceof HOClass)) {
+          EList<ML2Class> _instantiatedClasses_2 = ((HOClass)e).getInstantiatedClasses();
+          final Function1<ML2Class, Boolean> _function_2 = (ML2Class it) -> {
             if ((it instanceof FOClass)) {
               return Boolean.valueOf(true);
             } else {
               if ((it instanceof HOClass)) {
                 Integer _order = ((HOClass)it).getOrder();
-                Integer _order_1 = ((HOClass)c).getOrder();
-                return Boolean.valueOf((!Objects.equal(_order, _order_1)));
+                Integer _order_1 = ((HOClass)e).getOrder();
+                int _plus = ((_order_1).intValue() + 1);
+                boolean _notEquals = ((_order).intValue() != _plus);
+                if (_notEquals) {
+                  return Boolean.valueOf(true);
+                }
+              }
+            }
+            return Boolean.valueOf(false);
+          };
+          ML2Class _findFirst_2 = IterableExtensions.<ML2Class>findFirst(_instantiatedClasses_2, _function_2);
+          invalid = _findFirst_2;
+        } else {
+          if ((e instanceof OrderlessClass)) {
+            EList<ML2Class> _instantiatedClasses_3 = ((OrderlessClass)e).getInstantiatedClasses();
+            final Function1<ML2Class, Boolean> _function_3 = (ML2Class it) -> {
+              return Boolean.valueOf((!(it instanceof OrderlessClass)));
+            };
+            ML2Class _findFirst_3 = IterableExtensions.<ML2Class>findFirst(_instantiatedClasses_3, _function_3);
+            invalid = _findFirst_3;
+          }
+        }
+      }
+    }
+    boolean _equals = Objects.equal(invalid, null);
+    if (_equals) {
+      return null;
+    } else {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Invalid instantiation of ");
+      String _name = invalid.getName();
+      _builder.append(_name, "");
+      EReference _entityDeclaration_InstantiatedClasses = MetaPackage.eINSTANCE.getEntityDeclaration_InstantiatedClasses();
+      EList<ML2Class> _instantiatedClasses_4 = e.getInstantiatedClasses();
+      int _indexOf = _instantiatedClasses_4.indexOf(invalid);
+      return new ValidationError(_builder.toString(), _entityDeclaration_InstantiatedClasses, _indexOf, 
+        LinguisticRules.INVALID_INSTANTIATION, 
+        null, e);
+    }
+  }
+  
+  public ValidationError isValidSpecialization(final ML2Class c) {
+    ML2Class invalid = null;
+    EList<ML2Class> _superClasses = c.getSuperClasses();
+    boolean _contains = _superClasses.contains(c);
+    if (_contains) {
+      invalid = c;
+    } else {
+      if ((c instanceof OrderlessClass)) {
+        EList<ML2Class> _superClasses_1 = ((OrderlessClass)c).getSuperClasses();
+        final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
+          return Boolean.valueOf((it instanceof OrderedClass));
+        };
+        ML2Class _findFirst = IterableExtensions.<ML2Class>findFirst(_superClasses_1, _function);
+        invalid = _findFirst;
+      } else {
+        if ((c instanceof FOClass)) {
+          EList<ML2Class> _superClasses_2 = ((FOClass)c).getSuperClasses();
+          final Function1<ML2Class, Boolean> _function_1 = (ML2Class it) -> {
+            return Boolean.valueOf((it instanceof HOClass));
+          };
+          ML2Class _findFirst_1 = IterableExtensions.<ML2Class>findFirst(_superClasses_2, _function_1);
+          invalid = _findFirst_1;
+        } else {
+          if ((c instanceof HOClass)) {
+            EList<ML2Class> _superClasses_3 = ((HOClass)c).getSuperClasses();
+            final Function1<ML2Class, Boolean> _function_2 = (ML2Class it) -> {
+              boolean _xifexpression = false;
+              if ((it instanceof FOClass)) {
+                _xifexpression = true;
               } else {
-                return Boolean.valueOf(false);
+                boolean _xifexpression_1 = false;
+                if ((it instanceof HOClass)) {
+                  Integer _order = ((HOClass)c).getOrder();
+                  Integer _order_1 = ((HOClass)it).getOrder();
+                  _xifexpression_1 = (!Objects.equal(_order, _order_1));
+                } else {
+                  _xifexpression_1 = false;
+                }
+                _xifexpression = _xifexpression_1;
+              }
+              return Boolean.valueOf(_xifexpression);
+            };
+            ML2Class _findFirst_2 = IterableExtensions.<ML2Class>findFirst(_superClasses_3, _function_2);
+            invalid = _findFirst_2;
+          }
+        }
+      }
+    }
+    boolean _equals = Objects.equal(invalid, null);
+    if (_equals) {
+      return null;
+    } else {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Invalid specialization of ");
+      String _name = invalid.getName();
+      _builder.append(_name, "");
+      _builder.append(".");
+      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      EList<ML2Class> _superClasses_4 = c.getSuperClasses();
+      int _indexOf = _superClasses_4.indexOf(invalid);
+      return new ValidationError(_builder.toString(), _mL2Class_SuperClasses, _indexOf, 
+        LinguisticRules.INVALID_CLASS_SPECIALIZATION, 
+        ValidationIssue.NO_ISSUE_CODE, c);
+    }
+  }
+  
+  public ValidationError hasCyclicSpecialization(final ML2Class c, final Set<ML2Class> ch) {
+    ValidationError _xifexpression = null;
+    boolean _contains = ch.contains(c);
+    if (_contains) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Invalid cyclic specialization.");
+      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      _xifexpression = new ValidationError(_builder.toString(), _mL2Class_SuperClasses, 
+        ValidationIssue.NO_INDEX, 
+        LinguisticRules.CYCLIC_SPECIALIZATION, 
+        ValidationIssue.NO_ISSUE_CODE, c);
+    } else {
+      _xifexpression = null;
+    }
+    return _xifexpression;
+  }
+  
+  public ValidationError hasValidCategorizedClass(final ML2Class c) {
+    final ML2Class cat = c.getCategorizedClass();
+    String msg = "";
+    if ((cat == null)) {
+      return null;
+    } else {
+      if (((c instanceof OrderlessClass) && (cat instanceof OrderedClass))) {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("Invalid categorization of an ordered class.");
+        msg = _builder.toString();
+      } else {
+        if ((c instanceof HOClass)) {
+          if (((cat instanceof OrderlessClass) && (((HOClass)c).getCategorizationType() == CategorizationType.COMPLETE_CATEGORIZER))) {
+            StringConcatenation _builder_1 = new StringConcatenation();
+            _builder_1.append("Invalid complete categorization of an orderless class.");
+            msg = _builder_1.toString();
+          } else {
+            if (((cat instanceof OrderlessClass) && (((HOClass)c).getCategorizationType() == CategorizationType.PARTITIONER))) {
+              StringConcatenation _builder_2 = new StringConcatenation();
+              _builder_2.append("Invalidation partitioning of an orderless class.");
+              msg = _builder_2.toString();
+            } else {
+              if ((cat instanceof HOClass)) {
+                if ((((((HOClass)c).getOrder()).intValue() == MLTRules.MIN_ORDER) || ((((HOClass)c).getOrder()).intValue() != ((((HOClass)cat).getOrder()).intValue() + 1)))) {
+                  StringConcatenation _builder_3 = new StringConcatenation();
+                  _builder_3.append("Invalid categorization of a class of order different than ");
+                  Integer _order = ((HOClass)c).getOrder();
+                  int _minus = ((_order).intValue() - 1);
+                  _builder_3.append(_minus, "");
+                  _builder_3.append(".");
+                  msg = _builder_3.toString();
+                }
               }
             }
           }
-        };
-        boolean _exists_1 = IterableExtensions.<ML2Class>exists(_subordinators_1, _function_1);
-        return (!_exists_1);
-      } else {
-        return true;
+        }
       }
+    }
+    boolean _equals = Objects.equal(msg, "");
+    if (_equals) {
+      return null;
+    } else {
+      EReference _mL2Class_CategorizedClass = MetaPackage.eINSTANCE.getML2Class_CategorizedClass();
+      return new ValidationError(msg, _mL2Class_CategorizedClass, 
+        ValidationIssue.NO_INDEX, 
+        LinguisticRules.INVALID_CATEGORIZED_CLASS, 
+        ValidationIssue.NO_ISSUE_CODE, c);
     }
   }
   
-  public boolean duplicatedEntityName(final EntityDeclaration e) {
+  public ValidationError hasValidPowertypeRelation(final ML2Class c) {
+    final ML2Class base = c.getPowertypeOf();
+    String msg = "";
+    if ((base == null)) {
+      return null;
+    } else {
+      if (((c instanceof OrderlessClass) && (base instanceof OrderedClass))) {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("Invalid powertype relation towards an ordered basetype.");
+        msg = _builder.toString();
+      } else {
+        if ((c instanceof HOClass)) {
+          if ((base instanceof OrderlessClass)) {
+            StringConcatenation _builder_1 = new StringConcatenation();
+            _builder_1.append("Invalid powertype relation towards an orderless basetype.");
+            msg = _builder_1.toString();
+          } else {
+            if ((base instanceof HOClass)) {
+              if ((((((HOClass)c).getOrder()).intValue() == MLTRules.MIN_ORDER) || ((((HOClass)c).getOrder()).intValue() != ((((HOClass)base).getOrder()).intValue() + 1)))) {
+                StringConcatenation _builder_2 = new StringConcatenation();
+                _builder_2.append("Invalid powertype relation towards a class of order different than ");
+                Integer _order = ((HOClass)c).getOrder();
+                int _minus = ((_order).intValue() - 1);
+                _builder_2.append(_minus, "");
+                _builder_2.append(".");
+                msg = _builder_2.toString();
+              }
+            }
+          }
+        }
+      }
+    }
+    boolean _equals = Objects.equal(msg, "");
+    if (_equals) {
+      return null;
+    } else {
+      EReference _mL2Class_PowertypeOf = MetaPackage.eINSTANCE.getML2Class_PowertypeOf();
+      return new ValidationError(msg, _mL2Class_PowertypeOf, 
+        ValidationIssue.NO_INDEX, 
+        LinguisticRules.INVALID_POWERTYPE_RELATION, 
+        ValidationIssue.NO_ISSUE_CODE, c);
+    }
+  }
+  
+  public ValidationError hasValidSubordinators(final ML2Class c) {
+    ML2Class invalid = null;
+    String msg = "";
+    final ValidationError issue = new ValidationError();
+    EList<ML2Class> _subordinators = c.getSubordinators();
+    boolean _contains = _subordinators.contains(c);
+    if (_contains) {
+      invalid = c;
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Invalid subordination to itself.");
+      msg = _builder.toString();
+    } else {
+      EList<ML2Class> _subordinators_1 = c.getSubordinators();
+      final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
+        boolean _xifexpression = false;
+        if ((it instanceof FOClass)) {
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("Invalid subordination to a first-order class.");
+          issue.setMessage(_builder_1.toString());
+          return Boolean.valueOf(true);
+        } else {
+          boolean _xifexpression_1 = false;
+          if (((c instanceof OrderlessClass) && (it instanceof OrderedClass))) {
+            StringConcatenation _builder_2 = new StringConcatenation();
+            _builder_2.append("Invalid subordination to an ordered class.");
+            issue.setMessage(_builder_2.toString());
+            return Boolean.valueOf(true);
+          } else {
+            boolean _xifexpression_2 = false;
+            if ((((c instanceof HOClass) && (it instanceof HOClass)) && (((HOClass) it).getOrder() != ((HOClass) c).getOrder()))) {
+              StringConcatenation _builder_3 = new StringConcatenation();
+              _builder_3.append("Invalid subordination to an ordered class of different order.");
+              issue.setMessage(_builder_3.toString());
+              return Boolean.valueOf(true);
+            } else {
+              _xifexpression_2 = false;
+            }
+            _xifexpression_1 = _xifexpression_2;
+          }
+          _xifexpression = _xifexpression_1;
+        }
+        return Boolean.valueOf(_xifexpression);
+      };
+      ML2Class _findFirst = IterableExtensions.<ML2Class>findFirst(_subordinators_1, _function);
+      invalid = _findFirst;
+    }
+    if ((invalid == null)) {
+      return null;
+    } else {
+      EReference _mL2Class_Subordinators = MetaPackage.eINSTANCE.getML2Class_Subordinators();
+      issue.setFeature(_mL2Class_Subordinators);
+      EList<ML2Class> _subordinators_2 = c.getSubordinators();
+      int _indexOf = _subordinators_2.indexOf(invalid);
+      issue.setIndex(_indexOf);
+      issue.setCode(LinguisticRules.INVALID_SUBORDINATOR);
+      issue.setSource(c);
+      return issue;
+    }
+  }
+  
+  public ValidationError duplicatedEntityName(final EntityDeclaration e) {
     EObject _eContainer = e.eContainer();
     if ((_eContainer instanceof AttributeAssignment)) {
-      return false;
+      return null;
     }
     EObject _eContainer_1 = e.eContainer();
-    final ML2Model ML2Class = ((ML2Model) _eContainer_1);
-    EList<ModelElement> _elements = ML2Class.getElements();
+    EList<ModelElement> _elements = ((ML2Model) _eContainer_1).getElements();
     final Function1<ModelElement, Boolean> _function = (ModelElement it) -> {
-      boolean _xifexpression = false;
-      if ((it instanceof EntityDeclaration)) {
-        _xifexpression = (((EntityDeclaration)it).getName().equals(e.getName()) && (!Objects.equal(it, e)));
-      } else {
-        _xifexpression = false;
-      }
-      return Boolean.valueOf(_xifexpression);
+      return Boolean.valueOf(((it instanceof EntityDeclaration) && Objects.equal(((EntityDeclaration) it).getName(), e.getName())));
     };
-    return IterableExtensions.<ModelElement>exists(_elements, _function);
+    final Iterable<ModelElement> rep = IterableExtensions.<ModelElement>filter(_elements, _function);
+    int _size = IterableExtensions.size(rep);
+    boolean _greaterThan = (_size > 1);
+    if (_greaterThan) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Entity name must be unique.");
+      EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
+      return new ValidationError(_builder.toString(), _entityDeclaration_Name, 
+        ValidationIssue.NO_INDEX, 
+        LinguisticRules.DUPLICATED_ENTITY_NAME, 
+        ValidationIssue.NO_ISSUE_CODE, e);
+    } else {
+      return null;
+    }
   }
   
-  public boolean hasValidMembers(final GeneralizationSet gs) {
+  public ValidationError hasValidMembers(final GeneralizationSet gs) {
+    ML2Class invalid = null;
     EList<ML2Class> _specifics = gs.getSpecifics();
     final Function1<ML2Class, Boolean> _function = (ML2Class it) -> {
       EList<ML2Class> _superClasses = it.getSuperClasses();
@@ -300,28 +472,97 @@ public class LinguisticRules {
       boolean _contains = _superClasses.contains(_general);
       return Boolean.valueOf((!_contains));
     };
-    boolean _exists = IterableExtensions.<ML2Class>exists(_specifics, _function);
-    if (_exists) {
-      return false;
-    } else {
-      if (((gs.getCategorizer().getCategorizedClass() != null) && (!Objects.equal(gs.getCategorizer().getCategorizedClass(), gs.getGeneral())))) {
-        return false;
-      } else {
-        if (((gs.getCategorizer().getCategorizedClass() != null) && IterableExtensions.<ML2Class>exists(gs.getSpecifics(), ((Function1<ML2Class, Boolean>) (ML2Class it) -> {
-          EList<ML2Class> _instantiatedClasses = it.getInstantiatedClasses();
-          ML2Class _categorizer = gs.getCategorizer();
-          boolean _contains = _instantiatedClasses.contains(_categorizer);
-          return Boolean.valueOf((!_contains));
-        })))) {
-          return false;
-        } else {
-          return true;
+    ML2Class _findFirst = IterableExtensions.<ML2Class>findFirst(_specifics, _function);
+    invalid = _findFirst;
+    if ((invalid != null)) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Invalid member is not a direct specialization of the general class.");
+      EReference _generalizationSet_Specifics = MetaPackage.eINSTANCE.getGeneralizationSet_Specifics();
+      EList<ML2Class> _specifics_1 = gs.getSpecifics();
+      int _indexOf = _specifics_1.indexOf(invalid);
+      return new ValidationError(_builder.toString(), _generalizationSet_Specifics, _indexOf, 
+        LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS, 
+        ValidationIssue.NO_ISSUE_CODE, gs);
+    }
+    ML2Class _categorizer = gs.getCategorizer();
+    boolean _tripleNotEquals = (_categorizer != null);
+    if (_tripleNotEquals) {
+      final ML2Class cat = gs.getCategorizer();
+      ML2Class _categorizedClass = cat.getCategorizedClass();
+      ML2Class _general = gs.getGeneral();
+      boolean _notEquals = (!Objects.equal(_categorizedClass, _general));
+      if (_notEquals) {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append("The categorizer class must have a categorization relation towards the general class.");
+        EReference _generalizationSet_Categorizer = MetaPackage.eINSTANCE.getGeneralizationSet_Categorizer();
+        return new ValidationError(_builder_1.toString(), _generalizationSet_Categorizer, 
+          ValidationIssue.NO_INDEX, 
+          LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS, 
+          ValidationIssue.NO_ISSUE_CODE, gs);
+      }
+      EList<ML2Class> _specifics_2 = gs.getSpecifics();
+      final Function1<ML2Class, Boolean> _function_1 = (ML2Class it) -> {
+        EList<ML2Class> _instantiatedClasses = it.getInstantiatedClasses();
+        boolean _contains = _instantiatedClasses.contains(cat);
+        return Boolean.valueOf((!_contains));
+      };
+      ML2Class _findFirst_1 = IterableExtensions.<ML2Class>findFirst(_specifics_2, _function_1);
+      invalid = _findFirst_1;
+      if ((invalid != null)) {
+        StringConcatenation _builder_2 = new StringConcatenation();
+        _builder_2.append("The specific class must be direct instances of the categorizer class.");
+        EReference _generalizationSet_Specifics_1 = MetaPackage.eINSTANCE.getGeneralizationSet_Specifics();
+        EList<ML2Class> _specifics_3 = gs.getSpecifics();
+        int _indexOf_1 = _specifics_3.indexOf(invalid);
+        return new ValidationError(_builder_2.toString(), _generalizationSet_Specifics_1, _indexOf_1, 
+          LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS, 
+          ValidationIssue.NO_ISSUE_CODE, gs);
+      }
+      String msg = "";
+      CategorizationType _categorizationType = cat.getCategorizationType();
+      if (_categorizationType != null) {
+        switch (_categorizationType) {
+          case CATEGORIZER:
+            boolean _isIsComplete = gs.isIsComplete();
+            if (_isIsComplete) {
+              StringConcatenation _builder_3 = new StringConcatenation();
+              _builder_3.append("Simple categorization and complete generalization set is an invalid combination.");
+              msg = _builder_3.toString();
+            }
+            break;
+          case DISJOINT_CATEGORIZER:
+            if (((!gs.isIsDisjoint()) || gs.isIsComplete())) {
+              StringConcatenation _builder_4 = new StringConcatenation();
+              _builder_4.append("Disjoint categorization and non disjoint and incomplete generalization set is an invalid combination.");
+              msg = _builder_4.toString();
+            }
+            break;
+          case PARTITIONER:
+            boolean _isIsDisjoint = gs.isIsDisjoint();
+            boolean _not = (!_isIsDisjoint);
+            if (_not) {
+              StringConcatenation _builder_5 = new StringConcatenation();
+              _builder_5.append("Partitioning categorization and non disjoint generalization set is an invalid combination.");
+              msg = _builder_5.toString();
+            }
+            break;
+          default:
+            break;
         }
       }
+      boolean _notEquals_1 = (!Objects.equal(msg, ""));
+      if (_notEquals_1) {
+        EReference _generalizationSet_Categorizer_1 = MetaPackage.eINSTANCE.getGeneralizationSet_Categorizer();
+        return new ValidationError(msg, _generalizationSet_Categorizer_1, 
+          ValidationIssue.NO_INDEX, 
+          LinguisticRules.INVALID_GENERALIZATION_SET_CATEGORIZATION_COMBINATION, 
+          ValidationIssue.NO_ISSUE_CODE, gs);
+      }
     }
+    return null;
   }
   
-  public boolean obeysSubordination(final ML2Class c, final Set<ML2Class> ch, final Set<ML2Class> iof) {
+  public ValidationError obeysSubordination(final ML2Class c, final Set<ML2Class> ch, final Set<ML2Class> iof) {
     final LinkedHashSet<ML2Class> subordinated = new LinkedHashSet<ML2Class>();
     final Consumer<ML2Class> _function = (ML2Class it) -> {
       EList<ML2Class> _subordinators = it.getSubordinators();
@@ -335,7 +576,7 @@ public class LinguisticRules {
     int _size = subordinated.size();
     boolean _equals = (_size == 0);
     if (_equals) {
-      return true;
+      return null;
     }
     final LinkedHashSet<ML2Class> superClassesIof = new LinkedHashSet<ML2Class>();
     final Consumer<ML2Class> _function_1 = (ML2Class it) -> {
@@ -343,7 +584,25 @@ public class LinguisticRules {
       superClassesIof.addAll(_allInstantiatedClasses);
     };
     ch.forEach(_function_1);
-    return superClassesIof.containsAll(subordinated);
+    final Function1<ML2Class, Boolean> _function_2 = (ML2Class it) -> {
+      boolean _contains = superClassesIof.contains(it);
+      return Boolean.valueOf((!_contains));
+    };
+    final ML2Class invalid = IterableExtensions.<ML2Class>findFirst(subordinated, _function_2);
+    if ((invalid == null)) {
+      return null;
+    } else {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Missing specialization due to subordination to some instance of ");
+      String _name = invalid.getName();
+      _builder.append(_name, "");
+      _builder.append(".");
+      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      return new ValidationError(_builder.toString(), _mL2Class_SuperClasses, 
+        ValidationIssue.NO_INDEX, 
+        LinguisticRules.MISSING_SPECIALIZATION_THROUGH_SUBODINATION, 
+        ValidationIssue.NO_ISSUE_CODE, c);
+    }
   }
   
   /**
@@ -352,37 +611,53 @@ public class LinguisticRules {
    * <br> - C is subordinated to X, and X is subordinated to C
    * <br> - C is subordinated to X, but C is a super class to X
    */
-  public boolean hasSimpleSubordinationCycle(final ML2Class c) {
+  public ValidationError hasSimpleSubordinationCycle(final ML2Class c) {
     EList<ML2Class> _subordinators = c.getSubordinators();
     boolean _tripleEquals = (_subordinators == null);
     if (_tripleEquals) {
-      return false;
+      return null;
+    }
+    EList<ML2Class> _subordinators_1 = c.getSubordinators();
+    final Function1<ML2Class, Boolean> _function = (ML2Class sc) -> {
+      boolean _or = false;
+      boolean _or_1 = false;
+      boolean _equals = Objects.equal(sc, c);
+      if (_equals) {
+        _or_1 = true;
+      } else {
+        EList<ML2Class> _subordinators_2 = null;
+        if (sc!=null) {
+          _subordinators_2=sc.getSubordinators();
+        }
+        boolean _contains = _subordinators_2.contains(c);
+        _or_1 = _contains;
+      }
+      if (_or_1) {
+        _or = true;
+      } else {
+        Set<ML2Class> _classHierarchy = this._mL2Util.classHierarchy(sc);
+        boolean _contains_1 = _classHierarchy.contains(c);
+        _or = _contains_1;
+      }
+      return Boolean.valueOf(_or);
+    };
+    final ML2Class invalid = IterableExtensions.<ML2Class>findFirst(_subordinators_1, _function);
+    if ((invalid == null)) {
+      return null;
     } else {
-      EList<ML2Class> _subordinators_1 = c.getSubordinators();
-      final Function1<ML2Class, Boolean> _function = (ML2Class sc) -> {
-        boolean _or = false;
-        boolean _or_1 = false;
-        boolean _equals = Objects.equal(sc, c);
-        if (_equals) {
-          _or_1 = true;
-        } else {
-          EList<ML2Class> _subordinators_2 = null;
-          if (sc!=null) {
-            _subordinators_2=sc.getSubordinators();
-          }
-          boolean _contains = _subordinators_2.contains(c);
-          _or_1 = _contains;
-        }
-        if (_or_1) {
-          _or = true;
-        } else {
-          Set<ML2Class> _classHierarchy = this._mL2Util.classHierarchy(sc);
-          boolean _contains_1 = _classHierarchy.contains(c);
-          _or = _contains_1;
-        }
-        return Boolean.valueOf(_or);
-      };
-      return IterableExtensions.<ML2Class>exists(_subordinators_1, _function);
+      StringConcatenation _builder = new StringConcatenation();
+      String _name = c.getName();
+      _builder.append(_name, "");
+      _builder.append(" is in a invalid subordination cycle with ");
+      String _name_1 = invalid.getName();
+      _builder.append(_name_1, "");
+      _builder.append(".");
+      EReference _mL2Class_Subordinators = MetaPackage.eINSTANCE.getML2Class_Subordinators();
+      EList<ML2Class> _subordinators_2 = c.getSubordinators();
+      int _indexOf = _subordinators_2.indexOf(invalid);
+      return new ValidationError(_builder.toString(), _mL2Class_Subordinators, _indexOf, 
+        LinguisticRules.SIMPLE_SUBORDINATION_CYCLE, 
+        ValidationIssue.NO_ISSUE_CODE, c);
     }
   }
   
@@ -536,6 +811,40 @@ public class LinguisticRules {
     return null;
   }
   
+  public ValidationError checkFeatureName(final Feature f) {
+    String _name = f.getName();
+    String _firstUpper = StringExtensions.toFirstUpper(_name);
+    String _name_1 = f.getName();
+    boolean _equals = Objects.equal(_firstUpper, _name_1);
+    if (_equals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Invalid name starting with capitalized letter.");
+      EAttribute _feature_Name = MetaPackage.eINSTANCE.getFeature_Name();
+      return new ValidationError(_builder.toString(), _feature_Name, 
+        ValidationIssue.NO_INDEX, 
+        LinguisticRules.INVALID_FEATURE_NAME, 
+        ValidationIssue.NO_ISSUE_CODE, f);
+    }
+    final EObject c = f.eContainer();
+    if ((c instanceof ML2Class)) {
+      EList<Feature> _features = ((ML2Class)c).getFeatures();
+      final Function1<Feature, Boolean> _function = (Feature it) -> {
+        return Boolean.valueOf(((f != it) && Objects.equal(f.getName(), it.getName())));
+      };
+      boolean _exists = IterableExtensions.<Feature>exists(_features, _function);
+      if (_exists) {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append("Invalid duplicated name.");
+        EAttribute _feature_Name_1 = MetaPackage.eINSTANCE.getFeature_Name();
+        return new ValidationError(_builder_1.toString(), _feature_Name_1, 
+          ValidationIssue.NO_INDEX, 
+          LinguisticRules.DUPLICATED_FEATURE_NAME, 
+          ValidationIssue.NO_ISSUE_CODE, f);
+      }
+    }
+    return null;
+  }
+  
   protected ValidationIssue _checkSubsettedMultiplicity(final Reference ref) {
     EList<Reference> _subsetOf = ref.getSubsetOf();
     boolean _tripleEquals = (_subsetOf == null);
@@ -547,42 +856,27 @@ public class LinguisticRules {
     issue.setCode(LinguisticRules.INVALID_MULTIPLICITY);
     EList<Reference> _subsetOf_1 = ref.getSubsetOf();
     for (final Reference superRef : _subsetOf_1) {
-      int _lowerBound = ref.getLowerBound();
-      int _lowerBound_1 = superRef.getLowerBound();
-      boolean _lessThan = (_lowerBound < _lowerBound_1);
-      if (_lessThan) {
-        EAttribute _feature_LowerBound = MetaPackage.eINSTANCE.getFeature_LowerBound();
-        issue.setFeature(_feature_LowerBound);
+      if (((ref.getUpperBound() > superRef.getUpperBound()) && (superRef.getUpperBound() > 0))) {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("The cardinality must be as restrictive as the the subsetted one (");
         String _name = superRef.getName();
         _builder.append(_name, "");
         _builder.append(").");
         issue.setMessage(_builder.toString());
+        EAttribute _feature_UpperBound = MetaPackage.eINSTANCE.getFeature_UpperBound();
+        issue.setFeature(_feature_UpperBound);
         return issue;
       } else {
-        if (((ref.getUpperBound() > superRef.getUpperBound()) && (superRef.getUpperBound() > 0))) {
+        if (((ref.getUpperBound() == (-1)) && (ref.getUpperBound() != superRef.getUpperBound()))) {
           StringConcatenation _builder_1 = new StringConcatenation();
           _builder_1.append("The cardinality must be as restrictive as the the subsetted one (");
           String _name_1 = superRef.getName();
           _builder_1.append(_name_1, "");
           _builder_1.append(").");
           issue.setMessage(_builder_1.toString());
-          EAttribute _feature_UpperBound = MetaPackage.eINSTANCE.getFeature_UpperBound();
-          issue.setFeature(_feature_UpperBound);
+          EAttribute _feature_UpperBound_1 = MetaPackage.eINSTANCE.getFeature_UpperBound();
+          issue.setFeature(_feature_UpperBound_1);
           return issue;
-        } else {
-          if (((ref.getUpperBound() == (-1)) && (ref.getUpperBound() != superRef.getUpperBound()))) {
-            StringConcatenation _builder_2 = new StringConcatenation();
-            _builder_2.append("The cardinality must be as restrictive as the the subsetted one (");
-            String _name_2 = superRef.getName();
-            _builder_2.append(_name_2, "");
-            _builder_2.append(").");
-            issue.setMessage(_builder_2.toString());
-            EAttribute _feature_UpperBound_1 = MetaPackage.eINSTANCE.getFeature_UpperBound();
-            issue.setFeature(_feature_UpperBound_1);
-            return issue;
-          }
         }
       }
     }
@@ -600,42 +894,27 @@ public class LinguisticRules {
     issue.setCode(LinguisticRules.INVALID_MULTIPLICITY);
     EList<Attribute> _subsetOf_1 = att.getSubsetOf();
     for (final Attribute superAtt : _subsetOf_1) {
-      int _lowerBound = att.getLowerBound();
-      int _lowerBound_1 = superAtt.getLowerBound();
-      boolean _lessThan = (_lowerBound < _lowerBound_1);
-      if (_lessThan) {
-        EAttribute _feature_LowerBound = MetaPackage.eINSTANCE.getFeature_LowerBound();
-        issue.setFeature(_feature_LowerBound);
+      if (((att.getUpperBound() > superAtt.getUpperBound()) && (superAtt.getUpperBound() > 0))) {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("The cardinality must be as restrictive as the the subsetted one (");
         String _name = superAtt.getName();
         _builder.append(_name, "");
         _builder.append(").");
         issue.setMessage(_builder.toString());
+        EAttribute _feature_UpperBound = MetaPackage.eINSTANCE.getFeature_UpperBound();
+        issue.setFeature(_feature_UpperBound);
         return issue;
       } else {
-        if (((att.getUpperBound() > superAtt.getUpperBound()) && (superAtt.getUpperBound() > 0))) {
+        if (((att.getUpperBound() == (-1)) && (att.getUpperBound() != superAtt.getUpperBound()))) {
           StringConcatenation _builder_1 = new StringConcatenation();
           _builder_1.append("The cardinality must be as restrictive as the the subsetted one (");
           String _name_1 = superAtt.getName();
           _builder_1.append(_name_1, "");
           _builder_1.append(").");
           issue.setMessage(_builder_1.toString());
-          EAttribute _feature_UpperBound = MetaPackage.eINSTANCE.getFeature_UpperBound();
-          issue.setFeature(_feature_UpperBound);
+          EAttribute _feature_UpperBound_1 = MetaPackage.eINSTANCE.getFeature_UpperBound();
+          issue.setFeature(_feature_UpperBound_1);
           return issue;
-        } else {
-          if (((att.getUpperBound() == (-1)) && (att.getUpperBound() != superAtt.getUpperBound()))) {
-            StringConcatenation _builder_2 = new StringConcatenation();
-            _builder_2.append("The cardinality must be as restrictive as the the subsetted one (");
-            String _name_2 = superAtt.getName();
-            _builder_2.append(_name_2, "");
-            _builder_2.append(").");
-            issue.setMessage(_builder_2.toString());
-            EAttribute _feature_UpperBound_1 = MetaPackage.eINSTANCE.getFeature_UpperBound();
-            issue.setFeature(_feature_UpperBound_1);
-            return issue;
-          }
         }
       }
     }

@@ -5,6 +5,9 @@ import org.eclipse.emf.ecore.EObject
 
 abstract class ValidationIssue {
 	
+	public static val NO_INDEX = -1
+	public static val String[] NO_ISSUE_CODE = null
+	
 	private String message;
 	private EStructuralFeature feature;
 	private int index;
@@ -19,6 +22,15 @@ abstract class ValidationIssue {
 		this.code = null
 		this.issueData = null
 		this.source = null
+	}
+	
+	new(String message, EStructuralFeature feature, int index, String code, String[] issueData, EObject source) {
+		this.message = message
+		this.feature = feature
+		this.index = index
+		this.code = code
+		this.issueData = issueData
+		this.source = source
 	}
 	
 	def String getMessage() { this.message }

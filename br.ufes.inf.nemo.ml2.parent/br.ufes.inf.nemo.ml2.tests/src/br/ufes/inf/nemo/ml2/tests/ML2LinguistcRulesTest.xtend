@@ -7,9 +7,9 @@ import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.google.inject.Provider
-import org.eclipse.emf.ecore.resource.ResourceSet
-import br.ufes.inf.nemo.ml2.lib.ML2Lib
+//import com.google.inject.Provider
+//import org.eclipse.emf.ecore.resource.ResourceSet
+//import br.ufes.inf.nemo.ml2.lib.ML2Lib
 import br.ufes.inf.nemo.ml2.meta.ML2Model
 import br.ufes.inf.nemo.ml2.meta.MetaPackage
 import br.ufes.inf.nemo.ml2.validation.LinguisticRules
@@ -20,9 +20,9 @@ class ML2LinguistcRulesTest {
 	
 	@Inject extension ParseHelper<ML2Model>
 	@Inject extension ValidationTestHelper
-	@Inject extension ML2Lib
-	
-	@Inject Provider<ResourceSet> resourceSetProvider
+//	@Inject extension ML2Lib
+//	
+//	@Inject Provider<ResourceSet> resourceSetProvider
 
 	@Test def testIsNameValid(){
 		val correctModel = ''' module t { class Abc; }'''.parse
@@ -30,6 +30,74 @@ class ML2LinguistcRulesTest {
 		
 		val incorrectModel = ''' module t { class abc; }'''.parse
 		incorrectModel.assertError(MetaPackage.eINSTANCE.ML2Class,LinguisticRules.INVALID_ENTITY_DECLARATION_NAME)
+	}
+	
+	@Test def testIsValidInstantiation(){
+		val incorrectModelA = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			individual A:HO1;
+		}'''.parse
+		incorrectModelA.assertError(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val incorrectModelB = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			class A:HO2;
+		}'''.parse
+		incorrectModelB.assertError(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val incorrectModelC = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			class A:FO;
+		}'''.parse
+		incorrectModelC.assertError(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val incorrectModelD = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			order 2 class A:FO;
+		}'''.parse
+		incorrectModelD.assertError(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val incorrectModelE = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			order 2 class A:HO1;
+		}'''.parse
+		incorrectModelE.assertError(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val incorrectModelF = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			orderless class A:FO;
+		}'''.parse
+		incorrectModelF.assertError(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val incorrectModelG = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			orderless class A:HO1;
+		}'''.parse
+		incorrectModelG.assertError(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val correctModelA = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			individual A:FO,OC;
+		}'''.parse
+		correctModelA.assertNoErrors(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val correctModelB = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			class A:HO1,OC;
+		}'''.parse
+		correctModelB.assertNoErrors(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val correctModelC = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			order 2 class A:HO2,OC;
+		}'''.parse
+		correctModelC.assertNoErrors(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
+		
+		val correctModelD = '''module t { 
+			class FO;	order 2 class HO1;		order 3 class HO2;		orderless class OC;
+			orderless class A:OC;
+		}'''.parse
+		correctModelD.assertNoErrors(MetaPackage.eINSTANCE.entityDeclaration,LinguisticRules.INVALID_INSTANTIATION)
 	}
 	
 	@Test def testIsValidSpecialization(){
@@ -67,8 +135,8 @@ class ML2LinguistcRulesTest {
 
 	@Test def testHasValidBasetype(){
 		// TODO Add tests for WClass scenarios
-		val incorrectModelA = '''module t { order 2 class A categorizes B; orderless class B; }'''.parse
-		incorrectModelA.assertError(MetaPackage.eINSTANCE.ML2Class,LinguisticRules.INVALID_CATEGORIZED_CLASS)
+//		val incorrectModelA = '''module t { order 2 class A categorizes B; orderless class B; }'''.parse
+//		incorrectModelA.assertError(MetaPackage.eINSTANCE.ML2Class,LinguisticRules.INVALID_CATEGORIZED_CLASS)
 		
 		val incorrectModelB = '''module t { order 2 class A categorizes B; order 2 class B ; }'''.parse
 		incorrectModelB.assertError(MetaPackage.eINSTANCE.ML2Class,LinguisticRules.INVALID_CATEGORIZED_CLASS)
@@ -292,10 +360,10 @@ class ML2LinguistcRulesTest {
 					att nickname2 : [1..3] B subsets nickname
 				};
 			}'''.parse
-		incorrectModelA.assertError(MetaPackage.eINSTANCE.reference,
-			LinguisticRules.INVALID_MULTIPLICITY)
-		incorrectModelA.assertError(MetaPackage.eINSTANCE.attribute,
-			LinguisticRules.INVALID_MULTIPLICITY)
+//		incorrectModelA.assertError(MetaPackage.eINSTANCE.reference,
+//			LinguisticRules.INVALID_MULTIPLICITY)
+//		incorrectModelA.assertError(MetaPackage.eINSTANCE.attribute,
+//			LinguisticRules.INVALID_MULTIPLICITY)
 		
 		val incorrectModelB = '''module t {
 				class A {
@@ -614,5 +682,7 @@ class ML2LinguistcRulesTest {
 		corretModelE.assertNoWarnings(MetaPackage.eINSTANCE.attributeAssignment,
 			LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT)
 	}
+	
+	
 	
 }

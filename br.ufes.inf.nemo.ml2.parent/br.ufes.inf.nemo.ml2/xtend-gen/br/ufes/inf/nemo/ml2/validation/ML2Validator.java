@@ -6,13 +6,11 @@ package br.ufes.inf.nemo.ml2.validation;
 import br.ufes.inf.nemo.ml2.lib.ML2Lib;
 import br.ufes.inf.nemo.ml2.meta.DataType;
 import br.ufes.inf.nemo.ml2.meta.EntityDeclaration;
-import br.ufes.inf.nemo.ml2.meta.FOClass;
 import br.ufes.inf.nemo.ml2.meta.Feature;
 import br.ufes.inf.nemo.ml2.meta.FeatureAssignment;
 import br.ufes.inf.nemo.ml2.meta.GeneralizationSet;
 import br.ufes.inf.nemo.ml2.meta.HOClass;
 import br.ufes.inf.nemo.ml2.meta.ML2Class;
-import br.ufes.inf.nemo.ml2.meta.MetaPackage;
 import br.ufes.inf.nemo.ml2.util.ML2Util;
 import br.ufes.inf.nemo.ml2.validation.AbstractML2Validator;
 import br.ufes.inf.nemo.ml2.validation.LinguisticRules;
@@ -26,11 +24,8 @@ import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -97,72 +92,67 @@ public class ML2Validator extends AbstractML2Validator {
   public final static String NON_CONFORMANT_ASSIGNMENT = "br.ufes.inf.nemo.ontol.NonConformantAssigment";
   
   @Check(CheckType.FAST)
-  public void fastChecksOnEntityDeclaration(final EntityDeclaration e) {
-    boolean _isNameValid = this._linguisticRules.isNameValid(e);
-    boolean _not = (!_isNameValid);
-    if (_not) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("Entity name must start with a capital letter.");
-      EAttribute _entityDeclaration_Name = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
-      this.error(_builder.toString(), _entityDeclaration_Name, 
-        LinguisticRules.INVALID_ENTITY_DECLARATION_NAME);
-    }
-    boolean _duplicatedEntityName = this._linguisticRules.duplicatedEntityName(e);
-    if (_duplicatedEntityName) {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("Entity name must be unique.");
-      EAttribute _entityDeclaration_Name_1 = MetaPackage.eINSTANCE.getEntityDeclaration_Name();
-      this.error(_builder_1.toString(), _entityDeclaration_Name_1, 
-        LinguisticRules.DUPLICATED_ENTITY_NAME);
+  public void callIsNameValid(final EntityDeclaration e) {
+    ValidationError _isNameValid = this._linguisticRules.isNameValid(e);
+    if (_isNameValid!=null) {
+      this.runIssue(_isNameValid);
     }
   }
   
   @Check(CheckType.FAST)
-  public void fastCheckOnClass(final ML2Class c) {
+  public void callDuplicatedEntityName(final EntityDeclaration e) {
+    ValidationError _duplicatedEntityName = this._linguisticRules.duplicatedEntityName(e);
+    if (_duplicatedEntityName!=null) {
+      this.runIssue(_duplicatedEntityName);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void calIsValidInstantiation(final EntityDeclaration e) {
+    ValidationIssue _isValidInstantiation = this._linguisticRules.isValidInstantiation(e);
+    if (_isValidInstantiation!=null) {
+      this.runIssue(_isValidInstantiation);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callIsValidSpecialization(final ML2Class c) {
+    ValidationError _isValidSpecialization = this._linguisticRules.isValidSpecialization(c);
+    if (_isValidSpecialization!=null) {
+      this.runIssue(_isValidSpecialization);
+    }
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void callHasCyclicSpecialization(final ML2Class c) {
     final Set<ML2Class> ch = this._mL2Util.classHierarchy(c);
-    boolean _isValidSpecialization = this._linguisticRules.isValidSpecialization(c);
-    boolean _not = (!_isValidSpecialization);
-    if (_not) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("Invalid specialization.");
-      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
-      this.error(_builder.toString(), _mL2Class_SuperClasses, 
-        LinguisticRules.INVALID_CLASS_SPECIALIZATION);
+    ValidationError _hasCyclicSpecialization = this._linguisticRules.hasCyclicSpecialization(c, ch);
+    if (_hasCyclicSpecialization!=null) {
+      this.runIssue(_hasCyclicSpecialization);
     }
-    boolean _hasCyclicSpecialization = this._linguisticRules.hasCyclicSpecialization(c, ch);
-    if (_hasCyclicSpecialization) {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("Invalid cyclic specialization.");
-      EReference _mL2Class_SuperClasses_1 = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
-      this.error(_builder_1.toString(), _mL2Class_SuperClasses_1, 
-        LinguisticRules.CYCLIC_SPECIALIZATION);
+  }
+  
+  @Check(CheckType.FAST)
+  public void callHasValidCategorizedClass(final ML2Class c) {
+    ValidationError _hasValidCategorizedClass = this._linguisticRules.hasValidCategorizedClass(c);
+    if (_hasValidCategorizedClass!=null) {
+      this.runIssue(_hasValidCategorizedClass);
     }
-    boolean _hasValidCategorizedClass = this._linguisticRules.hasValidCategorizedClass(c);
-    boolean _not_1 = (!_hasValidCategorizedClass);
-    if (_not_1) {
-      StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("Invalid basetype.");
-      EReference _mL2Class_CategorizedClass = MetaPackage.eINSTANCE.getML2Class_CategorizedClass();
-      this.error(_builder_2.toString(), _mL2Class_CategorizedClass, 
-        LinguisticRules.INVALID_CATEGORIZED_CLASS);
+  }
+  
+  @Check(CheckType.FAST)
+  public void callHasValidPowertypeRelation(final ML2Class c) {
+    ValidationError _hasValidPowertypeRelation = this._linguisticRules.hasValidPowertypeRelation(c);
+    if (_hasValidPowertypeRelation!=null) {
+      this.runIssue(_hasValidPowertypeRelation);
     }
-    boolean _hasValidPowertypeRelation = this._linguisticRules.hasValidPowertypeRelation(c);
-    boolean _not_2 = (!_hasValidPowertypeRelation);
-    if (_not_2) {
-      StringConcatenation _builder_3 = new StringConcatenation();
-      _builder_3.append("Invalid powertype relation.");
-      EReference _mL2Class_PowertypeOf = MetaPackage.eINSTANCE.getML2Class_PowertypeOf();
-      this.error(_builder_3.toString(), _mL2Class_PowertypeOf, 
-        LinguisticRules.INVALID_POWERTYPE_RELATION);
-    }
-    boolean _hasValidSubordinators = this._linguisticRules.hasValidSubordinators(c);
-    boolean _not_3 = (!_hasValidSubordinators);
-    if (_not_3) {
-      StringConcatenation _builder_4 = new StringConcatenation();
-      _builder_4.append("Invalid subordinator.");
-      EReference _mL2Class_Subordinators = MetaPackage.eINSTANCE.getML2Class_Subordinators();
-      this.error(_builder_4.toString(), _mL2Class_Subordinators, 
-        LinguisticRules.INVALID_SUBORDINATOR);
+  }
+  
+  @Check(CheckType.FAST)
+  public void callHasValidSubordinators(final ML2Class c) {
+    ValidationError _hasValidSubordinators = this._linguisticRules.hasValidSubordinators(c);
+    if (_hasValidSubordinators!=null) {
+      this.runIssue(_hasValidSubordinators);
     }
   }
   
@@ -176,38 +166,38 @@ public class ML2Validator extends AbstractML2Validator {
   
   @Check(CheckType.FAST)
   public void fastChecksOnHOClass(final HOClass ho) {
-    boolean _minOrder = this._mLTRules.minOrder(ho);
-    boolean _not = (!_minOrder);
-    if (_not) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("Order must be of ");
-      _builder.append(MLTRules.MIN_ORDER, "");
-      _builder.append(" or greater.");
-      EAttribute _hOClass_Order = MetaPackage.eINSTANCE.getHOClass_Order();
-      this.error(_builder.toString(), _hOClass_Order, 
-        MLTRules.INVALID_HO_CLASS_ORDER);
+    ValidationError _minOrder = this._mLTRules.minOrder(ho);
+    if (_minOrder!=null) {
+      this.runIssue(_minOrder);
     }
   }
   
   @Check(CheckType.FAST)
   public void fastChecksOnGeneralizationSet(final GeneralizationSet gs) {
-    boolean _hasValidMembers = this._linguisticRules.hasValidMembers(gs);
-    boolean _not = (!_hasValidMembers);
-    if (_not) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("This generalization set has invalid members.");
-      EAttribute _generalizationSet_Name = MetaPackage.eINSTANCE.getGeneralizationSet_Name();
-      this.error(_builder.toString(), _generalizationSet_Name, 
-        LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS);
+    ValidationError _hasValidMembers = this._linguisticRules.hasValidMembers(gs);
+    if (_hasValidMembers!=null) {
+      this.runIssue(_hasValidMembers);
     }
   }
   
   @Check(CheckType.FAST)
-  public void fastChecksOnFeature(final Feature f) {
+  public void callCheckFeatureName(final Feature f) {
+    ValidationError _checkFeatureName = this._linguisticRules.checkFeatureName(f);
+    if (_checkFeatureName!=null) {
+      this.runIssue(_checkFeatureName);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckSubsettedMultiplicity(final Feature f) {
     ValidationIssue _checkSubsettedMultiplicity = this._linguisticRules.checkSubsettedMultiplicity(f);
     if (_checkSubsettedMultiplicity!=null) {
       this.runIssue(_checkSubsettedMultiplicity);
     }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckRegularityAndContainer(final Feature f) {
     ValidationIssue _checkRegularityAndContainer = this._linguisticRules.checkRegularityAndContainer(f);
     if (_checkRegularityAndContainer!=null) {
       this.runIssue(_checkRegularityAndContainer);
@@ -223,90 +213,81 @@ public class ML2Validator extends AbstractML2Validator {
   }
   
   @Check(CheckType.NORMAL)
-  public void normalChecksOnFeatureAssignment(final FeatureAssignment fa) {
+  public void callCheckFeatureAssignmentType(final FeatureAssignment fa) {
     ValidationIssue _checkFeatureAssignmentType = this._linguisticRules.checkFeatureAssignmentType(fa);
     if (_checkFeatureAssignmentType!=null) {
       this.runIssue(_checkFeatureAssignmentType);
     }
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void callCheckRegularityFeatureConformance(final FeatureAssignment fa) {
     ValidationIssue _checkRegularityFeatureConformance = this._linguisticRules.checkRegularityFeatureConformance(fa);
     if (_checkRegularityFeatureConformance!=null) {
       this.runIssue(_checkRegularityFeatureConformance);
     }
   }
   
-  @Check(CheckType.NORMAL)
-  public void normalChecksOnEntity(final EntityDeclaration e) {
+  @Check(CheckType.EXPENSIVE)
+  public void callMissingInstantiationByCompleteness(final EntityDeclaration e) {
     final LinkedHashSet<ML2Class> iof = this._mL2Util.getAllInstantiatedClasses(e);
-    ValidationIssue _isInstanceOfDisjointClasses = this._linguisticRules.isInstanceOfDisjointClasses(e, iof);
-    if (_isInstanceOfDisjointClasses!=null) {
-      this.runIssue(_isInstanceOfDisjointClasses);
-    }
     ValidationIssue _missingInstantiationByCompleteness = this._linguisticRules.missingInstantiationByCompleteness(e, iof);
     if (_missingInstantiationByCompleteness!=null) {
       this.runIssue(_missingInstantiationByCompleteness);
     }
   }
   
-  @Check(CheckType.NORMAL)
-  public void normalChecksOnClass(final ML2Class c) {
-    final Set<ML2Class> ch = this._mL2Util.classHierarchy(c);
-    final LinkedHashSet<ML2Class> iof = this._mL2Util.getAllInstantiatedClasses(c);
-    boolean _isMissingSpecializationThroughPowertype = this._mLTRules.isMissingSpecializationThroughPowertype(c, ch);
-    if (_isMissingSpecializationThroughPowertype) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("Missing specialization through powertype relation.");
-      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
-      this.error(_builder.toString(), _mL2Class_SuperClasses, MLTRules.MISSING_SPECIALIZATION_THROUGH_POWERTYPE);
-    }
-    boolean _obeysSubordination = this._linguisticRules.obeysSubordination(c, ch, iof);
-    boolean _not = (!_obeysSubordination);
-    if (_not) {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("Missing specialization through subordination.");
-      EReference _mL2Class_SuperClasses_1 = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
-      this.error(_builder_1.toString(), _mL2Class_SuperClasses_1, 
-        LinguisticRules.MISSING_SPECIALIZATION_THROUGH_SUBODINATION);
-    }
-    boolean _hasSimpleSubordinationCycle = this._linguisticRules.hasSimpleSubordinationCycle(c);
-    if (_hasSimpleSubordinationCycle) {
-      StringConcatenation _builder_2 = new StringConcatenation();
-      String _name = c.getName();
-      _builder_2.append(_name, "");
-      _builder_2.append(" is in a subordination cycle.");
-      EReference _mL2Class_Subordinators = MetaPackage.eINSTANCE.getML2Class_Subordinators();
-      this.error(_builder_2.toString(), _mL2Class_Subordinators, 
-        LinguisticRules.SIMPLE_SUBORDINATION_CYCLE);
-    }
-    ValidationIssue _isSpecializingDisjointClasses = this._linguisticRules.isSpecializingDisjointClasses(c, ch);
-    if (_isSpecializingDisjointClasses!=null) {
-      this.runIssue(_isSpecializingDisjointClasses);
-    }
-    ValidationIssue _checkInstantiatedRegularities = this._linguisticRules.checkInstantiatedRegularities(c);
-    if (_checkInstantiatedRegularities!=null) {
-      this.runIssue(_checkInstantiatedRegularities);
+  @Check(CheckType.EXPENSIVE)
+  public void callIsInstanceOfDisjointClasses(final EntityDeclaration e) {
+    final LinkedHashSet<ML2Class> iof = this._mL2Util.getAllInstantiatedClasses(e);
+    ValidationIssue _isInstanceOfDisjointClasses = this._linguisticRules.isInstanceOfDisjointClasses(e, iof);
+    if (_isInstanceOfDisjointClasses!=null) {
+      this.runIssue(_isInstanceOfDisjointClasses);
     }
   }
   
   @Check(CheckType.EXPENSIVE)
-  public void expensiveChecksOnFOClass(final FOClass c) {
-    final Set<ML2Class> ch = this._mL2Util.classHierarchy(((ML2Class) c));
-    final LinkedHashSet<ML2Class> iof = this._mL2Util.getAllInstantiatedClasses(((ML2Class) c));
-    final ML2Class endurant = this._mL2Lib.getUFOEndurant(c);
-    final Set<ML2Class> mustInstantiate = this._mL2Lib.getUFOMustInstantiateClasses(c);
-    final ML2Class mixinclass = this._mL2Lib.getLibClass(c, ML2Lib.UFO_MIXIN_CLASS);
-    final ML2Class rigidclass = this._mL2Lib.getLibClass(c, ML2Lib.UFO_RIGID_CLASS);
-    final ML2Class semirigidclass = this._mL2Lib.getLibClass(c, ML2Lib.UFO_SEMI_RIGID_CLASS);
-    ValidationIssue _mustInstantiateUFOMetaproperties = this._uFORules.mustInstantiateUFOMetaproperties(c, ch, iof, endurant, mustInstantiate);
-    if (_mustInstantiateUFOMetaproperties!=null) {
-      this.runIssue(_mustInstantiateUFOMetaproperties);
+  public void callIsMissingSpecializationThroughPowertype(final ML2Class c) {
+    final Set<ML2Class> ch = this._mL2Util.classHierarchy(c);
+    final LinkedHashSet<ML2Class> iof = this._mL2Util.getAllInstantiatedClasses(c);
+    ValidationError _isMissingSpecializationThroughPowertype = this._mLTRules.isMissingSpecializationThroughPowertype(c, ch, iof);
+    if (_isMissingSpecializationThroughPowertype!=null) {
+      this.runIssue(_isMissingSpecializationThroughPowertype);
     }
-    ValidationIssue _checkSpecializationAndSortality = this._uFORules.checkSpecializationAndSortality(c, ch, iof, mixinclass);
-    if (_checkSpecializationAndSortality!=null) {
-      this.runIssue(_checkSpecializationAndSortality);
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void callObeysSubordination(final ML2Class c) {
+    final Set<ML2Class> ch = this._mL2Util.classHierarchy(c);
+    final LinkedHashSet<ML2Class> iof = this._mL2Util.getAllInstantiatedClasses(c);
+    ValidationError _obeysSubordination = this._linguisticRules.obeysSubordination(c, ch, iof);
+    if (_obeysSubordination!=null) {
+      this.runIssue(_obeysSubordination);
     }
-    ValidationIssue _checkSpecializationAndRigidity = this._uFORules.checkSpecializationAndRigidity(c, ch, iof, rigidclass, semirigidclass);
-    if (_checkSpecializationAndRigidity!=null) {
-      this.runIssue(_checkSpecializationAndRigidity);
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void callHasSimpleSubordinationCycle(final ML2Class c) {
+    ValidationError _hasSimpleSubordinationCycle = this._linguisticRules.hasSimpleSubordinationCycle(c);
+    if (_hasSimpleSubordinationCycle!=null) {
+      this.runIssue(_hasSimpleSubordinationCycle);
+    }
+  }
+  
+  @Check(CheckType.EXPENSIVE)
+  public void callIsSpecializingDisjointClasses(final ML2Class c) {
+    final Set<ML2Class> ch = this._mL2Util.classHierarchy(c);
+    ValidationIssue _isSpecializingDisjointClasses = this._linguisticRules.isSpecializingDisjointClasses(c, ch);
+    if (_isSpecializingDisjointClasses!=null) {
+      this.runIssue(_isSpecializingDisjointClasses);
+    }
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void callCheckInstantiatedRegularities(final ML2Class c) {
+    ValidationIssue _checkInstantiatedRegularities = this._linguisticRules.checkInstantiatedRegularities(c);
+    if (_checkInstantiatedRegularities!=null) {
+      this.runIssue(_checkInstantiatedRegularities);
     }
   }
   

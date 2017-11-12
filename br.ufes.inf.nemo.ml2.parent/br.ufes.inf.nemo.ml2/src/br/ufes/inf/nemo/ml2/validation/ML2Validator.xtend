@@ -53,41 +53,38 @@ class ML2Validator extends AbstractML2Validator {
 	public static val NON_CONFORMANT_ASSIGNMENT = "br.ufes.inf.nemo.ontol.NonConformantAssigment"
 	
 	@Check(CheckType.FAST)
-	def void fastChecksOnEntityDeclaration(EntityDeclaration e){
-		if(!e.isNameValid)
-			error('''Entity name must start with a capital letter.''',
-				MetaPackage.eINSTANCE.entityDeclaration_Name,
-				LinguisticRules.INVALID_ENTITY_DECLARATION_NAME)
-		if(e.duplicatedEntityName)
-			error('''Entity name must be unique.''',
-				MetaPackage.eINSTANCE.entityDeclaration_Name,
-				LinguisticRules.DUPLICATED_ENTITY_NAME)
+	def void callIsNameValid(EntityDeclaration e){
+		e.isNameValid?.runIssue
+	}
+	@Check(CheckType.FAST)
+	def void callDuplicatedEntityName(EntityDeclaration e){
+		e.duplicatedEntityName?.runIssue
+	}
+	@Check(CheckType.FAST)
+	def void calIsValidInstantiation(EntityDeclaration e){
+		e.isValidInstantiation?.runIssue
 	}
 	
 	@Check(CheckType.FAST)
-	def void fastCheckOnClass(ML2Class c){
+	def void callIsValidSpecialization(ML2Class c){
+		c.isValidSpecialization?.runIssue
+	}
+	@Check(CheckType.NORMAL)
+	def void callHasCyclicSpecialization(ML2Class c){
 		val ch = c.classHierarchy
-//		val iof = c.allInstantiatedClasses
-		if(!c.isValidSpecialization)
-			error('''Invalid specialization.''', 
-				MetaPackage.eINSTANCE.ML2Class_SuperClasses,
-				LinguisticRules.INVALID_CLASS_SPECIALIZATION)
-		if(c.hasCyclicSpecialization(ch))
-			error('''Invalid cyclic specialization.''',
-				MetaPackage.eINSTANCE.ML2Class_SuperClasses,
-				LinguisticRules.CYCLIC_SPECIALIZATION)
-		if(!c.hasValidCategorizedClass)
-			error('''Invalid basetype.''',
-				MetaPackage.eINSTANCE.ML2Class_CategorizedClass,
-				LinguisticRules.INVALID_CATEGORIZED_CLASS)
-		if(!c.hasValidPowertypeRelation)
-			error('''Invalid powertype relation.''',
-				MetaPackage.eINSTANCE.ML2Class_PowertypeOf,
-				LinguisticRules.INVALID_POWERTYPE_RELATION)
-		if(!c.hasValidSubordinators)
-			error('''Invalid subordinator.''',
-				MetaPackage.eINSTANCE.ML2Class_Subordinators,
-				LinguisticRules.INVALID_SUBORDINATOR)
+		c.hasCyclicSpecialization(ch)?.runIssue
+	}
+	@Check(CheckType.FAST)
+	def void callHasValidCategorizedClass(ML2Class c){
+		c.hasValidCategorizedClass?.runIssue
+	}
+	@Check(CheckType.FAST)
+	def void callHasValidPowertypeRelation(ML2Class c){
+		c.hasValidPowertypeRelation?.runIssue
+	}
+	@Check(CheckType.FAST)
+	def void callHasValidSubordinators(ML2Class c){
+		c.hasValidSubordinators?.runIssue
 	}
 	
 	@Check(CheckType.FAST)
@@ -97,23 +94,24 @@ class ML2Validator extends AbstractML2Validator {
 	
 	@Check(CheckType.FAST)
 	def void fastChecksOnHOClass(HOClass ho){
-		if(!ho.minOrder)
-			error('''Order must be of «MLTRules.MIN_ORDER» or greater.''',
-				MetaPackage.eINSTANCE.HOClass_Order,
-				MLTRules.INVALID_HO_CLASS_ORDER)
+		ho.minOrder?.runIssue
 	}
 	
 	@Check(CheckType.FAST)
 	def void fastChecksOnGeneralizationSet(GeneralizationSet gs){
-		if(!gs.hasValidMembers)
-			error('''This generalization set has invalid members.''',
-				MetaPackage.eINSTANCE.generalizationSet_Name,
-				LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS)
+		gs.hasValidMembers?.runIssue
 	}
 	
 	@Check(CheckType.FAST)
-	def void fastChecksOnFeature(Feature f){
+	def void callCheckFeatureName(Feature f){
+		f.checkFeatureName?.runIssue
+	}
+	@Check(CheckType.FAST)
+	def void callCheckSubsettedMultiplicity(Feature f){
 		f.checkSubsettedMultiplicity?.runIssue
+	}
+	@Check(CheckType.FAST)
+	def void callCheckRegularityAndContainer(Feature f){
 		f.checkRegularityAndContainer?.runIssue
 	}
 	
@@ -123,66 +121,82 @@ class ML2Validator extends AbstractML2Validator {
 	}
 	
 	@Check(CheckType.NORMAL)
-	def void normalChecksOnFeatureAssignment(FeatureAssignment fa){
+	def void callCheckFeatureAssignmentType(FeatureAssignment fa){
 		fa.checkFeatureAssignmentType?.runIssue
+	}
+	@Check(CheckType.NORMAL)
+	def void callCheckRegularityFeatureConformance(FeatureAssignment fa){
 		fa.checkRegularityFeatureConformance?.runIssue
 	}
 	
-	@Check(CheckType.NORMAL)
-	def void normalChecksOnEntity(EntityDeclaration e){
+	@Check(CheckType.EXPENSIVE)
+	def void callMissingInstantiationByCompleteness(EntityDeclaration e){
 		val iof = e.allInstantiatedClasses
-		e.isInstanceOfDisjointClasses(iof)?.runIssue
 		e.missingInstantiationByCompleteness(iof)?.runIssue
 	}
-	
-	@Check(CheckType.NORMAL)
-	def void normalChecksOnClass(ML2Class c) {
-		val ch = c.classHierarchy
-		val iof = c.allInstantiatedClasses
-		if (c.isMissingSpecializationThroughPowertype(ch))
-			error('''Missing specialization through powertype relation.''',
-				MetaPackage.eINSTANCE.ML2Class_SuperClasses, MLTRules.MISSING_SPECIALIZATION_THROUGH_POWERTYPE)
-		if (!c.obeysSubordination(ch, iof))
-			error('''Missing specialization through subordination.''', MetaPackage.eINSTANCE.ML2Class_SuperClasses,
-				LinguisticRules.MISSING_SPECIALIZATION_THROUGH_SUBODINATION)
-		if (c.hasSimpleSubordinationCycle)
-			error('''«c.name» is in a subordination cycle.''', MetaPackage.eINSTANCE.ML2Class_Subordinators,
-				LinguisticRules.SIMPLE_SUBORDINATION_CYCLE)
-		c.isSpecializingDisjointClasses(ch)?.runIssue
-		c.checkInstantiatedRegularities?.runIssue
+	@Check(CheckType.EXPENSIVE)
+	def void callIsInstanceOfDisjointClasses(EntityDeclaration e){
+		val iof = e.allInstantiatedClasses
+		e.isInstanceOfDisjointClasses(iof)?.runIssue
 	}
 	
 	@Check(CheckType.EXPENSIVE)
-	def void expensiveChecksOnFOClass(FOClass c) {
-		// TODO Insert a check for UFO models
-		
-		val ch = (c as ML2Class).classHierarchy
-		val iof = (c as ML2Class).allInstantiatedClasses
-		val endurant = c.UFOEndurant
-		
-		val mustInstantiate = c.UFOMustInstantiateClasses
-		val mixinclass = c.getLibClass(ML2Lib.UFO_MIXIN_CLASS)
-		val rigidclass = c.getLibClass(ML2Lib.UFO_RIGID_CLASS)
-		val semirigidclass = c.getLibClass(ML2Lib.UFO_SEMI_RIGID_CLASS)
-
-		c.mustInstantiateUFOMetaproperties(ch,iof,endurant,mustInstantiate)?.runIssue
-		c.checkSpecializationAndSortality(ch,iof,mixinclass)?.runIssue
-		c.checkSpecializationAndRigidity(ch,iof,rigidclass,semirigidclass)?.runIssue
+	def void callIsMissingSpecializationThroughPowertype(ML2Class c) {
+		val ch = c.classHierarchy
+		val iof = c.allInstantiatedClasses
+		c.isMissingSpecializationThroughPowertype(ch,iof)?.runIssue
 	}
+	@Check(CheckType.NORMAL)
+	def void callObeysSubordination(ML2Class c) {
+		val ch = c.classHierarchy
+		val iof = c.allInstantiatedClasses
+		c.obeysSubordination(ch, iof)?.runIssue
+	}
+	@Check(CheckType.NORMAL)
+	def void callHasSimpleSubordinationCycle(ML2Class c) {
+		c.hasSimpleSubordinationCycle?.runIssue
+	}
+	@Check(CheckType.EXPENSIVE)
+	def void callIsSpecializingDisjointClasses(ML2Class c) {
+		val ch = c.classHierarchy
+		c.isSpecializingDisjointClasses(ch)?.runIssue
+	}
+	@Check(CheckType.NORMAL)
+	def void callCheckInstantiatedRegularities(ML2Class c) {
+		c.checkInstantiatedRegularities?.runIssue
+	}
+	
+//	@Check(CheckType.EXPENSIVE)
+//	def void expensiveChecksOnFOClass(FOClass c) {
+//		// TODO Insert a check for UFO models
+//		
+//		val ch = (c as ML2Class).classHierarchy
+//		val iof = (c as ML2Class).allInstantiatedClasses
+//		val endurant = c.UFOEndurant
+//		
+//		val mustInstantiate = c.UFOMustInstantiateClasses
+//		val mixinclass = c.getLibClass(ML2Lib.UFO_MIXIN_CLASS)
+//		val rigidclass = c.getLibClass(ML2Lib.UFO_RIGID_CLASS)
+//		val semirigidclass = c.getLibClass(ML2Lib.UFO_SEMI_RIGID_CLASS)
+//
+//		c.mustInstantiateUFOMetaproperties(ch,iof,endurant,mustInstantiate)?.runIssue
+//		c.checkSpecializationAndSortality(ch,iof,mixinclass)?.runIssue
+//		c.checkSpecializationAndRigidity(ch,iof,rigidclass,semirigidclass)?.runIssue
+//	}
 	
 	def private dispatch runIssue(ValidationError issue){
 		val it = issue
-		if(source!=null && feature!=null && index!=-1 && code!=null)// && issueData!=null)
+		if(source!=null && feature!=null && index!=-1 && code!=null)
 			error(message,source,feature,index,code,issueData)
-		else if(source!=null && feature!=null && code!=null)// && issueData!=null)
+		else if(source!=null && feature!=null && code!=null)
 			error(message,source,feature,code,issueData)
-		else if(feature!=null && index!=-1 && code!=null)// && issueData!=null)
+		else if(feature!=null && index!=-1 && code!=null)
 			error(message,feature,index,code,issueData)
 		else if(source!=null && feature!=null && index!=-1)
 			error(message,source,feature,index)
 		else if(source!=null && feature!=null)
 			error(message,source,feature)
-		else if(feature!=null && code!=null)// && issueData!=null)
+		else if(feature!=null && code!=null)
 			error(message,feature,code,issueData)
 		else if(feature!=null && index!=-1)
 			error(message,feature,index)
@@ -192,17 +206,17 @@ class ML2Validator extends AbstractML2Validator {
 	
 	def private dispatch runIssue(ValidationWarning issue){
 		val it = issue
-		if(source!=null && feature!=null && index!=-1 && code!=null)// && issueData!=null)
+		if(source!=null && feature!=null && index!=-1 && code!=null)
 			warning(message,source,feature,index,code,issueData)
-		else if(source!=null && feature!=null && code!=null)// && issueData!=null)
+		else if(source!=null && feature!=null && code!=null)
 			warning(message,source,feature,code,issueData)
 		else if(source!=null && feature!=null && index!=-1)
 			warning(message,source,feature,index)
 		else if(source!=null && feature!=null)
 			warning(message,source,feature)
-		else if(feature!=null && index!=-1 && code!=null)// && issueData!=null)
+		else if(feature!=null && index!=-1 && code!=null)
 			warning(message,feature,index,code,issueData)
-		else if(feature!=null && code!=null)// && issueData!=null)
+		else if(feature!=null && code!=null)
 			warning(message,feature,code,issueData)
 		else if(feature!=null && index!=-1)
 			warning(message,feature,index)

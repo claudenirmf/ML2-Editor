@@ -5,6 +5,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 @SuppressWarnings("all")
 public abstract class ValidationIssue {
+  public final static int NO_INDEX = (-1);
+  
+  public final static String[] NO_ISSUE_CODE = null;
+  
   private String message;
   
   private EStructuralFeature feature;
@@ -24,6 +28,15 @@ public abstract class ValidationIssue {
     this.code = null;
     this.issueData = null;
     this.source = null;
+  }
+  
+  public ValidationIssue(final String message, final EStructuralFeature feature, final int index, final String code, final String[] issueData, final EObject source) {
+    this.message = message;
+    this.feature = feature;
+    this.index = index;
+    this.code = code;
+    this.issueData = issueData;
+    this.source = source;
   }
   
   public String getMessage() {

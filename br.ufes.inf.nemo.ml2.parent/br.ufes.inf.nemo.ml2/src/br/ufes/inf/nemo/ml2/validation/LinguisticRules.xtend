@@ -5,7 +5,6 @@ import com.google.inject.Inject
 import java.util.Collections
 import java.util.LinkedHashSet
 import java.util.Set
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.resource.IEObjectDescription
 import br.ufes.inf.nemo.ml2.util.ML2Util
 import br.ufes.inf.nemo.ml2.util.ML2Index
@@ -30,6 +29,7 @@ import br.ufes.inf.nemo.ml2.meta.PrimitiveType
 import java.util.HashSet
 import br.ufes.inf.nemo.ml2.meta.Literal
 import br.ufes.inf.nemo.ml2.meta.FeatureAssignment
+import br.ufes.inf.nemo.ml2.meta.Individual
 
 class LinguisticRules {
 	
@@ -37,12 +37,14 @@ class LinguisticRules {
 	@Inject extension ML2Index
 	
 	public static val INVALID_ENTITY_DECLARATION_NAME =	"br.ufes.inf.nemo.meta.InvalidEntityDeclarationName"
+	public static val INVALID_FEATURE_NAME =	"br.ufes.inf.nemo.meta.InvalidFeatureName"
 	public static val INVALID_CLASS_SPECIALIZATION = "br.ufes.inf.nemo.meta.InvalidClassSpecialization"
 	public static val CYCLIC_SPECIALIZATION = "br.ufes.inf.nemo.meta.CycliSpecialization"
 	public static val INVALID_CATEGORIZED_CLASS = "br.ufes.inf.nemo.meta.InvalidCategorizedClass"
 	public static val INVALID_POWERTYPE_RELATION = "br.ufes.inf.nemo.meta.InvalidPowertypeRelation"
 	public static val INVALID_SUBORDINATOR = "br.ufes.inf.nemo.meta.InvalidSubordinator"
 	public static val DUPLICATED_ENTITY_NAME = "br.ufes.inf.nemo.meta.DuplicatedEntityName"
+	public static val DUPLICATED_FEATURE_NAME = "br.ufes.inf.nemo.meta.DuplicatedFeatureName"
 	public static val INVALID_GENERALIZATION_SET_MEMBERS = "br.ufes.inf.nemo.meta.InvalidGeneralizationSetMembers"
 	public static val MISSING_SPECIALIZATION_THROUGH_SUBODINATION = "br.ufes.inf.nemo.meta.MissingSpecializationThroughSubordination"
 	public static val SIMPLE_SUBORDINATION_CYCLE = "br.ufes.inf.nemo.meta.SimpleSubordinationCycle"
@@ -58,121 +60,278 @@ class LinguisticRules {
 	public static val UNWANTED_REFERENCES_ON_DATATYPES = "br.ufes.inf.nemo.meta.UnwantedReferencesOnDataTypes"
 	public static val RESTRICTED_REGULARITY_TYPE = "br.ufes.inf.nemo.meta.RestrictedRegularityType"
 	public static val NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT = "br.ufes.inf.nemo.meta.NonConformantRegulatedFeatureAssignment"
+	public static val INVALID_INSTANTIATION = "br.ufes.inf.nemo.meta.InvalidInstantiation"
+	public static val INVALID_GENERALIZATION_SET_CATEGORIZATION_COMBINATION = "br.ufes.inf.nemo.meta.InvalidGeneralizationSetCategorizationCombination"
 	
 	def isNameValid(EntityDeclaration e){
 		if(!e.name.equals(e.name.toFirstLower) || e.eContainer instanceof AttributeAssignment)
-			return true
+			return null
 		else 
-			return false
+			return new ValidationError('''Entity name must start with a capital letter.''',
+				MetaPackage.eINSTANCE.entityDeclaration_Name,-1,
+				LinguisticRules.INVALID_ENTITY_DECLARATION_NAME,null,e)
+	}
+	
+	def ValidationIssue isValidInstantiation(EntityDeclaration e) {
+		var ML2Class invalid
+		if(e instanceof Individual) {
+			invalid = e.instantiatedClasses.findFirst[ it instanceof HOClass ]
+		} 
+		else if (e instanceof FOClass) {
+			invalid = e.instantiatedClasses.findFirst[ 
+					if(it instanceof FOClass)	return true
+					else if(it instanceof HOClass)
+						if(it.order!=MLTRules.MIN_ORDER)	return true
+					return false
+				]
+		} 
+		else if (e instanceof HOClass) {
+			invalid = e.instantiatedClasses.findFirst[
+					if(it instanceof FOClass)	return true
+					else if(it instanceof HOClass)
+						if(it.order!=e.order+1)	return true
+					return false
+				]
+		} 
+		else if (e instanceof OrderlessClass) {
+			invalid = e.instantiatedClasses.findFirst[ !(it instanceof OrderlessClass) ]
+		}
+		
+		if(invalid==null)	return null
+		else
+			return new ValidationError('''Invalid instantiation of «invalid.name»''',
+					MetaPackage.eINSTANCE.entityDeclaration_InstantiatedClasses,
+					e.instantiatedClasses.indexOf(invalid),
+					INVALID_INSTANTIATION,
+					null,
+					e)
 	}
 	
 	def isValidSpecialization(ML2Class c){
-		if(c.superClasses.exists[ it==c ]){
-			return false
-		} else if(c instanceof OrderlessClass && c.superClasses.exists[ it instanceof OrderedClass ]){
-			return false
-		} else if(c instanceof FOClass && c.superClasses.exists[ it instanceof HOClass ]){
-			return false
-		} else if(c instanceof HOClass && c.superClasses.exists[ it instanceof FOClass ]){
-			return false
-		} else if(c instanceof HOClass){
-			return !c.superClasses.exists[
-				if(it instanceof HOClass && (it as HOClass).order!=c.order)	true
-				else	false ]
-		} else {
-			return true
-		}
+		var ML2Class invalid = null
+
+		if(c.superClasses.contains(c))	
+			invalid = c
+		else if(c instanceof OrderlessClass) 
+			invalid = c.superClasses.findFirst[ it instanceof OrderedClass ]
+		else if(c instanceof FOClass) 
+			invalid = c.superClasses.findFirst[ it instanceof HOClass ]
+		else if(c instanceof HOClass) 
+			invalid = c.superClasses.findFirst[ 
+						if(it instanceof FOClass)	true
+						else if(it instanceof HOClass)	c.order != it.order
+						else false
+					]
+		
+		if(invalid==null)	return null
+		else	return new ValidationError('''Invalid specialization of «invalid.name».''',
+				MetaPackage.eINSTANCE.ML2Class_SuperClasses,
+				c.superClasses.indexOf(invalid),
+				LinguisticRules.INVALID_CLASS_SPECIALIZATION,
+				ValidationIssue.NO_ISSUE_CODE,
+				c)
 	}
 	
 	def hasCyclicSpecialization(ML2Class c, Set<ML2Class> ch){
-		if(ch.contains(c)) true		else false
+		if(ch.contains(c)) 
+			new ValidationError('''Invalid cyclic specialization.''',
+					MetaPackage.eINSTANCE.ML2Class_SuperClasses,
+					ValidationIssue.NO_INDEX,
+					LinguisticRules.CYCLIC_SPECIALIZATION,
+					ValidationIssue.NO_ISSUE_CODE,
+					c)
+		else
+			null
 	}
 	
 	def hasValidCategorizedClass(ML2Class c){
 		val cat = c.categorizedClass
-		if(cat === null)	return true
-		else if(c instanceof OrderlessClass) {
-			return cat instanceof OrderlessClass
-		}
+		var msg = ""
+		
+		if(cat === null)
+			return null
+		
+		else if(c instanceof OrderlessClass && cat instanceof OrderedClass)
+			msg = '''Invalid categorization of an ordered class.'''
+		
 		else if(c instanceof HOClass){
-			if(cat instanceof OrderlessClass) {
-				if(c.categorizationType==CategorizationType.COMPLETE_CATEGORIZER
-					|| c.categorizationType==CategorizationType.PARTITIONER)
-					return false
-			}
-			else if(c.order == MLTRules.MIN_ORDER){
-				return !(cat instanceof HOClass)
-			}
-			else if(c.order != MLTRules.MIN_ORDER && cat instanceof HOClass){
-				return c.order == (cat as HOClass).order+1
-			}
-		} else {
-			return true
+			if(cat instanceof OrderlessClass && c.categorizationType === CategorizationType.COMPLETE_CATEGORIZER)
+				msg = '''Invalid complete categorization of an orderless class.'''
+			
+			else if(cat instanceof OrderlessClass && c.categorizationType === CategorizationType.PARTITIONER)
+				msg = '''Invalidation partitioning of an orderless class.'''
+			
+			else if(cat instanceof HOClass)
+				if(c.order === MLTRules.MIN_ORDER || c.order !== cat.order+1)
+					msg = '''Invalid categorization of a class of order different than «c.order-1».'''
 		}
+		
+		if(msg=="")	return null
+		else		return new ValidationError(msg,
+							MetaPackage.eINSTANCE.ML2Class_CategorizedClass,
+							ValidationIssue.NO_INDEX,
+							INVALID_CATEGORIZED_CLASS,
+							ValidationIssue.NO_ISSUE_CODE,
+							c)
 	}
 	
 	def hasValidPowertypeRelation(ML2Class c){
 		val base = c.powertypeOf
-		if(base === null)	
-			return true
-		else if(c instanceof OrderlessClass)	
-			return base instanceof OrderlessClass
+		var String msg = ""
+		
+		if(base === null)	return null
+		
+		else if(c instanceof OrderlessClass && base instanceof OrderedClass)
+			msg = '''Invalid powertype relation towards an ordered basetype.'''
+		
 		else if(c instanceof HOClass){
 			if(base instanceof OrderlessClass)
-				return false
-			else if(c.order == MLTRules.MIN_ORDER){
-				return !(base instanceof HOClass)
-			}
-			else if(c.order!=MLTRules.MIN_ORDER && base instanceof HOClass)
-				return c.order == (base as HOClass).order+1
-		} else {
-			return true
-		}
+				msg = '''Invalid powertype relation towards an orderless basetype.'''
+				
+			else if(base instanceof HOClass)
+				if(c.order === MLTRules.MIN_ORDER || c.order !== base.order+1)
+					msg = '''Invalid powertype relation towards a class of order different than «c.order-1».'''
+		} 
+		
+		if(msg=="")	return null
+		else		return new ValidationError(msg,
+							MetaPackage.eINSTANCE.ML2Class_PowertypeOf,
+							ValidationIssue.NO_INDEX,
+							INVALID_POWERTYPE_RELATION,
+							ValidationIssue.NO_ISSUE_CODE,
+							c)
 	}
 	
 	def hasValidSubordinators(ML2Class c){
-		if(c instanceof OrderlessClass)	
-			return !c.subordinators.exists[ it instanceof OrderedClass ]
-		else if(c instanceof HOClass)
-			return !c.subordinators.exists[
-				if(it==c)	return true
-				else if(it instanceof FOClass)	return true
-				else if(it instanceof HOClass)	return it.order != c.order
-				else return false			
-			]
-		else
-			return true
+		var ML2Class invalid = null
+		var msg = ""
+		val issue = new ValidationError
+		
+		if(c.subordinators.contains(c)) {
+			invalid = c
+			msg = '''Invalid subordination to itself.'''
+		}
+		else {
+			invalid = c.subordinators.findFirst[
+						if(it instanceof FOClass){
+							issue.message = '''Invalid subordination to a first-order class.'''
+							return true
+						} else if(c instanceof OrderlessClass && it instanceof OrderedClass) {
+							issue.message = '''Invalid subordination to an ordered class.'''
+							return true
+						} else if(c instanceof HOClass && it instanceof HOClass && (it as HOClass).order!==(c as HOClass).order) {
+							issue.message = '''Invalid subordination to an ordered class of different order.'''
+							return true
+						} else {
+							false
+						}
+					]
+		}
+		
+		if(invalid===null)	return null
+		else {
+			issue.feature = MetaPackage.eINSTANCE.ML2Class_Subordinators
+			issue.index = c.subordinators.indexOf(invalid)
+			issue.code = INVALID_SUBORDINATOR
+			issue.source = c
+			return issue
+		}
 	}
 	
 	def duplicatedEntityName(EntityDeclaration e){
-		if(e.eContainer instanceof AttributeAssignment)	return false
+		if(e.eContainer instanceof AttributeAssignment)	return null
 		
-		val ML2Class = e.eContainer as ML2Model
-		return ML2Class.elements.exists[ 
-			if(it instanceof EntityDeclaration) it.name.equals(e.name) && it!=e
-			else false
-		]
+		val rep = (e.eContainer as ML2Model).elements.filter[ 
+					it instanceof EntityDeclaration && (it as EntityDeclaration).name == e.name
+				]
+		if(rep.size > 1)
+			return new ValidationError('''Entity name must be unique.''',
+					MetaPackage.eINSTANCE.entityDeclaration_Name,
+					ValidationIssue.NO_INDEX,
+					LinguisticRules.DUPLICATED_ENTITY_NAME,
+					ValidationIssue.NO_ISSUE_CODE,
+					e)
+		else
+			return null
 	}
 	
 	def hasValidMembers(GeneralizationSet gs){
-		if(gs.specifics.exists[!superClasses.contains(gs.general)])
-			return false
-		else if(gs.categorizer.categorizedClass!==null && gs.categorizer.categorizedClass!=gs.general)
-			return false
-		else if(gs.categorizer.categorizedClass!==null && gs.specifics.exists[!instantiatedClasses.contains(gs.categorizer)])
-			return false
-		else
-			return true
+		var ML2Class invalid = null
+		
+		invalid = gs.specifics.findFirst[!superClasses.contains(gs.general)]
+		if(invalid!==null)
+			return new ValidationError('''Invalid member is not a direct specialization of the general class.''',
+					MetaPackage.eINSTANCE.generalizationSet_Specifics,
+					gs.specifics.indexOf(invalid),
+					LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS,
+					ValidationIssue.NO_ISSUE_CODE,
+					gs)
+		
+		if(gs.categorizer !== null) {
+			val cat = gs.categorizer
+			if(cat.categorizedClass != gs.general)
+				return new ValidationError('''The categorizer class must have a categorization relation towards the general class.''',
+						MetaPackage.eINSTANCE.generalizationSet_Categorizer,
+						ValidationIssue.NO_INDEX,
+						LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS,
+						ValidationIssue.NO_ISSUE_CODE,
+						gs)
+			
+			invalid = gs.specifics.findFirst[!instantiatedClasses.contains(cat)]
+			if(invalid!==null)
+				return new ValidationError('''The specific class must be direct instances of the categorizer class.''',
+						MetaPackage.eINSTANCE.generalizationSet_Specifics,
+						gs.specifics.indexOf(invalid),
+						LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS,
+						ValidationIssue.NO_ISSUE_CODE,
+						gs)
+			
+			
+			// TODO Test the verification of combinations of generalization set constraints
+			var msg = ""
+			switch (cat.categorizationType) {
+				case CategorizationType.CATEGORIZER: {
+					if(gs.isComplete)
+						msg = '''Simple categorization and complete generalization set is an invalid combination.'''
+				}
+				case CategorizationType.DISJOINT_CATEGORIZER: {
+					if(!gs.isDisjoint || gs.isComplete)
+						msg = '''Disjoint categorization and non disjoint and incomplete generalization set is an invalid combination.'''
+				}
+				case CategorizationType.PARTITIONER: {
+					if(!gs.isDisjoint)
+						msg = '''Partitioning categorization and non disjoint generalization set is an invalid combination.'''
+				}
+			}
+			
+			if(msg!="")
+				return new ValidationError(msg,
+						MetaPackage.eINSTANCE.generalizationSet_Categorizer,
+						ValidationIssue.NO_INDEX,
+						INVALID_GENERALIZATION_SET_CATEGORIZATION_COMBINATION,
+						ValidationIssue.NO_ISSUE_CODE,
+						gs)
+		}
+		
+		return null
 	}
 	
 	def obeysSubordination(ML2Class c, Set<ML2Class> ch, Set<ML2Class> iof){
 		val subordinated = new LinkedHashSet<ML2Class>()
 		iof.forEach[if(subordinators!==null) subordinated.addAll(subordinators)]
-		if(subordinated.size==0)	return true
+		if(subordinated.size==0)	return null
 		
 		val superClassesIof = new LinkedHashSet<ML2Class>()
 		ch.forEach[superClassesIof.addAll(allInstantiatedClasses)]
-		return superClassesIof.containsAll(subordinated)
+		
+		val invalid = subordinated.findFirst[!superClassesIof.contains(it)]
+		if(invalid===null)	return null
+		else				return new ValidationError('''Missing specialization due to subordination to some instance of «invalid.name».''',
+									MetaPackage.eINSTANCE.ML2Class_SuperClasses,
+									ValidationIssue.NO_INDEX,
+									MISSING_SPECIALIZATION_THROUGH_SUBODINATION,
+									ValidationIssue.NO_ISSUE_CODE,
+									c)
 	}
 	
 	/**
@@ -182,10 +341,18 @@ class LinguisticRules {
 	 * <br> - C is subordinated to X, but C is a super class to X
 	 */
 	def hasSimpleSubordinationCycle(ML2Class c){
-		if(c.subordinators===null)	return false
-		else return c.subordinators.exists[ sc |
-			sc == c || sc?.subordinators.contains(c) || sc.classHierarchy.contains(c)
-		]
+		if(c.subordinators===null)	return null
+		
+		val invalid = c.subordinators.findFirst[ sc |
+				sc == c || sc?.subordinators.contains(c) || sc.classHierarchy.contains(c)
+			]
+		if(invalid===null)	return null
+		else				return new ValidationError('''«c.name» is in a invalid subordination cycle with «invalid.name».''',
+									MetaPackage.eINSTANCE.ML2Class_Subordinators,
+									c.subordinators.indexOf(invalid),
+									SIMPLE_SUBORDINATION_CYCLE,
+									ValidationIssue.NO_ISSUE_CODE,
+									c)
 	}
 	
 	def ValidationIssue isSpecializingDisjointClasses(ML2Class c, Set<ML2Class> ch){
@@ -246,18 +413,42 @@ class LinguisticRules {
 		return null
 	}	
 	
+	def checkFeatureName(Feature f){
+		if(f.name.toFirstUpper==f.name)
+			return new ValidationError('''Invalid name starting with capitalized letter.''',
+					MetaPackage.eINSTANCE.feature_Name,
+					ValidationIssue.NO_INDEX,
+					INVALID_FEATURE_NAME,
+					ValidationIssue.NO_ISSUE_CODE,
+					f)
+		
+		val c = f.eContainer
+		if(c instanceof ML2Class) {
+			if(c.features.exists[ f!==it && f.name == it.name])
+				return new ValidationError('''Invalid duplicated name.''',
+						MetaPackage.eINSTANCE.feature_Name,
+						ValidationIssue.NO_INDEX,
+						DUPLICATED_FEATURE_NAME,
+						ValidationIssue.NO_ISSUE_CODE,
+						f)
+		}
+		
+		return null
+	}
+	
 	def dispatch ValidationIssue checkSubsettedMultiplicity(Reference ref){
 		if(ref.subsetOf === null)	return null
 		val issue = new ValidationError
 		issue.source = ref
 		issue.code = INVALID_MULTIPLICITY
 		for(Reference superRef : ref.subsetOf){
-			if(ref.lowerBound < superRef.lowerBound){
-				issue.feature = MetaPackage.eINSTANCE.feature_LowerBound
-				issue.message = 
-					'''The cardinality must be as restrictive as the the subsetted one («superRef.name»).'''
-				return issue
-			} else if(ref.upperBound > superRef.upperBound && superRef.upperBound > 0){
+//			if(ref.lowerBound < superRef.lowerBound){
+//				issue.feature = MetaPackage.eINSTANCE.feature_LowerBound
+//				issue.message = 
+//					'''The cardinality must be as restrictive as the the subsetted one («superRef.name»).'''
+//				return issue
+//			} else 
+			if(ref.upperBound > superRef.upperBound && superRef.upperBound > 0){
 				issue.message = 
 					'''The cardinality must be as restrictive as the the subsetted one («superRef.name»).'''
 				issue.feature = MetaPackage.eINSTANCE.feature_UpperBound
@@ -278,12 +469,13 @@ class LinguisticRules {
 		issue.source = att
 		issue.code = INVALID_MULTIPLICITY
 		for(Attribute superAtt : att.subsetOf){
-			if(att.lowerBound < superAtt.lowerBound){
-				issue.feature = MetaPackage.eINSTANCE.feature_LowerBound
-				issue.message = 
-					'''The cardinality must be as restrictive as the the subsetted one («superAtt.name»).'''
-				return issue
-			} else if(att.upperBound > superAtt.upperBound && superAtt.upperBound > 0){
+//			if(att.lowerBound < superAtt.lowerBound){
+//				issue.feature = MetaPackage.eINSTANCE.feature_LowerBound
+//				issue.message = 
+//					'''The cardinality must be as restrictive as the the subsetted one («superAtt.name»).'''
+//				return issue
+//			} else 
+			if(att.upperBound > superAtt.upperBound && superAtt.upperBound > 0){
 				issue.message = 
 					'''The cardinality must be as restrictive as the the subsetted one («superAtt.name»).'''
 				issue.feature = MetaPackage.eINSTANCE.feature_UpperBound
