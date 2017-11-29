@@ -43,8 +43,8 @@
 					<pomDependencies>consider</pomDependencies>
 					<target>
 						<artifact>
-							<groupId>br.ufes.inf.nemo.ontol</groupId>
-							<artifactId>br.ufes.inf.nemo.ontol.target</artifactId>
+							<groupId>br.ufes.inf.nemo.ml2</groupId>
+							<artifactId>br.ufes.inf.nemo.ml2.target</artifactId>
 							<version>${project.version}</version>
 						</artifact>
 					</target>
