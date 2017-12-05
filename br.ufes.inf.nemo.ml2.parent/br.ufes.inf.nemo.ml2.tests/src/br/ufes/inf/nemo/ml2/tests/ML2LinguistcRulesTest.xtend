@@ -162,6 +162,9 @@ class ML2LinguistcRulesTest {
 		val incorrectModelC = '''module t { order 3 class A isPowertypeOf B; order 3 class B; }'''.parse
 		incorrectModelC.assertError(MetaPackage.eINSTANCE.ML2Class,LinguisticRules.INVALID_POWERTYPE_RELATION)
 		
+		val incorrectModelD = '''module t { order 3 class A isPowertypeOf B; class B; }'''.parse
+		incorrectModelD.assertError(MetaPackage.eINSTANCE.ML2Class,LinguisticRules.INVALID_POWERTYPE_RELATION)
+		
 		val correctModel = '''module t {
 				order 2 class A isPowertypeOf B; class B;
 				order 3 class C isPowertypeOf D; order 2 class D;

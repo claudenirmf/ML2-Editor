@@ -188,9 +188,12 @@ class LinguisticRules {
 			if(base instanceof OrderlessClass)
 				msg = '''Invalid powertype relation towards an orderless basetype.'''
 				
+			else if(base instanceof FOClass && c.order !== MLTRules.MIN_ORDER)
+				msg = '''Invalid powertype relation. The basetype must be of order «c.order-1».'''
+			
 			else if(base instanceof HOClass)
 				if(c.order === MLTRules.MIN_ORDER || c.order !== base.order+1)
-					msg = '''Invalid powertype relation towards a class of order different than «c.order-1».'''
+					msg = '''Invalid powertype relation. The basetype must be of order «c.order-1».'''
 		} 
 		
 		if(msg=="")	return null

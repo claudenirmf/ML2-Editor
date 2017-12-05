@@ -350,15 +350,25 @@ public class LinguisticRules {
             _builder_1.append("Invalid powertype relation towards an orderless basetype.");
             msg = _builder_1.toString();
           } else {
-            if ((base instanceof HOClass)) {
-              if ((((((HOClass)c).getOrder()).intValue() == MLTRules.MIN_ORDER) || ((((HOClass)c).getOrder()).intValue() != ((((HOClass)base).getOrder()).intValue() + 1)))) {
-                StringConcatenation _builder_2 = new StringConcatenation();
-                _builder_2.append("Invalid powertype relation towards a class of order different than ");
-                Integer _order = ((HOClass)c).getOrder();
-                int _minus = ((_order).intValue() - 1);
-                _builder_2.append(_minus, "");
-                _builder_2.append(".");
-                msg = _builder_2.toString();
+            if (((base instanceof FOClass) && ((((HOClass)c).getOrder()).intValue() != MLTRules.MIN_ORDER))) {
+              StringConcatenation _builder_2 = new StringConcatenation();
+              _builder_2.append("Invalid powertype relation. The basetype must be of order ");
+              Integer _order = ((HOClass)c).getOrder();
+              int _minus = ((_order).intValue() - 1);
+              _builder_2.append(_minus, "");
+              _builder_2.append(".");
+              msg = _builder_2.toString();
+            } else {
+              if ((base instanceof HOClass)) {
+                if ((((((HOClass)c).getOrder()).intValue() == MLTRules.MIN_ORDER) || ((((HOClass)c).getOrder()).intValue() != ((((HOClass)base).getOrder()).intValue() + 1)))) {
+                  StringConcatenation _builder_3 = new StringConcatenation();
+                  _builder_3.append("Invalid powertype relation. The basetype must be of order ");
+                  Integer _order_1 = ((HOClass)c).getOrder();
+                  int _minus_1 = ((_order_1).intValue() - 1);
+                  _builder_3.append(_minus_1, "");
+                  _builder_3.append(".");
+                  msg = _builder_3.toString();
+                }
               }
             }
           }
