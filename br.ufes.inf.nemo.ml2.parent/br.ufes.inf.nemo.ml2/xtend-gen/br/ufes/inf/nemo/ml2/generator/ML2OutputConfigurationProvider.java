@@ -10,7 +10,6 @@ package br.ufes.inf.nemo.ml2.generator;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import java.util.Map;
 import java.util.Set;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
@@ -31,7 +30,7 @@ import org.eclipse.xtext.generator.OutputConfigurationAdapter;
  */
 @SuppressWarnings("all")
 public class ML2OutputConfigurationProvider implements IOutputConfigurationProvider, IContextualOutputConfigurationProvider, IContextualOutputConfigurationProvider2 {
-  public final static String MODELS_OUTPUT = "br.ufes.inf.nemo.ontol.generator.ModelsOutput";
+  public static final String MODELS_OUTPUT = "br.ufes.inf.nemo.ontol.generator.ModelsOutput";
   
   @Inject
   @Named(Constants.LANGUAGE_NAME)
@@ -66,8 +65,7 @@ public class ML2OutputConfigurationProvider implements IOutputConfigurationProvi
    */
   @Override
   public Set<OutputConfiguration> getOutputConfigurations(final Resource context) {
-    ResourceSet _resourceSet = context.getResourceSet();
-    return this.getOutputConfigurations(_resourceSet);
+    return this.getOutputConfigurations(context.getResourceSet());
   }
   
   /**
@@ -82,8 +80,7 @@ public class ML2OutputConfigurationProvider implements IOutputConfigurationProvi
     if ((adapter == null)) {
       return this.getOutputConfigurations();
     } else {
-      Map<String, Set<OutputConfiguration>> _outputConfigurationsPerLanguage = adapter.getOutputConfigurationsPerLanguage();
-      Set<OutputConfiguration> outputConfigurations = _outputConfigurationsPerLanguage.get(
+      Set<OutputConfiguration> outputConfigurations = adapter.getOutputConfigurationsPerLanguage().get(
         this.languageName);
       Set<OutputConfiguration> _xifexpression = null;
       if ((outputConfigurations == null)) {

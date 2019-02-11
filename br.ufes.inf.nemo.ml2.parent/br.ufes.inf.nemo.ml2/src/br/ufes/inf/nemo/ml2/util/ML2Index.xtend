@@ -29,7 +29,7 @@ class ML2Index {
 		val desc = context.getVisibleEObjectDescriptions(modelElementClass).findFirst [
 			it.qualifiedName.toString == qualifiedName
 		]
-		if (desc == null)	return null
+		if (desc === null)	return null
 
 		var o = desc.EObjectOrProxy
 		if (o.eIsProxy)

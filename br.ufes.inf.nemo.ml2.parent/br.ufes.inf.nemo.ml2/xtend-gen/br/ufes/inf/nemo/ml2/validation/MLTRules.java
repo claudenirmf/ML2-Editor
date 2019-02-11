@@ -1,8 +1,8 @@
 package br.ufes.inf.nemo.ml2.validation;
 
-import br.ufes.inf.nemo.ml2.meta.HOClass;
-import br.ufes.inf.nemo.ml2.meta.ML2Class;
-import br.ufes.inf.nemo.ml2.meta.MetaPackage;
+import br.ufes.inf.nemo.ml2.model.HOClass;
+import br.ufes.inf.nemo.ml2.model.ML2Class;
+import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.util.ML2Util;
 import br.ufes.inf.nemo.ml2.validation.ValidationError;
 import br.ufes.inf.nemo.ml2.validation.ValidationIssue;
@@ -22,11 +22,11 @@ public class MLTRules {
   @Extension
   private ML2Util _mL2Util;
   
-  public final static int MIN_ORDER = 2;
+  public static final int MIN_ORDER = 2;
   
-  public final static String INVALID_HO_CLASS_ORDER = "br.ufes.inf.nemo.ontol.InvalidHOClassOrder";
+  public static final String INVALID_HO_CLASS_ORDER = "br.ufes.inf.nemo.ontol.InvalidHOClassOrder";
   
-  public final static String MISSING_SPECIALIZATION_THROUGH_POWERTYPE = "br.ufes.inf.nemo.ontol.MissingSpecializationThroughPowertype";
+  public static final String MISSING_SPECIALIZATION_THROUGH_POWERTYPE = "br.ufes.inf.nemo.ontol.MissingSpecializationThroughPowertype";
   
   public ValidationError minOrder(final HOClass ho) {
     ValidationError _xifexpression = null;
@@ -35,9 +35,9 @@ public class MLTRules {
     if (_lessThan) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Order must be of ");
-      _builder.append(MLTRules.MIN_ORDER, "");
+      _builder.append(MLTRules.MIN_ORDER);
       _builder.append(" or greater.");
-      EAttribute _hOClass_Order = MetaPackage.eINSTANCE.getHOClass_Order();
+      EAttribute _hOClass_Order = ModelPackage.eINSTANCE.getHOClass_Order();
       _xifexpression = new ValidationError(_builder.toString(), _hOClass_Order, 
         ValidationIssue.NO_INDEX, 
         MLTRules.INVALID_HO_CLASS_ORDER, 
@@ -63,14 +63,13 @@ public class MLTRules {
     } else {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Missing specialization of ");
-      ML2Class _powertypeOf = invalid.getPowertypeOf();
-      String _name = _powertypeOf.getName();
-      _builder.append(_name, "");
+      String _name = invalid.getPowertypeOf().getName();
+      _builder.append(_name);
       _builder.append(", base type of ");
       String _name_1 = invalid.getName();
-      _builder.append(_name_1, "");
+      _builder.append(_name_1);
       _builder.append(".");
-      EReference _mL2Class_SuperClasses = MetaPackage.eINSTANCE.getML2Class_SuperClasses();
+      EReference _mL2Class_SuperClasses = ModelPackage.eINSTANCE.getML2Class_SuperClasses();
       return new ValidationError(_builder.toString(), _mL2Class_SuperClasses, 
         ValidationIssue.NO_INDEX, 
         MLTRules.MISSING_SPECIALIZATION_THROUGH_POWERTYPE, 

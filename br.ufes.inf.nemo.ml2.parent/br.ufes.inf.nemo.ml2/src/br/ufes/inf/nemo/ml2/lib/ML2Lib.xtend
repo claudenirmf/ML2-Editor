@@ -6,8 +6,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import br.ufes.inf.nemo.ml2.util.ML2Index
-import br.ufes.inf.nemo.ml2.meta.MetaPackage
-import br.ufes.inf.nemo.ml2.meta.ML2Class
+import br.ufes.inf.nemo.ml2.model.ModelPackage
+import br.ufes.inf.nemo.ml2.model.ML2Class
 
 class ML2Lib {
 	
@@ -103,11 +103,11 @@ class ML2Lib {
 //	}
 	
 	def getLibClass(EObject context, String name){
-		return context.getModelElementFromIndex(name, MetaPackage.eINSTANCE.ML2Class) as ML2Class
+		return context.getModelElementFromIndex(name, ModelPackage.eINSTANCE.ML2Class) as ML2Class
 	}
 
 	def getUFOEndurant(EObject context) {
-		return context.getModelElementFromIndex(UFO_ENDURANT, MetaPackage.eINSTANCE.ML2Class) as ML2Class
+		return context.getModelElementFromIndex(UFO_ENDURANT, ModelPackage.eINSTANCE.ML2Class) as ML2Class
 	}
 	
 	def getUFOMustInstantiateClasses(EObject context){

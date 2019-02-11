@@ -1,0 +1,210 @@
+@Ecore(nsURI="http://www.nemo.inf.ufes.br/ml2/model")
+@GenModel(modelDirectory="br.ufes.inf.nemo.ml2.model/src-gen")
+package br.ufes.inf.nemo.ml2.model
+
+import org.eclipse.emf.common.util.BasicEList
+
+class ML2Model
+{
+	String name
+	refers ML2Model[] includes
+	contains ModelElement[] elements
+}
+
+abstract class ModelElement {}
+
+class Import extends ModelElement
+{
+	String importedNamespace
+}
+
+abstract class EntityDeclaration extends ModelElement 
+{
+	String name
+	refers ML2Class[] instantiatedClasses
+	
+	contains FeatureAssignment[] assignments
+	
+	op boolean isUnnamed() 
+	{ 
+		return name===null || name==""
+	}
+}
+
+class Individual extends EntityDeclaration {}
+
+abstract class ML2Class extends EntityDeclaration 
+{
+	refers ML2Class[] superClasses
+	refers ML2Class[] subordinators
+	refers ML2Class powertypeOf
+	refers ML2Class categorizedClass
+	CategorizationType[0..1] categorizationType
+
+	contains Feature[] features
+	
+	op Attribute[] getAttributes()
+	{
+		val l = new BasicEList<Attribute>()
+		features.forEach[if(it instanceof Attribute) l.add(it)]
+		return l
+	}
+	op Reference[] getReferences()
+	{
+		val l = new BasicEList<Reference>()
+		features.forEach[if(it instanceof Reference) l.add(it)]
+		return l
+	}
+}
+
+enum CategorizationType 
+{
+	CATEGORIZER as "categorizes"
+	DISJOINT_CATEGORIZER as "disjointCategorizes"
+	COMPLETE_CATEGORIZER as "completeCategorizes"
+	PARTITIONER as "partitions"
+}
+
+class OrderlessClass extends ML2Class {}
+
+abstract class OrderedClass extends ML2Class {}
+
+class HOClass extends OrderedClass
+{
+	Integer order
+}
+
+class FOClass extends OrderedClass {}
+
+class DataType extends FOClass {}
+
+class GeneralizationSet extends ModelElement 
+{
+	String name = "anonymous"
+	boolean isDisjoint = "false"
+	boolean isComplete = "false"
+	refers ML2Class general
+	refers ML2Class categorizer
+	refers ML2Class[] specifics
+}
+
+class Feature extends ModelElement 
+{
+	String name
+	int lowerBound = "1"
+	int upperBound = "1"
+	
+	RegularityFeatureType regularityType
+	refers Feature regulatedFeature
+}
+
+enum RegularityFeatureType 
+{
+	DETERMINES_MAX_VALUE as "determinesMaxValue"
+	DETERMINES_MIN_VALUE as "determinesMinValue"
+	DETERMINES_VALUE as "determinesValue"
+	DETERMINES_ALLOWED_VALUES as "determinesAllowedValues"
+	DETERMINES_TYPE as "determinesType"
+	DETERMINES_ALLOWED_TYPES as "determinesAllowedTypes"
+}
+
+class Attribute extends Feature
+{
+	PrimitiveType primitiveType
+	refers DataType _type
+	refers Attribute[] subsetOf
+	
+	op boolean isPrimitive()
+	{
+		return !eIsSet(ModelPackage.eINSTANCE.attribute__type)
+	}
+}
+
+class Reference extends Feature
+{
+	refers ML2Class _type
+	refers Reference[] subsetOf
+	refers Reference oppositeTo
+}
+
+enum PrimitiveType 
+{
+	STRING as "String"
+	NUMBER as "Number"
+	BOOLEAN as "Boolean"
+}
+
+class FeatureAssignment extends ModelElement {}
+
+class AttributeAssignment extends FeatureAssignment
+{
+	refers Attribute attribute
+	refers Individual[] individualAssignments
+	contains Individual[] unnamedIndividualAssignments
+	contains Literal[] literalAssignments
+	
+	op boolean hasIndividualAssignments()
+	{
+		return !individualAssignments.isEmpty || !unnamedIndividualAssignments.isEmpty
+	}
+	op boolean hasLiteralAssignments()
+	{
+		return !literalAssignments.isEmpty
+	}
+	op Individual[] getAllIndividualAssignments()
+	{
+		val l = new BasicEList<Individual>
+		l.addAll(individualAssignments)
+		l.addAll(unnamedIndividualAssignments)
+		return l
+	}
+	op Object[] getAllAssignments()
+	{
+		val l = new BasicEList<Object>
+		l.addAll(individualAssignments)
+		l.addAll(unnamedIndividualAssignments)
+		l.addAll(literalAssignments)
+		return l
+	}
+}
+
+class ReferenceAssignment extends FeatureAssignment
+{
+	refers Reference reference
+	refers EntityDeclaration[] assignments
+}
+
+abstract class Literal extends ModelElement {}
+
+class ML2String extends Literal
+{
+	String value
+	
+	op boolean equals(Object obj)
+	{
+		if(obj instanceof ML2String)	return value == obj.value
+		else	return super.equals(obj)
+	}
+}
+
+class ML2Number extends Literal
+{
+	double value
+	
+	op boolean equals(Object obj)
+	{
+		if(obj instanceof ML2Number)	return value === obj.value
+		else	return super.equals(obj)
+	}
+}
+
+class ML2Boolean extends Literal
+{
+	boolean value
+	
+	op boolean equals(Object obj)
+	{
+		if(obj instanceof ML2Boolean)	return value === obj.value
+		else	return super.equals(obj)
+	}
+}

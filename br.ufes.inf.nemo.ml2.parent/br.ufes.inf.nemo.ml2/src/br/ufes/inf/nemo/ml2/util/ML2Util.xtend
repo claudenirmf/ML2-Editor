@@ -5,26 +5,24 @@
  */
 package br.ufes.inf.nemo.ml2.util
 
-import br.ufes.inf.nemo.ml2.meta.Attribute
-import br.ufes.inf.nemo.ml2.meta.AttributeAssignment
-import br.ufes.inf.nemo.ml2.meta.EntityDeclaration
-import br.ufes.inf.nemo.ml2.meta.Feature
-import br.ufes.inf.nemo.ml2.meta.Literal
-import br.ufes.inf.nemo.ml2.meta.ML2Boolean
-import br.ufes.inf.nemo.ml2.meta.ML2Class
-import br.ufes.inf.nemo.ml2.meta.ML2Model
-import br.ufes.inf.nemo.ml2.meta.ML2Number
-import br.ufes.inf.nemo.ml2.meta.ML2String
-import br.ufes.inf.nemo.ml2.meta.ModelElement
-import br.ufes.inf.nemo.ml2.meta.PrimitiveType
-import br.ufes.inf.nemo.ml2.meta.Reference
-import java.util.LinkedHashSet
-import java.util.Set
-import br.ufes.inf.nemo.ml2.meta.RegularityFeatureType
-import br.ufes.inf.nemo.ml2.meta.ReferenceAssignment
+import br.ufes.inf.nemo.ml2.model.Attribute
+import br.ufes.inf.nemo.ml2.model.AttributeAssignment
+import br.ufes.inf.nemo.ml2.model.EntityDeclaration
+import br.ufes.inf.nemo.ml2.model.Feature
+import br.ufes.inf.nemo.ml2.model.Literal
+import br.ufes.inf.nemo.ml2.model.ML2Boolean
+import br.ufes.inf.nemo.ml2.model.ML2Class
+import br.ufes.inf.nemo.ml2.model.ML2Model
+import br.ufes.inf.nemo.ml2.model.ML2Number
+import br.ufes.inf.nemo.ml2.model.ML2String
+import br.ufes.inf.nemo.ml2.model.PrimitiveType
+import br.ufes.inf.nemo.ml2.model.Reference
+import br.ufes.inf.nemo.ml2.model.ReferenceAssignment
+import br.ufes.inf.nemo.ml2.model.RegularityFeatureType
 import com.google.common.collect.Sets
 import java.util.Collections
-import br.ufes.inf.nemo.ml2.meta.Individual
+import java.util.LinkedHashSet
+import java.util.Set
 import org.eclipse.emf.ecore.EObject
 
 class ML2Util {

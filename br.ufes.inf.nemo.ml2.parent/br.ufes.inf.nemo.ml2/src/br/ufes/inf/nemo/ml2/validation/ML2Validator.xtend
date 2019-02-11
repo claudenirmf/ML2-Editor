@@ -7,16 +7,14 @@ import com.google.inject.Inject
 import org.eclipse.xtext.validation.CheckType
 import org.eclipse.xtext.validation.Check
 import br.ufes.inf.nemo.ml2.util.ML2Util
-import br.ufes.inf.nemo.ml2.meta.MetaPackage
-import br.ufes.inf.nemo.ml2.meta.ML2Class
-import br.ufes.inf.nemo.ml2.meta.HOClass
-import br.ufes.inf.nemo.ml2.meta.GeneralizationSet
-import br.ufes.inf.nemo.ml2.meta.Feature
-import br.ufes.inf.nemo.ml2.meta.FeatureAssignment
-import br.ufes.inf.nemo.ml2.meta.EntityDeclaration
-import br.ufes.inf.nemo.ml2.meta.FOClass
 import br.ufes.inf.nemo.ml2.lib.ML2Lib
-import br.ufes.inf.nemo.ml2.meta.DataType
+import br.ufes.inf.nemo.ml2.model.EntityDeclaration
+import br.ufes.inf.nemo.ml2.model.ML2Class
+import br.ufes.inf.nemo.ml2.model.DataType
+import br.ufes.inf.nemo.ml2.model.HOClass
+import br.ufes.inf.nemo.ml2.model.GeneralizationSet
+import br.ufes.inf.nemo.ml2.model.Feature
+import br.ufes.inf.nemo.ml2.model.FeatureAssignment
 
 /**
  * This class contains custom validation rules. 

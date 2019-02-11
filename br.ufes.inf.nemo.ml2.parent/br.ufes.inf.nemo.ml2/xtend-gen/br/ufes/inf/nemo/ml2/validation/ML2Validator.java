@@ -4,13 +4,13 @@
 package br.ufes.inf.nemo.ml2.validation;
 
 import br.ufes.inf.nemo.ml2.lib.ML2Lib;
-import br.ufes.inf.nemo.ml2.meta.DataType;
-import br.ufes.inf.nemo.ml2.meta.EntityDeclaration;
-import br.ufes.inf.nemo.ml2.meta.Feature;
-import br.ufes.inf.nemo.ml2.meta.FeatureAssignment;
-import br.ufes.inf.nemo.ml2.meta.GeneralizationSet;
-import br.ufes.inf.nemo.ml2.meta.HOClass;
-import br.ufes.inf.nemo.ml2.meta.ML2Class;
+import br.ufes.inf.nemo.ml2.model.DataType;
+import br.ufes.inf.nemo.ml2.model.EntityDeclaration;
+import br.ufes.inf.nemo.ml2.model.Feature;
+import br.ufes.inf.nemo.ml2.model.FeatureAssignment;
+import br.ufes.inf.nemo.ml2.model.GeneralizationSet;
+import br.ufes.inf.nemo.ml2.model.HOClass;
+import br.ufes.inf.nemo.ml2.model.ML2Class;
 import br.ufes.inf.nemo.ml2.util.ML2Util;
 import br.ufes.inf.nemo.ml2.validation.AbstractML2Validator;
 import br.ufes.inf.nemo.ml2.validation.LinguisticRules;
@@ -24,8 +24,6 @@ import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -57,39 +55,39 @@ public class ML2Validator extends AbstractML2Validator {
   @Extension
   private UFORules _uFORules;
   
-  public final static String INSTANTIATION_OF_DISJOINT_TYPES = "br.ufes.inf.nemo.ontol.InstantiationOfDisjointTypes";
+  public static final String INSTANTIATION_OF_DISJOINT_TYPES = "br.ufes.inf.nemo.ontol.InstantiationOfDisjointTypes";
   
-  public final static String MISSING_COMPLETE_INSTANTIATION = "br.ufes.inf.nemo.ontol.MissingCompleteInstantiation";
+  public static final String MISSING_COMPLETE_INSTANTIATION = "br.ufes.inf.nemo.ontol.MissingCompleteInstantiation";
   
-  public final static String POWERTYPE_COMPLETE_SPECIALIZATION = "br.ufes.inf.nemo.ontol.PowertypeCompleteSpecialization";
+  public static final String POWERTYPE_COMPLETE_SPECIALIZATION = "br.ufes.inf.nemo.ontol.PowertypeCompleteSpecialization";
   
-  public final static String COMPLETE_CHARACTERIZATION_AND_COMPLETENESS = "br.ufes.inf.nemo.ontol.CompleteCharacterizationAndCompleteness";
+  public static final String COMPLETE_CHARACTERIZATION_AND_COMPLETENESS = "br.ufes.inf.nemo.ontol.CompleteCharacterizationAndCompleteness";
   
-  public final static String DISJOINT_CHARACTERIZATION_AND_DISJOINTNESS = "br.ufes.inf.nemo.ontol.DisjointCharacterizationAndDisjointness";
+  public static final String DISJOINT_CHARACTERIZATION_AND_DISJOINTNESS = "br.ufes.inf.nemo.ontol.DisjointCharacterizationAndDisjointness";
   
-  public final static String MANDATORY_SPECIALIZATION_OF_ENDURANT = "br.ufes.inf.nemo.ontol.MandaorySpecializationOfEndurant";
+  public static final String MANDATORY_SPECIALIZATION_OF_ENDURANT = "br.ufes.inf.nemo.ontol.MandaorySpecializationOfEndurant";
   
-  public final static String NONSORTAL_SPECIALIZING_SORTAL = "br.ufes.inf.nemo.ontol.NonSortalSpecializingSortal";
+  public static final String NONSORTAL_SPECIALIZING_SORTAL = "br.ufes.inf.nemo.ontol.NonSortalSpecializingSortal";
   
-  public final static String RIGID_SPECIALIZING_ANTIRIGID = "br.ufes.inf.nemo.ontol.RigidSpecializingAntiRigid";
+  public static final String RIGID_SPECIALIZING_ANTIRIGID = "br.ufes.inf.nemo.ontol.RigidSpecializingAntiRigid";
   
-  public final static String SEMIRIGID_SPECIALIZING_ANTIRIGID = "br.ufes.inf.nemo.ontol.SemiRigidSpecializingAntiRigid";
+  public static final String SEMIRIGID_SPECIALIZING_ANTIRIGID = "br.ufes.inf.nemo.ontol.SemiRigidSpecializingAntiRigid";
   
-  public final static String MULTIPLE_IDENTITIES = "br.ufes.inf.nemo.ontol.MultipleIdentities";
+  public static final String MULTIPLE_IDENTITIES = "br.ufes.inf.nemo.ontol.MultipleIdentities";
   
-  public final static String MISSING_IDENTITY = "br.ufes.inf.nemo.ontol.MissingIdentity";
+  public static final String MISSING_IDENTITY = "br.ufes.inf.nemo.ontol.MissingIdentity";
   
-  public final static String NECESSARY_INSTANTIATION = "br.ufes.inf.nemo.ontol.NecessaryInstantiation";
+  public static final String NECESSARY_INSTANTIATION = "br.ufes.inf.nemo.ontol.NecessaryInstantiation";
   
-  public final static String MISSING_SPECIALIZATION_TO_BASETYPE = "br.ufes.inf.nemo.ontol.MissingSpecializationToBasetype";
+  public static final String MISSING_SPECIALIZATION_TO_BASETYPE = "br.ufes.inf.nemo.ontol.MissingSpecializationToBasetype";
   
-  public final static String UFO_A_MISSING_MUST_INSTANTIATION = "br.ufes.inf.nemo.ontol.ufo.a.MissingMustInstantiation";
+  public static final String UFO_A_MISSING_MUST_INSTANTIATION = "br.ufes.inf.nemo.ontol.ufo.a.MissingMustInstantiation";
   
-  public final static String UFO_A_ILLEGAL_SORTAL_SPECIALIZATION = "br.ufes.inf.nemo.ontol.ufo.a.IllegalSortalSpecialization";
+  public static final String UFO_A_ILLEGAL_SORTAL_SPECIALIZATION = "br.ufes.inf.nemo.ontol.ufo.a.IllegalSortalSpecialization";
   
-  public final static String UFO_A_ILLEGAL_RIGID_SPECIALIZATION = "br.ufes.inf.nemo.ontol.ufo.a.IllegalRigidSpecialization";
+  public static final String UFO_A_ILLEGAL_RIGID_SPECIALIZATION = "br.ufes.inf.nemo.ontol.ufo.a.IllegalRigidSpecialization";
   
-  public final static String NON_CONFORMANT_ASSIGNMENT = "br.ufes.inf.nemo.ontol.NonConformantAssigment";
+  public static final String NON_CONFORMANT_ASSIGNMENT = "br.ufes.inf.nemo.ontol.NonConformantAssigment";
   
   @Check(CheckType.FAST)
   public void callIsNameValid(final EntityDeclaration e) {
@@ -294,60 +292,28 @@ public class ML2Validator extends AbstractML2Validator {
   private void _runIssue(final ValidationError issue) {
     final ValidationError it = issue;
     if (((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
-      String _message = it.getMessage();
-      EObject _source = it.getSource();
-      EStructuralFeature _feature = it.getFeature();
-      int _index = it.getIndex();
-      String _code = it.getCode();
-      String[] _issueData = it.getIssueData();
-      this.error(_message, _source, _feature, _index, _code, _issueData);
+      this.error(it.getMessage(), it.getSource(), it.getFeature(), it.getIndex(), it.getCode(), it.getIssueData());
     } else {
       if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (!Objects.equal(it.getCode(), null)))) {
-        String _message_1 = it.getMessage();
-        EObject _source_1 = it.getSource();
-        EStructuralFeature _feature_1 = it.getFeature();
-        String _code_1 = it.getCode();
-        String[] _issueData_1 = it.getIssueData();
-        this.error(_message_1, _source_1, _feature_1, _code_1, _issueData_1);
+        this.error(it.getMessage(), it.getSource(), it.getFeature(), it.getCode(), it.getIssueData());
       } else {
         if ((((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
-          String _message_2 = it.getMessage();
-          EStructuralFeature _feature_2 = it.getFeature();
-          int _index_1 = it.getIndex();
-          String _code_2 = it.getCode();
-          String[] _issueData_2 = it.getIssueData();
-          this.error(_message_2, _feature_2, _index_1, _code_2, _issueData_2);
+          this.error(it.getMessage(), it.getFeature(), it.getIndex(), it.getCode(), it.getIssueData());
         } else {
           if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1)))) {
-            String _message_3 = it.getMessage();
-            EObject _source_2 = it.getSource();
-            EStructuralFeature _feature_3 = it.getFeature();
-            int _index_2 = it.getIndex();
-            this.error(_message_3, _source_2, _feature_3, _index_2);
+            this.error(it.getMessage(), it.getSource(), it.getFeature(), it.getIndex());
           } else {
             if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
-              String _message_4 = it.getMessage();
-              EObject _source_3 = it.getSource();
-              EStructuralFeature _feature_4 = it.getFeature();
-              this.error(_message_4, _source_3, _feature_4);
+              this.error(it.getMessage(), it.getSource(), it.getFeature());
             } else {
               if (((!Objects.equal(it.getFeature(), null)) && (!Objects.equal(it.getCode(), null)))) {
-                String _message_5 = it.getMessage();
-                EStructuralFeature _feature_5 = it.getFeature();
-                String _code_3 = it.getCode();
-                String[] _issueData_3 = it.getIssueData();
-                this.error(_message_5, _feature_5, _code_3, _issueData_3);
+                this.error(it.getMessage(), it.getFeature(), it.getCode(), it.getIssueData());
               } else {
                 if (((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1)))) {
-                  String _message_6 = it.getMessage();
-                  EStructuralFeature _feature_6 = it.getFeature();
-                  int _index_3 = it.getIndex();
-                  this.error(_message_6, _feature_6, _index_3);
+                  this.error(it.getMessage(), it.getFeature(), it.getIndex());
                 } else {
                   if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
-                    String _message_7 = it.getMessage();
-                    EStructuralFeature _feature_7 = it.getFeature();
-                    this.error(_message_7, _feature_7);
+                    this.error(it.getMessage(), it.getFeature());
                   }
                 }
               }
@@ -361,60 +327,28 @@ public class ML2Validator extends AbstractML2Validator {
   private void _runIssue(final ValidationWarning issue) {
     final ValidationWarning it = issue;
     if (((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
-      String _message = it.getMessage();
-      EObject _source = it.getSource();
-      EStructuralFeature _feature = it.getFeature();
-      int _index = it.getIndex();
-      String _code = it.getCode();
-      String[] _issueData = it.getIssueData();
-      this.warning(_message, _source, _feature, _index, _code, _issueData);
+      this.warning(it.getMessage(), it.getSource(), it.getFeature(), it.getIndex(), it.getCode(), it.getIssueData());
     } else {
       if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (!Objects.equal(it.getCode(), null)))) {
-        String _message_1 = it.getMessage();
-        EObject _source_1 = it.getSource();
-        EStructuralFeature _feature_1 = it.getFeature();
-        String _code_1 = it.getCode();
-        String[] _issueData_1 = it.getIssueData();
-        this.warning(_message_1, _source_1, _feature_1, _code_1, _issueData_1);
+        this.warning(it.getMessage(), it.getSource(), it.getFeature(), it.getCode(), it.getIssueData());
       } else {
         if ((((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null))) && (it.getIndex() != (-1)))) {
-          String _message_2 = it.getMessage();
-          EObject _source_2 = it.getSource();
-          EStructuralFeature _feature_2 = it.getFeature();
-          int _index_1 = it.getIndex();
-          this.warning(_message_2, _source_2, _feature_2, _index_1);
+          this.warning(it.getMessage(), it.getSource(), it.getFeature(), it.getIndex());
         } else {
           if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
-            String _message_3 = it.getMessage();
-            EObject _source_3 = it.getSource();
-            EStructuralFeature _feature_3 = it.getFeature();
-            this.warning(_message_3, _source_3, _feature_3);
+            this.warning(it.getMessage(), it.getSource(), it.getFeature());
           } else {
             if ((((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1))) && (!Objects.equal(it.getCode(), null)))) {
-              String _message_4 = it.getMessage();
-              EStructuralFeature _feature_4 = it.getFeature();
-              int _index_2 = it.getIndex();
-              String _code_2 = it.getCode();
-              String[] _issueData_2 = it.getIssueData();
-              this.warning(_message_4, _feature_4, _index_2, _code_2, _issueData_2);
+              this.warning(it.getMessage(), it.getFeature(), it.getIndex(), it.getCode(), it.getIssueData());
             } else {
               if (((!Objects.equal(it.getFeature(), null)) && (!Objects.equal(it.getCode(), null)))) {
-                String _message_5 = it.getMessage();
-                EStructuralFeature _feature_5 = it.getFeature();
-                String _code_3 = it.getCode();
-                String[] _issueData_3 = it.getIssueData();
-                this.warning(_message_5, _feature_5, _code_3, _issueData_3);
+                this.warning(it.getMessage(), it.getFeature(), it.getCode(), it.getIssueData());
               } else {
                 if (((!Objects.equal(it.getFeature(), null)) && (it.getIndex() != (-1)))) {
-                  String _message_6 = it.getMessage();
-                  EStructuralFeature _feature_6 = it.getFeature();
-                  int _index_3 = it.getIndex();
-                  this.warning(_message_6, _feature_6, _index_3);
+                  this.warning(it.getMessage(), it.getFeature(), it.getIndex());
                 } else {
                   if (((!Objects.equal(it.getSource(), null)) && (!Objects.equal(it.getFeature(), null)))) {
-                    String _message_7 = it.getMessage();
-                    EStructuralFeature _feature_7 = it.getFeature();
-                    this.warning(_message_7, _feature_7);
+                    this.warning(it.getMessage(), it.getFeature());
                   }
                 }
               }

@@ -8,28 +8,28 @@ import java.util.Set
 import org.eclipse.xtext.resource.IEObjectDescription
 import br.ufes.inf.nemo.ml2.util.ML2Util
 import br.ufes.inf.nemo.ml2.util.ML2Index
-import br.ufes.inf.nemo.ml2.meta.AttributeAssignment
-import br.ufes.inf.nemo.ml2.meta.EntityDeclaration
-import br.ufes.inf.nemo.ml2.meta.ML2Class
-import br.ufes.inf.nemo.ml2.meta.OrderlessClass
-import br.ufes.inf.nemo.ml2.meta.FOClass
-import br.ufes.inf.nemo.ml2.meta.HOClass
-import br.ufes.inf.nemo.ml2.meta.OrderedClass
-import br.ufes.inf.nemo.ml2.meta.GeneralizationSet
-import br.ufes.inf.nemo.ml2.meta.MetaPackage
-import br.ufes.inf.nemo.ml2.meta.Reference
-import br.ufes.inf.nemo.ml2.meta.Attribute
-import br.ufes.inf.nemo.ml2.meta.ReferenceAssignment
-import br.ufes.inf.nemo.ml2.meta.Feature
-import br.ufes.inf.nemo.ml2.meta.ML2Model
-import br.ufes.inf.nemo.ml2.meta.CategorizationType
-import br.ufes.inf.nemo.ml2.meta.DataType
-import br.ufes.inf.nemo.ml2.meta.RegularityFeatureType
-import br.ufes.inf.nemo.ml2.meta.PrimitiveType
+import br.ufes.inf.nemo.ml2.model.EntityDeclaration
+import br.ufes.inf.nemo.ml2.model.AttributeAssignment
+import br.ufes.inf.nemo.ml2.model.ModelPackage
+import br.ufes.inf.nemo.ml2.model.Reference
+import br.ufes.inf.nemo.ml2.model.ReferenceAssignment
+import br.ufes.inf.nemo.ml2.model.ML2Class
+import br.ufes.inf.nemo.ml2.model.FeatureAssignment
+import br.ufes.inf.nemo.ml2.model.Attribute
+import br.ufes.inf.nemo.ml2.model.DataType
+import br.ufes.inf.nemo.ml2.model.RegularityFeatureType
+import br.ufes.inf.nemo.ml2.model.PrimitiveType
+import br.ufes.inf.nemo.ml2.model.FOClass
+import br.ufes.inf.nemo.ml2.model.Literal
 import java.util.HashSet
-import br.ufes.inf.nemo.ml2.meta.Literal
-import br.ufes.inf.nemo.ml2.meta.FeatureAssignment
-import br.ufes.inf.nemo.ml2.meta.Individual
+import br.ufes.inf.nemo.ml2.model.GeneralizationSet
+import br.ufes.inf.nemo.ml2.model.ML2Model
+import br.ufes.inf.nemo.ml2.model.CategorizationType
+import br.ufes.inf.nemo.ml2.model.OrderlessClass
+import br.ufes.inf.nemo.ml2.model.HOClass
+import br.ufes.inf.nemo.ml2.model.OrderedClass
+import br.ufes.inf.nemo.ml2.model.Individual
+import br.ufes.inf.nemo.ml2.model.Feature
 
 class LinguisticRules {
 	
@@ -68,7 +68,7 @@ class LinguisticRules {
 			return null
 		else 
 			return new ValidationError('''Entity name must start with a capital letter.''',
-				MetaPackage.eINSTANCE.entityDeclaration_Name,-1,
+				ModelPackage.eINSTANCE.entityDeclaration_Name,-1,
 				LinguisticRules.INVALID_ENTITY_DECLARATION_NAME,null,e)
 	}
 	
@@ -100,7 +100,7 @@ class LinguisticRules {
 		if(invalid==null)	return null
 		else
 			return new ValidationError('''Invalid instantiation of «invalid.name»''',
-					MetaPackage.eINSTANCE.entityDeclaration_InstantiatedClasses,
+					ModelPackage.eINSTANCE.entityDeclaration_InstantiatedClasses,
 					e.instantiatedClasses.indexOf(invalid),
 					INVALID_INSTANTIATION,
 					null,
@@ -125,7 +125,7 @@ class LinguisticRules {
 		
 		if(invalid==null)	return null
 		else	return new ValidationError('''Invalid specialization of «invalid.name».''',
-				MetaPackage.eINSTANCE.ML2Class_SuperClasses,
+				ModelPackage.eINSTANCE.ML2Class_SuperClasses,
 				c.superClasses.indexOf(invalid),
 				LinguisticRules.INVALID_CLASS_SPECIALIZATION,
 				ValidationIssue.NO_ISSUE_CODE,
@@ -135,7 +135,7 @@ class LinguisticRules {
 	def hasCyclicSpecialization(ML2Class c, Set<ML2Class> ch){
 		if(ch.contains(c)) 
 			new ValidationError('''Invalid cyclic specialization.''',
-					MetaPackage.eINSTANCE.ML2Class_SuperClasses,
+					ModelPackage.eINSTANCE.ML2Class_SuperClasses,
 					ValidationIssue.NO_INDEX,
 					LinguisticRules.CYCLIC_SPECIALIZATION,
 					ValidationIssue.NO_ISSUE_CODE,
@@ -168,7 +168,7 @@ class LinguisticRules {
 		
 		if(msg=="")	return null
 		else		return new ValidationError(msg,
-							MetaPackage.eINSTANCE.ML2Class_CategorizedClass,
+							ModelPackage.eINSTANCE.ML2Class_CategorizedClass,
 							ValidationIssue.NO_INDEX,
 							INVALID_CATEGORIZED_CLASS,
 							ValidationIssue.NO_ISSUE_CODE,
@@ -188,17 +188,14 @@ class LinguisticRules {
 			if(base instanceof OrderlessClass)
 				msg = '''Invalid powertype relation towards an orderless basetype.'''
 				
-			else if(base instanceof FOClass && c.order !== MLTRules.MIN_ORDER)
-				msg = '''Invalid powertype relation. The basetype must be of order «c.order-1».'''
-			
 			else if(base instanceof HOClass)
 				if(c.order === MLTRules.MIN_ORDER || c.order !== base.order+1)
-					msg = '''Invalid powertype relation. The basetype must be of order «c.order-1».'''
+					msg = '''Invalid powertype relation towards a class of order different than «c.order-1».'''
 		} 
 		
 		if(msg=="")	return null
 		else		return new ValidationError(msg,
-							MetaPackage.eINSTANCE.ML2Class_PowertypeOf,
+							ModelPackage.eINSTANCE.ML2Class_PowertypeOf,
 							ValidationIssue.NO_INDEX,
 							INVALID_POWERTYPE_RELATION,
 							ValidationIssue.NO_ISSUE_CODE,
@@ -233,7 +230,7 @@ class LinguisticRules {
 		
 		if(invalid===null)	return null
 		else {
-			issue.feature = MetaPackage.eINSTANCE.ML2Class_Subordinators
+			issue.feature = ModelPackage.eINSTANCE.ML2Class_Subordinators
 			issue.index = c.subordinators.indexOf(invalid)
 			issue.code = INVALID_SUBORDINATOR
 			issue.source = c
@@ -249,7 +246,7 @@ class LinguisticRules {
 				]
 		if(rep.size > 1)
 			return new ValidationError('''Entity name must be unique.''',
-					MetaPackage.eINSTANCE.entityDeclaration_Name,
+					ModelPackage.eINSTANCE.entityDeclaration_Name,
 					ValidationIssue.NO_INDEX,
 					LinguisticRules.DUPLICATED_ENTITY_NAME,
 					ValidationIssue.NO_ISSUE_CODE,
@@ -264,7 +261,7 @@ class LinguisticRules {
 		invalid = gs.specifics.findFirst[!superClasses.contains(gs.general)]
 		if(invalid!==null)
 			return new ValidationError('''Invalid member is not a direct specialization of the general class.''',
-					MetaPackage.eINSTANCE.generalizationSet_Specifics,
+					ModelPackage.eINSTANCE.generalizationSet_Specifics,
 					gs.specifics.indexOf(invalid),
 					LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS,
 					ValidationIssue.NO_ISSUE_CODE,
@@ -274,7 +271,7 @@ class LinguisticRules {
 			val cat = gs.categorizer
 			if(cat.categorizedClass != gs.general)
 				return new ValidationError('''The categorizer class must have a categorization relation towards the general class.''',
-						MetaPackage.eINSTANCE.generalizationSet_Categorizer,
+						ModelPackage.eINSTANCE.generalizationSet_Categorizer,
 						ValidationIssue.NO_INDEX,
 						LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS,
 						ValidationIssue.NO_ISSUE_CODE,
@@ -283,7 +280,7 @@ class LinguisticRules {
 			invalid = gs.specifics.findFirst[!instantiatedClasses.contains(cat)]
 			if(invalid!==null)
 				return new ValidationError('''The specific class must be direct instances of the categorizer class.''',
-						MetaPackage.eINSTANCE.generalizationSet_Specifics,
+						ModelPackage.eINSTANCE.generalizationSet_Specifics,
 						gs.specifics.indexOf(invalid),
 						LinguisticRules.INVALID_GENERALIZATION_SET_MEMBERS,
 						ValidationIssue.NO_ISSUE_CODE,
@@ -309,7 +306,7 @@ class LinguisticRules {
 			
 			if(msg!="")
 				return new ValidationError(msg,
-						MetaPackage.eINSTANCE.generalizationSet_Categorizer,
+						ModelPackage.eINSTANCE.generalizationSet_Categorizer,
 						ValidationIssue.NO_INDEX,
 						INVALID_GENERALIZATION_SET_CATEGORIZATION_COMBINATION,
 						ValidationIssue.NO_ISSUE_CODE,
@@ -330,7 +327,7 @@ class LinguisticRules {
 		val invalid = subordinated.findFirst[!superClassesIof.contains(it)]
 		if(invalid===null)	return null
 		else				return new ValidationError('''Missing specialization due to subordination to some instance of «invalid.name».''',
-									MetaPackage.eINSTANCE.ML2Class_SuperClasses,
+									ModelPackage.eINSTANCE.ML2Class_SuperClasses,
 									ValidationIssue.NO_INDEX,
 									MISSING_SPECIALIZATION_THROUGH_SUBODINATION,
 									ValidationIssue.NO_ISSUE_CODE,
@@ -351,7 +348,7 @@ class LinguisticRules {
 			]
 		if(invalid===null)	return null
 		else				return new ValidationError('''«c.name» is in a invalid subordination cycle with «invalid.name».''',
-									MetaPackage.eINSTANCE.ML2Class_Subordinators,
+									ModelPackage.eINSTANCE.ML2Class_Subordinators,
 									c.subordinators.indexOf(invalid),
 									SIMPLE_SUBORDINATION_CYCLE,
 									ValidationIssue.NO_ISSUE_CODE,
@@ -359,7 +356,7 @@ class LinguisticRules {
 	}
 	
 	def ValidationIssue isSpecializingDisjointClasses(ML2Class c, Set<ML2Class> ch){
-		for(IEObjectDescription obj : c.getVisibleEObjectDescriptions(MetaPackage.eINSTANCE.generalizationSet)){
+		for(IEObjectDescription obj : c.getVisibleEObjectDescriptions(ModelPackage.eINSTANCE.generalizationSet)){
 			var gs = obj.EObjectOrProxy as GeneralizationSet
 			if(gs.eIsProxy) gs = c.eResource.resourceSet.getEObject(obj.EObjectURI, true) as GeneralizationSet
 			if (gs.isDisjoint && Sets.intersection(ch, gs.specifics.toSet).size > 1){
@@ -367,7 +364,7 @@ class LinguisticRules {
 				issue.message = 
 					'''«c.name» is specializing disjoint classes.
 					«FOR disjoint : Sets.intersection(ch, gs.specifics.toSet)» «(disjoint.eContainer as ML2Model).name».«disjoint.name»; «ENDFOR»).'''
-				issue.feature = MetaPackage.eINSTANCE.entityDeclaration_Name
+				issue.feature = ModelPackage.eINSTANCE.entityDeclaration_Name
 				issue.source = c
 				issue.code = SPECILIZATION_OF_DISJOINT_CLASSES
 				return issue
@@ -377,7 +374,7 @@ class LinguisticRules {
 	}
 	
 	def ValidationIssue isInstanceOfDisjointClasses(EntityDeclaration e, LinkedHashSet<ML2Class> iof){
-		for(IEObjectDescription obj : e.getVisibleEObjectDescriptions(MetaPackage.eINSTANCE.generalizationSet)){
+		for(IEObjectDescription obj : e.getVisibleEObjectDescriptions(ModelPackage.eINSTANCE.generalizationSet)){
 			var gs = obj.EObjectOrProxy as GeneralizationSet
 			if(gs.eIsProxy) gs = e.eResource.resourceSet.getEObject(obj.EObjectURI, true) as GeneralizationSet
 			
@@ -386,7 +383,7 @@ class LinguisticRules {
 				issue.message = 
 					'''«e.name» is instance disjoint classes.
 					«FOR disjoint : Sets.intersection(iof, gs.specifics.toSet)» «(disjoint.eContainer as ML2Model).name».«disjoint.name»; «ENDFOR»).'''
-				issue.feature = MetaPackage.eINSTANCE.entityDeclaration_Name
+				issue.feature = ModelPackage.eINSTANCE.entityDeclaration_Name
 				issue.source = e
 				issue.code = INSTANCE_OF_DISJOINT_CLASSES
 				return issue
@@ -396,7 +393,7 @@ class LinguisticRules {
 	}
 
 	def ValidationIssue missingInstantiationByCompleteness(EntityDeclaration e, LinkedHashSet<ML2Class> iof){
-		for(IEObjectDescription obj : e.getVisibleEObjectDescriptions(MetaPackage.eINSTANCE.generalizationSet)){
+		for(IEObjectDescription obj : e.getVisibleEObjectDescriptions(ModelPackage.eINSTANCE.generalizationSet)){
 			var gs = obj.EObjectOrProxy as GeneralizationSet
 			if(gs.eIsProxy) gs = e.eResource.resourceSet.getEObject(obj.EObjectURI, true) as GeneralizationSet
 			
@@ -404,10 +401,10 @@ class LinguisticRules {
 				val issue = new ValidationWarning
 				issue.message = 
 					'''Missing instantions due to completeness of generalization sets.
-					«FOR mustiof : gs.specifics» 
-						«(mustiof.eContainer as ML2Model).name».«mustiof.name»; 
-					«ENDFOR»).'''
-				issue.feature = MetaPackage.eINSTANCE.entityDeclaration_Name
+				«FOR mustiof : gs.specifics» 
+					«(mustiof.eContainer as ML2Model).name».«mustiof.name»; 
+				«ENDFOR»).'''
+				issue.feature = ModelPackage.eINSTANCE.entityDeclaration_Name
 				issue.source = e
 				issue.code = MISSING_INSTANTIATION_OF_COMPLETE_GENERALIZATION_SET
 				return issue
@@ -419,7 +416,7 @@ class LinguisticRules {
 	def checkFeatureName(Feature f){
 		if(f.name.toFirstUpper==f.name)
 			return new ValidationError('''Invalid name starting with capitalized letter.''',
-					MetaPackage.eINSTANCE.feature_Name,
+					ModelPackage.eINSTANCE.feature_Name,
 					ValidationIssue.NO_INDEX,
 					INVALID_FEATURE_NAME,
 					ValidationIssue.NO_ISSUE_CODE,
@@ -429,7 +426,7 @@ class LinguisticRules {
 		if(c instanceof ML2Class) {
 			if(c.features.exists[ f!==it && f.name == it.name])
 				return new ValidationError('''Invalid duplicated name.''',
-						MetaPackage.eINSTANCE.feature_Name,
+						ModelPackage.eINSTANCE.feature_Name,
 						ValidationIssue.NO_INDEX,
 						DUPLICATED_FEATURE_NAME,
 						ValidationIssue.NO_ISSUE_CODE,
@@ -446,7 +443,7 @@ class LinguisticRules {
 		issue.code = INVALID_MULTIPLICITY
 		for(Reference superRef : ref.subsetOf){
 //			if(ref.lowerBound < superRef.lowerBound){
-//				issue.feature = MetaPackage.eINSTANCE.feature_LowerBound
+//				issue.feature = ModelPackage.eINSTANCE.feature_LowerBound
 //				issue.message = 
 //					'''The cardinality must be as restrictive as the the subsetted one («superRef.name»).'''
 //				return issue
@@ -454,12 +451,12 @@ class LinguisticRules {
 			if(ref.upperBound > superRef.upperBound && superRef.upperBound > 0){
 				issue.message = 
 					'''The cardinality must be as restrictive as the the subsetted one («superRef.name»).'''
-				issue.feature = MetaPackage.eINSTANCE.feature_UpperBound
+				issue.feature = ModelPackage.eINSTANCE.feature_UpperBound
 				return issue
 			} else if(ref.upperBound==-1 && ref.upperBound!=superRef.upperBound){
 				issue.message = 
 					'''The cardinality must be as restrictive as the the subsetted one («superRef.name»).'''
-				issue.feature = MetaPackage.eINSTANCE.feature_UpperBound
+				issue.feature = ModelPackage.eINSTANCE.feature_UpperBound
 				return issue
 			}
 		}
@@ -473,7 +470,7 @@ class LinguisticRules {
 		issue.code = INVALID_MULTIPLICITY
 		for(Attribute superAtt : att.subsetOf){
 //			if(att.lowerBound < superAtt.lowerBound){
-//				issue.feature = MetaPackage.eINSTANCE.feature_LowerBound
+//				issue.feature = ModelPackage.eINSTANCE.feature_LowerBound
 //				issue.message = 
 //					'''The cardinality must be as restrictive as the the subsetted one («superAtt.name»).'''
 //				return issue
@@ -481,12 +478,12 @@ class LinguisticRules {
 			if(att.upperBound > superAtt.upperBound && superAtt.upperBound > 0){
 				issue.message = 
 					'''The cardinality must be as restrictive as the the subsetted one («superAtt.name»).'''
-				issue.feature = MetaPackage.eINSTANCE.feature_UpperBound
+				issue.feature = ModelPackage.eINSTANCE.feature_UpperBound
 				return issue
 			} else if(att.upperBound==-1 && att.upperBound!=superAtt.upperBound){
 				issue.message = 
 					'''The cardinality must be as restrictive as the the subsetted one («superAtt.name»).'''
-				issue.feature = MetaPackage.eINSTANCE.feature_UpperBound
+				issue.feature = ModelPackage.eINSTANCE.feature_UpperBound
 				return issue
 			}
 		}
@@ -500,7 +497,7 @@ class LinguisticRules {
 			val issue = new ValidationWarning()
 			issue.message = '''Number of assignments must equal or greater than «ref.lowerBound».'''
 			issue.source = ra
-			issue.feature = MetaPackage.eINSTANCE.referenceAssignment_Assignments
+			issue.feature = ModelPackage.eINSTANCE.referenceAssignment_Assignments
 			issue.code = LinguisticRules.INVALID_MULTIPLICITY
 			return issue
 		}
@@ -508,7 +505,7 @@ class LinguisticRules {
 			val issue = new ValidationWarning()
 			issue.message = '''Number of assignments must equal or less than «ref.upperBound».'''
 			issue.source = ra
-			issue.feature = MetaPackage.eINSTANCE.referenceAssignment_Assignments
+			issue.feature = ModelPackage.eINSTANCE.referenceAssignment_Assignments
 			issue.code = LinguisticRules.INVALID_MULTIPLICITY
 			return issue
 		}
@@ -524,7 +521,7 @@ class LinguisticRules {
 
 		val issue = new ValidationWarning()
 		issue.source = aa
-		issue.feature = MetaPackage.eINSTANCE.attributeAssignment_Attribute
+		issue.feature = ModelPackage.eINSTANCE.attributeAssignment_Attribute
 		issue.code = LinguisticRules.INVALID_MULTIPLICITY
 
 		if(nAssgns < att.lowerBound){
@@ -545,7 +542,7 @@ class LinguisticRules {
 		
 		val issue = new ValidationError
 		issue.source = ra
-		issue.feature = MetaPackage.eINSTANCE.referenceAssignment_Assignments
+		issue.feature = ModelPackage.eINSTANCE.referenceAssignment_Assignments
 		
 		for(EntityDeclaration assig : ra.assignments){
 			if(!assig.isConformantTo(assigType)){
@@ -566,7 +563,7 @@ class LinguisticRules {
 		
 		val issue = new ValidationError
 		issue.source = aa
-		issue.feature = MetaPackage.eINSTANCE.attributeAssignment_Attribute
+		issue.feature = ModelPackage.eINSTANCE.attributeAssignment_Attribute
 		
 		for(EntityDeclaration ent : entityAssigs){
 			if(!ent.isConformantTo(att._type)){
@@ -593,7 +590,7 @@ class LinguisticRules {
 		else if(f.eContainer instanceof FOClass){
 			val issue = new ValidationError
 			issue.source = f
-			issue.feature = MetaPackage.eINSTANCE.feature_RegulatedFeature
+			issue.feature = ModelPackage.eINSTANCE.feature_RegulatedFeature
 			issue.message = '''Regularity attributes do not apply to first-order classes.'''
 			issue.code = FIRST_ORDER_REGULARITY
 			return issue
@@ -603,7 +600,7 @@ class LinguisticRules {
 			if(!(f instanceof Attribute) || (f as Attribute).primitiveType!=PrimitiveType.NUMBER) {
 				val issue = new ValidationError
 				issue.source = f
-				issue.feature = MetaPackage.eINSTANCE.feature_RegularityType
+				issue.feature = ModelPackage.eINSTANCE.feature_RegularityType
 				issue.message = '''This type of regularity feature only applies to numbers.'''
 				issue.code = RESTRICTED_REGULARITY_TYPE
 				return issue
@@ -611,10 +608,10 @@ class LinguisticRules {
 		}
 		else if(f.regularityType==RegularityFeatureType.DETERMINES_ALLOWED_TYPES
 			|| f.regularityType==RegularityFeatureType.DETERMINES_TYPE) {
-			if(f instanceof Attribute && !(f as Attribute).eIsSet(MetaPackage.eINSTANCE.attribute__type)) {
+			if(f instanceof Attribute && !(f as Attribute).eIsSet(ModelPackage.eINSTANCE.attribute__type)) {
 				val issue = new ValidationError
 				issue.source = f
-				issue.feature = MetaPackage.eINSTANCE.feature_RegularityType
+				issue.feature = ModelPackage.eINSTANCE.feature_RegularityType
 				issue.message = '''This type of regularity feature do not apply to primitive types.'''
 				issue.code = RESTRICTED_REGULARITY_TYPE
 				return issue
@@ -650,7 +647,7 @@ class LinguisticRules {
 		
 		val issue = new ValidationWarning
 		issue.source = c
-		issue.feature = MetaPackage.eINSTANCE.entityDeclaration_Name
+		issue.feature = ModelPackage.eINSTANCE.entityDeclaration_Name
 		issue.message = '''The regularity feature «rFeatures.head.name» should have an assigned value.'''
 		issue.code = MISSING_ASSIGNMENT_BY_REGULARITY
 		return issue
@@ -661,7 +658,7 @@ class LinguisticRules {
 		else {
 			val i = new ValidationWarning
 			i.source = d
-			i.feature = MetaPackage.eINSTANCE.entityDeclaration_Name
+			i.feature = ModelPackage.eINSTANCE.entityDeclaration_Name
 			i.message = '''The use of references on datatypes might be unwanted.'''
 			i.code = UNWANTED_REFERENCES_ON_DATATYPES
 			return i
@@ -691,7 +688,7 @@ class LinguisticRules {
 				else if(!atta.isConformanTo(regAtt.regularityType, regAttAssig)) {
 					val i = new ValidationWarning
 					i.source = atta
-					i.feature = MetaPackage.eINSTANCE.attributeAssignment_Attribute
+					i.feature = ModelPackage.eINSTANCE.attributeAssignment_Attribute
 					i.message = '''Assignment is non-conformant to the regularity feature «regAtt.name» of «(regAtt.eContainer as ML2Class).name».'''
 					i.code = NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT
 					return i
@@ -731,7 +728,7 @@ class LinguisticRules {
 				if(!refa.isConformanTo(regRef.regularityType, regRefAssig)) {
 					val i = new ValidationWarning
 					i.source = refa
-					i.feature = MetaPackage.eINSTANCE.referenceAssignment_Reference
+					i.feature = ModelPackage.eINSTANCE.referenceAssignment_Reference
 					i.message = '''Assignment is non-conformant to the regularity feature «regRef.name» of «(regRef.eContainer as ML2Class).name».'''
 					i.code = NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT
 					return i

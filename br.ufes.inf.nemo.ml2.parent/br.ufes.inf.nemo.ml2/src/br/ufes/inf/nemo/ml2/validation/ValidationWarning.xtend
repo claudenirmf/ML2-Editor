@@ -1,6 +1,5 @@
 package br.ufes.inf.nemo.ml2.validation
 
-import br.ufes.inf.nemo.ml2.validation.ValidationIssue
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EObject
 

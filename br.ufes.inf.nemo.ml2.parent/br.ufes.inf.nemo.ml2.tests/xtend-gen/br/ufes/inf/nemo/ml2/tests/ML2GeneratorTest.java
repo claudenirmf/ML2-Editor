@@ -1,18 +1,18 @@
 package br.ufes.inf.nemo.ml2.tests;
 
-import br.ufes.inf.nemo.ml2.meta.ML2Model;
+import br.ufes.inf.nemo.ml2.model.ML2Model;
 import br.ufes.inf.nemo.ml2.tests.ML2InjectorProvider;
 import br.ufes.inf.nemo.ml2.tests.ML2LibraryTest;
 import com.google.inject.Inject;
 import org.eclipse.xtext.generator.IGenerator2;
-import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
-import org.eclipse.xtext.junit4.util.ParseHelper;
+import org.eclipse.xtext.testing.InjectWith;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
+import org.eclipse.xtext.testing.util.ParseHelper;
 import org.eclipse.xtext.xbase.lib.Extension;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@RunWith(XtextRunner.class)
+@ExtendWith(InjectionExtension.class)
 @InjectWith(ML2InjectorProvider.class)
 @SuppressWarnings("all")
 public class ML2GeneratorTest {

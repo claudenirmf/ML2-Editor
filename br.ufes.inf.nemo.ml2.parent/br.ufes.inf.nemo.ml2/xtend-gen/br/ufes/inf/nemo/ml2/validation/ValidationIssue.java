@@ -5,9 +5,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 @SuppressWarnings("all")
 public abstract class ValidationIssue {
-  public final static int NO_INDEX = (-1);
+  public static final int NO_INDEX = (-1);
   
-  public final static String[] NO_ISSUE_CODE = null;
+  public static final String[] NO_ISSUE_CODE = null;
   
   private String message;
   
