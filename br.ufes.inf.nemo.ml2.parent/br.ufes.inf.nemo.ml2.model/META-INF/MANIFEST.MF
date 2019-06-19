@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ML2 Model
+Bundle-Name: %pluginName
 Bundle-SymbolicName: br.ufes.inf.nemo.ml2.model;singleton:=true
 Automatic-Module-Name: br.ufes.inf.nemo.ml2.model
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: NEMO
+Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: br.ufes.inf.nemo.ml2.model,
