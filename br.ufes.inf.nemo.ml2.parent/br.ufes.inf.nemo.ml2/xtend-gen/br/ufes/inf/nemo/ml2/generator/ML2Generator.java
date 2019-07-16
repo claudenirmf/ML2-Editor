@@ -935,24 +935,25 @@ public class ML2Generator extends AbstractGenerator {
     _builder.newLine();
     _builder.newLine();
     {
-      EList<ML2Class> _instantiatedClasses = ml2class.getInstantiatedClasses();
-      for(final ML2Class instantiatedClass : _instantiatedClasses) {
-        {
-          ML2Class _categorizedClass = instantiatedClass.getCategorizedClass();
-          boolean _notEquals = (!Objects.equal(_categorizedClass, null));
-          if (_notEquals) {
-            {
-              EList<FeatureAssignment> _assignments = ml2class.getAssignments();
-              for(final FeatureAssignment assignment : _assignments) {
-                CharSequence _generateRegularityFeatureFact = ML2Generator.generateRegularityFeatureFact(assignment, ml2class);
-                _builder.append(_generateRegularityFeatureFact);
-                _builder.newLineIfNotEmpty();
-              }
-            }
-          }
-        }
+      EList<Attribute> _attributes = ml2class.getAttributes();
+      for(final Attribute attribute : _attributes) {
+        String _generateRegularityFeatureFact = ML2Generator.generateRegularityFeatureFact(attribute, ml2class);
+        _builder.append(_generateRegularityFeatureFact);
+        _builder.newLineIfNotEmpty();
+        _builder.newLine();
       }
     }
+    {
+      EList<Reference> _references = ml2class.getReferences();
+      for(final Reference reference : _references) {
+        String _generateRegularityFeatureFact_1 = ML2Generator.generateRegularityFeatureFact(reference, ml2class);
+        _builder.append(_generateRegularityFeatureFact_1);
+        _builder.newLineIfNotEmpty();
+        _builder.newLine();
+      }
+    }
+    _builder.newLine();
+    _builder.newLine();
     return _builder;
   }
   
@@ -1863,114 +1864,117 @@ public class ML2Generator extends AbstractGenerator {
    * @param attributeAssignment the ML2 AttributeAssignment element with regulated feature.
    * @param ml2class the ML2 Class element with regulator feature.
    */
-  protected static CharSequence _generateRegularityFeatureFact(final AttributeAssignment attributeAssignment, final ML2Class ml2class) {
-    CharSequence _xifexpression = null;
-    Feature _regulatedFeature = attributeAssignment.getAttribute().getRegulatedFeature();
-    boolean _notEquals = (!Objects.equal(_regulatedFeature, null));
-    if (_notEquals) {
-      CharSequence _switchResult = null;
-      RegularityFeatureType _regularityType = attributeAssignment.getAttribute().getRegularityType();
-      if (_regularityType != null) {
-        switch (_regularityType) {
-          case DETERMINES_VALUE:
-            StringConcatenation _builder = new StringConcatenation();
-            _builder.append("fact ");
-            String _name = attributeAssignment.getAttribute().getName();
-            _builder.append(_name);
-            _builder.append("Regulates");
-            String _name_1 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
-            _builder.append(_name_1);
-            _builder.append(" {");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            _builder.append("all x: ");
-            String _name_2 = ml2class.getName();
-            _builder.append(_name_2, "\t");
-            _builder.append(" | x.");
-            String _name_3 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
-            _builder.append(_name_3, "\t");
-            _builder.append(" = ");
-            String _name_4 = ml2class.getName();
-            _builder.append(_name_4, "\t");
-            _builder.append("Reified.");
-            String _name_5 = attributeAssignment.getAttribute().getName();
-            _builder.append(_name_5, "\t");
-            _builder.newLineIfNotEmpty();
-            _builder.append("}");
-            _builder.newLine();
-            _builder.newLine();
-            _switchResult = _builder;
-            break;
-          case DETERMINES_MIN_VALUE:
-            StringConcatenation _builder_1 = new StringConcatenation();
-            _builder_1.append("fact ");
-            String _name_6 = attributeAssignment.getAttribute().getName();
-            _builder_1.append(_name_6);
-            _builder_1.append("Regulates");
-            String _name_7 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
-            _builder_1.append(_name_7);
-            _builder_1.append(" {");
-            _builder_1.newLineIfNotEmpty();
-            _builder_1.append("\t");
-            _builder_1.append("all x: ");
-            String _name_8 = ml2class.getName();
-            _builder_1.append(_name_8, "\t");
-            _builder_1.append(" | x.");
-            String _name_9 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
-            _builder_1.append(_name_9, "\t");
-            _builder_1.append(" >= ");
-            String _name_10 = ml2class.getName();
-            _builder_1.append(_name_10, "\t");
-            _builder_1.append("Reified.");
-            String _name_11 = attributeAssignment.getAttribute().getName();
-            _builder_1.append(_name_11, "\t");
-            _builder_1.newLineIfNotEmpty();
-            _builder_1.append("}");
-            _builder_1.newLine();
-            _builder_1.newLine();
-            _switchResult = _builder_1;
-            break;
-          case DETERMINES_MAX_VALUE:
-            StringConcatenation _builder_2 = new StringConcatenation();
-            _builder_2.append("fact ");
-            String _name_12 = attributeAssignment.getAttribute().getName();
-            _builder_2.append(_name_12);
-            _builder_2.append("Regulates");
-            String _name_13 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
-            _builder_2.append(_name_13);
-            _builder_2.append(" {");
-            _builder_2.newLineIfNotEmpty();
-            _builder_2.append("\t");
-            _builder_2.append("all x: ");
-            String _name_14 = ml2class.getName();
-            _builder_2.append(_name_14, "\t");
-            _builder_2.append(" | x.");
-            String _name_15 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
-            _builder_2.append(_name_15, "\t");
-            _builder_2.append(" <= ");
-            String _name_16 = ml2class.getName();
-            _builder_2.append(_name_16, "\t");
-            _builder_2.append("Reified.");
-            String _name_17 = attributeAssignment.getAttribute().getName();
-            _builder_2.append(_name_17, "\t");
-            _builder_2.newLineIfNotEmpty();
-            _builder_2.append("}");
-            _builder_2.newLine();
-            _builder_2.newLine();
-            _switchResult = _builder_2;
-            break;
-          default:
-            StringConcatenation _builder_3 = new StringConcatenation();
-            _switchResult = _builder_3;
-            break;
-        }
-      } else {
-        StringConcatenation _builder_3 = new StringConcatenation();
-        _switchResult = _builder_3;
+  protected static String _generateRegularityFeatureFact(final Attribute attribute, final ML2Class ml2class) {
+    RegularityFeatureType _regularityType = attribute.getRegularityType();
+    if (_regularityType != null) {
+      switch (_regularityType) {
+        case DETERMINES_VALUE:
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("fact ");
+          String _name = attribute.getName();
+          _builder.append(_name);
+          _builder.append("Regulates");
+          String _name_1 = attribute.getRegulatedFeature().getName();
+          _builder.append(_name_1);
+          _builder.append(" {");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\t");
+          _builder.append("all x: ");
+          String _name_2 = ml2class.getCategorizedClass().getName();
+          _builder.append(_name_2, "\t");
+          _builder.append(", y: ");
+          String _name_3 = ml2class.getName();
+          _builder.append(_name_3, "\t");
+          _builder.append(" | ");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\t\t");
+          _builder.append("(iof[x,y] and some y.");
+          String _name_4 = attribute.getName();
+          _builder.append(_name_4, "\t\t");
+          _builder.append(") implies x.");
+          String _name_5 = attribute.getRegulatedFeature().getName();
+          _builder.append(_name_5, "\t\t");
+          _builder.append(" = y.");
+          String _name_6 = attribute.getName();
+          _builder.append(_name_6, "\t\t");
+          _builder.newLineIfNotEmpty();
+          _builder.append("}");
+          _builder.newLine();
+          return _builder.toString();
+        case DETERMINES_MIN_VALUE:
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("fact ");
+          String _name_7 = attribute.getName();
+          _builder_1.append(_name_7);
+          _builder_1.append("Regulates");
+          String _name_8 = attribute.getRegulatedFeature().getName();
+          _builder_1.append(_name_8);
+          _builder_1.append(" {");
+          _builder_1.newLineIfNotEmpty();
+          _builder_1.append("\t");
+          _builder_1.append("all x: ");
+          String _name_9 = ml2class.getCategorizedClass().getName();
+          _builder_1.append(_name_9, "\t");
+          _builder_1.append(", y: ");
+          String _name_10 = ml2class.getName();
+          _builder_1.append(_name_10, "\t");
+          _builder_1.append(" | ");
+          _builder_1.newLineIfNotEmpty();
+          _builder_1.append("\t\t");
+          _builder_1.append("(iof[x,y] and some y.");
+          String _name_11 = attribute.getName();
+          _builder_1.append(_name_11, "\t\t");
+          _builder_1.append(") implies x.");
+          String _name_12 = attribute.getRegulatedFeature().getName();
+          _builder_1.append(_name_12, "\t\t");
+          _builder_1.append(" >= y.");
+          String _name_13 = attribute.getName();
+          _builder_1.append(_name_13, "\t\t");
+          _builder_1.newLineIfNotEmpty();
+          _builder_1.append("}");
+          _builder_1.newLine();
+          return _builder_1.toString();
+        case DETERMINES_MAX_VALUE:
+          StringConcatenation _builder_2 = new StringConcatenation();
+          _builder_2.append("fact ");
+          String _name_14 = attribute.getName();
+          _builder_2.append(_name_14);
+          _builder_2.append("Regulates");
+          String _name_15 = attribute.getRegulatedFeature().getName();
+          _builder_2.append(_name_15);
+          _builder_2.append(" {");
+          _builder_2.newLineIfNotEmpty();
+          _builder_2.append("\t");
+          _builder_2.append("all x: ");
+          String _name_16 = ml2class.getCategorizedClass().getName();
+          _builder_2.append(_name_16, "\t");
+          _builder_2.append(", y: ");
+          String _name_17 = ml2class.getName();
+          _builder_2.append(_name_17, "\t");
+          _builder_2.append(" | (");
+          _builder_2.newLineIfNotEmpty();
+          _builder_2.append("\t\t");
+          _builder_2.append("iof[x,y] and some y.");
+          String _name_18 = attribute.getName();
+          _builder_2.append(_name_18, "\t\t");
+          _builder_2.append(") implies x.");
+          String _name_19 = attribute.getRegulatedFeature().getName();
+          _builder_2.append(_name_19, "\t\t");
+          _builder_2.append(" <= y.");
+          String _name_20 = attribute.getName();
+          _builder_2.append(_name_20, "\t\t");
+          _builder_2.newLineIfNotEmpty();
+          _builder_2.append("}");
+          _builder_2.newLine();
+          return _builder_2.toString();
+        default:
+          StringConcatenation _builder_3 = new StringConcatenation();
+          return _builder_3.toString();
       }
-      _xifexpression = _switchResult;
+    } else {
+      StringConcatenation _builder_3 = new StringConcatenation();
+      return _builder_3.toString();
     }
-    return _xifexpression;
   }
   
   /**
@@ -1979,56 +1983,54 @@ public class ML2Generator extends AbstractGenerator {
    * @param referenceAssignment the ML2 ReferenceAssignment element with regulated feature.
    * @param ml2class the ML2 Class element with regulator feature.
    */
-  protected static CharSequence _generateRegularityFeatureFact(final ReferenceAssignment referenceAssignment, final ML2Class ml2class) {
-    CharSequence _xifexpression = null;
-    Feature _regulatedFeature = referenceAssignment.getReference().getRegulatedFeature();
-    boolean _notEquals = (!Objects.equal(_regulatedFeature, null));
-    if (_notEquals) {
-      CharSequence _switchResult = null;
-      RegularityFeatureType _regularityType = referenceAssignment.getReference().getRegularityType();
-      if (_regularityType != null) {
-        switch (_regularityType) {
-          case DETERMINES_TYPE:
-            StringConcatenation _builder = new StringConcatenation();
-            _builder.append("fact ");
-            String _name = referenceAssignment.getReference().getName();
-            _builder.append(_name);
-            _builder.append("Regulates");
-            String _name_1 = referenceAssignment.getReference().getRegulatedFeature().getName();
-            _builder.append(_name_1);
-            _builder.append(" {");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            _builder.append("all x: ");
-            String _name_2 = ml2class.getName();
-            _builder.append(_name_2, "\t");
-            _builder.append(" | x.");
-            String _name_3 = referenceAssignment.getReference().getRegulatedFeature().getName();
-            _builder.append(_name_3, "\t");
-            _builder.append(" = ");
-            String _name_4 = ml2class.getName();
-            _builder.append(_name_4, "\t");
-            _builder.append("Reified.");
-            String _name_5 = referenceAssignment.getReference().getName();
-            _builder.append(_name_5, "\t");
-            _builder.newLineIfNotEmpty();
-            _builder.append("}");
-            _builder.newLine();
-            _builder.newLine();
-            _switchResult = _builder;
-            break;
-          default:
-            StringConcatenation _builder_1 = new StringConcatenation();
-            _switchResult = _builder_1;
-            break;
-        }
-      } else {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _switchResult = _builder_1;
+  protected static String _generateRegularityFeatureFact(final Reference reference, final ML2Class ml2class) {
+    RegularityFeatureType _regularityType = reference.getRegularityType();
+    if (_regularityType != null) {
+      switch (_regularityType) {
+        case DETERMINES_TYPE:
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("fact ");
+          String _name = reference.getName();
+          _builder.append(_name);
+          _builder.append("Regulates");
+          String _name_1 = reference.getRegulatedFeature().getName();
+          _builder.append(_name_1);
+          _builder.append(" {");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\t");
+          _builder.append("all x: ");
+          String _name_2 = ml2class.getCategorizedClass().getName();
+          _builder.append(_name_2, "\t");
+          _builder.append(", y: ");
+          String _name_3 = ml2class.getName();
+          _builder.append(_name_3, "\t");
+          _builder.append(" | (iof[x,y] and some y.");
+          String _name_4 = reference.getName();
+          _builder.append(_name_4, "\t");
+          _builder.append(") ");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\t\t");
+          _builder.append("implies iof[x.");
+          String _name_5 = reference.getRegulatedFeature().getName();
+          _builder.append(_name_5, "\t\t");
+          _builder.append(", y.");
+          String _name_6 = reference.getName();
+          _builder.append(_name_6, "\t\t");
+          _builder.append("]");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\t");
+          _builder.newLine();
+          _builder.append("}");
+          _builder.newLine();
+          return _builder.toString();
+        default:
+          StringConcatenation _builder_1 = new StringConcatenation();
+          return _builder_1.toString();
       }
-      _xifexpression = _switchResult;
+    } else {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      return _builder_1.toString();
     }
-    return _xifexpression;
   }
   
   /**
@@ -2489,14 +2491,14 @@ public class ML2Generator extends AbstractGenerator {
     }
   }
   
-  public static CharSequence generateRegularityFeatureFact(final FeatureAssignment attributeAssignment, final ML2Class ml2class) {
-    if (attributeAssignment instanceof AttributeAssignment) {
-      return _generateRegularityFeatureFact((AttributeAssignment)attributeAssignment, ml2class);
-    } else if (attributeAssignment instanceof ReferenceAssignment) {
-      return _generateRegularityFeatureFact((ReferenceAssignment)attributeAssignment, ml2class);
+  public static String generateRegularityFeatureFact(final Feature attribute, final ML2Class ml2class) {
+    if (attribute instanceof Attribute) {
+      return _generateRegularityFeatureFact((Attribute)attribute, ml2class);
+    } else if (attribute instanceof Reference) {
+      return _generateRegularityFeatureFact((Reference)attribute, ml2class);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(attributeAssignment, ml2class).toString());
+        Arrays.<Object>asList(attribute, ml2class).toString());
     }
   }
 }

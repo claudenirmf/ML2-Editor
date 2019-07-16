@@ -6,7 +6,7 @@ Bundle-Vendor: NEMO
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: br.ufes.inf.nemo.ml2; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: br.ufes.inf.nemo.ml2.model;visibility:=reexport,
+Require-Bundle: br.ufes.inf.nemo.ml2.model,
  com.google.guava;bundle-version="21.0.0",
  org.eclipse.xtext,
  org.eclipse.xtext.xbase,

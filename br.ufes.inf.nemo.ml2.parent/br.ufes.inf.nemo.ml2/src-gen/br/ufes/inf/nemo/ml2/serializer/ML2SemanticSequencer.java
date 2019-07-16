@@ -589,8 +589,8 @@ public class ML2SemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *         (
 	 *             attribute=[Attribute|QualifiedName] 
 	 *             (individualAssignments+=[Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
-	 *             individualAssignments+=[Individual|QualifiedName]? 
-	 *             (unnamedIndividualAssignments+=UnnamedIndividual? individualAssignments+=[Individual|QualifiedName]?)*
+	 *             unnamedIndividualAssignments+=UnnamedIndividual? 
+	 *             (individualAssignments+=[Individual|QualifiedName]? unnamedIndividualAssignments+=UnnamedIndividual?)*
 	 *         ) | 
 	 *         (attribute=[Attribute|QualifiedName] (literalAssignments+=Literal literalAssignments+=Literal*)?)
 	 *     )

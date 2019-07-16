@@ -455,13 +455,16 @@ class ML2Generator extends AbstractGenerator {
 			all e: Entity | e in «ml2class.name»Reified iff (all e': Entity | iof[e',e] iff e' in «ml2class.name»)
 		}
 		
-		«FOR instantiatedClass : ml2class.instantiatedClasses»
-			«IF instantiatedClass.categorizedClass != null»
-				«FOR assignment : ml2class.assignments»
-					«generateRegularityFeatureFact(assignment, ml2class)»
-				«ENDFOR»
-			«ENDIF»
+		«FOR attribute : ml2class.attributes»
+			«generateRegularityFeatureFact(attribute,ml2class)»
+			
 		«ENDFOR»
+		«FOR reference : ml2class.references»
+			«generateRegularityFeatureFact(reference,ml2class)»
+			
+		«ENDFOR»
+		
+		«»
 	'''
 	}
 
@@ -857,29 +860,27 @@ class ML2Generator extends AbstractGenerator {
 	 * @param attributeAssignment the ML2 AttributeAssignment element with regulated feature.
 	 * @param ml2class the ML2 Class element with regulator feature.
 	 */
-	def static dispatch generateRegularityFeatureFact(AttributeAssignment attributeAssignment, ML2Class ml2class) {
-		if(attributeAssignment.attribute.regulatedFeature != null) {
-			switch attributeAssignment.attribute.regularityType {
-				case RegularityFeatureType.DETERMINES_VALUE:'''
-					fact «attributeAssignment.attribute.name»Regulates«attributeAssignment.attribute.regulatedFeature.name» {
-						all x: «ml2class.name» | x.«attributeAssignment.attribute.regulatedFeature.name» = «ml2class.name»Reified.«attributeAssignment.attribute.name»
-					}
-					
+	def static dispatch generateRegularityFeatureFact(Attribute attribute, ML2Class ml2class) {
+		switch (attribute.regularityType) {
+			case RegularityFeatureType.DETERMINES_VALUE : return '''
+				fact «attribute.name»Regulates«attribute.regulatedFeature.name» {
+					all x: «ml2class.categorizedClass.name», y: «ml2class.name» | 
+						(iof[x,y] and some y.«attribute.name») implies x.«attribute.regulatedFeature.name» = y.«attribute.name»
+				}
+				''' 
+			case RegularityFeatureType.DETERMINES_MIN_VALUE : return '''
+				fact «attribute.name»Regulates«attribute.regulatedFeature.name» {
+					all x: «ml2class.categorizedClass.name», y: «ml2class.name» | 
+						(iof[x,y] and some y.«attribute.name») implies x.«attribute.regulatedFeature.name» >= y.«attribute.name»
+				}
 				'''
-				case RegularityFeatureType.DETERMINES_MIN_VALUE:'''
-					fact «attributeAssignment.attribute.name»Regulates«attributeAssignment.attribute.regulatedFeature.name» {
-						all x: «ml2class.name» | x.«attributeAssignment.attribute.regulatedFeature.name» >= «ml2class.name»Reified.«attributeAssignment.attribute.name»
-					}
-					
+			case RegularityFeatureType.DETERMINES_MAX_VALUE : return '''
+				fact «attribute.name»Regulates«attribute.regulatedFeature.name» {
+					all x: «ml2class.categorizedClass.name», y: «ml2class.name» | (
+						iof[x,y] and some y.«attribute.name») implies x.«attribute.regulatedFeature.name» <= y.«attribute.name»
+				}
 				'''
-				case RegularityFeatureType.DETERMINES_MAX_VALUE:'''
-					fact «attributeAssignment.attribute.name»Regulates«attributeAssignment.attribute.regulatedFeature.name» {
-						all x: «ml2class.name» | x.«attributeAssignment.attribute.regulatedFeature.name» <= «ml2class.name»Reified.«attributeAssignment.attribute.name»
-					}
-					
-				'''
-				default:''''''
-			}
+			default: return ''''''
 		}
 	}
 	
@@ -889,18 +890,30 @@ class ML2Generator extends AbstractGenerator {
 	 * @param referenceAssignment the ML2 ReferenceAssignment element with regulated feature.
 	 * @param ml2class the ML2 Class element with regulator feature.
 	 */
-	def static dispatch generateRegularityFeatureFact(ReferenceAssignment referenceAssignment, ML2Class ml2class) {
-		if(referenceAssignment.reference.regulatedFeature != null) {
-			switch referenceAssignment.reference.regularityType {
-				case RegularityFeatureType.DETERMINES_TYPE:'''
-					fact «referenceAssignment.reference.name»Regulates«referenceAssignment.reference.regulatedFeature.name» {
-						all x: «ml2class.name» | x.«referenceAssignment.reference.regulatedFeature.name» = «ml2class.name»Reified.«referenceAssignment.reference.name»
-					}
+	def static dispatch generateRegularityFeatureFact(Reference reference, ML2Class ml2class) {
+		switch (reference.regularityType) {
+			case RegularityFeatureType.DETERMINES_TYPE: return '''
+				fact «reference.name»Regulates«reference.regulatedFeature.name» {
+«««					all x: «ml2class.name» | x.«referenceAssignment.reference.regulatedFeature.name» = «ml2class.name»Reified.«referenceAssignment.reference.name»
+					all x: «ml2class.categorizedClass.name», y: «ml2class.name» | (iof[x,y] and some y.«reference.name») 
+						implies iof[x.«reference.regulatedFeature.name», y.«reference.name»]
+«««					all x:Phone, y:PhoneModel | (iof[x,y] and some y.compatibleProcessor) implies (iof[x.installedProcessor,y.compatibleProcessor])
 					
+				}
 				'''
-				default:''''''
-			}
+			default: return ''''''
 		}
+//		if(referenceAssignment.reference.regulatedFeature != null) {
+//			switch referenceAssignment.reference.regularityType {
+//				case RegularityFeatureType.DETERMINES_TYPE:'''
+//					fact «referenceAssignment.reference.name»Regulates«referenceAssignment.reference.regulatedFeature.name» {
+//						all x: «ml2class.name» | x.«referenceAssignment.reference.regulatedFeature.name» = «ml2class.name»Reified.«referenceAssignment.reference.name»
+//					}
+//					
+//				'''
+//				default:''''''
+//			}
+//		}
 	}
 
 	/************************************************************************************************
