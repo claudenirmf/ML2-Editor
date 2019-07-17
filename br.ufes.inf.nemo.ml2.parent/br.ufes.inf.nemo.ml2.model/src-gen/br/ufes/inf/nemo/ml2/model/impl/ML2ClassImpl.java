@@ -12,12 +12,9 @@ import br.ufes.inf.nemo.ml2.model.Reference;
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.Collection;
-
 import java.util.function.Consumer;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 

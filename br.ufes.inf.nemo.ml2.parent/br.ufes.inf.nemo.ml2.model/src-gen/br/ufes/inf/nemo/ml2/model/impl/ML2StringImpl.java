@@ -4,9 +4,7 @@ package br.ufes.inf.nemo.ml2.model.impl;
 
 import br.ufes.inf.nemo.ml2.model.ML2String;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
-
 import com.google.common.base.Objects;
-
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.emf.common.notify.Notification;

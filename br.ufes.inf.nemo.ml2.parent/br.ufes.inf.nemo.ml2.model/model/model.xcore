@@ -94,12 +94,13 @@ class Feature extends ModelElement
 	int lowerBound = "1"
 	int upperBound = "1"
 	
-	RegularityFeatureType regularityType
+	RegularityFeatureType regularityType = "none"
 	refers Feature regulatedFeature
 }
 
 enum RegularityFeatureType 
 {
+	NONE as "none"
 	DETERMINES_MAX_VALUE as "determinesMaxValue"
 	DETERMINES_MIN_VALUE as "determinesMinValue"
 	DETERMINES_VALUE as "determinesValue"

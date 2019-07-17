@@ -99,7 +99,7 @@ public class FeatureImpl extends ModelElementImpl implements Feature {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final RegularityFeatureType REGULARITY_TYPE_EDEFAULT = RegularityFeatureType.DETERMINES_MAX_VALUE;
+	protected static final RegularityFeatureType REGULARITY_TYPE_EDEFAULT = RegularityFeatureType.NONE;
 
 	/**
 	 * The cached value of the '{@link #getRegularityType() <em>Regularity Type</em>}' attribute.

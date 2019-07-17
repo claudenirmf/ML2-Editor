@@ -19,6 +19,14 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum RegularityFeatureType implements Enumerator {
 	/**
+	 * The '<em><b>NONE</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NONE(0, "NONE", "none"), /**
 	 * The '<em><b>DETERMINES MAX VALUE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -26,9 +34,7 @@ public enum RegularityFeatureType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DETERMINES_MAX_VALUE(0, "DETERMINES_MAX_VALUE", "determinesMaxValue"),
-
-	/**
+	DETERMINES_MAX_VALUE(0, "DETERMINES_MAX_VALUE", "determinesMaxValue"), /**
 	 * The '<em><b>DETERMINES MIN VALUE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -36,9 +42,7 @@ public enum RegularityFeatureType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DETERMINES_MIN_VALUE(0, "DETERMINES_MIN_VALUE", "determinesMinValue"),
-
-	/**
+	DETERMINES_MIN_VALUE(0, "DETERMINES_MIN_VALUE", "determinesMinValue"), /**
 	 * The '<em><b>DETERMINES VALUE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -46,9 +50,7 @@ public enum RegularityFeatureType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DETERMINES_VALUE(0, "DETERMINES_VALUE", "determinesValue"),
-
-	/**
+	DETERMINES_VALUE(0, "DETERMINES_VALUE", "determinesValue"), /**
 	 * The '<em><b>DETERMINES ALLOWED VALUES</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -56,9 +58,7 @@ public enum RegularityFeatureType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DETERMINES_ALLOWED_VALUES(0, "DETERMINES_ALLOWED_VALUES", "determinesAllowedValues"),
-
-	/**
+	DETERMINES_ALLOWED_VALUES(0, "DETERMINES_ALLOWED_VALUES", "determinesAllowedValues"), /**
 	 * The '<em><b>DETERMINES TYPE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -66,9 +66,7 @@ public enum RegularityFeatureType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DETERMINES_TYPE(0, "DETERMINES_TYPE", "determinesType"),
-
-	/**
+	DETERMINES_TYPE(0, "DETERMINES_TYPE", "determinesType"), /**
 	 * The '<em><b>DETERMINES ALLOWED TYPES</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -79,12 +77,19 @@ public enum RegularityFeatureType implements Enumerator {
 	DETERMINES_ALLOWED_TYPES(0, "DETERMINES_ALLOWED_TYPES", "determinesAllowedTypes");
 
 	/**
+	 * The '<em><b>NONE</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE
+	 * @model literal="none"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NONE_VALUE = 0;
+
+	/**
 	 * The '<em><b>DETERMINES MAX VALUE</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>DETERMINES MAX VALUE</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DETERMINES_MAX_VALUE
 	 * @model literal="determinesMaxValue"
@@ -96,10 +101,6 @@ public enum RegularityFeatureType implements Enumerator {
 	/**
 	 * The '<em><b>DETERMINES MIN VALUE</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>DETERMINES MIN VALUE</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DETERMINES_MIN_VALUE
 	 * @model literal="determinesMinValue"
@@ -111,10 +112,6 @@ public enum RegularityFeatureType implements Enumerator {
 	/**
 	 * The '<em><b>DETERMINES VALUE</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>DETERMINES VALUE</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DETERMINES_VALUE
 	 * @model literal="determinesValue"
@@ -126,10 +123,6 @@ public enum RegularityFeatureType implements Enumerator {
 	/**
 	 * The '<em><b>DETERMINES ALLOWED VALUES</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>DETERMINES ALLOWED VALUES</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DETERMINES_ALLOWED_VALUES
 	 * @model literal="determinesAllowedValues"
@@ -141,10 +134,6 @@ public enum RegularityFeatureType implements Enumerator {
 	/**
 	 * The '<em><b>DETERMINES TYPE</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>DETERMINES TYPE</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DETERMINES_TYPE
 	 * @model literal="determinesType"
@@ -156,10 +145,6 @@ public enum RegularityFeatureType implements Enumerator {
 	/**
 	 * The '<em><b>DETERMINES ALLOWED TYPES</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>DETERMINES ALLOWED TYPES</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DETERMINES_ALLOWED_TYPES
 	 * @model literal="determinesAllowedTypes"
@@ -176,6 +161,7 @@ public enum RegularityFeatureType implements Enumerator {
 	 */
 	private static final RegularityFeatureType[] VALUES_ARRAY =
 		new RegularityFeatureType[] {
+			NONE,
 			DETERMINES_MAX_VALUE,
 			DETERMINES_MIN_VALUE,
 			DETERMINES_VALUE,
@@ -238,7 +224,7 @@ public enum RegularityFeatureType implements Enumerator {
 	 */
 	public static RegularityFeatureType get(int value) {
 		switch (value) {
-			case DETERMINES_MAX_VALUE_VALUE: return DETERMINES_MAX_VALUE;
+			case NONE_VALUE: return NONE;
 		}
 		return null;
 	}
