@@ -2,7 +2,7 @@
 
 ML2 Editor is an Eclipse-based editor for model specification in ML2 (Multi-Level Modeling Language).
 
-The ML2 Editor can be installed in any recent Eclipse release by copying this [link](https://raw.githubusercontent.com/nemo-ufes/ML2-Editor/release-branch/br.ufes.inf.nemo.ml2.parent/br.ufes.inf.nemo.ml2.repository/repository) into the field "Work with" at "Help > Install New Software...".
+The ML2 Editor can be installed in any recent Eclipse release by copying this [link](https://raw.githubusercontent.com/nemo-ufes/ML2-Editor/master/br.ufes.inf.nemo.ml2.parent/br.ufes.inf.nemo.ml2.repository/repository) into the field "Work with" at "Help > Install New Software...".
 
 In order to create models in ML2, create a file within any project within any project using ".ml2" as its format. For the first model created, a pop-up should appear asking to convert the project to a Xtext Nature. Select "yes" and start developing the model.
 
