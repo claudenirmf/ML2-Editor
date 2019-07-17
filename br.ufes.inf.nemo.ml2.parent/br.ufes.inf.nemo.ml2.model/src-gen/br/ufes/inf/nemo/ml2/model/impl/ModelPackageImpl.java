@@ -1283,7 +1283,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEAttribute(getFeature_Name(), theEcorePackage.getEString(), "name", null, 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFeature_LowerBound(), theEcorePackage.getEInt(), "lowerBound", "1", 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFeature_UpperBound(), theEcorePackage.getEInt(), "upperBound", "1", 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFeature_RegularityType(), this.getRegularityFeatureType(), "regularityType", null, 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFeature_RegularityType(), this.getRegularityFeatureType(), "regularityType", "none", 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFeature_RegulatedFeature(), this.getFeature(), null, "regulatedFeature", null, 0, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1346,6 +1346,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		addEEnumLiteral(categorizationTypeEEnum, CategorizationType.PARTITIONER);
 
 		initEEnum(regularityFeatureTypeEEnum, RegularityFeatureType.class, "RegularityFeatureType");
+		addEEnumLiteral(regularityFeatureTypeEEnum, RegularityFeatureType.NONE);
 		addEEnumLiteral(regularityFeatureTypeEEnum, RegularityFeatureType.DETERMINES_MAX_VALUE);
 		addEEnumLiteral(regularityFeatureTypeEEnum, RegularityFeatureType.DETERMINES_MIN_VALUE);
 		addEEnumLiteral(regularityFeatureTypeEEnum, RegularityFeatureType.DETERMINES_VALUE);

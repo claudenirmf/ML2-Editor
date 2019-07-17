@@ -106,6 +106,7 @@ public interface Feature extends ModelElement {
 
 	/**
 	 * Returns the value of the '<em><b>Regularity Type</b></em>' attribute.
+	 * The default value is <code>"none"</code>.
 	 * The literals are from the enumeration {@link br.ufes.inf.nemo.ml2.model.RegularityFeatureType}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -117,7 +118,7 @@ public interface Feature extends ModelElement {
 	 * @see br.ufes.inf.nemo.ml2.model.RegularityFeatureType
 	 * @see #setRegularityType(RegularityFeatureType)
 	 * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getFeature_RegularityType()
-	 * @model unique="false"
+	 * @model default="none" unique="false"
 	 * @generated
 	 */
 	RegularityFeatureType getRegularityType();

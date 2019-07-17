@@ -6,9 +6,7 @@ import br.ufes.inf.nemo.ml2.model.EntityDeclaration;
 import br.ufes.inf.nemo.ml2.model.FeatureAssignment;
 import br.ufes.inf.nemo.ml2.model.ML2Class;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
-
 import com.google.common.base.Objects;
-
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.Collection;
