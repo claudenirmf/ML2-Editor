@@ -15,7 +15,7 @@ to a Xtext Nature. Select &quot;yes&quot; and start developing the model.
 Authors: Claudemir M. Fonseca
    </description>
 
-   <license url="">
+   <license url="https://github.com/nemo-ufes/ML2-Editor/blob/master/LICENSE.md">
       MIT License
 
 Copyright (c) 2018 Claudenir M. Fonseca
@@ -38,6 +38,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
    </license>
+
+   <url>
+      <update label="GitHub&apos;s Repository Update Link" url="https://raw.githubusercontent.com/nemo-ufes/ML2-Editor/release-branch/br.ufes.inf.nemo.ml2.parent/br.ufes.inf.nemo.ml2.repository/repository"/>
+   </url>
 
    <plugin
          id="br.ufes.inf.nemo.ml2"
