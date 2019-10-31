@@ -40,7 +40,7 @@ SOFTWARE.
    </license>
 
    <url>
-      <update label="GitHub&apos;s Repository Update Link" url="https://raw.githubusercontent.com/nemo-ufes/ML2-Editor/release-branch/br.ufes.inf.nemo.ml2.parent/br.ufes.inf.nemo.ml2.repository/repository"/>
+      <discovery label="ML2 Editor Repository" url="https://github.com/nemo-ufes/ML2-Editor/"/>
    </url>
 
    <plugin

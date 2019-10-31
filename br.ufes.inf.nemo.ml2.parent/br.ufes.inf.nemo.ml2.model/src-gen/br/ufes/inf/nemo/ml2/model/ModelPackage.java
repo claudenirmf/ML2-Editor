@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see br.ufes.inf.nemo.ml2.model.ModelFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/emf/2002/GenModel modelDirectory='br.ufes.inf.nemo.ml2.model/src-gen' basePackage='br.ufes.inf.nemo.ml2'"
  * @generated
  */
 public interface ModelPackage extends EPackage {
