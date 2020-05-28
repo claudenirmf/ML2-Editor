@@ -34,9 +34,10 @@ import br.ufes.inf.nemo.ml2.model.RegularityFeatureType
 import org.eclipse.emf.common.util.EList;
 import java.util.stream.Collectors
 import java.util.ArrayList
+import java.util.HashSet
 
 /**
- * Generates an Alloy model from a ML2 Model.
+ * Generates an Alloy model from an ML2 Model.
  */
 class ML2Generator extends AbstractGenerator {
 
@@ -69,6 +70,9 @@ class ML2Generator extends AbstractGenerator {
 			«generateAlloyElement(element)»
 		«ENDFOR»
 		«generateDisjointIndividualsFact(ml2model)»
+		«generateDisjointDisconnectedHierarchiesFact(ml2model)»
+		«generateUnwantedInstantiationsFact(ml2model)»
+		
 	'''
 	}
 	
@@ -431,7 +435,7 @@ class ML2Generator extends AbstractGenerator {
 	 ***********************************************************************************************/
 	
 	/**
-	 * Generates the Alloy counterpart of a ML2 Individual element.
+	 * Generates the Alloy counterpart of an ML2 Individual element.
 	 * 
 	 * @param individual the ML2 Individual element to be transformed.
 	 */
@@ -441,35 +445,33 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/**
-	 * Generates the Alloy counterpart of a ML2 Class element.
+	 * Generates the Alloy counterpart of an ML2 Class element.
 	 * 
 	 * @param ml2class the ML2 Class element to be transformed.
 	 */
 	def static dispatch generateAlloyElement(ML2Class ml2class) {'''
 		«generateAlloySignature(ml2class)»
 		«generateAlloySingleton(ml2class)»
-		«generatePowertypeFact(ml2class)»
-		«generateCategorizationFact(ml2class)»
-		«generateSubordinationFact(ml2class)»
 		fact «ml2class.name»ReifiedDefinition {
 			all e: Entity | e in «ml2class.name»Reified iff (all e': Entity | iof[e',e] iff e' in «ml2class.name»)
 		}
 		
-		«FOR attribute : ml2class.attributes»
-			«generateRegularityFeatureFact(attribute,ml2class)»
-			
+		«generateProperSpecializationFact(ml2class)»
+		«generatePowertypeFact(ml2class)»
+		«generateCategorizationFact(ml2class)»
+		«generateSubordinationFact(ml2class)»
+		«FOR instantiatedClass : ml2class.instantiatedClasses»
+			«IF instantiatedClass.categorizedClass != null»
+				«FOR assignment : ml2class.assignments»
+					«generateRegularityFeatureFact(assignment, ml2class)»
+				«ENDFOR»
+			«ENDIF»
 		«ENDFOR»
-		«FOR reference : ml2class.references»
-			«generateRegularityFeatureFact(reference,ml2class)»
-			
-		«ENDFOR»
-		
-		«»
 	'''
 	}
 
 	/**
-	 * Generates the Alloy counterpart of a ML2 Generalization Set element.
+	 * Generates the Alloy counterpart of an ML2 Generalization Set element.
 	 * 
 	 * @param genset the ML2 Generalization Set element to be transformed.
 	 */
@@ -516,34 +518,46 @@ class ML2Generator extends AbstractGenerator {
 	 ***********************************************************************************************/
 	
 	/**
-	 * Generates an Alloy signature related to a ML2 First-Order Class element.
+	 * Generates an Alloy signature related to an ML2 First-Order Class element.
 	 * 
 	 * @param foclass the ML2 First-Order Class element to be transformed.
 	 */
 	def static dispatch generateAlloySignature(FOClass foclass) {
 		switch foclass.superClasses.size {
 			case 0:'''
-				sig «foclass.name» in Individual {
-					«FOR feature : foclass.features SEPARATOR ','»
-						«generateAlloySignatureFields(feature)»
-					«ENDFOR»
-				}
+				«IF foclass.features.size == 0»
+					sig «foclass.name» in Individual {}
+				«ELSE»
+					sig «foclass.name» in Individual {
+						«FOR feature : foclass.features SEPARATOR ','»
+							«generateAlloySignatureFields(feature)»
+						«ENDFOR»
+					}
+				«ENDIF»
 				
 			'''		
 			case 1:'''
-				sig «foclass.name» in «foclass.superClasses.head.name» {
-					«FOR feature : foclass.features SEPARATOR ','»
-						«generateAlloySignatureFields(feature)»
-					«ENDFOR»
-				}
+				«IF foclass.features.size == 0»
+					sig «foclass.name» in «foclass.superClasses.head.name» {}
+				«ELSE»
+					sig «foclass.name» in «foclass.superClasses.head.name» {
+						«FOR feature : foclass.features SEPARATOR ','»
+							«generateAlloySignatureFields(feature)»
+						«ENDFOR»
+					}
+				«ENDIF»
 				
 			'''
 			default:'''
-				sig «foclass.name» in Individual {
-					«FOR feature : foclass.features SEPARATOR ','»
-						«generateAlloySignatureFields(feature)»
-					«ENDFOR»
-				}
+				«IF foclass.features.size == 0»
+					sig «foclass.name» in Individual {}
+				«ELSE»			
+					sig «foclass.name» in Individual {
+						«FOR feature : foclass.features SEPARATOR ','»
+							«generateAlloySignatureFields(feature)»
+						«ENDFOR»
+					}
+				«ENDIF»
 				
 				fact «foclass.name»SuperClasses {
 					all x: «foclass.name» | x in («foclass.superClasses.stream()
@@ -556,34 +570,46 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/**
-	 * Generates an Alloy signature related to a ML2 High-Order Class element.
+	 * Generates an Alloy signature related to an ML2 High-Order Class element.
 	 * 
 	 * @param hoclass the ML2 High-Order Class element to be transformed.
 	 */
 	def static dispatch generateAlloySignature(HOClass hoclass) {
 		switch hoclass.superClasses.size {
 			case 0:'''
-				sig «hoclass.name» in Order«hoclass.order - 1»Type {
-					«FOR feature : hoclass.features SEPARATOR ','»
-						«generateAlloySignatureFields(feature)»
-					«ENDFOR»
-				}
+				«IF hoclass.features.size == 0»
+					sig «hoclass.name» in Order«hoclass.order - 1»Type {}
+				«ELSE»
+					sig «hoclass.name» in Order«hoclass.order - 1»Type {
+						«FOR feature : hoclass.features SEPARATOR ','»
+							«generateAlloySignatureFields(feature)»
+						«ENDFOR»
+					}
+				«ENDIF»
 				
 			'''			
 			case 1:'''
-				sig «hoclass.name» in «hoclass.superClasses.head.name» {
-					«FOR feature : hoclass.features SEPARATOR ','»
-						«generateAlloySignatureFields(feature)»
-					«ENDFOR»
-				}
+				«IF hoclass.features.size == 0»
+					sig «hoclass.name» in «hoclass.superClasses.head.name» {}
+				«ELSE»
+					sig «hoclass.name» in «hoclass.superClasses.head.name» {
+						«FOR feature : hoclass.features SEPARATOR ','»
+							«generateAlloySignatureFields(feature)»
+						«ENDFOR»
+					}
+				«ENDIF»
 				
 			'''		
 			default:'''
-				sig «hoclass.name» in Order«hoclass.order - 1»Type {
-					«FOR feature : hoclass.features SEPARATOR ','»
-						«generateAlloySignatureFields(feature)»
-					«ENDFOR»
-				}
+				«IF hoclass.features.size == 0»
+					sig «hoclass.name» in Order«hoclass.order - 1»Type {}
+				«ELSE»
+					sig «hoclass.name» in Order«hoclass.order - 1»Type {
+						«FOR feature : hoclass.features SEPARATOR ','»
+							«generateAlloySignatureFields(feature)»
+						«ENDFOR»
+					}
+				«ENDIF»
 				
 				fact «hoclass.name»SuperClasses {
 					all x: «hoclass.name» | x in («hoclass.superClasses.stream()
@@ -596,16 +622,20 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/**
-	 * Generates an Alloy signature related to a ML2 Orderless Class element.
+	 * Generates an Alloy signature related to an ML2 Orderless Class element.
 	 * 
 	 * @param olclass the ML2 Orderless Class element to be transformed.
 	 */
 	def static dispatch generateAlloySignature(OrderlessClass olclass) {'''
-		sig «olclass.name» in OrderlessType {
-			«FOR feature : olclass.features SEPARATOR ','»
-				«generateAlloySignatureFields(feature)»
-			«ENDFOR»
-		}
+		«IF olclass.features.size == 0»
+			sig «olclass.name» in OrderlessType {}
+		«ELSE»
+			sig «olclass.name» in OrderlessType {
+				«FOR feature : olclass.features SEPARATOR ','»
+					«generateAlloySignatureFields(feature)»
+				«ENDFOR»
+			}
+		«ENDIF»
 		
 	'''
 	}
@@ -614,14 +644,14 @@ class ML2Generator extends AbstractGenerator {
 	 * Dispatch methods generateAlloySignatureFields().
 	 * 
 	 * The following methods generate Alloy signature fields for each ML2 Feature element, declared
-	 * within a ML2 Class.
+	 * within an ML2 Class.
 	 * 
 	 * The specific dispatch method is called depending on the type of the ML2 Feature element being
 	 * considered.
 	 ***********************************************************************************************/
 	
 	/**
-	 * Generates an Alloy signature field related to a ML2 Attribute element.
+	 * Generates an Alloy signature field related to an ML2 Attribute element.
 	 * 
 	 * @param attribute the ML2 Attribute element to be transformed.
 	 */
@@ -645,7 +675,7 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/**
-	 * Generates an Alloy signature field related to a ML2 Reference element.
+	 * Generates an Alloy signature field related to an ML2 Reference element.
 	 * 
 	 * @param reference the ML2 Reference element to be transformed.
 	 */
@@ -664,27 +694,21 @@ class ML2Generator extends AbstractGenerator {
 	 ***********************************************************************************************/
 	
 	/**
-	 * Generates an Alloy singleton related to a ML2 Individual element.
+	 * Generates an Alloy singleton related to an ML2 Individual element.
 	 * 
 	 * @param individual the ML2 Individual element to be transformed.
 	 */
 	def static dispatch generateAlloySingleton(Individual individual) {
 		switch individual.instantiatedClasses.size {
 			case 1:'''
-				one sig «individual.name» in «individual.instantiatedClasses.head.name» {
-					«FOR assignment : individual.assignments BEFORE '}{'»
-						«generateAlloySingletonFields(assignment)»
-					«ENDFOR»
-				}
+				one sig «individual.name» in «individual.instantiatedClasses.head.name» {}
 				
+				«generateAlloySingletonAssignmentsFact(individual)»
 			'''		
 			default:'''
-				one sig «individual.name» in Individual {
-					«FOR assignment : individual.assignments BEFORE '}{'»
-						«generateAlloySingletonFields(assignment)»
-					«ENDFOR»
-				}
+				one sig «individual.name» in Individual {}
 				
+				«generateAlloySingletonAssignmentsFact(individual)»
 				fact «individual.name»InstantiatedClasses {
 					«individual.name» in («individual.instantiatedClasses.stream()
 																		 .map[it.name]
@@ -696,35 +720,26 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/**
-	 * Generates an Alloy singleton related to a ML2 First-Order Class element.
+	 * Generates an Alloy singleton related to an ML2 First-Order Class element.
 	 * 
 	 * @param foclass the ML2 First-Order Class element to be transformed.
 	 */
 	def static dispatch generateAlloySingleton(FOClass foclass) {
 		switch foclass.instantiatedClasses.size {
 			case 0:'''
-				one sig «foclass.name»Reified in Order1Type {
-					«FOR assignment : foclass.assignments BEFORE '}{'»
-						«generateAlloySingletonFields(assignment)»
-					«ENDFOR»
-				}
+				one sig «foclass.name»Reified in Order1Type {}
 				
+				«generateAlloySingletonAssignmentsFact(foclass)»
 			'''		
 			case 1:'''
-				one sig «foclass.name»Reified in «foclass.instantiatedClasses.head.name» {
-					«FOR assignment : foclass.assignments BEFORE '}{'»
-						«generateAlloySingletonFields(assignment)»
-					«ENDFOR»
-				}
+				one sig «foclass.name»Reified in «foclass.instantiatedClasses.head.name» {}
 				
+				«generateAlloySingletonAssignmentsFact(foclass)»
 			'''		
 			default:'''
-				one sig «foclass.name»Reified in Order1Type{
-					«FOR assignment : foclass.assignments BEFORE '}{'»
-						«generateAlloySingletonFields(assignment)»
-					«ENDFOR»
-				}
+				one sig «foclass.name»Reified in Order1Type{}
 				
+				«generateAlloySingletonAssignmentsFact(foclass)»
 				fact «foclass.name»InstantiatedClasses {
 					all x: «foclass.name»Reified | x in («foclass.instantiatedClasses.stream()
 																					 .map[it.name]
@@ -736,35 +751,26 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/**
-	 * Generates an Alloy singleton related to a ML2 High-Order Class element.
+	 * Generates an Alloy singleton related to an ML2 High-Order Class element.
 	 * 
 	 * @param hoclass the ML2 High-Order Class element to be transformed.
 	 */
 	def static dispatch generateAlloySingleton(HOClass hoclass) {
 		switch hoclass.instantiatedClasses.size {
 			case 0:'''
-				one sig «hoclass.name»Reified in Order«hoclass.order»Type {
-					«FOR assignment : hoclass.assignments BEFORE '}{'»
-						«generateAlloySingletonFields(assignment)»
-					«ENDFOR»
-				}
+				one sig «hoclass.name»Reified in Order«hoclass.order»Type {}
 				
+				«generateAlloySingletonAssignmentsFact(hoclass)»
 			'''			
 			case 1:'''
-				one sig «hoclass.name»Reified in «hoclass.instantiatedClasses.head.name» {
-					«FOR assignment : hoclass.assignments BEFORE '}{'»
-						«generateAlloySingletonFields(assignment)»
-					«ENDFOR»
-				}
+				one sig «hoclass.name»Reified in «hoclass.instantiatedClasses.head.name» {}
 				
+				«generateAlloySingletonAssignmentsFact(hoclass)»
 			'''			
 			default:'''
-				one sig «hoclass.name»Reified in Order«hoclass.order»Type {
-					«FOR assignment : hoclass.assignments BEFORE '}{'»
-						«generateAlloySingletonFields(assignment)»
-					«ENDFOR»
-				}
+				one sig «hoclass.name»Reified in Order«hoclass.order»Type {}
 				
+				«generateAlloySingletonAssignmentsFact(hoclass)»
 				fact «hoclass.name»InstantiatedClasses {
 					all x: «hoclass.name»Reified | x in («hoclass.instantiatedClasses.stream()
 																					 .map[it.name]
@@ -776,36 +782,77 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/**
-	 * Generates an Alloy singleton related to a ML2 Orderless Class element.
+	 * Generates an Alloy singleton related to an ML2 Orderless Class element.
 	 * 
 	 * @param olclass the ML2 Orderless Class element to be transformed.
 	 */
 	def static dispatch generateAlloySingleton(OrderlessClass olclass) {'''
-		one sig «olclass.name»Reified in OrderlessType {
-			«FOR assignment : olclass.assignments BEFORE '}{'»
-				«generateAlloySingletonFields(assignment)»
-			«ENDFOR»
-		}
+		one sig «olclass.name»Reified in OrderlessType {}
 		
+		«generateAlloySingletonAssignmentsFact(olclass)»
 	'''
 	}
 	
 	/************************************************************************************************
-	 * Dispatch methods generateAlloySingletonFields().
+	 * Dispatch methods generateAlloySingletonAssignmentsFact().
 	 * 
-	 * The following methods generate Alloy singleton fields for each ML2 FeatureAssignment element,
-	 * assigned within a ML2 Individual or Class.
+	 * The following methods generate an Alloy fact for each ML2 Individual or Class element, in
+	 * order to hold its assignments.
+	 * 
+	 * The specific dispatch method is called depending on the type of the ML2 Individual or Class
+	 * element being considered.
+	 ***********************************************************************************************/
+
+	/**
+	 * Generates an Alloy fact related to an ML2 Individual element's assignments.
+	 * 
+	 * @param individual the ML2 Individual element to be considered.
+	 */	
+	def static dispatch generateAlloySingletonAssignmentsFact(Individual individual) {
+		if(individual.assignments.size != 0) {'''
+			fact {
+				«FOR assignment : individual.assignments»
+					«individual.name».«generateAlloySingletonAssignment(assignment)»
+				«ENDFOR»
+			}
+			
+		'''	
+		}
+	}
+	
+	/**
+	 * Generates an Alloy fact related to an ML2 Class element's assignments.
+	 * 
+	 * @param ml2class the ML2 Class element to be considered.
+	 */
+	def static dispatch generateAlloySingletonAssignmentsFact(ML2Class ml2class) {
+		if(ml2class.assignments.size != 0) {'''
+			fact {
+				«FOR assignment : ml2class.assignments»
+					«ml2class.name»Reified.«generateAlloySingletonAssignment(assignment)»
+				«ENDFOR»
+			}
+			
+		'''	
+		}
+	}	
+	
+	/************************************************************************************************
+	 * Dispatch methods generateAlloySingletonAssignment().
+	 * 
+	 * The following methods generate Alloy singleton assignments for each ML2 FeatureAssignment
+	 * element, assigned within an ML2 Individual or Class.
 	 * 
 	 * The specific dispatch method is called depending on the type of the ML2 FeatureAssignment
 	 * element being considered.
 	 ***********************************************************************************************/
 
 	/**
-	 * Generates an Alloy singleton field related to a ML2 AttributeAssignment element.
+	 * Generates an Alloy singleton assignment related to an ML2 AttributeAssignment element.
 	 * 
 	 * @param attributeAssignment the ML2 AttributeAssignment element to be transformed.
 	 */
-	def static dispatch generateAlloySingletonFields(AttributeAssignment attributeAssignment) {
+	def static dispatch generateAlloySingletonAssignment(AttributeAssignment attributeAssignment) {
 		if(attributeAssignment.individualAssignments.size != 0) {'''
 			«attributeAssignment.attribute.name» = «attributeAssignment.individualAssignments.stream()
 																							 .map[it.name]
@@ -833,11 +880,11 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/**
-	 * Generates an Alloy singleton field related to a ML2 ReferenceAssignment element.
+	 * Generates an Alloy singleton assignment related to an ML2 ReferenceAssignment element.
 	 * 
 	 * @param referenceAssignment the ML2 ReferenceAssignment element to be transformed.
 	 */
-	def static dispatch generateAlloySingletonFields(ReferenceAssignment referenceAssignment) {'''
+	def static dispatch generateAlloySingletonAssignment(ReferenceAssignment referenceAssignment) {'''
 		«referenceAssignment.reference.name» = «referenceAssignment.assignments.stream()
 																			   .map[it.name]
 																			   .collect(Collectors.joining("+"))»
@@ -845,106 +892,53 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/************************************************************************************************
-	 * Dispatch methods generateRegularityFeatureFact().
+	 * Dispatch methods generateProperSpecializationFact().
 	 * 
-	 * The following methods generate an Alloy fact for each ML2 FeatureAssignment element regulated
-	 * by a ML2 Feature element.
+	 * The following methods generate an Alloy fact for each ML2 Class element.
 	 * 
-	 * The specific dispatch method is called depending on the type of the ML2 FeatureAssignment
-	 * element being considered.
+	 * The specific dispatch method is called depending on the type of the ML2 Class element being
+	 * considered.
 	 ***********************************************************************************************/
-	
-	/**
-	 * Generates an Alloy fact related to a ML2 AttributeAssignment element regulated by a ML2 Attribute element.
+	 
+	 /**
+	 * Generates an Alloy fact related to an ML2 Proper Specialization relation of a First-Order Class element.
 	 * 
-	 * @param attributeAssignment the ML2 AttributeAssignment element with regulated feature.
-	 * @param ml2class the ML2 Class element with regulator feature.
+	 * @param foclass the ML2 First-Order Class element to be considered.
 	 */
-	def static dispatch generateRegularityFeatureFact(Attribute attribute, ML2Class ml2class) {
-		switch (attribute.regularityType) {
-			case RegularityFeatureType.DETERMINES_VALUE : return '''
-				fact «attribute.name»Regulates«attribute.regulatedFeature.name» {
-					all x: «ml2class.categorizedClass.name», y: «ml2class.name» | 
-						(iof[x,y] and some y.«attribute.name») implies x.«attribute.regulatedFeature.name» = y.«attribute.name»
-				}
-				''' 
-			case RegularityFeatureType.DETERMINES_MIN_VALUE : return '''
-				fact «attribute.name»Regulates«attribute.regulatedFeature.name» {
-					all x: «ml2class.categorizedClass.name», y: «ml2class.name» | 
-						(iof[x,y] and some y.«attribute.name») implies x.«attribute.regulatedFeature.name» >= y.«attribute.name»
-				}
-				'''
-			case RegularityFeatureType.DETERMINES_MAX_VALUE : return '''
-				fact «attribute.name»Regulates«attribute.regulatedFeature.name» {
-					all x: «ml2class.categorizedClass.name», y: «ml2class.name» | (
-						iof[x,y] and some y.«attribute.name») implies x.«attribute.regulatedFeature.name» <= y.«attribute.name»
-				}
-				'''
-			default: return ''''''
-		}
-	}
-	
-	/**
-	 * Generates an Alloy fact related to a ML2 ReferenceAssignment element regulated by a ML2 Reference element.
-	 * 
-	 * @param referenceAssignment the ML2 ReferenceAssignment element with regulated feature.
-	 * @param ml2class the ML2 Class element with regulator feature.
-	 */
-	def static dispatch generateRegularityFeatureFact(Reference reference, ML2Class ml2class) {
-		switch (reference.regularityType) {
-			case RegularityFeatureType.DETERMINES_TYPE: return '''
-				fact «reference.name»Regulates«reference.regulatedFeature.name» {
-«««					all x: «ml2class.name» | x.«referenceAssignment.reference.regulatedFeature.name» = «ml2class.name»Reified.«referenceAssignment.reference.name»
-					all x: «ml2class.categorizedClass.name», y: «ml2class.name» | (iof[x,y] and some y.«reference.name») 
-						implies iof[x.«reference.regulatedFeature.name», y.«reference.name»]
-«««					all x:Phone, y:PhoneModel | (iof[x,y] and some y.compatibleProcessor) implies (iof[x.installedProcessor,y.compatibleProcessor])
-					
-				}
-				'''
-			default: return ''''''
-		}
-//		if(referenceAssignment.reference.regulatedFeature != null) {
-//			switch referenceAssignment.reference.regularityType {
-//				case RegularityFeatureType.DETERMINES_TYPE:'''
-//					fact «referenceAssignment.reference.name»Regulates«referenceAssignment.reference.regulatedFeature.name» {
-//						all x: «ml2class.name» | x.«referenceAssignment.reference.regulatedFeature.name» = «ml2class.name»Reified.«referenceAssignment.reference.name»
-//					}
-//					
-//				'''
-//				default:''''''
-//			}
-//		}
-	}
-
-	/************************************************************************************************
-	 * The following methods generate an Alloy fact for each ML2 cross-level relation.
-	 ***********************************************************************************************/
-
-	/**
-	 * Generates an Alloy fact related to a ML2 Powertype cross-level relation.
-	 * 
-	 * @param ml2class the ML2 Class element to be considered.
-	 */
-	def static generatePowertypeFact(ML2Class ml2class) {
-		if(ml2class.powertypeOf != null) {'''
-			fact «ml2class.name»IsPowertypeOf«ml2class.powertypeOf.name» {
-				powertypeOf[«ml2class.name»Reified,«ml2class.powertypeOf.name»Reified]
+	def static dispatch generateProperSpecializationFact(FOClass foclass) {
+		if(foclass.superClasses.size == 0) {'''
+			fact «foclass.name»ReifiedProperSpecialization {
+				properSpecializes[«foclass.name»Reified,Individual_]
 			}
 			
-		'''		
+		'''
+		} else {'''
+			fact «foclass.name»ReifiedProperSpecialization {
+				«FOR superClass : foclass.superClasses»
+					properSpecializes[«foclass.name»Reified,«superClass.name»Reified]
+				«ENDFOR»
+			}
+			
+		'''	
 		}
 	}
-	
+
 	/**
-	 * Generates an Alloy fact related to a ML2 Subordination cross-level relation.
+	 * Generates an Alloy fact related to an ML2 Proper Specialization relation of a High-Order Class element.
 	 * 
-	 * @param ml2class the ML2 Class element to be considered.
+	 * @param hoclass the ML2 High-Order Class element to be considered.
 	 */
-	def static generateSubordinationFact(ML2Class ml2class) {
-		if(ml2class.subordinators.size != 0) {'''
-			fact «ml2class.name»isSubordinatedTo {
-				«FOR subordinator : ml2class.subordinators»
-					isSubordinatedTo[«ml2class.name»Reified,«subordinator.name»Reified]
+	def static dispatch generateProperSpecializationFact(HOClass hoclass) {
+		if(hoclass.superClasses.size == 0) {'''
+			fact «hoclass.name»ReifiedProperSpecialization {
+				properSpecializes[«hoclass.name»Reified,Order«hoclass.order - 1»TypeReified]
+			}
+			
+		'''
+		} else {'''
+			fact «hoclass.name»ReifiedProperSpecialization {
+				«FOR superClass : hoclass.superClasses»
+					properSpecializes[«hoclass.name»Reified,«superClass.name»Reified]
 				«ENDFOR»
 			}
 			
@@ -953,7 +947,118 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	/**
-	 * Generates an Alloy fact related to a ML2 Categorization cross-level relation.
+	 * Generates an Alloy fact related to an ML2 Proper Specialization relation of a Orderless Class element.
+	 * 
+	 * @param olclass the ML2 Orderless Class element to be considered.
+	 */
+	def static dispatch generateProperSpecializationFact(OrderlessClass olclass) {'''
+		fact «olclass.name»ReifiedProperSpecialization {
+			properSpecializes[«olclass.name»Reified,OrderlessType_]
+		}
+		
+	'''
+	}
+	
+	/************************************************************************************************
+	 * Dispatch methods generateRegularityFeatureFact().
+	 * 
+	 * The following methods generate an Alloy fact for each ML2 FeatureAssignment element regulated
+	 * by an ML2 Feature element.
+	 * 
+	 * The specific dispatch method is called depending on the type of the ML2 FeatureAssignment
+	 * element being considered.
+	 ***********************************************************************************************/
+	
+	/**
+	 * Generates an Alloy fact related to an ML2 AttributeAssignment element regulated by an ML2 Attribute element.
+	 * 
+	 * @param attributeAssignment the ML2 AttributeAssignment element with regulated feature.
+	 * @param ml2class the ML2 Class element with regulator feature.
+	 */
+	def static dispatch generateRegularityFeatureFact(AttributeAssignment attributeAssignment, ML2Class ml2class) {
+		if(attributeAssignment.attribute.regulatedFeature != null) {
+			switch attributeAssignment.attribute.regularityType {
+				case RegularityFeatureType.DETERMINES_VALUE:'''
+					fact «attributeAssignment.attribute.name»Regulates«attributeAssignment.attribute.regulatedFeature.name» {
+						all x: «ml2class.name» | x.«attributeAssignment.attribute.regulatedFeature.name» = «ml2class.name»Reified.«attributeAssignment.attribute.name»
+					}
+					
+				'''
+				case RegularityFeatureType.DETERMINES_MIN_VALUE:'''
+					fact «attributeAssignment.attribute.name»Regulates«attributeAssignment.attribute.regulatedFeature.name» {
+						all x: «ml2class.name» | x.«attributeAssignment.attribute.regulatedFeature.name» >= «ml2class.name»Reified.«attributeAssignment.attribute.name»
+					}
+					
+				'''
+				case RegularityFeatureType.DETERMINES_MAX_VALUE:'''
+					fact «attributeAssignment.attribute.name»Regulates«attributeAssignment.attribute.regulatedFeature.name» {
+						all x: «ml2class.name» | x.«attributeAssignment.attribute.regulatedFeature.name» <= «ml2class.name»Reified.«attributeAssignment.attribute.name»
+					}
+					
+				'''
+				default:''''''
+			}
+		}
+	}
+	
+	/**
+	 * Generates an Alloy fact related to an ML2 ReferenceAssignment element regulated by an ML2 Reference element.
+	 * 
+	 * @param referenceAssignment the ML2 ReferenceAssignment element with regulated feature.
+	 * @param ml2class the ML2 Class element with regulator feature.
+	 */
+	def static dispatch generateRegularityFeatureFact(ReferenceAssignment referenceAssignment, ML2Class ml2class) {
+		if(referenceAssignment.reference.regulatedFeature != null) {
+			switch referenceAssignment.reference.regularityType {
+				case RegularityFeatureType.DETERMINES_TYPE:'''
+					fact «referenceAssignment.reference.name»Regulates«referenceAssignment.reference.regulatedFeature.name» {
+						all x: «ml2class.name» | x.«referenceAssignment.reference.regulatedFeature.name» = «ml2class.name»Reified.«referenceAssignment.reference.name»
+					}
+					
+				'''
+				default:''''''
+			}
+		}
+	}
+
+	/************************************************************************************************
+	 * The following methods generate an Alloy fact for each ML2 cross-level relation.
+	 ***********************************************************************************************/
+
+	/**
+	 * Generates an Alloy fact related to an ML2 Powertype cross-level relation.
+	 * 
+	 * @param ml2class the ML2 Class element to be considered.
+	 */
+	def static generatePowertypeFact(ML2Class ml2class) {
+		if(ml2class.powertypeOf != null) {'''
+			fact «ml2class.name»Powertype {
+				powertypeOf[«ml2class.name»Reified,«ml2class.powertypeOf.name»Reified]
+			}
+			
+		'''
+		}
+	}
+	
+	/**
+	 * Generates an Alloy fact related to an ML2 Subordination cross-level relation.
+	 * 
+	 * @param ml2class the ML2 Class element to be considered.
+	 */
+	def static generateSubordinationFact(ML2Class ml2class) {
+		if(ml2class.subordinators.size != 0) {'''
+			fact «ml2class.name»Subordination {
+				«FOR subordinator : ml2class.subordinators»
+					isSubordinatedTo[«ml2class.name»Reified,«subordinator.name»Reified]
+				«ENDFOR»
+			}
+			
+		'''
+		}
+	}
+	
+	/**
+	 * Generates an Alloy fact related to an ML2 Categorization cross-level relation.
 	 * 
 	 * @param ml2class the ML2 Class element to be considered.
 	 */
@@ -961,25 +1066,25 @@ class ML2Generator extends AbstractGenerator {
 		if(ml2class.categorizedClass != null) {
 			switch ml2class.categorizationType {
 				case CategorizationType.CATEGORIZER:'''
-					fact «ml2class.name»Categorizes«ml2class.categorizedClass.name» {
+					fact «ml2class.name»Categorization {
 						categorizes[«ml2class.name»Reified,«ml2class.categorizedClass.name»Reified]
 					}
 					
 				'''
 				case CategorizationType.COMPLETE_CATEGORIZER:'''
-					fact «ml2class.name»CompleteCategorizes«ml2class.categorizedClass.name» {
+					fact «ml2class.name»CompleteCategorization {
 						compCategorizes[«ml2class.name»Reified,«ml2class.categorizedClass.name»Reified]
 					}
 					
 				'''
 				case CategorizationType.DISJOINT_CATEGORIZER:'''
-					fact «ml2class.name»DisjointCategorizes«ml2class.categorizedClass.name» {
+					fact «ml2class.name»DisjointCategorization {
 						disjCategorizes[«ml2class.name»Reified,«ml2class.categorizedClass.name»Reified]
 					}
 					
 				'''
 				case CategorizationType.PARTITIONER:'''
-					fact «ml2class.name»Partitions«ml2class.categorizedClass.name» {
+					fact «ml2class.name»Partition {
 						partitions[«ml2class.name»Reified,«ml2class.categorizedClass.name»Reified]
 					}
 					
@@ -989,30 +1094,111 @@ class ML2Generator extends AbstractGenerator {
 	}
 
 	/************************************************************************************************
-	 * The following method adds an additional fact necessary to keep the consistency of the Alloy
+	 * The following methods add additional facts necessary to keep the consistency of the Alloy
 	 * model being generated.
 	 ***********************************************************************************************/
 	
 	/**
 	 * Generates an Alloy fact to ensure the disjointness of all individuals.
 	 * 
-	 * @param ml2class the ML2 Model to be considered.
+	 * @param ml2model the ML2 Model to be considered.
 	 */
 	def static generateDisjointIndividualsFact(ML2Model ml2model) {
-		var list = new ArrayList<Individual>()
-		for(element : ml2model.elements) {
-			if(element instanceof Individual) {
-				list.add(element);
-			}
+		var individualsToInclude = new ArrayList<Individual>()
+		for(individual : ml2model.elements.filter(Individual)) {
+				individualsToInclude.add(individual);
 		}
-		if(list.size > 1) {'''
-			fact disjointIndividuals {
-				disjoint[«list.stream()
-							  .map[it.name]
-							  .collect(Collectors.joining(","))»]
+		if(individualsToInclude.size > 1) {'''
+			fact DisjointIndividuals {
+				disjoint[«
+				»«FOR i : individualsToInclude SEPARATOR ","»«
+					»«i.name»«
+				»«ENDFOR»«
+				»]
 			}
+			
 		'''
 		}
+	}
+
+	/**
+	 * Generates an Alloy fact to ensure the disjointness of disconnected hierarchies.
+	 * 
+	 * @param ml2model the ML2 Model to be considered.
+	 */	
+	def static generateDisjointDisconnectedHierarchiesFact(ML2Model ml2model) {
+		var disconnectedHierarchies = new ArrayList<HashSet<ML2Class>>()
+		for(ml2class : ml2model.elements.filter(ML2Class)) {
+			var ml2classesArray = new ArrayList<ML2Class>()
+			var hierarchy = new HashSet<ML2Class>()
+			ml2classesArray.add(ml2class)
+			while(ml2classesArray.size() != 0) {
+				var aux = ml2classesArray.remove(0)
+				hierarchy.add(aux)
+				for(superClass : aux.superClasses) {
+					ml2classesArray.add(superClass)
+				}
+			}
+			var hierarchiesToRemove = new ArrayList<HashSet<ML2Class>>()
+			for(h : disconnectedHierarchies){
+				var intersection = new HashSet<ML2Class>(hierarchy)
+				intersection.retainAll(h)
+				if(intersection.size() != 0) {
+					hierarchy.addAll(h)
+					hierarchiesToRemove.add(h)
+				}
+			}
+			disconnectedHierarchies.add(hierarchy)
+			for(h : hierarchiesToRemove) {
+				disconnectedHierarchies.remove(h)
+			}
+		}
+		if(disconnectedHierarchies.size() > 1) {'''
+			fact DisjointDisconnectedHierarchies {
+				disjoint[«
+				»«FOR h : disconnectedHierarchies SEPARATOR ","»«
+					»«IF h.size() == 1»«
+						»«FOR c : h»«
+							»«c.name»«
+						»«ENDFOR»«
+					»«ELSE»«
+						»«FOR c : h BEFORE "(" SEPARATOR "+" AFTER ")"»«
+							»«c.name»«
+						»«ENDFOR»«
+					»«ENDIF»«
+				»«ENDFOR»«
+				»]
+			}
+			
+		'''
+		}
+	}
+
+	/**
+	 * Generates an Alloy fact to ensure that some classes are not instances of other classes,
+	 * if the instantiation was not explicitly defined.
+	 * 
+	 * @param ml2model the ML2 Model to be considered.
+	 */	
+	def static generateUnwantedInstantiationsFact(ML2Model ml2model) {'''
+		fact UnwantedInstantiations {
+			«FOR foclass : ml2model.elements.filter(FOClass)»
+				«FOR hoclass : ml2model.elements.filter(HOClass).filter[it.order == 2]»
+					«IF !foclass.instantiatedClasses.contains(hoclass)»
+						not iof[«foclass.name»Reified,«hoclass.name»Reified]
+					«ENDIF»
+				«ENDFOR»
+			«ENDFOR»
+			«FOR hoclass : ml2model.elements.filter(HOClass)»
+				«FOR hoclass2 : ml2model.elements.filter(HOClass).filter[it.order == hoclass.order + 1]»
+					«IF !hoclass.instantiatedClasses.contains(hoclass2)»
+						not iof[«hoclass.name»Reified,«hoclass2.name»Reified]
+					«ENDIF»
+				«ENDFOR»
+			«ENDFOR»
+		}
+		
+	'''
 	}
 	
 	/************************************************************************************************
@@ -1064,7 +1250,7 @@ class ML2Generator extends AbstractGenerator {
 			}
 		} else {
 			if(feature.upperBound == 1) {
-				return ""
+				return "one "
 			} else {
 				return "some "
 			}

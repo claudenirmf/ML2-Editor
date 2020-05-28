@@ -30,8 +30,10 @@ import br.ufes.inf.nemo.ml2.model.Reference;
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.model.RegularityFeatureType;
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.emf.common.util.EList;
@@ -43,11 +45,12 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IntegerRange;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 /**
- * Generates an Alloy model from a ML2 Model.
+ * Generates an Alloy model from an ML2 Model.
  */
 @SuppressWarnings("all")
 public class ML2Generator extends AbstractGenerator {
@@ -96,6 +99,13 @@ public class ML2Generator extends AbstractGenerator {
     CharSequence _generateDisjointIndividualsFact = ML2Generator.generateDisjointIndividualsFact(ml2model);
     _builder.append(_generateDisjointIndividualsFact);
     _builder.newLineIfNotEmpty();
+    CharSequence _generateDisjointDisconnectedHierarchiesFact = ML2Generator.generateDisjointDisconnectedHierarchiesFact(ml2model);
+    _builder.append(_generateDisjointDisconnectedHierarchiesFact);
+    _builder.newLineIfNotEmpty();
+    CharSequence _generateUnwantedInstantiationsFact = ML2Generator.generateUnwantedInstantiationsFact(ml2model);
+    _builder.append(_generateUnwantedInstantiationsFact);
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
     return _builder;
   }
   
@@ -883,7 +893,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates the Alloy counterpart of a ML2 Individual element.
+   * Generates the Alloy counterpart of an ML2 Individual element.
    * 
    * @param individual the ML2 Individual element to be transformed.
    */
@@ -896,7 +906,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates the Alloy counterpart of a ML2 Class element.
+   * Generates the Alloy counterpart of an ML2 Class element.
    * 
    * @param ml2class the ML2 Class element to be transformed.
    */
@@ -907,15 +917,6 @@ public class ML2Generator extends AbstractGenerator {
     _builder.newLineIfNotEmpty();
     CharSequence _generateAlloySingleton = ML2Generator.generateAlloySingleton(ml2class);
     _builder.append(_generateAlloySingleton);
-    _builder.newLineIfNotEmpty();
-    CharSequence _generatePowertypeFact = ML2Generator.generatePowertypeFact(ml2class);
-    _builder.append(_generatePowertypeFact);
-    _builder.newLineIfNotEmpty();
-    CharSequence _generateCategorizationFact = ML2Generator.generateCategorizationFact(ml2class);
-    _builder.append(_generateCategorizationFact);
-    _builder.newLineIfNotEmpty();
-    CharSequence _generateSubordinationFact = ML2Generator.generateSubordinationFact(ml2class);
-    _builder.append(_generateSubordinationFact);
     _builder.newLineIfNotEmpty();
     _builder.append("fact ");
     String _name = ml2class.getName();
@@ -934,31 +935,42 @@ public class ML2Generator extends AbstractGenerator {
     _builder.append("}");
     _builder.newLine();
     _builder.newLine();
+    CharSequence _generateProperSpecializationFact = ML2Generator.generateProperSpecializationFact(ml2class);
+    _builder.append(_generateProperSpecializationFact);
+    _builder.newLineIfNotEmpty();
+    CharSequence _generatePowertypeFact = ML2Generator.generatePowertypeFact(ml2class);
+    _builder.append(_generatePowertypeFact);
+    _builder.newLineIfNotEmpty();
+    CharSequence _generateCategorizationFact = ML2Generator.generateCategorizationFact(ml2class);
+    _builder.append(_generateCategorizationFact);
+    _builder.newLineIfNotEmpty();
+    CharSequence _generateSubordinationFact = ML2Generator.generateSubordinationFact(ml2class);
+    _builder.append(_generateSubordinationFact);
+    _builder.newLineIfNotEmpty();
     {
-      EList<Attribute> _attributes = ml2class.getAttributes();
-      for(final Attribute attribute : _attributes) {
-        String _generateRegularityFeatureFact = ML2Generator.generateRegularityFeatureFact(attribute, ml2class);
-        _builder.append(_generateRegularityFeatureFact);
-        _builder.newLineIfNotEmpty();
-        _builder.newLine();
+      EList<ML2Class> _instantiatedClasses = ml2class.getInstantiatedClasses();
+      for(final ML2Class instantiatedClass : _instantiatedClasses) {
+        {
+          ML2Class _categorizedClass = instantiatedClass.getCategorizedClass();
+          boolean _notEquals = (!Objects.equal(_categorizedClass, null));
+          if (_notEquals) {
+            {
+              EList<FeatureAssignment> _assignments = ml2class.getAssignments();
+              for(final FeatureAssignment assignment : _assignments) {
+                CharSequence _generateRegularityFeatureFact = ML2Generator.generateRegularityFeatureFact(assignment, ml2class);
+                _builder.append(_generateRegularityFeatureFact);
+                _builder.newLineIfNotEmpty();
+              }
+            }
+          }
+        }
       }
     }
-    {
-      EList<Reference> _references = ml2class.getReferences();
-      for(final Reference reference : _references) {
-        String _generateRegularityFeatureFact_1 = ML2Generator.generateRegularityFeatureFact(reference, ml2class);
-        _builder.append(_generateRegularityFeatureFact_1);
-        _builder.newLineIfNotEmpty();
-        _builder.newLine();
-      }
-    }
-    _builder.newLine();
-    _builder.newLine();
     return _builder;
   }
   
   /**
-   * Generates the Alloy counterpart of a ML2 Generalization Set element.
+   * Generates the Alloy counterpart of an ML2 Generalization Set element.
    * 
    * @param genset the ML2 Generalization Set element to be transformed.
    */
@@ -1051,7 +1063,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy signature related to a ML2 First-Order Class element.
+   * Generates an Alloy signature related to an ML2 First-Order Class element.
    * 
    * @param foclass the ML2 First-Order Class element to be transformed.
    */
@@ -1061,95 +1073,134 @@ public class ML2Generator extends AbstractGenerator {
     switch (_size) {
       case 0:
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("sig ");
-        String _name = foclass.getName();
-        _builder.append(_name);
-        _builder.append(" in Individual {");
-        _builder.newLineIfNotEmpty();
         {
-          EList<Feature> _features = foclass.getFeatures();
-          boolean _hasElements = false;
-          for(final Feature feature : _features) {
-            if (!_hasElements) {
-              _hasElements = true;
-            } else {
-              _builder.appendImmediate(",", "\t");
-            }
-            _builder.append("\t");
-            CharSequence _generateAlloySignatureFields = ML2Generator.generateAlloySignatureFields(feature);
-            _builder.append(_generateAlloySignatureFields, "\t");
+          int _size_1 = foclass.getFeatures().size();
+          boolean _equals = (_size_1 == 0);
+          if (_equals) {
+            _builder.append("sig ");
+            String _name = foclass.getName();
+            _builder.append(_name);
+            _builder.append(" in Individual {}");
             _builder.newLineIfNotEmpty();
+          } else {
+            _builder.append("sig ");
+            String _name_1 = foclass.getName();
+            _builder.append(_name_1);
+            _builder.append(" in Individual {");
+            _builder.newLineIfNotEmpty();
+            {
+              EList<Feature> _features = foclass.getFeatures();
+              boolean _hasElements = false;
+              for(final Feature feature : _features) {
+                if (!_hasElements) {
+                  _hasElements = true;
+                } else {
+                  _builder.appendImmediate(",", "\t");
+                }
+                _builder.append("\t");
+                CharSequence _generateAlloySignatureFields = ML2Generator.generateAlloySignatureFields(feature);
+                _builder.append(_generateAlloySignatureFields, "\t");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            _builder.append("}");
+            _builder.newLine();
           }
         }
-        _builder.append("}");
-        _builder.newLine();
         _builder.newLine();
         _switchResult = _builder;
         break;
       case 1:
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("sig ");
-        String _name_1 = foclass.getName();
-        _builder_1.append(_name_1);
-        _builder_1.append(" in ");
-        String _name_2 = IterableExtensions.<ML2Class>head(foclass.getSuperClasses()).getName();
-        _builder_1.append(_name_2);
-        _builder_1.append(" {");
-        _builder_1.newLineIfNotEmpty();
         {
-          EList<Feature> _features_1 = foclass.getFeatures();
-          boolean _hasElements_1 = false;
-          for(final Feature feature_1 : _features_1) {
-            if (!_hasElements_1) {
-              _hasElements_1 = true;
-            } else {
-              _builder_1.appendImmediate(",", "\t");
-            }
-            _builder_1.append("\t");
-            CharSequence _generateAlloySignatureFields_1 = ML2Generator.generateAlloySignatureFields(feature_1);
-            _builder_1.append(_generateAlloySignatureFields_1, "\t");
+          int _size_2 = foclass.getFeatures().size();
+          boolean _equals_1 = (_size_2 == 0);
+          if (_equals_1) {
+            _builder_1.append("sig ");
+            String _name_2 = foclass.getName();
+            _builder_1.append(_name_2);
+            _builder_1.append(" in ");
+            String _name_3 = IterableExtensions.<ML2Class>head(foclass.getSuperClasses()).getName();
+            _builder_1.append(_name_3);
+            _builder_1.append(" {}");
             _builder_1.newLineIfNotEmpty();
+          } else {
+            _builder_1.append("sig ");
+            String _name_4 = foclass.getName();
+            _builder_1.append(_name_4);
+            _builder_1.append(" in ");
+            String _name_5 = IterableExtensions.<ML2Class>head(foclass.getSuperClasses()).getName();
+            _builder_1.append(_name_5);
+            _builder_1.append(" {");
+            _builder_1.newLineIfNotEmpty();
+            {
+              EList<Feature> _features_1 = foclass.getFeatures();
+              boolean _hasElements_1 = false;
+              for(final Feature feature_1 : _features_1) {
+                if (!_hasElements_1) {
+                  _hasElements_1 = true;
+                } else {
+                  _builder_1.appendImmediate(",", "\t");
+                }
+                _builder_1.append("\t");
+                CharSequence _generateAlloySignatureFields_1 = ML2Generator.generateAlloySignatureFields(feature_1);
+                _builder_1.append(_generateAlloySignatureFields_1, "\t");
+                _builder_1.newLineIfNotEmpty();
+              }
+            }
+            _builder_1.append("}");
+            _builder_1.newLine();
           }
         }
-        _builder_1.append("}");
-        _builder_1.newLine();
         _builder_1.newLine();
         _switchResult = _builder_1;
         break;
       default:
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("sig ");
-        String _name_3 = foclass.getName();
-        _builder_2.append(_name_3);
-        _builder_2.append(" in Individual {");
-        _builder_2.newLineIfNotEmpty();
         {
-          EList<Feature> _features_2 = foclass.getFeatures();
-          boolean _hasElements_2 = false;
-          for(final Feature feature_2 : _features_2) {
-            if (!_hasElements_2) {
-              _hasElements_2 = true;
-            } else {
-              _builder_2.appendImmediate(",", "\t");
-            }
-            _builder_2.append("\t");
-            CharSequence _generateAlloySignatureFields_2 = ML2Generator.generateAlloySignatureFields(feature_2);
-            _builder_2.append(_generateAlloySignatureFields_2, "\t");
+          int _size_3 = foclass.getFeatures().size();
+          boolean _equals_2 = (_size_3 == 0);
+          if (_equals_2) {
+            _builder_2.append("sig ");
+            String _name_6 = foclass.getName();
+            _builder_2.append(_name_6);
+            _builder_2.append(" in Individual {}");
             _builder_2.newLineIfNotEmpty();
+          } else {
+            _builder_2.append("sig ");
+            String _name_7 = foclass.getName();
+            _builder_2.append(_name_7);
+            _builder_2.append(" in Individual {");
+            _builder_2.newLineIfNotEmpty();
+            {
+              EList<Feature> _features_2 = foclass.getFeatures();
+              boolean _hasElements_2 = false;
+              for(final Feature feature_2 : _features_2) {
+                if (!_hasElements_2) {
+                  _hasElements_2 = true;
+                } else {
+                  _builder_2.appendImmediate(",", "\t");
+                }
+                _builder_2.append("\t");
+                CharSequence _generateAlloySignatureFields_2 = ML2Generator.generateAlloySignatureFields(feature_2);
+                _builder_2.append(_generateAlloySignatureFields_2, "\t");
+                _builder_2.newLineIfNotEmpty();
+              }
+            }
+            _builder_2.append("}");
+            _builder_2.newLine();
           }
         }
-        _builder_2.append("}");
-        _builder_2.newLine();
         _builder_2.newLine();
         _builder_2.append("fact ");
-        String _name_4 = foclass.getName();
-        _builder_2.append(_name_4);
+        String _name_8 = foclass.getName();
+        _builder_2.append(_name_8);
         _builder_2.append("SuperClasses {");
         _builder_2.newLineIfNotEmpty();
         _builder_2.append("\t");
         _builder_2.append("all x: ");
-        String _name_5 = foclass.getName();
-        _builder_2.append(_name_5, "\t");
+        String _name_9 = foclass.getName();
+        _builder_2.append(_name_9, "\t");
         _builder_2.append(" | x in (");
         final Function<ML2Class, String> _function = (ML2Class it) -> {
           return it.getName();
@@ -1168,7 +1219,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy signature related to a ML2 High-Order Class element.
+   * Generates an Alloy signature related to an ML2 High-Order Class element.
    * 
    * @param hoclass the ML2 High-Order Class element to be transformed.
    */
@@ -1178,103 +1229,150 @@ public class ML2Generator extends AbstractGenerator {
     switch (_size) {
       case 0:
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("sig ");
-        String _name = hoclass.getName();
-        _builder.append(_name);
-        _builder.append(" in Order");
-        Integer _order = hoclass.getOrder();
-        int _minus = ((_order).intValue() - 1);
-        _builder.append(_minus);
-        _builder.append("Type {");
-        _builder.newLineIfNotEmpty();
         {
-          EList<Feature> _features = hoclass.getFeatures();
-          boolean _hasElements = false;
-          for(final Feature feature : _features) {
-            if (!_hasElements) {
-              _hasElements = true;
-            } else {
-              _builder.appendImmediate(",", "\t");
-            }
-            _builder.append("\t");
-            CharSequence _generateAlloySignatureFields = ML2Generator.generateAlloySignatureFields(feature);
-            _builder.append(_generateAlloySignatureFields, "\t");
+          int _size_1 = hoclass.getFeatures().size();
+          boolean _equals = (_size_1 == 0);
+          if (_equals) {
+            _builder.append("sig ");
+            String _name = hoclass.getName();
+            _builder.append(_name);
+            _builder.append(" in Order");
+            Integer _order = hoclass.getOrder();
+            int _minus = ((_order).intValue() - 1);
+            _builder.append(_minus);
+            _builder.append("Type {}");
             _builder.newLineIfNotEmpty();
+          } else {
+            _builder.append("sig ");
+            String _name_1 = hoclass.getName();
+            _builder.append(_name_1);
+            _builder.append(" in Order");
+            Integer _order_1 = hoclass.getOrder();
+            int _minus_1 = ((_order_1).intValue() - 1);
+            _builder.append(_minus_1);
+            _builder.append("Type {");
+            _builder.newLineIfNotEmpty();
+            {
+              EList<Feature> _features = hoclass.getFeatures();
+              boolean _hasElements = false;
+              for(final Feature feature : _features) {
+                if (!_hasElements) {
+                  _hasElements = true;
+                } else {
+                  _builder.appendImmediate(",", "\t");
+                }
+                _builder.append("\t");
+                CharSequence _generateAlloySignatureFields = ML2Generator.generateAlloySignatureFields(feature);
+                _builder.append(_generateAlloySignatureFields, "\t");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            _builder.append("}");
+            _builder.newLine();
           }
         }
-        _builder.append("}");
-        _builder.newLine();
         _builder.newLine();
         _switchResult = _builder;
         break;
       case 1:
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("sig ");
-        String _name_1 = hoclass.getName();
-        _builder_1.append(_name_1);
-        _builder_1.append(" in ");
-        String _name_2 = IterableExtensions.<ML2Class>head(hoclass.getSuperClasses()).getName();
-        _builder_1.append(_name_2);
-        _builder_1.append(" {");
-        _builder_1.newLineIfNotEmpty();
         {
-          EList<Feature> _features_1 = hoclass.getFeatures();
-          boolean _hasElements_1 = false;
-          for(final Feature feature_1 : _features_1) {
-            if (!_hasElements_1) {
-              _hasElements_1 = true;
-            } else {
-              _builder_1.appendImmediate(",", "\t");
-            }
-            _builder_1.append("\t");
-            CharSequence _generateAlloySignatureFields_1 = ML2Generator.generateAlloySignatureFields(feature_1);
-            _builder_1.append(_generateAlloySignatureFields_1, "\t");
+          int _size_2 = hoclass.getFeatures().size();
+          boolean _equals_1 = (_size_2 == 0);
+          if (_equals_1) {
+            _builder_1.append("sig ");
+            String _name_2 = hoclass.getName();
+            _builder_1.append(_name_2);
+            _builder_1.append(" in ");
+            String _name_3 = IterableExtensions.<ML2Class>head(hoclass.getSuperClasses()).getName();
+            _builder_1.append(_name_3);
+            _builder_1.append(" {}");
             _builder_1.newLineIfNotEmpty();
+          } else {
+            _builder_1.append("sig ");
+            String _name_4 = hoclass.getName();
+            _builder_1.append(_name_4);
+            _builder_1.append(" in ");
+            String _name_5 = IterableExtensions.<ML2Class>head(hoclass.getSuperClasses()).getName();
+            _builder_1.append(_name_5);
+            _builder_1.append(" {");
+            _builder_1.newLineIfNotEmpty();
+            {
+              EList<Feature> _features_1 = hoclass.getFeatures();
+              boolean _hasElements_1 = false;
+              for(final Feature feature_1 : _features_1) {
+                if (!_hasElements_1) {
+                  _hasElements_1 = true;
+                } else {
+                  _builder_1.appendImmediate(",", "\t");
+                }
+                _builder_1.append("\t");
+                CharSequence _generateAlloySignatureFields_1 = ML2Generator.generateAlloySignatureFields(feature_1);
+                _builder_1.append(_generateAlloySignatureFields_1, "\t");
+                _builder_1.newLineIfNotEmpty();
+              }
+            }
+            _builder_1.append("}");
+            _builder_1.newLine();
           }
         }
-        _builder_1.append("}");
-        _builder_1.newLine();
         _builder_1.newLine();
         _switchResult = _builder_1;
         break;
       default:
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("sig ");
-        String _name_3 = hoclass.getName();
-        _builder_2.append(_name_3);
-        _builder_2.append(" in Order");
-        Integer _order_1 = hoclass.getOrder();
-        int _minus_1 = ((_order_1).intValue() - 1);
-        _builder_2.append(_minus_1);
-        _builder_2.append("Type {");
-        _builder_2.newLineIfNotEmpty();
         {
-          EList<Feature> _features_2 = hoclass.getFeatures();
-          boolean _hasElements_2 = false;
-          for(final Feature feature_2 : _features_2) {
-            if (!_hasElements_2) {
-              _hasElements_2 = true;
-            } else {
-              _builder_2.appendImmediate(",", "\t");
-            }
-            _builder_2.append("\t");
-            CharSequence _generateAlloySignatureFields_2 = ML2Generator.generateAlloySignatureFields(feature_2);
-            _builder_2.append(_generateAlloySignatureFields_2, "\t");
+          int _size_3 = hoclass.getFeatures().size();
+          boolean _equals_2 = (_size_3 == 0);
+          if (_equals_2) {
+            _builder_2.append("sig ");
+            String _name_6 = hoclass.getName();
+            _builder_2.append(_name_6);
+            _builder_2.append(" in Order");
+            Integer _order_2 = hoclass.getOrder();
+            int _minus_2 = ((_order_2).intValue() - 1);
+            _builder_2.append(_minus_2);
+            _builder_2.append("Type {}");
             _builder_2.newLineIfNotEmpty();
+          } else {
+            _builder_2.append("sig ");
+            String _name_7 = hoclass.getName();
+            _builder_2.append(_name_7);
+            _builder_2.append(" in Order");
+            Integer _order_3 = hoclass.getOrder();
+            int _minus_3 = ((_order_3).intValue() - 1);
+            _builder_2.append(_minus_3);
+            _builder_2.append("Type {");
+            _builder_2.newLineIfNotEmpty();
+            {
+              EList<Feature> _features_2 = hoclass.getFeatures();
+              boolean _hasElements_2 = false;
+              for(final Feature feature_2 : _features_2) {
+                if (!_hasElements_2) {
+                  _hasElements_2 = true;
+                } else {
+                  _builder_2.appendImmediate(",", "\t");
+                }
+                _builder_2.append("\t");
+                CharSequence _generateAlloySignatureFields_2 = ML2Generator.generateAlloySignatureFields(feature_2);
+                _builder_2.append(_generateAlloySignatureFields_2, "\t");
+                _builder_2.newLineIfNotEmpty();
+              }
+            }
+            _builder_2.append("}");
+            _builder_2.newLine();
           }
         }
-        _builder_2.append("}");
-        _builder_2.newLine();
         _builder_2.newLine();
         _builder_2.append("fact ");
-        String _name_4 = hoclass.getName();
-        _builder_2.append(_name_4);
+        String _name_8 = hoclass.getName();
+        _builder_2.append(_name_8);
         _builder_2.append("SuperClasses {");
         _builder_2.newLineIfNotEmpty();
         _builder_2.append("\t");
         _builder_2.append("all x: ");
-        String _name_5 = hoclass.getName();
-        _builder_2.append(_name_5, "\t");
+        String _name_9 = hoclass.getName();
+        _builder_2.append(_name_9, "\t");
         _builder_2.append(" | x in (");
         final Function<ML2Class, String> _function = (ML2Class it) -> {
           return it.getName();
@@ -1293,40 +1391,52 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy signature related to a ML2 Orderless Class element.
+   * Generates an Alloy signature related to an ML2 Orderless Class element.
    * 
    * @param olclass the ML2 Orderless Class element to be transformed.
    */
   protected static CharSequence _generateAlloySignature(final OrderlessClass olclass) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("sig ");
-    String _name = olclass.getName();
-    _builder.append(_name);
-    _builder.append(" in OrderlessType {");
-    _builder.newLineIfNotEmpty();
     {
-      EList<Feature> _features = olclass.getFeatures();
-      boolean _hasElements = false;
-      for(final Feature feature : _features) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(",", "\t");
-        }
-        _builder.append("\t");
-        CharSequence _generateAlloySignatureFields = ML2Generator.generateAlloySignatureFields(feature);
-        _builder.append(_generateAlloySignatureFields, "\t");
+      int _size = olclass.getFeatures().size();
+      boolean _equals = (_size == 0);
+      if (_equals) {
+        _builder.append("sig ");
+        String _name = olclass.getName();
+        _builder.append(_name);
+        _builder.append(" in OrderlessType {}");
         _builder.newLineIfNotEmpty();
+      } else {
+        _builder.append("sig ");
+        String _name_1 = olclass.getName();
+        _builder.append(_name_1);
+        _builder.append(" in OrderlessType {");
+        _builder.newLineIfNotEmpty();
+        {
+          EList<Feature> _features = olclass.getFeatures();
+          boolean _hasElements = false;
+          for(final Feature feature : _features) {
+            if (!_hasElements) {
+              _hasElements = true;
+            } else {
+              _builder.appendImmediate(",", "\t");
+            }
+            _builder.append("\t");
+            CharSequence _generateAlloySignatureFields = ML2Generator.generateAlloySignatureFields(feature);
+            _builder.append(_generateAlloySignatureFields, "\t");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.append("}");
+        _builder.newLine();
       }
     }
-    _builder.append("}");
-    _builder.newLine();
     _builder.newLine();
     return _builder;
   }
   
   /**
-   * Generates an Alloy signature field related to a ML2 Attribute element.
+   * Generates an Alloy signature field related to an ML2 Attribute element.
    * 
    * @param attribute the ML2 Attribute element to be transformed.
    */
@@ -1393,7 +1503,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy signature field related to a ML2 Reference element.
+   * Generates an Alloy signature field related to an ML2 Reference element.
    * 
    * @param reference the ML2 Reference element to be transformed.
    */
@@ -1411,7 +1521,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy singleton related to a ML2 Individual element.
+   * Generates an Alloy singleton related to an ML2 Individual element.
    * 
    * @param individual the ML2 Individual element to be transformed.
    */
@@ -1427,25 +1537,12 @@ public class ML2Generator extends AbstractGenerator {
         _builder.append(" in ");
         String _name_1 = IterableExtensions.<ML2Class>head(individual.getInstantiatedClasses()).getName();
         _builder.append(_name_1);
-        _builder.append(" {");
+        _builder.append(" {}");
         _builder.newLineIfNotEmpty();
-        {
-          EList<FeatureAssignment> _assignments = individual.getAssignments();
-          boolean _hasElements = false;
-          for(final FeatureAssignment assignment : _assignments) {
-            if (!_hasElements) {
-              _hasElements = true;
-              _builder.append("}{", "\t");
-            }
-            _builder.append("\t");
-            CharSequence _generateAlloySingletonFields = ML2Generator.generateAlloySingletonFields(assignment);
-            _builder.append(_generateAlloySingletonFields, "\t");
-            _builder.newLineIfNotEmpty();
-          }
-        }
-        _builder.append("}");
         _builder.newLine();
-        _builder.newLine();
+        CharSequence _generateAlloySingletonAssignmentsFact = ML2Generator.generateAlloySingletonAssignmentsFact(individual);
+        _builder.append(_generateAlloySingletonAssignmentsFact);
+        _builder.newLineIfNotEmpty();
         _switchResult = _builder;
         break;
       default:
@@ -1453,25 +1550,12 @@ public class ML2Generator extends AbstractGenerator {
         _builder_1.append("one sig ");
         String _name_2 = individual.getName();
         _builder_1.append(_name_2);
-        _builder_1.append(" in Individual {");
+        _builder_1.append(" in Individual {}");
         _builder_1.newLineIfNotEmpty();
-        {
-          EList<FeatureAssignment> _assignments_1 = individual.getAssignments();
-          boolean _hasElements_1 = false;
-          for(final FeatureAssignment assignment_1 : _assignments_1) {
-            if (!_hasElements_1) {
-              _hasElements_1 = true;
-              _builder_1.append("}{", "\t");
-            }
-            _builder_1.append("\t");
-            CharSequence _generateAlloySingletonFields_1 = ML2Generator.generateAlloySingletonFields(assignment_1);
-            _builder_1.append(_generateAlloySingletonFields_1, "\t");
-            _builder_1.newLineIfNotEmpty();
-          }
-        }
-        _builder_1.append("}");
         _builder_1.newLine();
-        _builder_1.newLine();
+        CharSequence _generateAlloySingletonAssignmentsFact_1 = ML2Generator.generateAlloySingletonAssignmentsFact(individual);
+        _builder_1.append(_generateAlloySingletonAssignmentsFact_1);
+        _builder_1.newLineIfNotEmpty();
         _builder_1.append("fact ");
         String _name_3 = individual.getName();
         _builder_1.append(_name_3);
@@ -1498,7 +1582,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy singleton related to a ML2 First-Order Class element.
+   * Generates an Alloy singleton related to an ML2 First-Order Class element.
    * 
    * @param foclass the ML2 First-Order Class element to be transformed.
    */
@@ -1511,25 +1595,12 @@ public class ML2Generator extends AbstractGenerator {
         _builder.append("one sig ");
         String _name = foclass.getName();
         _builder.append(_name);
-        _builder.append("Reified in Order1Type {");
+        _builder.append("Reified in Order1Type {}");
         _builder.newLineIfNotEmpty();
-        {
-          EList<FeatureAssignment> _assignments = foclass.getAssignments();
-          boolean _hasElements = false;
-          for(final FeatureAssignment assignment : _assignments) {
-            if (!_hasElements) {
-              _hasElements = true;
-              _builder.append("}{", "\t");
-            }
-            _builder.append("\t");
-            CharSequence _generateAlloySingletonFields = ML2Generator.generateAlloySingletonFields(assignment);
-            _builder.append(_generateAlloySingletonFields, "\t");
-            _builder.newLineIfNotEmpty();
-          }
-        }
-        _builder.append("}");
         _builder.newLine();
-        _builder.newLine();
+        CharSequence _generateAlloySingletonAssignmentsFact = ML2Generator.generateAlloySingletonAssignmentsFact(foclass);
+        _builder.append(_generateAlloySingletonAssignmentsFact);
+        _builder.newLineIfNotEmpty();
         _switchResult = _builder;
         break;
       case 1:
@@ -1540,25 +1611,12 @@ public class ML2Generator extends AbstractGenerator {
         _builder_1.append("Reified in ");
         String _name_2 = IterableExtensions.<ML2Class>head(foclass.getInstantiatedClasses()).getName();
         _builder_1.append(_name_2);
-        _builder_1.append(" {");
+        _builder_1.append(" {}");
         _builder_1.newLineIfNotEmpty();
-        {
-          EList<FeatureAssignment> _assignments_1 = foclass.getAssignments();
-          boolean _hasElements_1 = false;
-          for(final FeatureAssignment assignment_1 : _assignments_1) {
-            if (!_hasElements_1) {
-              _hasElements_1 = true;
-              _builder_1.append("}{", "\t");
-            }
-            _builder_1.append("\t");
-            CharSequence _generateAlloySingletonFields_1 = ML2Generator.generateAlloySingletonFields(assignment_1);
-            _builder_1.append(_generateAlloySingletonFields_1, "\t");
-            _builder_1.newLineIfNotEmpty();
-          }
-        }
-        _builder_1.append("}");
         _builder_1.newLine();
-        _builder_1.newLine();
+        CharSequence _generateAlloySingletonAssignmentsFact_1 = ML2Generator.generateAlloySingletonAssignmentsFact(foclass);
+        _builder_1.append(_generateAlloySingletonAssignmentsFact_1);
+        _builder_1.newLineIfNotEmpty();
         _switchResult = _builder_1;
         break;
       default:
@@ -1566,25 +1624,12 @@ public class ML2Generator extends AbstractGenerator {
         _builder_2.append("one sig ");
         String _name_3 = foclass.getName();
         _builder_2.append(_name_3);
-        _builder_2.append("Reified in Order1Type{");
+        _builder_2.append("Reified in Order1Type{}");
         _builder_2.newLineIfNotEmpty();
-        {
-          EList<FeatureAssignment> _assignments_2 = foclass.getAssignments();
-          boolean _hasElements_2 = false;
-          for(final FeatureAssignment assignment_2 : _assignments_2) {
-            if (!_hasElements_2) {
-              _hasElements_2 = true;
-              _builder_2.append("}{", "\t");
-            }
-            _builder_2.append("\t");
-            CharSequence _generateAlloySingletonFields_2 = ML2Generator.generateAlloySingletonFields(assignment_2);
-            _builder_2.append(_generateAlloySingletonFields_2, "\t");
-            _builder_2.newLineIfNotEmpty();
-          }
-        }
-        _builder_2.append("}");
         _builder_2.newLine();
-        _builder_2.newLine();
+        CharSequence _generateAlloySingletonAssignmentsFact_2 = ML2Generator.generateAlloySingletonAssignmentsFact(foclass);
+        _builder_2.append(_generateAlloySingletonAssignmentsFact_2);
+        _builder_2.newLineIfNotEmpty();
         _builder_2.append("fact ");
         String _name_4 = foclass.getName();
         _builder_2.append(_name_4);
@@ -1612,7 +1657,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy singleton related to a ML2 High-Order Class element.
+   * Generates an Alloy singleton related to an ML2 High-Order Class element.
    * 
    * @param hoclass the ML2 High-Order Class element to be transformed.
    */
@@ -1628,25 +1673,12 @@ public class ML2Generator extends AbstractGenerator {
         _builder.append("Reified in Order");
         Integer _order = hoclass.getOrder();
         _builder.append(_order);
-        _builder.append("Type {");
+        _builder.append("Type {}");
         _builder.newLineIfNotEmpty();
-        {
-          EList<FeatureAssignment> _assignments = hoclass.getAssignments();
-          boolean _hasElements = false;
-          for(final FeatureAssignment assignment : _assignments) {
-            if (!_hasElements) {
-              _hasElements = true;
-              _builder.append("}{", "\t");
-            }
-            _builder.append("\t");
-            CharSequence _generateAlloySingletonFields = ML2Generator.generateAlloySingletonFields(assignment);
-            _builder.append(_generateAlloySingletonFields, "\t");
-            _builder.newLineIfNotEmpty();
-          }
-        }
-        _builder.append("}");
         _builder.newLine();
-        _builder.newLine();
+        CharSequence _generateAlloySingletonAssignmentsFact = ML2Generator.generateAlloySingletonAssignmentsFact(hoclass);
+        _builder.append(_generateAlloySingletonAssignmentsFact);
+        _builder.newLineIfNotEmpty();
         _switchResult = _builder;
         break;
       case 1:
@@ -1657,25 +1689,12 @@ public class ML2Generator extends AbstractGenerator {
         _builder_1.append("Reified in ");
         String _name_2 = IterableExtensions.<ML2Class>head(hoclass.getInstantiatedClasses()).getName();
         _builder_1.append(_name_2);
-        _builder_1.append(" {");
+        _builder_1.append(" {}");
         _builder_1.newLineIfNotEmpty();
-        {
-          EList<FeatureAssignment> _assignments_1 = hoclass.getAssignments();
-          boolean _hasElements_1 = false;
-          for(final FeatureAssignment assignment_1 : _assignments_1) {
-            if (!_hasElements_1) {
-              _hasElements_1 = true;
-              _builder_1.append("}{", "\t");
-            }
-            _builder_1.append("\t");
-            CharSequence _generateAlloySingletonFields_1 = ML2Generator.generateAlloySingletonFields(assignment_1);
-            _builder_1.append(_generateAlloySingletonFields_1, "\t");
-            _builder_1.newLineIfNotEmpty();
-          }
-        }
-        _builder_1.append("}");
         _builder_1.newLine();
-        _builder_1.newLine();
+        CharSequence _generateAlloySingletonAssignmentsFact_1 = ML2Generator.generateAlloySingletonAssignmentsFact(hoclass);
+        _builder_1.append(_generateAlloySingletonAssignmentsFact_1);
+        _builder_1.newLineIfNotEmpty();
         _switchResult = _builder_1;
         break;
       default:
@@ -1686,25 +1705,12 @@ public class ML2Generator extends AbstractGenerator {
         _builder_2.append("Reified in Order");
         Integer _order_1 = hoclass.getOrder();
         _builder_2.append(_order_1);
-        _builder_2.append("Type {");
+        _builder_2.append("Type {}");
         _builder_2.newLineIfNotEmpty();
-        {
-          EList<FeatureAssignment> _assignments_2 = hoclass.getAssignments();
-          boolean _hasElements_2 = false;
-          for(final FeatureAssignment assignment_2 : _assignments_2) {
-            if (!_hasElements_2) {
-              _hasElements_2 = true;
-              _builder_2.append("}{", "\t");
-            }
-            _builder_2.append("\t");
-            CharSequence _generateAlloySingletonFields_2 = ML2Generator.generateAlloySingletonFields(assignment_2);
-            _builder_2.append(_generateAlloySingletonFields_2, "\t");
-            _builder_2.newLineIfNotEmpty();
-          }
-        }
-        _builder_2.append("}");
         _builder_2.newLine();
-        _builder_2.newLine();
+        CharSequence _generateAlloySingletonAssignmentsFact_2 = ML2Generator.generateAlloySingletonAssignmentsFact(hoclass);
+        _builder_2.append(_generateAlloySingletonAssignmentsFact_2);
+        _builder_2.newLineIfNotEmpty();
         _builder_2.append("fact ");
         String _name_4 = hoclass.getName();
         _builder_2.append(_name_4);
@@ -1732,7 +1738,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy singleton related to a ML2 Orderless Class element.
+   * Generates an Alloy singleton related to an ML2 Orderless Class element.
    * 
    * @param olclass the ML2 Orderless Class element to be transformed.
    */
@@ -1741,34 +1747,87 @@ public class ML2Generator extends AbstractGenerator {
     _builder.append("one sig ");
     String _name = olclass.getName();
     _builder.append(_name);
-    _builder.append("Reified in OrderlessType {");
+    _builder.append("Reified in OrderlessType {}");
     _builder.newLineIfNotEmpty();
-    {
-      EList<FeatureAssignment> _assignments = olclass.getAssignments();
-      boolean _hasElements = false;
-      for(final FeatureAssignment assignment : _assignments) {
-        if (!_hasElements) {
-          _hasElements = true;
-          _builder.append("}{", "\t");
-        }
-        _builder.append("\t");
-        CharSequence _generateAlloySingletonFields = ML2Generator.generateAlloySingletonFields(assignment);
-        _builder.append(_generateAlloySingletonFields, "\t");
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.append("}");
     _builder.newLine();
-    _builder.newLine();
+    CharSequence _generateAlloySingletonAssignmentsFact = ML2Generator.generateAlloySingletonAssignmentsFact(olclass);
+    _builder.append(_generateAlloySingletonAssignmentsFact);
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
   /**
-   * Generates an Alloy singleton field related to a ML2 AttributeAssignment element.
+   * Generates an Alloy fact related to an ML2 Individual element's assignments.
+   * 
+   * @param individual the ML2 Individual element to be considered.
+   */
+  protected static CharSequence _generateAlloySingletonAssignmentsFact(final Individual individual) {
+    CharSequence _xifexpression = null;
+    int _size = individual.getAssignments().size();
+    boolean _notEquals = (_size != 0);
+    if (_notEquals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("fact {");
+      _builder.newLine();
+      {
+        EList<FeatureAssignment> _assignments = individual.getAssignments();
+        for(final FeatureAssignment assignment : _assignments) {
+          _builder.append("\t");
+          String _name = individual.getName();
+          _builder.append(_name, "\t");
+          _builder.append(".");
+          CharSequence _generateAlloySingletonAssignment = ML2Generator.generateAlloySingletonAssignment(assignment);
+          _builder.append(_generateAlloySingletonAssignment, "\t");
+          _builder.newLineIfNotEmpty();
+        }
+      }
+      _builder.append("}");
+      _builder.newLine();
+      _builder.newLine();
+      _xifexpression = _builder;
+    }
+    return _xifexpression;
+  }
+  
+  /**
+   * Generates an Alloy fact related to an ML2 Class element's assignments.
+   * 
+   * @param ml2class the ML2 Class element to be considered.
+   */
+  protected static CharSequence _generateAlloySingletonAssignmentsFact(final ML2Class ml2class) {
+    CharSequence _xifexpression = null;
+    int _size = ml2class.getAssignments().size();
+    boolean _notEquals = (_size != 0);
+    if (_notEquals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("fact {");
+      _builder.newLine();
+      {
+        EList<FeatureAssignment> _assignments = ml2class.getAssignments();
+        for(final FeatureAssignment assignment : _assignments) {
+          _builder.append("\t");
+          String _name = ml2class.getName();
+          _builder.append(_name, "\t");
+          _builder.append("Reified.");
+          CharSequence _generateAlloySingletonAssignment = ML2Generator.generateAlloySingletonAssignment(assignment);
+          _builder.append(_generateAlloySingletonAssignment, "\t");
+          _builder.newLineIfNotEmpty();
+        }
+      }
+      _builder.append("}");
+      _builder.newLine();
+      _builder.newLine();
+      _xifexpression = _builder;
+    }
+    return _xifexpression;
+  }
+  
+  /**
+   * Generates an Alloy singleton assignment related to an ML2 AttributeAssignment element.
    * 
    * @param attributeAssignment the ML2 AttributeAssignment element to be transformed.
    */
-  protected static CharSequence _generateAlloySingletonFields(final AttributeAssignment attributeAssignment) {
+  protected static CharSequence _generateAlloySingletonAssignment(final AttributeAssignment attributeAssignment) {
     CharSequence _xifexpression = null;
     int _size = attributeAssignment.getIndividualAssignments().size();
     boolean _notEquals = (_size != 0);
@@ -1840,11 +1899,11 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy singleton field related to a ML2 ReferenceAssignment element.
+   * Generates an Alloy singleton assignment related to an ML2 ReferenceAssignment element.
    * 
    * @param referenceAssignment the ML2 ReferenceAssignment element to be transformed.
    */
-  protected static CharSequence _generateAlloySingletonFields(final ReferenceAssignment referenceAssignment) {
+  protected static CharSequence _generateAlloySingletonAssignment(final ReferenceAssignment referenceAssignment) {
     StringConcatenation _builder = new StringConcatenation();
     String _name = referenceAssignment.getReference().getName();
     _builder.append(_name);
@@ -1859,182 +1918,319 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy fact related to a ML2 AttributeAssignment element regulated by a ML2 Attribute element.
+   * Generates an Alloy fact related to an ML2 Proper Specialization relation of a First-Order Class element.
+   * 
+   * @param foclass the ML2 First-Order Class element to be considered.
+   */
+  protected static CharSequence _generateProperSpecializationFact(final FOClass foclass) {
+    CharSequence _xifexpression = null;
+    int _size = foclass.getSuperClasses().size();
+    boolean _equals = (_size == 0);
+    if (_equals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("fact ");
+      String _name = foclass.getName();
+      _builder.append(_name);
+      _builder.append("ReifiedProperSpecialization {");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      _builder.append("properSpecializes[");
+      String _name_1 = foclass.getName();
+      _builder.append(_name_1, "\t");
+      _builder.append("Reified,Individual_]");
+      _builder.newLineIfNotEmpty();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.newLine();
+      _xifexpression = _builder;
+    } else {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("fact ");
+      String _name_2 = foclass.getName();
+      _builder_1.append(_name_2);
+      _builder_1.append("ReifiedProperSpecialization {");
+      _builder_1.newLineIfNotEmpty();
+      {
+        EList<ML2Class> _superClasses = foclass.getSuperClasses();
+        for(final ML2Class superClass : _superClasses) {
+          _builder_1.append("\t");
+          _builder_1.append("properSpecializes[");
+          String _name_3 = foclass.getName();
+          _builder_1.append(_name_3, "\t");
+          _builder_1.append("Reified,");
+          String _name_4 = superClass.getName();
+          _builder_1.append(_name_4, "\t");
+          _builder_1.append("Reified]");
+          _builder_1.newLineIfNotEmpty();
+        }
+      }
+      _builder_1.append("}");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _xifexpression = _builder_1;
+    }
+    return _xifexpression;
+  }
+  
+  /**
+   * Generates an Alloy fact related to an ML2 Proper Specialization relation of a High-Order Class element.
+   * 
+   * @param hoclass the ML2 High-Order Class element to be considered.
+   */
+  protected static CharSequence _generateProperSpecializationFact(final HOClass hoclass) {
+    CharSequence _xifexpression = null;
+    int _size = hoclass.getSuperClasses().size();
+    boolean _equals = (_size == 0);
+    if (_equals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("fact ");
+      String _name = hoclass.getName();
+      _builder.append(_name);
+      _builder.append("ReifiedProperSpecialization {");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      _builder.append("properSpecializes[");
+      String _name_1 = hoclass.getName();
+      _builder.append(_name_1, "\t");
+      _builder.append("Reified,Order");
+      Integer _order = hoclass.getOrder();
+      int _minus = ((_order).intValue() - 1);
+      _builder.append(_minus, "\t");
+      _builder.append("TypeReified]");
+      _builder.newLineIfNotEmpty();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.newLine();
+      _xifexpression = _builder;
+    } else {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("fact ");
+      String _name_2 = hoclass.getName();
+      _builder_1.append(_name_2);
+      _builder_1.append("ReifiedProperSpecialization {");
+      _builder_1.newLineIfNotEmpty();
+      {
+        EList<ML2Class> _superClasses = hoclass.getSuperClasses();
+        for(final ML2Class superClass : _superClasses) {
+          _builder_1.append("\t");
+          _builder_1.append("properSpecializes[");
+          String _name_3 = hoclass.getName();
+          _builder_1.append(_name_3, "\t");
+          _builder_1.append("Reified,");
+          String _name_4 = superClass.getName();
+          _builder_1.append(_name_4, "\t");
+          _builder_1.append("Reified]");
+          _builder_1.newLineIfNotEmpty();
+        }
+      }
+      _builder_1.append("}");
+      _builder_1.newLine();
+      _builder_1.newLine();
+      _xifexpression = _builder_1;
+    }
+    return _xifexpression;
+  }
+  
+  /**
+   * Generates an Alloy fact related to an ML2 Proper Specialization relation of a Orderless Class element.
+   * 
+   * @param olclass the ML2 Orderless Class element to be considered.
+   */
+  protected static CharSequence _generateProperSpecializationFact(final OrderlessClass olclass) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("fact ");
+    String _name = olclass.getName();
+    _builder.append(_name);
+    _builder.append("ReifiedProperSpecialization {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("properSpecializes[");
+    String _name_1 = olclass.getName();
+    _builder.append(_name_1, "\t");
+    _builder.append("Reified,OrderlessType_]");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    return _builder;
+  }
+  
+  /**
+   * Generates an Alloy fact related to an ML2 AttributeAssignment element regulated by an ML2 Attribute element.
    * 
    * @param attributeAssignment the ML2 AttributeAssignment element with regulated feature.
    * @param ml2class the ML2 Class element with regulator feature.
    */
-  protected static String _generateRegularityFeatureFact(final Attribute attribute, final ML2Class ml2class) {
-    RegularityFeatureType _regularityType = attribute.getRegularityType();
-    if (_regularityType != null) {
-      switch (_regularityType) {
-        case DETERMINES_VALUE:
-          StringConcatenation _builder = new StringConcatenation();
-          _builder.append("fact ");
-          String _name = attribute.getName();
-          _builder.append(_name);
-          _builder.append("Regulates");
-          String _name_1 = attribute.getRegulatedFeature().getName();
-          _builder.append(_name_1);
-          _builder.append(" {");
-          _builder.newLineIfNotEmpty();
-          _builder.append("\t");
-          _builder.append("all x: ");
-          String _name_2 = ml2class.getCategorizedClass().getName();
-          _builder.append(_name_2, "\t");
-          _builder.append(", y: ");
-          String _name_3 = ml2class.getName();
-          _builder.append(_name_3, "\t");
-          _builder.append(" | ");
-          _builder.newLineIfNotEmpty();
-          _builder.append("\t\t");
-          _builder.append("(iof[x,y] and some y.");
-          String _name_4 = attribute.getName();
-          _builder.append(_name_4, "\t\t");
-          _builder.append(") implies x.");
-          String _name_5 = attribute.getRegulatedFeature().getName();
-          _builder.append(_name_5, "\t\t");
-          _builder.append(" = y.");
-          String _name_6 = attribute.getName();
-          _builder.append(_name_6, "\t\t");
-          _builder.newLineIfNotEmpty();
-          _builder.append("}");
-          _builder.newLine();
-          return _builder.toString();
-        case DETERMINES_MIN_VALUE:
-          StringConcatenation _builder_1 = new StringConcatenation();
-          _builder_1.append("fact ");
-          String _name_7 = attribute.getName();
-          _builder_1.append(_name_7);
-          _builder_1.append("Regulates");
-          String _name_8 = attribute.getRegulatedFeature().getName();
-          _builder_1.append(_name_8);
-          _builder_1.append(" {");
-          _builder_1.newLineIfNotEmpty();
-          _builder_1.append("\t");
-          _builder_1.append("all x: ");
-          String _name_9 = ml2class.getCategorizedClass().getName();
-          _builder_1.append(_name_9, "\t");
-          _builder_1.append(", y: ");
-          String _name_10 = ml2class.getName();
-          _builder_1.append(_name_10, "\t");
-          _builder_1.append(" | ");
-          _builder_1.newLineIfNotEmpty();
-          _builder_1.append("\t\t");
-          _builder_1.append("(iof[x,y] and some y.");
-          String _name_11 = attribute.getName();
-          _builder_1.append(_name_11, "\t\t");
-          _builder_1.append(") implies x.");
-          String _name_12 = attribute.getRegulatedFeature().getName();
-          _builder_1.append(_name_12, "\t\t");
-          _builder_1.append(" >= y.");
-          String _name_13 = attribute.getName();
-          _builder_1.append(_name_13, "\t\t");
-          _builder_1.newLineIfNotEmpty();
-          _builder_1.append("}");
-          _builder_1.newLine();
-          return _builder_1.toString();
-        case DETERMINES_MAX_VALUE:
-          StringConcatenation _builder_2 = new StringConcatenation();
-          _builder_2.append("fact ");
-          String _name_14 = attribute.getName();
-          _builder_2.append(_name_14);
-          _builder_2.append("Regulates");
-          String _name_15 = attribute.getRegulatedFeature().getName();
-          _builder_2.append(_name_15);
-          _builder_2.append(" {");
-          _builder_2.newLineIfNotEmpty();
-          _builder_2.append("\t");
-          _builder_2.append("all x: ");
-          String _name_16 = ml2class.getCategorizedClass().getName();
-          _builder_2.append(_name_16, "\t");
-          _builder_2.append(", y: ");
-          String _name_17 = ml2class.getName();
-          _builder_2.append(_name_17, "\t");
-          _builder_2.append(" | (");
-          _builder_2.newLineIfNotEmpty();
-          _builder_2.append("\t\t");
-          _builder_2.append("iof[x,y] and some y.");
-          String _name_18 = attribute.getName();
-          _builder_2.append(_name_18, "\t\t");
-          _builder_2.append(") implies x.");
-          String _name_19 = attribute.getRegulatedFeature().getName();
-          _builder_2.append(_name_19, "\t\t");
-          _builder_2.append(" <= y.");
-          String _name_20 = attribute.getName();
-          _builder_2.append(_name_20, "\t\t");
-          _builder_2.newLineIfNotEmpty();
-          _builder_2.append("}");
-          _builder_2.newLine();
-          return _builder_2.toString();
-        default:
-          StringConcatenation _builder_3 = new StringConcatenation();
-          return _builder_3.toString();
+  protected static CharSequence _generateRegularityFeatureFact(final AttributeAssignment attributeAssignment, final ML2Class ml2class) {
+    CharSequence _xifexpression = null;
+    Feature _regulatedFeature = attributeAssignment.getAttribute().getRegulatedFeature();
+    boolean _notEquals = (!Objects.equal(_regulatedFeature, null));
+    if (_notEquals) {
+      CharSequence _switchResult = null;
+      RegularityFeatureType _regularityType = attributeAssignment.getAttribute().getRegularityType();
+      if (_regularityType != null) {
+        switch (_regularityType) {
+          case DETERMINES_VALUE:
+            StringConcatenation _builder = new StringConcatenation();
+            _builder.append("fact ");
+            String _name = attributeAssignment.getAttribute().getName();
+            _builder.append(_name);
+            _builder.append("Regulates");
+            String _name_1 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
+            _builder.append(_name_1);
+            _builder.append(" {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("all x: ");
+            String _name_2 = ml2class.getName();
+            _builder.append(_name_2, "\t");
+            _builder.append(" | x.");
+            String _name_3 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
+            _builder.append(_name_3, "\t");
+            _builder.append(" = ");
+            String _name_4 = ml2class.getName();
+            _builder.append(_name_4, "\t");
+            _builder.append("Reified.");
+            String _name_5 = attributeAssignment.getAttribute().getName();
+            _builder.append(_name_5, "\t");
+            _builder.newLineIfNotEmpty();
+            _builder.append("}");
+            _builder.newLine();
+            _builder.newLine();
+            _switchResult = _builder;
+            break;
+          case DETERMINES_MIN_VALUE:
+            StringConcatenation _builder_1 = new StringConcatenation();
+            _builder_1.append("fact ");
+            String _name_6 = attributeAssignment.getAttribute().getName();
+            _builder_1.append(_name_6);
+            _builder_1.append("Regulates");
+            String _name_7 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
+            _builder_1.append(_name_7);
+            _builder_1.append(" {");
+            _builder_1.newLineIfNotEmpty();
+            _builder_1.append("\t");
+            _builder_1.append("all x: ");
+            String _name_8 = ml2class.getName();
+            _builder_1.append(_name_8, "\t");
+            _builder_1.append(" | x.");
+            String _name_9 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
+            _builder_1.append(_name_9, "\t");
+            _builder_1.append(" >= ");
+            String _name_10 = ml2class.getName();
+            _builder_1.append(_name_10, "\t");
+            _builder_1.append("Reified.");
+            String _name_11 = attributeAssignment.getAttribute().getName();
+            _builder_1.append(_name_11, "\t");
+            _builder_1.newLineIfNotEmpty();
+            _builder_1.append("}");
+            _builder_1.newLine();
+            _builder_1.newLine();
+            _switchResult = _builder_1;
+            break;
+          case DETERMINES_MAX_VALUE:
+            StringConcatenation _builder_2 = new StringConcatenation();
+            _builder_2.append("fact ");
+            String _name_12 = attributeAssignment.getAttribute().getName();
+            _builder_2.append(_name_12);
+            _builder_2.append("Regulates");
+            String _name_13 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
+            _builder_2.append(_name_13);
+            _builder_2.append(" {");
+            _builder_2.newLineIfNotEmpty();
+            _builder_2.append("\t");
+            _builder_2.append("all x: ");
+            String _name_14 = ml2class.getName();
+            _builder_2.append(_name_14, "\t");
+            _builder_2.append(" | x.");
+            String _name_15 = attributeAssignment.getAttribute().getRegulatedFeature().getName();
+            _builder_2.append(_name_15, "\t");
+            _builder_2.append(" <= ");
+            String _name_16 = ml2class.getName();
+            _builder_2.append(_name_16, "\t");
+            _builder_2.append("Reified.");
+            String _name_17 = attributeAssignment.getAttribute().getName();
+            _builder_2.append(_name_17, "\t");
+            _builder_2.newLineIfNotEmpty();
+            _builder_2.append("}");
+            _builder_2.newLine();
+            _builder_2.newLine();
+            _switchResult = _builder_2;
+            break;
+          default:
+            StringConcatenation _builder_3 = new StringConcatenation();
+            _switchResult = _builder_3;
+            break;
+        }
+      } else {
+        StringConcatenation _builder_3 = new StringConcatenation();
+        _switchResult = _builder_3;
       }
-    } else {
-      StringConcatenation _builder_3 = new StringConcatenation();
-      return _builder_3.toString();
+      _xifexpression = _switchResult;
     }
+    return _xifexpression;
   }
   
   /**
-   * Generates an Alloy fact related to a ML2 ReferenceAssignment element regulated by a ML2 Reference element.
+   * Generates an Alloy fact related to an ML2 ReferenceAssignment element regulated by an ML2 Reference element.
    * 
    * @param referenceAssignment the ML2 ReferenceAssignment element with regulated feature.
    * @param ml2class the ML2 Class element with regulator feature.
    */
-  protected static String _generateRegularityFeatureFact(final Reference reference, final ML2Class ml2class) {
-    RegularityFeatureType _regularityType = reference.getRegularityType();
-    if (_regularityType != null) {
-      switch (_regularityType) {
-        case DETERMINES_TYPE:
-          StringConcatenation _builder = new StringConcatenation();
-          _builder.append("fact ");
-          String _name = reference.getName();
-          _builder.append(_name);
-          _builder.append("Regulates");
-          String _name_1 = reference.getRegulatedFeature().getName();
-          _builder.append(_name_1);
-          _builder.append(" {");
-          _builder.newLineIfNotEmpty();
-          _builder.append("\t");
-          _builder.append("all x: ");
-          String _name_2 = ml2class.getCategorizedClass().getName();
-          _builder.append(_name_2, "\t");
-          _builder.append(", y: ");
-          String _name_3 = ml2class.getName();
-          _builder.append(_name_3, "\t");
-          _builder.append(" | (iof[x,y] and some y.");
-          String _name_4 = reference.getName();
-          _builder.append(_name_4, "\t");
-          _builder.append(") ");
-          _builder.newLineIfNotEmpty();
-          _builder.append("\t\t");
-          _builder.append("implies iof[x.");
-          String _name_5 = reference.getRegulatedFeature().getName();
-          _builder.append(_name_5, "\t\t");
-          _builder.append(", y.");
-          String _name_6 = reference.getName();
-          _builder.append(_name_6, "\t\t");
-          _builder.append("]");
-          _builder.newLineIfNotEmpty();
-          _builder.append("\t");
-          _builder.newLine();
-          _builder.append("}");
-          _builder.newLine();
-          return _builder.toString();
-        default:
-          StringConcatenation _builder_1 = new StringConcatenation();
-          return _builder_1.toString();
+  protected static CharSequence _generateRegularityFeatureFact(final ReferenceAssignment referenceAssignment, final ML2Class ml2class) {
+    CharSequence _xifexpression = null;
+    Feature _regulatedFeature = referenceAssignment.getReference().getRegulatedFeature();
+    boolean _notEquals = (!Objects.equal(_regulatedFeature, null));
+    if (_notEquals) {
+      CharSequence _switchResult = null;
+      RegularityFeatureType _regularityType = referenceAssignment.getReference().getRegularityType();
+      if (_regularityType != null) {
+        switch (_regularityType) {
+          case DETERMINES_TYPE:
+            StringConcatenation _builder = new StringConcatenation();
+            _builder.append("fact ");
+            String _name = referenceAssignment.getReference().getName();
+            _builder.append(_name);
+            _builder.append("Regulates");
+            String _name_1 = referenceAssignment.getReference().getRegulatedFeature().getName();
+            _builder.append(_name_1);
+            _builder.append(" {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("all x: ");
+            String _name_2 = ml2class.getName();
+            _builder.append(_name_2, "\t");
+            _builder.append(" | x.");
+            String _name_3 = referenceAssignment.getReference().getRegulatedFeature().getName();
+            _builder.append(_name_3, "\t");
+            _builder.append(" = ");
+            String _name_4 = ml2class.getName();
+            _builder.append(_name_4, "\t");
+            _builder.append("Reified.");
+            String _name_5 = referenceAssignment.getReference().getName();
+            _builder.append(_name_5, "\t");
+            _builder.newLineIfNotEmpty();
+            _builder.append("}");
+            _builder.newLine();
+            _builder.newLine();
+            _switchResult = _builder;
+            break;
+          default:
+            StringConcatenation _builder_1 = new StringConcatenation();
+            _switchResult = _builder_1;
+            break;
+        }
+      } else {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _switchResult = _builder_1;
       }
-    } else {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      return _builder_1.toString();
+      _xifexpression = _switchResult;
     }
+    return _xifexpression;
   }
   
   /**
-   * Generates an Alloy fact related to a ML2 Powertype cross-level relation.
+   * Generates an Alloy fact related to an ML2 Powertype cross-level relation.
    * 
    * @param ml2class the ML2 Class element to be considered.
    */
@@ -2047,18 +2243,15 @@ public class ML2Generator extends AbstractGenerator {
       _builder.append("fact ");
       String _name = ml2class.getName();
       _builder.append(_name);
-      _builder.append("IsPowertypeOf");
-      String _name_1 = ml2class.getPowertypeOf().getName();
-      _builder.append(_name_1);
-      _builder.append(" {");
+      _builder.append("Powertype {");
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
       _builder.append("powertypeOf[");
-      String _name_2 = ml2class.getName();
-      _builder.append(_name_2, "\t");
+      String _name_1 = ml2class.getName();
+      _builder.append(_name_1, "\t");
       _builder.append("Reified,");
-      String _name_3 = ml2class.getPowertypeOf().getName();
-      _builder.append(_name_3, "\t");
+      String _name_2 = ml2class.getPowertypeOf().getName();
+      _builder.append(_name_2, "\t");
       _builder.append("Reified]");
       _builder.newLineIfNotEmpty();
       _builder.append("}");
@@ -2070,7 +2263,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy fact related to a ML2 Subordination cross-level relation.
+   * Generates an Alloy fact related to an ML2 Subordination cross-level relation.
    * 
    * @param ml2class the ML2 Class element to be considered.
    */
@@ -2083,7 +2276,7 @@ public class ML2Generator extends AbstractGenerator {
       _builder.append("fact ");
       String _name = ml2class.getName();
       _builder.append(_name);
-      _builder.append("isSubordinatedTo {");
+      _builder.append("Subordination {");
       _builder.newLineIfNotEmpty();
       {
         EList<ML2Class> _subordinators = ml2class.getSubordinators();
@@ -2108,7 +2301,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   /**
-   * Generates an Alloy fact related to a ML2 Categorization cross-level relation.
+   * Generates an Alloy fact related to an ML2 Categorization cross-level relation.
    * 
    * @param ml2class the ML2 Class element to be considered.
    */
@@ -2126,18 +2319,15 @@ public class ML2Generator extends AbstractGenerator {
             _builder.append("fact ");
             String _name = ml2class.getName();
             _builder.append(_name);
-            _builder.append("Categorizes");
-            String _name_1 = ml2class.getCategorizedClass().getName();
-            _builder.append(_name_1);
-            _builder.append(" {");
+            _builder.append("Categorization {");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
             _builder.append("categorizes[");
-            String _name_2 = ml2class.getName();
-            _builder.append(_name_2, "\t");
+            String _name_1 = ml2class.getName();
+            _builder.append(_name_1, "\t");
             _builder.append("Reified,");
-            String _name_3 = ml2class.getCategorizedClass().getName();
-            _builder.append(_name_3, "\t");
+            String _name_2 = ml2class.getCategorizedClass().getName();
+            _builder.append(_name_2, "\t");
             _builder.append("Reified]");
             _builder.newLineIfNotEmpty();
             _builder.append("}");
@@ -2148,20 +2338,17 @@ public class ML2Generator extends AbstractGenerator {
           case COMPLETE_CATEGORIZER:
             StringConcatenation _builder_1 = new StringConcatenation();
             _builder_1.append("fact ");
-            String _name_4 = ml2class.getName();
-            _builder_1.append(_name_4);
-            _builder_1.append("CompleteCategorizes");
-            String _name_5 = ml2class.getCategorizedClass().getName();
-            _builder_1.append(_name_5);
-            _builder_1.append(" {");
+            String _name_3 = ml2class.getName();
+            _builder_1.append(_name_3);
+            _builder_1.append("CompleteCategorization {");
             _builder_1.newLineIfNotEmpty();
             _builder_1.append("\t");
             _builder_1.append("compCategorizes[");
-            String _name_6 = ml2class.getName();
-            _builder_1.append(_name_6, "\t");
+            String _name_4 = ml2class.getName();
+            _builder_1.append(_name_4, "\t");
             _builder_1.append("Reified,");
-            String _name_7 = ml2class.getCategorizedClass().getName();
-            _builder_1.append(_name_7, "\t");
+            String _name_5 = ml2class.getCategorizedClass().getName();
+            _builder_1.append(_name_5, "\t");
             _builder_1.append("Reified]");
             _builder_1.newLineIfNotEmpty();
             _builder_1.append("}");
@@ -2172,20 +2359,17 @@ public class ML2Generator extends AbstractGenerator {
           case DISJOINT_CATEGORIZER:
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.append("fact ");
-            String _name_8 = ml2class.getName();
-            _builder_2.append(_name_8);
-            _builder_2.append("DisjointCategorizes");
-            String _name_9 = ml2class.getCategorizedClass().getName();
-            _builder_2.append(_name_9);
-            _builder_2.append(" {");
+            String _name_6 = ml2class.getName();
+            _builder_2.append(_name_6);
+            _builder_2.append("DisjointCategorization {");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("\t");
             _builder_2.append("disjCategorizes[");
-            String _name_10 = ml2class.getName();
-            _builder_2.append(_name_10, "\t");
+            String _name_7 = ml2class.getName();
+            _builder_2.append(_name_7, "\t");
             _builder_2.append("Reified,");
-            String _name_11 = ml2class.getCategorizedClass().getName();
-            _builder_2.append(_name_11, "\t");
+            String _name_8 = ml2class.getCategorizedClass().getName();
+            _builder_2.append(_name_8, "\t");
             _builder_2.append("Reified]");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("}");
@@ -2196,20 +2380,17 @@ public class ML2Generator extends AbstractGenerator {
           case PARTITIONER:
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("fact ");
-            String _name_12 = ml2class.getName();
-            _builder_3.append(_name_12);
-            _builder_3.append("Partitions");
-            String _name_13 = ml2class.getCategorizedClass().getName();
-            _builder_3.append(_name_13);
-            _builder_3.append(" {");
+            String _name_9 = ml2class.getName();
+            _builder_3.append(_name_9);
+            _builder_3.append("Partition {");
             _builder_3.newLineIfNotEmpty();
             _builder_3.append("\t");
             _builder_3.append("partitions[");
-            String _name_14 = ml2class.getName();
-            _builder_3.append(_name_14, "\t");
+            String _name_10 = ml2class.getName();
+            _builder_3.append(_name_10, "\t");
             _builder_3.append("Reified,");
-            String _name_15 = ml2class.getCategorizedClass().getName();
-            _builder_3.append(_name_15, "\t");
+            String _name_11 = ml2class.getCategorizedClass().getName();
+            _builder_3.append(_name_11, "\t");
             _builder_3.append("Reified]");
             _builder_3.newLineIfNotEmpty();
             _builder_3.append("}");
@@ -2229,41 +2410,227 @@ public class ML2Generator extends AbstractGenerator {
   /**
    * Generates an Alloy fact to ensure the disjointness of all individuals.
    * 
-   * @param ml2class the ML2 Model to be considered.
+   * @param ml2model the ML2 Model to be considered.
    */
   public static CharSequence generateDisjointIndividualsFact(final ML2Model ml2model) {
     CharSequence _xblockexpression = null;
     {
-      ArrayList<Individual> list = new ArrayList<Individual>();
-      EList<ModelElement> _elements = ml2model.getElements();
-      for (final ModelElement element : _elements) {
-        if ((element instanceof Individual)) {
-          list.add(((Individual)element));
-        }
+      ArrayList<Individual> individualsToInclude = new ArrayList<Individual>();
+      Iterable<Individual> _filter = Iterables.<Individual>filter(ml2model.getElements(), Individual.class);
+      for (final Individual individual : _filter) {
+        individualsToInclude.add(individual);
       }
       CharSequence _xifexpression = null;
-      int _size = list.size();
+      int _size = individualsToInclude.size();
       boolean _greaterThan = (_size > 1);
       if (_greaterThan) {
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("fact disjointIndividuals {");
+        _builder.append("fact DisjointIndividuals {");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("disjoint[");
-        final Function<Individual, String> _function = (Individual it) -> {
-          return it.getName();
-        };
-        String _collect = list.stream().<String>map(_function).collect(Collectors.joining(","));
-        _builder.append(_collect, "\t");
+        {
+          boolean _hasElements = false;
+          for(final Individual i : individualsToInclude) {
+            if (!_hasElements) {
+              _hasElements = true;
+            } else {
+              _builder.appendImmediate(",", "\t");
+            }
+            String _name = i.getName();
+            _builder.append(_name, "\t");
+          }
+        }
         _builder.append("]");
         _builder.newLineIfNotEmpty();
         _builder.append("}");
+        _builder.newLine();
         _builder.newLine();
         _xifexpression = _builder;
       }
       _xblockexpression = _xifexpression;
     }
     return _xblockexpression;
+  }
+  
+  /**
+   * Generates an Alloy fact to ensure the disjointness of disconnected hierarchies.
+   * 
+   * @param ml2model the ML2 Model to be considered.
+   */
+  public static CharSequence generateDisjointDisconnectedHierarchiesFact(final ML2Model ml2model) {
+    CharSequence _xblockexpression = null;
+    {
+      ArrayList<HashSet<ML2Class>> disconnectedHierarchies = new ArrayList<HashSet<ML2Class>>();
+      Iterable<ML2Class> _filter = Iterables.<ML2Class>filter(ml2model.getElements(), ML2Class.class);
+      for (final ML2Class ml2class : _filter) {
+        {
+          ArrayList<ML2Class> ml2classesArray = new ArrayList<ML2Class>();
+          HashSet<ML2Class> hierarchy = new HashSet<ML2Class>();
+          ml2classesArray.add(ml2class);
+          while ((ml2classesArray.size() != 0)) {
+            {
+              ML2Class aux = ml2classesArray.remove(0);
+              hierarchy.add(aux);
+              EList<ML2Class> _superClasses = aux.getSuperClasses();
+              for (final ML2Class superClass : _superClasses) {
+                ml2classesArray.add(superClass);
+              }
+            }
+          }
+          ArrayList<HashSet<ML2Class>> hierarchiesToRemove = new ArrayList<HashSet<ML2Class>>();
+          for (final HashSet<ML2Class> h : disconnectedHierarchies) {
+            {
+              HashSet<ML2Class> intersection = new HashSet<ML2Class>(hierarchy);
+              intersection.retainAll(h);
+              int _size = intersection.size();
+              boolean _notEquals = (_size != 0);
+              if (_notEquals) {
+                hierarchy.addAll(h);
+                hierarchiesToRemove.add(h);
+              }
+            }
+          }
+          disconnectedHierarchies.add(hierarchy);
+          for (final HashSet<ML2Class> h_1 : hierarchiesToRemove) {
+            disconnectedHierarchies.remove(h_1);
+          }
+        }
+      }
+      CharSequence _xifexpression = null;
+      int _size = disconnectedHierarchies.size();
+      boolean _greaterThan = (_size > 1);
+      if (_greaterThan) {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("fact DisjointDisconnectedHierarchies {");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("disjoint[");
+        {
+          boolean _hasElements = false;
+          for(final HashSet<ML2Class> h : disconnectedHierarchies) {
+            if (!_hasElements) {
+              _hasElements = true;
+            } else {
+              _builder.appendImmediate(",", "\t");
+            }
+            {
+              int _size_1 = h.size();
+              boolean _equals = (_size_1 == 1);
+              if (_equals) {
+                {
+                  for(final ML2Class c : h) {
+                    String _name = c.getName();
+                    _builder.append(_name, "\t");
+                  }
+                }
+              } else {
+                {
+                  boolean _hasElements_1 = false;
+                  for(final ML2Class c_1 : h) {
+                    if (!_hasElements_1) {
+                      _hasElements_1 = true;
+                      _builder.append("(", "\t");
+                    } else {
+                      _builder.appendImmediate("+", "\t");
+                    }
+                    String _name_1 = c_1.getName();
+                    _builder.append(_name_1, "\t");
+                  }
+                  if (_hasElements_1) {
+                    _builder.append(")", "\t");
+                  }
+                }
+              }
+            }
+          }
+        }
+        _builder.append("]");
+        _builder.newLineIfNotEmpty();
+        _builder.append("}");
+        _builder.newLine();
+        _builder.newLine();
+        _xifexpression = _builder;
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  /**
+   * Generates an Alloy fact to ensure that some classes are not instances of other classes,
+   * if the instantiation was not explicitly defined.
+   * 
+   * @param ml2model the ML2 Model to be considered.
+   */
+  public static CharSequence generateUnwantedInstantiationsFact(final ML2Model ml2model) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("fact UnwantedInstantiations {");
+    _builder.newLine();
+    {
+      Iterable<FOClass> _filter = Iterables.<FOClass>filter(ml2model.getElements(), FOClass.class);
+      for(final FOClass foclass : _filter) {
+        {
+          final Function1<HOClass, Boolean> _function = (HOClass it) -> {
+            Integer _order = it.getOrder();
+            return Boolean.valueOf(((_order).intValue() == 2));
+          };
+          Iterable<HOClass> _filter_1 = IterableExtensions.<HOClass>filter(Iterables.<HOClass>filter(ml2model.getElements(), HOClass.class), _function);
+          for(final HOClass hoclass : _filter_1) {
+            {
+              boolean _contains = foclass.getInstantiatedClasses().contains(hoclass);
+              boolean _not = (!_contains);
+              if (_not) {
+                _builder.append("\t");
+                _builder.append("not iof[");
+                String _name = foclass.getName();
+                _builder.append(_name, "\t");
+                _builder.append("Reified,");
+                String _name_1 = hoclass.getName();
+                _builder.append(_name_1, "\t");
+                _builder.append("Reified]");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+          }
+        }
+      }
+    }
+    {
+      Iterable<HOClass> _filter_2 = Iterables.<HOClass>filter(ml2model.getElements(), HOClass.class);
+      for(final HOClass hoclass_1 : _filter_2) {
+        {
+          final Function1<HOClass, Boolean> _function_1 = (HOClass it) -> {
+            Integer _order = it.getOrder();
+            Integer _order_1 = hoclass_1.getOrder();
+            int _plus = ((_order_1).intValue() + 1);
+            return Boolean.valueOf(((_order).intValue() == _plus));
+          };
+          Iterable<HOClass> _filter_3 = IterableExtensions.<HOClass>filter(Iterables.<HOClass>filter(ml2model.getElements(), HOClass.class), _function_1);
+          for(final HOClass hoclass2 : _filter_3) {
+            {
+              boolean _contains_1 = hoclass_1.getInstantiatedClasses().contains(hoclass2);
+              boolean _not_1 = (!_contains_1);
+              if (_not_1) {
+                _builder.append("\t");
+                _builder.append("not iof[");
+                String _name_2 = hoclass_1.getName();
+                _builder.append(_name_2, "\t");
+                _builder.append("Reified,");
+                String _name_3 = hoclass2.getName();
+                _builder.append(_name_3, "\t");
+                _builder.append("Reified]");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+          }
+        }
+      }
+    }
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    return _builder;
   }
   
   /**
@@ -2356,7 +2723,7 @@ public class ML2Generator extends AbstractGenerator {
       int _upperBound_1 = feature.getUpperBound();
       boolean _equals_2 = (_upperBound_1 == 1);
       if (_equals_2) {
-        return "";
+        return "one ";
       } else {
         return "some ";
       }
@@ -2480,25 +2847,49 @@ public class ML2Generator extends AbstractGenerator {
     }
   }
   
-  public static CharSequence generateAlloySingletonFields(final FeatureAssignment attributeAssignment) {
+  public static CharSequence generateAlloySingletonAssignmentsFact(final EntityDeclaration individual) {
+    if (individual instanceof Individual) {
+      return _generateAlloySingletonAssignmentsFact((Individual)individual);
+    } else if (individual instanceof ML2Class) {
+      return _generateAlloySingletonAssignmentsFact((ML2Class)individual);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(individual).toString());
+    }
+  }
+  
+  public static CharSequence generateAlloySingletonAssignment(final FeatureAssignment attributeAssignment) {
     if (attributeAssignment instanceof AttributeAssignment) {
-      return _generateAlloySingletonFields((AttributeAssignment)attributeAssignment);
+      return _generateAlloySingletonAssignment((AttributeAssignment)attributeAssignment);
     } else if (attributeAssignment instanceof ReferenceAssignment) {
-      return _generateAlloySingletonFields((ReferenceAssignment)attributeAssignment);
+      return _generateAlloySingletonAssignment((ReferenceAssignment)attributeAssignment);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(attributeAssignment).toString());
     }
   }
   
-  public static String generateRegularityFeatureFact(final Feature attribute, final ML2Class ml2class) {
-    if (attribute instanceof Attribute) {
-      return _generateRegularityFeatureFact((Attribute)attribute, ml2class);
-    } else if (attribute instanceof Reference) {
-      return _generateRegularityFeatureFact((Reference)attribute, ml2class);
+  public static CharSequence generateProperSpecializationFact(final ML2Class foclass) {
+    if (foclass instanceof FOClass) {
+      return _generateProperSpecializationFact((FOClass)foclass);
+    } else if (foclass instanceof HOClass) {
+      return _generateProperSpecializationFact((HOClass)foclass);
+    } else if (foclass instanceof OrderlessClass) {
+      return _generateProperSpecializationFact((OrderlessClass)foclass);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(attribute, ml2class).toString());
+        Arrays.<Object>asList(foclass).toString());
+    }
+  }
+  
+  public static CharSequence generateRegularityFeatureFact(final FeatureAssignment attributeAssignment, final ML2Class ml2class) {
+    if (attributeAssignment instanceof AttributeAssignment) {
+      return _generateRegularityFeatureFact((AttributeAssignment)attributeAssignment, ml2class);
+    } else if (attributeAssignment instanceof ReferenceAssignment) {
+      return _generateRegularityFeatureFact((ReferenceAssignment)attributeAssignment, ml2class);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(attributeAssignment, ml2class).toString());
     }
   }
 }
