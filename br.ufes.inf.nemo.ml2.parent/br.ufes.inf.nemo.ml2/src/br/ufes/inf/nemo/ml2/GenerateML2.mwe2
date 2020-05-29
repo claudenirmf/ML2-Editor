@@ -2,6 +2,7 @@ module br.ufes.inf.nemo.ml2.GenerateML2
 
 import org.eclipse.xtext.xtext.generator.*
 import org.eclipse.xtext.xtext.generator.model.project.*
+import org.eclipse.emf.mwe2.ecore.*
 
 var rootPath = ".."
 
@@ -33,6 +34,7 @@ Workflow {
 		language = StandardLanguage {
 			name = "br.ufes.inf.nemo.ml2.ML2"
 			fileExtensions = "ml2"
+			referencedResource = "platform:/resource/br.ufes.inf.nemo.ml2/model/ML2.ecore"
 
 			serializer = {
 				generateStub = false
@@ -50,4 +52,5 @@ Workflow {
 			}
 		}
 	}
+	
 }

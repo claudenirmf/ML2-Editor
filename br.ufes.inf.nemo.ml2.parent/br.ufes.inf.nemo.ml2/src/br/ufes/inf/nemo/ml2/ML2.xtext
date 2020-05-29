@@ -5,7 +5,7 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 Model returns ml2::Model:
 	'module' name=QualifiedName '{'
-	('include' includes+=[Model|QualifiedName] ';' | elements+=ModelElement)*
+	('include' includes+=[ml2::Model|QualifiedName] ';' | elements+=ModelElement)*
 	'}';
 
 QualifiedName:
@@ -83,21 +83,21 @@ RegularityFeature returns ml2::Feature:
 
 Attribute returns ml2::Attribute:
 	'att'? name=ID ':' 
-	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']') ? 
+//	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']') ? 
 	(primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName])
 	('subsets' subsetOf+=[ml2::Attribute|QualifiedName] 
 		(',' subsetOf+=[ml2::Attribute|QualifiedName])* ) ? ;
 
 Reference returns ml2::Reference:
 	'ref' name=ID ':' 
-	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? _type=[ml2::Class|QualifiedName]
+//	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? _type=[ml2::Class|QualifiedName]
 	('subsets' subsetOf+=[ml2::Reference|QualifiedName] 
 		(',' subsetOf+=[ml2::Reference|QualifiedName])*) ?
 	('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])? ;
 
 RegularityAttribute returns ml2::Attribute:
 	'regularity' 'att'? name=ID ':' 
-	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']') ? 
+//	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']') ? 
 	(primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName])
 	('subsets' subsetOf+=[ml2::Attribute|QualifiedName] 
 		(',' subsetOf+=[ml2::Attribute|QualifiedName])* ) ?
@@ -105,14 +105,14 @@ RegularityAttribute returns ml2::Attribute:
 
 RegularityReference returns ml2::Reference:
 	'regularity' 'ref' name=ID ':' 
-	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? _type=[ml2::Class|QualifiedName]
+//	('[' lowerBound=ELEMENTBOUND '..' upperBound=ELEMENTBOUND ']')? _type=[ml2::Class|QualifiedName]
 	('subsets' subsetOf+=[ml2::Reference|QualifiedName] 
 		(',' subsetOf+=[ml2::Reference|QualifiedName])*) ?
 	('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])?
 	regularityType=RegularityFeatureType regulatedFeature=[ml2::Feature|QualifiedName] ;
 
-ELEMENTBOUND returns ecore::EInt:
-	'*' | INT ;
+//ELEMENTBOUND returns ecore::EInt:
+//	'*' | INT ;
 	
 enum PrimitiveType returns ml2::PrimitiveType:
 	STRING | NUMBER | BOOLEAN ;
@@ -123,21 +123,21 @@ enum RegularityFeatureType returns ml2::RegularityFeatureType:
 	| DETERMINES_ALLOWED_VALUES | DETERMINES_ALLOWED_TYPES | DETERMINES_MAX_VALUE ;
 
 FeatureAssignment returns ml2::FeatureAssignment:
-	SingleAttributeAssignment | MultipleAttributeAssignment | ReferenceAssignment ;
+	ReferenceAssignment | SingleAttributeAssignment ; // | MultipleAttributeAssignment ;
 
 SingleAttributeAssignment returns ml2::AttributeAssignment: 
 	'att'? attribute=[ml2::Attribute|QualifiedName] '='
-	( individualAssignments+=[ml2::Individual|QualifiedName]
-		| unnamedIndividualAssignments+=UnnamedIndividual
-		| literalAssignments+=Literal ) ;
+	( individualAssignments+=[ml2::Individual|QualifiedName] );
+//		| unnamedIndividualAssignments+=UnnamedIndividual );
+//		| literalAssignments+=Literal ) ;
 
-MultipleAttributeAssignment returns ml2::AttributeAssignment: 
-	'att'? attribute=[ml2::Attribute|QualifiedName] '=' '{'
-	((literalAssignments+=Literal (',' literalAssignments+=Literal)*)
-		| ((individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
-			(',' (individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
-		) 
-	)?  '}';
+//MultipleAttributeAssignment returns ml2::AttributeAssignment: 
+//	'att'? attribute=[ml2::Attribute|QualifiedName] '=' '{'
+////	((literalAssignments+=Literal (',' literalAssignments+=Literal)*)
+//	(((individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
+//	(',' (individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
+//	) 
+//	)?  '}';
 
 ReferenceAssignment returns ml2::ReferenceAssignment: 
 	'ref' reference=[ml2::Reference|QualifiedName] '='
@@ -145,36 +145,36 @@ ReferenceAssignment returns ml2::ReferenceAssignment:
 		| '{' assignments+=[ml2::EntityDeclaration|QualifiedName] 
 			(',' assignments+=[ml2::EntityDeclaration|QualifiedName])* '}' ) ;
 
-Literal returns ml2::Literal:
-	ML2String | ML2Number | ML2Boolean ;
+//Literal returns ml2::Literal:
+//	ML2String | ML2Number | ML2Boolean ;
+//
+//ML2String returns ml2::String:
+//	value=STRING;
+//
+//ML2Number returns ml2::Number:
+//	value=NUMBER;
+//
+//ML2Boolean returns ml2::Boolean:
+//	value=BOOLEAN;
+//
+//BOOLEAN returns ecore::EBoolean:
+//	'true' | 'false';
+//
+//NUMBER returns ecore::EDouble:
+//	'-'? INT ( '.' INT )? ;
 
-ML2String returns ml2::String:
-	value=STRING;
+//UnnamedIndividual returns ml2::Individual:
+//	{ml2::Individual} '[' assignments+=SimpleAttributeAssignment* ']' ;
 
-ML2Number returns ml2::Number:
-	value=NUMBER;
-
-ML2Boolean returns ml2::Boolean:
-	value=BOOLEAN;
-
-BOOLEAN returns ecore::EBoolean:
-	'true' | 'false';
-
-NUMBER returns ecore::EDouble:
-	'-'? INT ( '.' INT )? ;
-
-UnnamedIndividual returns ml2::Individual:
-	{ml2::Individual} '[' assignments+=SimpleAttributeAssignment* ']' ;
-
-SimpleAttributeAssignment returns ml2::AttributeAssignment:
-	attribute=[ml2::Attribute|QualifiedName] '='
-	( individualAssignments+=[ml2::Individual|QualifiedName]
-		| unnamedIndividualAssignments+=UnnamedIndividual
-		| literalAssignments+=Literal
-		| '{'
-			((literalAssignments+=Literal (',' literalAssignments+=Literal)*)
-			| ((individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
-				(',' (individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)
-		)? '}' ) ;
+//SimpleAttributeAssignment returns ml2::AttributeAssignment:
+//	attribute=[ml2::Attribute|QualifiedName] '='
+//	( individualAssignments+=[ml2::Individual|QualifiedName]
+//		| unnamedIndividualAssignments+=UnnamedIndividual
+//		| literalAssignments+=Literal
+//		| '{'
+//			((literalAssignments+=Literal (',' literalAssignments+=Literal)*)
+//			| ((individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual) 
+//				(',' (individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*)
+//		)? '}' ) ;
 
 

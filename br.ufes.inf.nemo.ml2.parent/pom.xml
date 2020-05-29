@@ -21,6 +21,7 @@
 		<additionalTestArguments></additionalTestArguments>
 	</properties>
 	<modules>
+		<module>br.ufes.inf.nemo.ml2.model</module>
 		<module>br.ufes.inf.nemo.ml2</module>
 		<module>br.ufes.inf.nemo.ml2.ide</module>
 		<module>br.ufes.inf.nemo.ml2.ui</module>

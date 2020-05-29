@@ -13,7 +13,7 @@ public abstract class AbstractML2Validator extends AbstractDeclarativeValidator 
 	@Override
 	protected List<EPackage> getEPackages() {
 		List<EPackage> result = new ArrayList<EPackage>();
-		result.add(br.ufes.inf.nemo.ml2.mL2.ML2Package.eINSTANCE);
+		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.ufes.br/inf/nemo/ml2"));
 		return result;
 	}
 }

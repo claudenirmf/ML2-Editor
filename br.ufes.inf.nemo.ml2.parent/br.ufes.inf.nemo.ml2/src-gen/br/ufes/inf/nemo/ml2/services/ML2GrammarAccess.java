@@ -6,7 +6,11 @@ package br.ufes.inf.nemo.ml2.services;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
+import org.eclipse.xtext.Alternatives;
 import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.EnumLiteralDeclaration;
+import org.eclipse.xtext.EnumRule;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.Group;
@@ -14,7 +18,9 @@ import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.TerminalRule;
+import org.eclipse.xtext.UnorderedGroup;
 import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
+import org.eclipse.xtext.service.AbstractElementFinder.AbstractEnumRuleElementFinder;
 import org.eclipse.xtext.service.AbstractElementFinder.AbstractGrammarElementFinder;
 import org.eclipse.xtext.service.GrammarProvider;
 
@@ -23,36 +29,224 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	
 	public class ModelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.Model");
-		private final Assignment cGreetingsAssignment = (Assignment)rule.eContents().get(1);
-		private final RuleCall cGreetingsGreetingParserRuleCall_0 = (RuleCall)cGreetingsAssignment.eContents().get(0);
-		
-		//Model:
-		//	greetings+=Greeting*;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//greetings+=Greeting*
-		public Assignment getGreetingsAssignment() { return cGreetingsAssignment; }
-		
-		//Greeting
-		public RuleCall getGreetingsGreetingParserRuleCall_0() { return cGreetingsGreetingParserRuleCall_0; }
-	}
-	public class GreetingElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.Greeting");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cHelloKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cModuleKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Keyword cExclamationMarkKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final RuleCall cNameQualifiedNameParserRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Alternatives cAlternatives_3 = (Alternatives)cGroup.eContents().get(3);
+		private final Group cGroup_3_0 = (Group)cAlternatives_3.eContents().get(0);
+		private final Keyword cIncludeKeyword_3_0_0 = (Keyword)cGroup_3_0.eContents().get(0);
+		private final Assignment cIncludesAssignment_3_0_1 = (Assignment)cGroup_3_0.eContents().get(1);
+		private final CrossReference cIncludesModelCrossReference_3_0_1_0 = (CrossReference)cIncludesAssignment_3_0_1.eContents().get(0);
+		private final RuleCall cIncludesModelQualifiedNameParserRuleCall_3_0_1_0_1 = (RuleCall)cIncludesModelCrossReference_3_0_1_0.eContents().get(1);
+		private final Keyword cSemicolonKeyword_3_0_2 = (Keyword)cGroup_3_0.eContents().get(2);
+		private final Assignment cElementsAssignment_3_1 = (Assignment)cAlternatives_3.eContents().get(1);
+		private final RuleCall cElementsModelElementParserRuleCall_3_1_0 = (RuleCall)cElementsAssignment_3_1.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
-		//Greeting:
-		//	'Hello' name=ID '!';
+		//Model ml2::Model:
+		//	'module' name=QualifiedName '{' ('include' includes+=[ml2::Model|QualifiedName] ';' | elements+=ModelElement)*
+		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'Hello' name=ID '!'
+		//'module' name=QualifiedName '{' ('include' includes+=[ml2::Model|QualifiedName] ';' | elements+=ModelElement)* '}'
 		public Group getGroup() { return cGroup; }
 		
-		//'Hello'
-		public Keyword getHelloKeyword_0() { return cHelloKeyword_0; }
+		//'module'
+		public Keyword getModuleKeyword_0() { return cModuleKeyword_0; }
+		
+		//name=QualifiedName
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+		
+		//QualifiedName
+		public RuleCall getNameQualifiedNameParserRuleCall_1_0() { return cNameQualifiedNameParserRuleCall_1_0; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
+		
+		//('include' includes+=[ml2::Model|QualifiedName] ';' | elements+=ModelElement)*
+		public Alternatives getAlternatives_3() { return cAlternatives_3; }
+		
+		//'include' includes+=[ml2::Model|QualifiedName] ';'
+		public Group getGroup_3_0() { return cGroup_3_0; }
+		
+		//'include'
+		public Keyword getIncludeKeyword_3_0_0() { return cIncludeKeyword_3_0_0; }
+		
+		//includes+=[ml2::Model|QualifiedName]
+		public Assignment getIncludesAssignment_3_0_1() { return cIncludesAssignment_3_0_1; }
+		
+		//[ml2::Model|QualifiedName]
+		public CrossReference getIncludesModelCrossReference_3_0_1_0() { return cIncludesModelCrossReference_3_0_1_0; }
+		
+		//QualifiedName
+		public RuleCall getIncludesModelQualifiedNameParserRuleCall_3_0_1_0_1() { return cIncludesModelQualifiedNameParserRuleCall_3_0_1_0_1; }
+		
+		//';'
+		public Keyword getSemicolonKeyword_3_0_2() { return cSemicolonKeyword_3_0_2; }
+		
+		//elements+=ModelElement
+		public Assignment getElementsAssignment_3_1() { return cElementsAssignment_3_1; }
+		
+		//ModelElement
+		public RuleCall getElementsModelElementParserRuleCall_3_1_0() { return cElementsModelElementParserRuleCall_3_1_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_4() { return cRightCurlyBracketKeyword_4; }
+	}
+	public class QualifiedNameElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.QualifiedName");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cIDTerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cFullStopKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final RuleCall cIDTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
+		
+		//QualifiedName:
+		//	ID ('.' ID)*;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//ID ('.' ID)*
+		public Group getGroup() { return cGroup; }
+		
+		//ID
+		public RuleCall getIDTerminalRuleCall_0() { return cIDTerminalRuleCall_0; }
+		
+		//('.' ID)*
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//'.'
+		public Keyword getFullStopKeyword_1_0() { return cFullStopKeyword_1_0; }
+		
+		//ID
+		public RuleCall getIDTerminalRuleCall_1_1() { return cIDTerminalRuleCall_1_1; }
+	}
+	public class QualifiedNameWithWildcardElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.QualifiedNameWithWildcard");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cQualifiedNameParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Keyword cFullStopAsteriskKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		
+		//QualifiedNameWithWildcard:
+		//	QualifiedName '.*'?;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//QualifiedName '.*'?
+		public Group getGroup() { return cGroup; }
+		
+		//QualifiedName
+		public RuleCall getQualifiedNameParserRuleCall_0() { return cQualifiedNameParserRuleCall_0; }
+		
+		//'.*'?
+		public Keyword getFullStopAsteriskKeyword_1() { return cFullStopAsteriskKeyword_1; }
+	}
+	public class ImportElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.Import");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cImportKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cImportedNamespaceAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0 = (RuleCall)cImportedNamespaceAssignment_1.eContents().get(0);
+		
+		//Import ml2::Import:
+		//	'import' importedNamespace=QualifiedNameWithWildcard;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'import' importedNamespace=QualifiedNameWithWildcard
+		public Group getGroup() { return cGroup; }
+		
+		//'import'
+		public Keyword getImportKeyword_0() { return cImportKeyword_0; }
+		
+		//importedNamespace=QualifiedNameWithWildcard
+		public Assignment getImportedNamespaceAssignment_1() { return cImportedNamespaceAssignment_1; }
+		
+		//QualifiedNameWithWildcard
+		public RuleCall getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0() { return cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0; }
+	}
+	public class ModelElementElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.ModelElement");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
+		private final RuleCall cImportParserRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
+		private final RuleCall cEntityDeclarationParserRuleCall_0_1 = (RuleCall)cAlternatives_0.eContents().get(1);
+		private final RuleCall cGeneralizationSetParserRuleCall_0_2 = (RuleCall)cAlternatives_0.eContents().get(2);
+		private final Keyword cSemicolonKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		
+		//ModelElement ml2::ModelElement:
+		//	(Import | EntityDeclaration | GeneralizationSet) ';';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//(Import | EntityDeclaration | GeneralizationSet) ';'
+		public Group getGroup() { return cGroup; }
+		
+		//(Import | EntityDeclaration | GeneralizationSet)
+		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+		
+		//Import
+		public RuleCall getImportParserRuleCall_0_0() { return cImportParserRuleCall_0_0; }
+		
+		//EntityDeclaration
+		public RuleCall getEntityDeclarationParserRuleCall_0_1() { return cEntityDeclarationParserRuleCall_0_1; }
+		
+		//GeneralizationSet
+		public RuleCall getGeneralizationSetParserRuleCall_0_2() { return cGeneralizationSetParserRuleCall_0_2; }
+		
+		//';'
+		public Keyword getSemicolonKeyword_1() { return cSemicolonKeyword_1; }
+	}
+	public class EntityDeclarationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.EntityDeclaration");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cClassParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cIndividualParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//EntityDeclaration ml2::EntityDeclaration:
+		//	Class | Individual;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//Class | Individual
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//Class
+		public RuleCall getClassParserRuleCall_0() { return cClassParserRuleCall_0; }
+		
+		//Individual
+		public RuleCall getIndividualParserRuleCall_1() { return cIndividualParserRuleCall_1; }
+	}
+	public class IndividualElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.Individual");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cIndividualKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Keyword cColonKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cInstantiatesAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final CrossReference cInstantiatesClassCrossReference_3_0 = (CrossReference)cInstantiatesAssignment_3.eContents().get(0);
+		private final RuleCall cInstantiatesClassQualifiedNameParserRuleCall_3_0_1 = (RuleCall)cInstantiatesClassCrossReference_3_0.eContents().get(1);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cCommaKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Assignment cInstantiatesAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final CrossReference cInstantiatesClassCrossReference_4_1_0 = (CrossReference)cInstantiatesAssignment_4_1.eContents().get(0);
+		private final RuleCall cInstantiatesClassQualifiedNameParserRuleCall_4_1_0_1 = (RuleCall)cInstantiatesClassCrossReference_4_1_0.eContents().get(1);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cLeftCurlyBracketKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Assignment cAssignmentsAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
+		private final RuleCall cAssignmentsFeatureAssignmentParserRuleCall_5_1_0 = (RuleCall)cAssignmentsAssignment_5_1.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
+		
+		//Individual ml2::Individual:
+		//	'individual' name=ID
+		//	':' instantiates+=[ml2::Class|QualifiedName] (',' instantiates+=[ml2::Class|QualifiedName])* ('{'
+		//	assignments+=FeatureAssignment* '}')?;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'individual' name=ID ':' instantiates+=[ml2::Class|QualifiedName] (',' instantiates+=[ml2::Class|QualifiedName])* ('{'
+		//assignments+=FeatureAssignment* '}')?
+		public Group getGroup() { return cGroup; }
+		
+		//'individual'
+		public Keyword getIndividualKeyword_0() { return cIndividualKeyword_0; }
 		
 		//name=ID
 		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
@@ -60,13 +254,1448 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
 		
-		//'!'
-		public Keyword getExclamationMarkKeyword_2() { return cExclamationMarkKeyword_2; }
+		//':'
+		public Keyword getColonKeyword_2() { return cColonKeyword_2; }
+		
+		//instantiates+=[ml2::Class|QualifiedName]
+		public Assignment getInstantiatesAssignment_3() { return cInstantiatesAssignment_3; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getInstantiatesClassCrossReference_3_0() { return cInstantiatesClassCrossReference_3_0; }
+		
+		//QualifiedName
+		public RuleCall getInstantiatesClassQualifiedNameParserRuleCall_3_0_1() { return cInstantiatesClassQualifiedNameParserRuleCall_3_0_1; }
+		
+		//(',' instantiates+=[ml2::Class|QualifiedName])*
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//','
+		public Keyword getCommaKeyword_4_0() { return cCommaKeyword_4_0; }
+		
+		//instantiates+=[ml2::Class|QualifiedName]
+		public Assignment getInstantiatesAssignment_4_1() { return cInstantiatesAssignment_4_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getInstantiatesClassCrossReference_4_1_0() { return cInstantiatesClassCrossReference_4_1_0; }
+		
+		//QualifiedName
+		public RuleCall getInstantiatesClassQualifiedNameParserRuleCall_4_1_0_1() { return cInstantiatesClassQualifiedNameParserRuleCall_4_1_0_1; }
+		
+		//('{' assignments+=FeatureAssignment* '}')?
+		public Group getGroup_5() { return cGroup_5; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_5_0() { return cLeftCurlyBracketKeyword_5_0; }
+		
+		//assignments+=FeatureAssignment*
+		public Assignment getAssignmentsAssignment_5_1() { return cAssignmentsAssignment_5_1; }
+		
+		//FeatureAssignment
+		public RuleCall getAssignmentsFeatureAssignmentParserRuleCall_5_1_0() { return cAssignmentsFeatureAssignmentParserRuleCall_5_1_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_5_2() { return cRightCurlyBracketKeyword_5_2; }
+	}
+	public class ClassElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.Class");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
+		private final RuleCall cFOClassOrDataTypeParserRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
+		private final RuleCall cHigherOrderClassParserRuleCall_0_1 = (RuleCall)cAlternatives_0.eContents().get(1);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cLeftCurlyBracketKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Alternatives cAlternatives_1_1 = (Alternatives)cGroup_1.eContents().get(1);
+		private final Assignment cAssignmentsAssignment_1_1_0 = (Assignment)cAlternatives_1_1.eContents().get(0);
+		private final RuleCall cAssignmentsFeatureAssignmentParserRuleCall_1_1_0_0 = (RuleCall)cAssignmentsAssignment_1_1_0.eContents().get(0);
+		private final Assignment cFeaturesAssignment_1_1_1 = (Assignment)cAlternatives_1_1.eContents().get(1);
+		private final RuleCall cFeaturesFeatureParserRuleCall_1_1_1_0 = (RuleCall)cFeaturesAssignment_1_1_1.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_1_2 = (Keyword)cGroup_1.eContents().get(2);
+		
+		//Class ml2::Class:
+		//	(FOClassOrDataType | HigherOrderClass) ('{' (assignments+=FeatureAssignment | features+=Feature)* '}')?;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//(FOClassOrDataType | HigherOrderClass) ('{' (assignments+=FeatureAssignment | features+=Feature)* '}')?
+		public Group getGroup() { return cGroup; }
+		
+		//(FOClassOrDataType | HigherOrderClass)
+		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+		
+		//FOClassOrDataType
+		public RuleCall getFOClassOrDataTypeParserRuleCall_0_0() { return cFOClassOrDataTypeParserRuleCall_0_0; }
+		
+		//HigherOrderClass
+		public RuleCall getHigherOrderClassParserRuleCall_0_1() { return cHigherOrderClassParserRuleCall_0_1; }
+		
+		//('{' (assignments+=FeatureAssignment | features+=Feature)* '}')?
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_1_0() { return cLeftCurlyBracketKeyword_1_0; }
+		
+		//(assignments+=FeatureAssignment | features+=Feature)*
+		public Alternatives getAlternatives_1_1() { return cAlternatives_1_1; }
+		
+		//assignments+=FeatureAssignment
+		public Assignment getAssignmentsAssignment_1_1_0() { return cAssignmentsAssignment_1_1_0; }
+		
+		//FeatureAssignment
+		public RuleCall getAssignmentsFeatureAssignmentParserRuleCall_1_1_0_0() { return cAssignmentsFeatureAssignmentParserRuleCall_1_1_0_0; }
+		
+		//features+=Feature
+		public Assignment getFeaturesAssignment_1_1_1() { return cFeaturesAssignment_1_1_1; }
+		
+		//Feature
+		public RuleCall getFeaturesFeatureParserRuleCall_1_1_1_0() { return cFeaturesFeatureParserRuleCall_1_1_1_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_1_2() { return cRightCurlyBracketKeyword_1_2; }
+	}
+	public class FOClassOrDataTypeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.FOClassOrDataType");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
+		private final RuleCall cFOClassParserRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
+		private final RuleCall cDataTypeParserRuleCall_0_1 = (RuleCall)cAlternatives_0.eContents().get(1);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cColonKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Assignment cInstantiatesAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final CrossReference cInstantiatesClassCrossReference_1_1_0 = (CrossReference)cInstantiatesAssignment_1_1.eContents().get(0);
+		private final RuleCall cInstantiatesClassQualifiedNameParserRuleCall_1_1_0_1 = (RuleCall)cInstantiatesClassCrossReference_1_1_0.eContents().get(1);
+		private final Group cGroup_1_2 = (Group)cGroup_1.eContents().get(2);
+		private final Keyword cCommaKeyword_1_2_0 = (Keyword)cGroup_1_2.eContents().get(0);
+		private final Assignment cInstantiatesAssignment_1_2_1 = (Assignment)cGroup_1_2.eContents().get(1);
+		private final CrossReference cInstantiatesClassCrossReference_1_2_1_0 = (CrossReference)cInstantiatesAssignment_1_2_1.eContents().get(0);
+		private final RuleCall cInstantiatesClassQualifiedNameParserRuleCall_1_2_1_0_1 = (RuleCall)cInstantiatesClassCrossReference_1_2_1_0.eContents().get(1);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Keyword cSpecializesKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
+		private final Assignment cSuperClassesAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
+		private final CrossReference cSuperClassesClassCrossReference_2_1_0 = (CrossReference)cSuperClassesAssignment_2_1.eContents().get(0);
+		private final RuleCall cSuperClassesClassQualifiedNameParserRuleCall_2_1_0_1 = (RuleCall)cSuperClassesClassCrossReference_2_1_0.eContents().get(1);
+		private final Group cGroup_2_2 = (Group)cGroup_2.eContents().get(2);
+		private final Keyword cCommaKeyword_2_2_0 = (Keyword)cGroup_2_2.eContents().get(0);
+		private final Assignment cSuperClassesAssignment_2_2_1 = (Assignment)cGroup_2_2.eContents().get(1);
+		private final CrossReference cSuperClassesClassCrossReference_2_2_1_0 = (CrossReference)cSuperClassesAssignment_2_2_1.eContents().get(0);
+		private final RuleCall cSuperClassesClassQualifiedNameParserRuleCall_2_2_1_0_1 = (RuleCall)cSuperClassesClassCrossReference_2_2_1_0.eContents().get(1);
+		
+		//FOClassOrDataType ml2::Class:
+		//	(FOClass | DataType) (':' instantiates+=[ml2::Class|QualifiedName] (',' instantiates+=[ml2::Class|QualifiedName])*)?
+		//	('specializes' superClasses+=[ml2::Class|QualifiedName] (',' superClasses+=[ml2::Class|QualifiedName])*)?;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//(FOClass | DataType) (':' instantiates+=[ml2::Class|QualifiedName] (',' instantiates+=[ml2::Class|QualifiedName])*)?
+		//('specializes' superClasses+=[ml2::Class|QualifiedName] (',' superClasses+=[ml2::Class|QualifiedName])*)?
+		public Group getGroup() { return cGroup; }
+		
+		//(FOClass | DataType)
+		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+		
+		//FOClass
+		public RuleCall getFOClassParserRuleCall_0_0() { return cFOClassParserRuleCall_0_0; }
+		
+		//DataType
+		public RuleCall getDataTypeParserRuleCall_0_1() { return cDataTypeParserRuleCall_0_1; }
+		
+		//(':' instantiates+=[ml2::Class|QualifiedName] (',' instantiates+=[ml2::Class|QualifiedName])*)?
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//':'
+		public Keyword getColonKeyword_1_0() { return cColonKeyword_1_0; }
+		
+		//instantiates+=[ml2::Class|QualifiedName]
+		public Assignment getInstantiatesAssignment_1_1() { return cInstantiatesAssignment_1_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getInstantiatesClassCrossReference_1_1_0() { return cInstantiatesClassCrossReference_1_1_0; }
+		
+		//QualifiedName
+		public RuleCall getInstantiatesClassQualifiedNameParserRuleCall_1_1_0_1() { return cInstantiatesClassQualifiedNameParserRuleCall_1_1_0_1; }
+		
+		//(',' instantiates+=[ml2::Class|QualifiedName])*
+		public Group getGroup_1_2() { return cGroup_1_2; }
+		
+		//','
+		public Keyword getCommaKeyword_1_2_0() { return cCommaKeyword_1_2_0; }
+		
+		//instantiates+=[ml2::Class|QualifiedName]
+		public Assignment getInstantiatesAssignment_1_2_1() { return cInstantiatesAssignment_1_2_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getInstantiatesClassCrossReference_1_2_1_0() { return cInstantiatesClassCrossReference_1_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getInstantiatesClassQualifiedNameParserRuleCall_1_2_1_0_1() { return cInstantiatesClassQualifiedNameParserRuleCall_1_2_1_0_1; }
+		
+		//('specializes' superClasses+=[ml2::Class|QualifiedName] (',' superClasses+=[ml2::Class|QualifiedName])*)?
+		public Group getGroup_2() { return cGroup_2; }
+		
+		//'specializes'
+		public Keyword getSpecializesKeyword_2_0() { return cSpecializesKeyword_2_0; }
+		
+		//superClasses+=[ml2::Class|QualifiedName]
+		public Assignment getSuperClassesAssignment_2_1() { return cSuperClassesAssignment_2_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getSuperClassesClassCrossReference_2_1_0() { return cSuperClassesClassCrossReference_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSuperClassesClassQualifiedNameParserRuleCall_2_1_0_1() { return cSuperClassesClassQualifiedNameParserRuleCall_2_1_0_1; }
+		
+		//(',' superClasses+=[ml2::Class|QualifiedName])*
+		public Group getGroup_2_2() { return cGroup_2_2; }
+		
+		//','
+		public Keyword getCommaKeyword_2_2_0() { return cCommaKeyword_2_2_0; }
+		
+		//superClasses+=[ml2::Class|QualifiedName]
+		public Assignment getSuperClassesAssignment_2_2_1() { return cSuperClassesAssignment_2_2_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getSuperClassesClassCrossReference_2_2_1_0() { return cSuperClassesClassCrossReference_2_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSuperClassesClassQualifiedNameParserRuleCall_2_2_1_0_1() { return cSuperClassesClassQualifiedNameParserRuleCall_2_2_1_0_1; }
+	}
+	public class HigherOrderClassElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.HigherOrderClass");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
+		private final RuleCall cHOClassParserRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
+		private final RuleCall cOrderlessClassParserRuleCall_0_1 = (RuleCall)cAlternatives_0.eContents().get(1);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cColonKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Assignment cInstantiatesAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final CrossReference cInstantiatesClassCrossReference_1_1_0 = (CrossReference)cInstantiatesAssignment_1_1.eContents().get(0);
+		private final RuleCall cInstantiatesClassQualifiedNameParserRuleCall_1_1_0_1 = (RuleCall)cInstantiatesClassCrossReference_1_1_0.eContents().get(1);
+		private final Group cGroup_1_2 = (Group)cGroup_1.eContents().get(2);
+		private final Keyword cCommaKeyword_1_2_0 = (Keyword)cGroup_1_2.eContents().get(0);
+		private final Assignment cInstantiatesAssignment_1_2_1 = (Assignment)cGroup_1_2.eContents().get(1);
+		private final CrossReference cInstantiatesClassCrossReference_1_2_1_0 = (CrossReference)cInstantiatesAssignment_1_2_1.eContents().get(0);
+		private final RuleCall cInstantiatesClassQualifiedNameParserRuleCall_1_2_1_0_1 = (RuleCall)cInstantiatesClassCrossReference_1_2_1_0.eContents().get(1);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Keyword cSpecializesKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
+		private final Assignment cSuperClassesAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
+		private final CrossReference cSuperClassesClassCrossReference_2_1_0 = (CrossReference)cSuperClassesAssignment_2_1.eContents().get(0);
+		private final RuleCall cSuperClassesClassQualifiedNameParserRuleCall_2_1_0_1 = (RuleCall)cSuperClassesClassCrossReference_2_1_0.eContents().get(1);
+		private final Group cGroup_2_2 = (Group)cGroup_2.eContents().get(2);
+		private final Keyword cCommaKeyword_2_2_0 = (Keyword)cGroup_2_2.eContents().get(0);
+		private final Assignment cSuperClassesAssignment_2_2_1 = (Assignment)cGroup_2_2.eContents().get(1);
+		private final CrossReference cSuperClassesClassCrossReference_2_2_1_0 = (CrossReference)cSuperClassesAssignment_2_2_1.eContents().get(0);
+		private final RuleCall cSuperClassesClassQualifiedNameParserRuleCall_2_2_1_0_1 = (RuleCall)cSuperClassesClassCrossReference_2_2_1_0.eContents().get(1);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cSubordinatedToKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cSubordinatorsAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final CrossReference cSubordinatorsClassCrossReference_3_1_0 = (CrossReference)cSubordinatorsAssignment_3_1.eContents().get(0);
+		private final RuleCall cSubordinatorsClassQualifiedNameParserRuleCall_3_1_0_1 = (RuleCall)cSubordinatorsClassCrossReference_3_1_0.eContents().get(1);
+		private final Group cGroup_3_2 = (Group)cGroup_3.eContents().get(2);
+		private final Keyword cCommaKeyword_3_2_0 = (Keyword)cGroup_3_2.eContents().get(0);
+		private final Assignment cSubordinatorsAssignment_3_2_1 = (Assignment)cGroup_3_2.eContents().get(1);
+		private final CrossReference cSubordinatorsClassCrossReference_3_2_1_0 = (CrossReference)cSubordinatorsAssignment_3_2_1.eContents().get(0);
+		private final RuleCall cSubordinatorsClassQualifiedNameParserRuleCall_3_2_1_0_1 = (RuleCall)cSubordinatorsClassCrossReference_3_2_1_0.eContents().get(1);
+		private final Alternatives cAlternatives_4 = (Alternatives)cGroup.eContents().get(4);
+		private final Group cGroup_4_0 = (Group)cAlternatives_4.eContents().get(0);
+		private final Assignment cCategorizationTypeAssignment_4_0_0 = (Assignment)cGroup_4_0.eContents().get(0);
+		private final RuleCall cCategorizationTypeCategorizationTypeEnumRuleCall_4_0_0_0 = (RuleCall)cCategorizationTypeAssignment_4_0_0.eContents().get(0);
+		private final Assignment cCategorizedClassAssignment_4_0_1 = (Assignment)cGroup_4_0.eContents().get(1);
+		private final CrossReference cCategorizedClassClassCrossReference_4_0_1_0 = (CrossReference)cCategorizedClassAssignment_4_0_1.eContents().get(0);
+		private final RuleCall cCategorizedClassClassQualifiedNameParserRuleCall_4_0_1_0_1 = (RuleCall)cCategorizedClassClassCrossReference_4_0_1_0.eContents().get(1);
+		private final Group cGroup_4_1 = (Group)cAlternatives_4.eContents().get(1);
+		private final Keyword cIsPowertypeOfKeyword_4_1_0 = (Keyword)cGroup_4_1.eContents().get(0);
+		private final Assignment cPowertypeOfAssignment_4_1_1 = (Assignment)cGroup_4_1.eContents().get(1);
+		private final CrossReference cPowertypeOfClassCrossReference_4_1_1_0 = (CrossReference)cPowertypeOfAssignment_4_1_1.eContents().get(0);
+		private final RuleCall cPowertypeOfClassQualifiedNameParserRuleCall_4_1_1_0_1 = (RuleCall)cPowertypeOfClassCrossReference_4_1_1_0.eContents().get(1);
+		
+		//HigherOrderClass ml2::Class:
+		//	(HOClass | OrderlessClass) (':' instantiates+=[ml2::Class|QualifiedName] (','
+		//	instantiates+=[ml2::Class|QualifiedName])*)? ('specializes' superClasses+=[ml2::Class|QualifiedName] (','
+		//	superClasses+=[ml2::Class|QualifiedName])*)? ('subordinatedTo' subordinators+=[ml2::Class|QualifiedName] (','
+		//	subordinators+=[ml2::Class|QualifiedName])*)? (categorizationType=CategorizationType
+		//	categorizedClass=[ml2::Class|QualifiedName] | 'isPowertypeOf' powertypeOf=[ml2::Class|QualifiedName])?;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//(HOClass | OrderlessClass) (':' instantiates+=[ml2::Class|QualifiedName] (','
+		//instantiates+=[ml2::Class|QualifiedName])*)? ('specializes' superClasses+=[ml2::Class|QualifiedName] (','
+		//superClasses+=[ml2::Class|QualifiedName])*)? ('subordinatedTo' subordinators+=[ml2::Class|QualifiedName] (','
+		//subordinators+=[ml2::Class|QualifiedName])*)? (categorizationType=CategorizationType
+		//categorizedClass=[ml2::Class|QualifiedName] | 'isPowertypeOf' powertypeOf=[ml2::Class|QualifiedName])?
+		public Group getGroup() { return cGroup; }
+		
+		//(HOClass | OrderlessClass)
+		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+		
+		//HOClass
+		public RuleCall getHOClassParserRuleCall_0_0() { return cHOClassParserRuleCall_0_0; }
+		
+		//OrderlessClass
+		public RuleCall getOrderlessClassParserRuleCall_0_1() { return cOrderlessClassParserRuleCall_0_1; }
+		
+		//(':' instantiates+=[ml2::Class|QualifiedName] (',' instantiates+=[ml2::Class|QualifiedName])*)?
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//':'
+		public Keyword getColonKeyword_1_0() { return cColonKeyword_1_0; }
+		
+		//instantiates+=[ml2::Class|QualifiedName]
+		public Assignment getInstantiatesAssignment_1_1() { return cInstantiatesAssignment_1_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getInstantiatesClassCrossReference_1_1_0() { return cInstantiatesClassCrossReference_1_1_0; }
+		
+		//QualifiedName
+		public RuleCall getInstantiatesClassQualifiedNameParserRuleCall_1_1_0_1() { return cInstantiatesClassQualifiedNameParserRuleCall_1_1_0_1; }
+		
+		//(',' instantiates+=[ml2::Class|QualifiedName])*
+		public Group getGroup_1_2() { return cGroup_1_2; }
+		
+		//','
+		public Keyword getCommaKeyword_1_2_0() { return cCommaKeyword_1_2_0; }
+		
+		//instantiates+=[ml2::Class|QualifiedName]
+		public Assignment getInstantiatesAssignment_1_2_1() { return cInstantiatesAssignment_1_2_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getInstantiatesClassCrossReference_1_2_1_0() { return cInstantiatesClassCrossReference_1_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getInstantiatesClassQualifiedNameParserRuleCall_1_2_1_0_1() { return cInstantiatesClassQualifiedNameParserRuleCall_1_2_1_0_1; }
+		
+		//('specializes' superClasses+=[ml2::Class|QualifiedName] (',' superClasses+=[ml2::Class|QualifiedName])*)?
+		public Group getGroup_2() { return cGroup_2; }
+		
+		//'specializes'
+		public Keyword getSpecializesKeyword_2_0() { return cSpecializesKeyword_2_0; }
+		
+		//superClasses+=[ml2::Class|QualifiedName]
+		public Assignment getSuperClassesAssignment_2_1() { return cSuperClassesAssignment_2_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getSuperClassesClassCrossReference_2_1_0() { return cSuperClassesClassCrossReference_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSuperClassesClassQualifiedNameParserRuleCall_2_1_0_1() { return cSuperClassesClassQualifiedNameParserRuleCall_2_1_0_1; }
+		
+		//(',' superClasses+=[ml2::Class|QualifiedName])*
+		public Group getGroup_2_2() { return cGroup_2_2; }
+		
+		//','
+		public Keyword getCommaKeyword_2_2_0() { return cCommaKeyword_2_2_0; }
+		
+		//superClasses+=[ml2::Class|QualifiedName]
+		public Assignment getSuperClassesAssignment_2_2_1() { return cSuperClassesAssignment_2_2_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getSuperClassesClassCrossReference_2_2_1_0() { return cSuperClassesClassCrossReference_2_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSuperClassesClassQualifiedNameParserRuleCall_2_2_1_0_1() { return cSuperClassesClassQualifiedNameParserRuleCall_2_2_1_0_1; }
+		
+		//('subordinatedTo' subordinators+=[ml2::Class|QualifiedName] (',' subordinators+=[ml2::Class|QualifiedName])*)?
+		public Group getGroup_3() { return cGroup_3; }
+		
+		//'subordinatedTo'
+		public Keyword getSubordinatedToKeyword_3_0() { return cSubordinatedToKeyword_3_0; }
+		
+		//subordinators+=[ml2::Class|QualifiedName]
+		public Assignment getSubordinatorsAssignment_3_1() { return cSubordinatorsAssignment_3_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getSubordinatorsClassCrossReference_3_1_0() { return cSubordinatorsClassCrossReference_3_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubordinatorsClassQualifiedNameParserRuleCall_3_1_0_1() { return cSubordinatorsClassQualifiedNameParserRuleCall_3_1_0_1; }
+		
+		//(',' subordinators+=[ml2::Class|QualifiedName])*
+		public Group getGroup_3_2() { return cGroup_3_2; }
+		
+		//','
+		public Keyword getCommaKeyword_3_2_0() { return cCommaKeyword_3_2_0; }
+		
+		//subordinators+=[ml2::Class|QualifiedName]
+		public Assignment getSubordinatorsAssignment_3_2_1() { return cSubordinatorsAssignment_3_2_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getSubordinatorsClassCrossReference_3_2_1_0() { return cSubordinatorsClassCrossReference_3_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubordinatorsClassQualifiedNameParserRuleCall_3_2_1_0_1() { return cSubordinatorsClassQualifiedNameParserRuleCall_3_2_1_0_1; }
+		
+		//(categorizationType=CategorizationType categorizedClass=[ml2::Class|QualifiedName] | 'isPowertypeOf'
+		//powertypeOf=[ml2::Class|QualifiedName])?
+		public Alternatives getAlternatives_4() { return cAlternatives_4; }
+		
+		//categorizationType=CategorizationType categorizedClass=[ml2::Class|QualifiedName]
+		public Group getGroup_4_0() { return cGroup_4_0; }
+		
+		//categorizationType=CategorizationType
+		public Assignment getCategorizationTypeAssignment_4_0_0() { return cCategorizationTypeAssignment_4_0_0; }
+		
+		//CategorizationType
+		public RuleCall getCategorizationTypeCategorizationTypeEnumRuleCall_4_0_0_0() { return cCategorizationTypeCategorizationTypeEnumRuleCall_4_0_0_0; }
+		
+		//categorizedClass=[ml2::Class|QualifiedName]
+		public Assignment getCategorizedClassAssignment_4_0_1() { return cCategorizedClassAssignment_4_0_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getCategorizedClassClassCrossReference_4_0_1_0() { return cCategorizedClassClassCrossReference_4_0_1_0; }
+		
+		//QualifiedName
+		public RuleCall getCategorizedClassClassQualifiedNameParserRuleCall_4_0_1_0_1() { return cCategorizedClassClassQualifiedNameParserRuleCall_4_0_1_0_1; }
+		
+		//'isPowertypeOf' powertypeOf=[ml2::Class|QualifiedName]
+		public Group getGroup_4_1() { return cGroup_4_1; }
+		
+		//'isPowertypeOf'
+		public Keyword getIsPowertypeOfKeyword_4_1_0() { return cIsPowertypeOfKeyword_4_1_0; }
+		
+		//powertypeOf=[ml2::Class|QualifiedName]
+		public Assignment getPowertypeOfAssignment_4_1_1() { return cPowertypeOfAssignment_4_1_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getPowertypeOfClassCrossReference_4_1_1_0() { return cPowertypeOfClassCrossReference_4_1_1_0; }
+		
+		//QualifiedName
+		public RuleCall getPowertypeOfClassQualifiedNameParserRuleCall_4_1_1_0_1() { return cPowertypeOfClassQualifiedNameParserRuleCall_4_1_1_0_1; }
+	}
+	public class FOClassElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.FOClass");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cClassKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		
+		//FOClass ml2::FOClass:
+		//	'class' name=ID;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'class' name=ID
+		public Group getGroup() { return cGroup; }
+		
+		//'class'
+		public Keyword getClassKeyword_0() { return cClassKeyword_0; }
+		
+		//name=ID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
+	}
+	public class DataTypeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.DataType");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cDatatypeKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		
+		//DataType ml2::DataType:
+		//	'datatype' name=ID;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'datatype' name=ID
+		public Group getGroup() { return cGroup; }
+		
+		//'datatype'
+		public Keyword getDatatypeKeyword_0() { return cDatatypeKeyword_0; }
+		
+		//name=ID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
+	}
+	public class HOClassElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.HOClass");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cOrderKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cOrderAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cOrderINTTerminalRuleCall_1_0 = (RuleCall)cOrderAssignment_1.eContents().get(0);
+		private final Keyword cClassKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cNameAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cNameIDTerminalRuleCall_3_0 = (RuleCall)cNameAssignment_3.eContents().get(0);
+		
+		//HOClass ml2::HOClass:
+		//	'order' order=INT 'class' name=ID;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'order' order=INT 'class' name=ID
+		public Group getGroup() { return cGroup; }
+		
+		//'order'
+		public Keyword getOrderKeyword_0() { return cOrderKeyword_0; }
+		
+		//order=INT
+		public Assignment getOrderAssignment_1() { return cOrderAssignment_1; }
+		
+		//INT
+		public RuleCall getOrderINTTerminalRuleCall_1_0() { return cOrderINTTerminalRuleCall_1_0; }
+		
+		//'class'
+		public Keyword getClassKeyword_2() { return cClassKeyword_2; }
+		
+		//name=ID
+		public Assignment getNameAssignment_3() { return cNameAssignment_3; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_3_0() { return cNameIDTerminalRuleCall_3_0; }
+	}
+	public class OrderlessClassElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.OrderlessClass");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cOrderlessKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cClassKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cNameIDTerminalRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
+		
+		//OrderlessClass ml2::OrderlessClass:
+		//	'orderless' 'class' name=ID;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'orderless' 'class' name=ID
+		public Group getGroup() { return cGroup; }
+		
+		//'orderless'
+		public Keyword getOrderlessKeyword_0() { return cOrderlessKeyword_0; }
+		
+		//'class'
+		public Keyword getClassKeyword_1() { return cClassKeyword_1; }
+		
+		//name=ID
+		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
+	}
+	public class GeneralizationSetElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.GeneralizationSet");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final UnorderedGroup cUnorderedGroup_0 = (UnorderedGroup)cGroup.eContents().get(0);
+		private final Assignment cIsDisjointAssignment_0_0 = (Assignment)cUnorderedGroup_0.eContents().get(0);
+		private final Keyword cIsDisjointDisjointKeyword_0_0_0 = (Keyword)cIsDisjointAssignment_0_0.eContents().get(0);
+		private final Assignment cIsCompleteAssignment_0_1 = (Assignment)cUnorderedGroup_0.eContents().get(1);
+		private final Keyword cIsCompleteCompleteKeyword_0_1_0 = (Keyword)cIsCompleteAssignment_0_1.eContents().get(0);
+		private final Keyword cGensetKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cNameIDTerminalRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
+		private final Keyword cGeneralKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cGeneralAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final CrossReference cGeneralClassCrossReference_4_0 = (CrossReference)cGeneralAssignment_4.eContents().get(0);
+		private final RuleCall cGeneralClassQualifiedNameParserRuleCall_4_0_1 = (RuleCall)cGeneralClassCrossReference_4_0.eContents().get(1);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cCategorizerKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Assignment cCategorizerAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
+		private final CrossReference cCategorizerClassCrossReference_5_1_0 = (CrossReference)cCategorizerAssignment_5_1.eContents().get(0);
+		private final RuleCall cCategorizerClassQualifiedNameParserRuleCall_5_1_0_1 = (RuleCall)cCategorizerClassCrossReference_5_1_0.eContents().get(1);
+		private final Keyword cSpecificsKeyword_6 = (Keyword)cGroup.eContents().get(6);
+		private final Assignment cSpecificsAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final CrossReference cSpecificsClassCrossReference_7_0 = (CrossReference)cSpecificsAssignment_7.eContents().get(0);
+		private final RuleCall cSpecificsClassQualifiedNameParserRuleCall_7_0_1 = (RuleCall)cSpecificsClassCrossReference_7_0.eContents().get(1);
+		private final Group cGroup_8 = (Group)cGroup.eContents().get(8);
+		private final Keyword cCommaKeyword_8_0 = (Keyword)cGroup_8.eContents().get(0);
+		private final Assignment cSpecificsAssignment_8_1 = (Assignment)cGroup_8.eContents().get(1);
+		private final CrossReference cSpecificsClassCrossReference_8_1_0 = (CrossReference)cSpecificsAssignment_8_1.eContents().get(0);
+		private final RuleCall cSpecificsClassQualifiedNameParserRuleCall_8_1_0_1 = (RuleCall)cSpecificsClassCrossReference_8_1_0.eContents().get(1);
+		
+		//GeneralizationSet ml2::GeneralizationSet:
+		//	(isDisjoint?='disjoint'? & isComplete?='complete'?) 'genset' name=ID?
+		//	'general' general=[ml2::Class|QualifiedName] ('categorizer' categorizer=[ml2::Class|QualifiedName])?
+		//	'specifics' specifics+=[ml2::Class|QualifiedName] (',' specifics+=[ml2::Class|QualifiedName])+;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//(isDisjoint?='disjoint'? & isComplete?='complete'?) 'genset' name=ID? 'general' general=[ml2::Class|QualifiedName]
+		//('categorizer' categorizer=[ml2::Class|QualifiedName])? 'specifics' specifics+=[ml2::Class|QualifiedName] (','
+		//specifics+=[ml2::Class|QualifiedName])+
+		public Group getGroup() { return cGroup; }
+		
+		//(isDisjoint?='disjoint'? & isComplete?='complete'?)
+		public UnorderedGroup getUnorderedGroup_0() { return cUnorderedGroup_0; }
+		
+		//isDisjoint?='disjoint'?
+		public Assignment getIsDisjointAssignment_0_0() { return cIsDisjointAssignment_0_0; }
+		
+		//'disjoint'
+		public Keyword getIsDisjointDisjointKeyword_0_0_0() { return cIsDisjointDisjointKeyword_0_0_0; }
+		
+		//isComplete?='complete'?
+		public Assignment getIsCompleteAssignment_0_1() { return cIsCompleteAssignment_0_1; }
+		
+		//'complete'
+		public Keyword getIsCompleteCompleteKeyword_0_1_0() { return cIsCompleteCompleteKeyword_0_1_0; }
+		
+		//'genset'
+		public Keyword getGensetKeyword_1() { return cGensetKeyword_1; }
+		
+		//name=ID?
+		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
+		
+		//'general'
+		public Keyword getGeneralKeyword_3() { return cGeneralKeyword_3; }
+		
+		//general=[ml2::Class|QualifiedName]
+		public Assignment getGeneralAssignment_4() { return cGeneralAssignment_4; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getGeneralClassCrossReference_4_0() { return cGeneralClassCrossReference_4_0; }
+		
+		//QualifiedName
+		public RuleCall getGeneralClassQualifiedNameParserRuleCall_4_0_1() { return cGeneralClassQualifiedNameParserRuleCall_4_0_1; }
+		
+		//('categorizer' categorizer=[ml2::Class|QualifiedName])?
+		public Group getGroup_5() { return cGroup_5; }
+		
+		//'categorizer'
+		public Keyword getCategorizerKeyword_5_0() { return cCategorizerKeyword_5_0; }
+		
+		//categorizer=[ml2::Class|QualifiedName]
+		public Assignment getCategorizerAssignment_5_1() { return cCategorizerAssignment_5_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getCategorizerClassCrossReference_5_1_0() { return cCategorizerClassCrossReference_5_1_0; }
+		
+		//QualifiedName
+		public RuleCall getCategorizerClassQualifiedNameParserRuleCall_5_1_0_1() { return cCategorizerClassQualifiedNameParserRuleCall_5_1_0_1; }
+		
+		//'specifics'
+		public Keyword getSpecificsKeyword_6() { return cSpecificsKeyword_6; }
+		
+		//specifics+=[ml2::Class|QualifiedName]
+		public Assignment getSpecificsAssignment_7() { return cSpecificsAssignment_7; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getSpecificsClassCrossReference_7_0() { return cSpecificsClassCrossReference_7_0; }
+		
+		//QualifiedName
+		public RuleCall getSpecificsClassQualifiedNameParserRuleCall_7_0_1() { return cSpecificsClassQualifiedNameParserRuleCall_7_0_1; }
+		
+		//(',' specifics+=[ml2::Class|QualifiedName])+
+		public Group getGroup_8() { return cGroup_8; }
+		
+		//','
+		public Keyword getCommaKeyword_8_0() { return cCommaKeyword_8_0; }
+		
+		//specifics+=[ml2::Class|QualifiedName]
+		public Assignment getSpecificsAssignment_8_1() { return cSpecificsAssignment_8_1; }
+		
+		//[ml2::Class|QualifiedName]
+		public CrossReference getSpecificsClassCrossReference_8_1_0() { return cSpecificsClassCrossReference_8_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSpecificsClassQualifiedNameParserRuleCall_8_1_0_1() { return cSpecificsClassQualifiedNameParserRuleCall_8_1_0_1; }
+	}
+	public class FeatureElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.Feature");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cCommonFeatureParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cRegularityFeatureParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//Feature ml2::Feature:
+		//	CommonFeature | RegularityFeature;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//CommonFeature | RegularityFeature
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//CommonFeature
+		public RuleCall getCommonFeatureParserRuleCall_0() { return cCommonFeatureParserRuleCall_0; }
+		
+		//RegularityFeature
+		public RuleCall getRegularityFeatureParserRuleCall_1() { return cRegularityFeatureParserRuleCall_1; }
+	}
+	public class CommonFeatureElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.CommonFeature");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cAttributeParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cReferenceParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//CommonFeature ml2::Feature:
+		//	Attribute | Reference;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//Attribute | Reference
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//Attribute
+		public RuleCall getAttributeParserRuleCall_0() { return cAttributeParserRuleCall_0; }
+		
+		//Reference
+		public RuleCall getReferenceParserRuleCall_1() { return cReferenceParserRuleCall_1; }
+	}
+	public class RegularityFeatureElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.RegularityFeature");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cRegularityAttributeParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cRegularityReferenceParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//RegularityFeature ml2::Feature:
+		//	RegularityAttribute | RegularityReference;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//RegularityAttribute | RegularityReference
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//RegularityAttribute
+		public RuleCall getRegularityAttributeParserRuleCall_0() { return cRegularityAttributeParserRuleCall_0; }
+		
+		//RegularityReference
+		public RuleCall getRegularityReferenceParserRuleCall_1() { return cRegularityReferenceParserRuleCall_1; }
+	}
+	public class AttributeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.Attribute");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cAttKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Keyword cColonKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Alternatives cAlternatives_3 = (Alternatives)cGroup.eContents().get(3);
+		private final Assignment cPrimitiveTypeAssignment_3_0 = (Assignment)cAlternatives_3.eContents().get(0);
+		private final RuleCall cPrimitiveTypePrimitiveTypeEnumRuleCall_3_0_0 = (RuleCall)cPrimitiveTypeAssignment_3_0.eContents().get(0);
+		private final Assignment c_typeAssignment_3_1 = (Assignment)cAlternatives_3.eContents().get(1);
+		private final CrossReference c_typeDataTypeCrossReference_3_1_0 = (CrossReference)c_typeAssignment_3_1.eContents().get(0);
+		private final RuleCall c_typeDataTypeQualifiedNameParserRuleCall_3_1_0_1 = (RuleCall)c_typeDataTypeCrossReference_3_1_0.eContents().get(1);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cSubsetsKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Assignment cSubsetOfAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final CrossReference cSubsetOfAttributeCrossReference_4_1_0 = (CrossReference)cSubsetOfAssignment_4_1.eContents().get(0);
+		private final RuleCall cSubsetOfAttributeQualifiedNameParserRuleCall_4_1_0_1 = (RuleCall)cSubsetOfAttributeCrossReference_4_1_0.eContents().get(1);
+		private final Group cGroup_4_2 = (Group)cGroup_4.eContents().get(2);
+		private final Keyword cCommaKeyword_4_2_0 = (Keyword)cGroup_4_2.eContents().get(0);
+		private final Assignment cSubsetOfAssignment_4_2_1 = (Assignment)cGroup_4_2.eContents().get(1);
+		private final CrossReference cSubsetOfAttributeCrossReference_4_2_1_0 = (CrossReference)cSubsetOfAssignment_4_2_1.eContents().get(0);
+		private final RuleCall cSubsetOfAttributeQualifiedNameParserRuleCall_4_2_1_0_1 = (RuleCall)cSubsetOfAttributeCrossReference_4_2_1_0.eContents().get(1);
+		
+		//Attribute ml2::Attribute:
+		//	'att'? name=ID ':' (primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName]) ('subsets'
+		//	subsetOf+=[ml2::Attribute|QualifiedName] (',' subsetOf+=[ml2::Attribute|QualifiedName])*)?;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'att'? name=ID ':' (primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName]) ('subsets'
+		//subsetOf+=[ml2::Attribute|QualifiedName] (',' subsetOf+=[ml2::Attribute|QualifiedName])*)?
+		public Group getGroup() { return cGroup; }
+		
+		//'att'?
+		public Keyword getAttKeyword_0() { return cAttKeyword_0; }
+		
+		//name=ID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
+		
+		//':'
+		public Keyword getColonKeyword_2() { return cColonKeyword_2; }
+		
+		//(primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName])
+		public Alternatives getAlternatives_3() { return cAlternatives_3; }
+		
+		//primitiveType=PrimitiveType
+		public Assignment getPrimitiveTypeAssignment_3_0() { return cPrimitiveTypeAssignment_3_0; }
+		
+		//PrimitiveType
+		public RuleCall getPrimitiveTypePrimitiveTypeEnumRuleCall_3_0_0() { return cPrimitiveTypePrimitiveTypeEnumRuleCall_3_0_0; }
+		
+		//_type=[ml2::DataType|QualifiedName]
+		public Assignment get_typeAssignment_3_1() { return c_typeAssignment_3_1; }
+		
+		//[ml2::DataType|QualifiedName]
+		public CrossReference get_typeDataTypeCrossReference_3_1_0() { return c_typeDataTypeCrossReference_3_1_0; }
+		
+		//QualifiedName
+		public RuleCall get_typeDataTypeQualifiedNameParserRuleCall_3_1_0_1() { return c_typeDataTypeQualifiedNameParserRuleCall_3_1_0_1; }
+		
+		//('subsets' subsetOf+=[ml2::Attribute|QualifiedName] (',' subsetOf+=[ml2::Attribute|QualifiedName])*)?
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//'subsets'
+		public Keyword getSubsetsKeyword_4_0() { return cSubsetsKeyword_4_0; }
+		
+		//subsetOf+=[ml2::Attribute|QualifiedName]
+		public Assignment getSubsetOfAssignment_4_1() { return cSubsetOfAssignment_4_1; }
+		
+		//[ml2::Attribute|QualifiedName]
+		public CrossReference getSubsetOfAttributeCrossReference_4_1_0() { return cSubsetOfAttributeCrossReference_4_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubsetOfAttributeQualifiedNameParserRuleCall_4_1_0_1() { return cSubsetOfAttributeQualifiedNameParserRuleCall_4_1_0_1; }
+		
+		//(',' subsetOf+=[ml2::Attribute|QualifiedName])*
+		public Group getGroup_4_2() { return cGroup_4_2; }
+		
+		//','
+		public Keyword getCommaKeyword_4_2_0() { return cCommaKeyword_4_2_0; }
+		
+		//subsetOf+=[ml2::Attribute|QualifiedName]
+		public Assignment getSubsetOfAssignment_4_2_1() { return cSubsetOfAssignment_4_2_1; }
+		
+		//[ml2::Attribute|QualifiedName]
+		public CrossReference getSubsetOfAttributeCrossReference_4_2_1_0() { return cSubsetOfAttributeCrossReference_4_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubsetOfAttributeQualifiedNameParserRuleCall_4_2_1_0_1() { return cSubsetOfAttributeQualifiedNameParserRuleCall_4_2_1_0_1; }
+	}
+	public class ReferenceElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.Reference");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cRefKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Keyword cColonKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cSubsetsKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cSubsetOfAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final CrossReference cSubsetOfReferenceCrossReference_3_1_0 = (CrossReference)cSubsetOfAssignment_3_1.eContents().get(0);
+		private final RuleCall cSubsetOfReferenceQualifiedNameParserRuleCall_3_1_0_1 = (RuleCall)cSubsetOfReferenceCrossReference_3_1_0.eContents().get(1);
+		private final Group cGroup_3_2 = (Group)cGroup_3.eContents().get(2);
+		private final Keyword cCommaKeyword_3_2_0 = (Keyword)cGroup_3_2.eContents().get(0);
+		private final Assignment cSubsetOfAssignment_3_2_1 = (Assignment)cGroup_3_2.eContents().get(1);
+		private final CrossReference cSubsetOfReferenceCrossReference_3_2_1_0 = (CrossReference)cSubsetOfAssignment_3_2_1.eContents().get(0);
+		private final RuleCall cSubsetOfReferenceQualifiedNameParserRuleCall_3_2_1_0_1 = (RuleCall)cSubsetOfReferenceCrossReference_3_2_1_0.eContents().get(1);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cIsOppositeToKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Assignment cOppositeToAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final CrossReference cOppositeToReferenceCrossReference_4_1_0 = (CrossReference)cOppositeToAssignment_4_1.eContents().get(0);
+		private final RuleCall cOppositeToReferenceQualifiedNameParserRuleCall_4_1_0_1 = (RuleCall)cOppositeToReferenceCrossReference_4_1_0.eContents().get(1);
+		
+		//Reference ml2::Reference:
+		//	'ref' name=ID ':' ('subsets' subsetOf+=[ml2::Reference|QualifiedName] (','
+		//	subsetOf+=[ml2::Reference|QualifiedName])*)? ('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])?;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'ref' name=ID ':' ('subsets' subsetOf+=[ml2::Reference|QualifiedName] (',' subsetOf+=[ml2::Reference|QualifiedName])*)?
+		//('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])?
+		public Group getGroup() { return cGroup; }
+		
+		//'ref'
+		public Keyword getRefKeyword_0() { return cRefKeyword_0; }
+		
+		//name=ID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
+		
+		//':'
+		public Keyword getColonKeyword_2() { return cColonKeyword_2; }
+		
+		//('subsets' subsetOf+=[ml2::Reference|QualifiedName] (',' subsetOf+=[ml2::Reference|QualifiedName])*)?
+		public Group getGroup_3() { return cGroup_3; }
+		
+		//'subsets'
+		public Keyword getSubsetsKeyword_3_0() { return cSubsetsKeyword_3_0; }
+		
+		//subsetOf+=[ml2::Reference|QualifiedName]
+		public Assignment getSubsetOfAssignment_3_1() { return cSubsetOfAssignment_3_1; }
+		
+		//[ml2::Reference|QualifiedName]
+		public CrossReference getSubsetOfReferenceCrossReference_3_1_0() { return cSubsetOfReferenceCrossReference_3_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubsetOfReferenceQualifiedNameParserRuleCall_3_1_0_1() { return cSubsetOfReferenceQualifiedNameParserRuleCall_3_1_0_1; }
+		
+		//(',' subsetOf+=[ml2::Reference|QualifiedName])*
+		public Group getGroup_3_2() { return cGroup_3_2; }
+		
+		//','
+		public Keyword getCommaKeyword_3_2_0() { return cCommaKeyword_3_2_0; }
+		
+		//subsetOf+=[ml2::Reference|QualifiedName]
+		public Assignment getSubsetOfAssignment_3_2_1() { return cSubsetOfAssignment_3_2_1; }
+		
+		//[ml2::Reference|QualifiedName]
+		public CrossReference getSubsetOfReferenceCrossReference_3_2_1_0() { return cSubsetOfReferenceCrossReference_3_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubsetOfReferenceQualifiedNameParserRuleCall_3_2_1_0_1() { return cSubsetOfReferenceQualifiedNameParserRuleCall_3_2_1_0_1; }
+		
+		//('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])?
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//'isOppositeTo'
+		public Keyword getIsOppositeToKeyword_4_0() { return cIsOppositeToKeyword_4_0; }
+		
+		//oppositeTo=[ml2::Reference|QualifiedName]
+		public Assignment getOppositeToAssignment_4_1() { return cOppositeToAssignment_4_1; }
+		
+		//[ml2::Reference|QualifiedName]
+		public CrossReference getOppositeToReferenceCrossReference_4_1_0() { return cOppositeToReferenceCrossReference_4_1_0; }
+		
+		//QualifiedName
+		public RuleCall getOppositeToReferenceQualifiedNameParserRuleCall_4_1_0_1() { return cOppositeToReferenceQualifiedNameParserRuleCall_4_1_0_1; }
+	}
+	public class RegularityAttributeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.RegularityAttribute");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cRegularityKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cAttKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cNameIDTerminalRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
+		private final Keyword cColonKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Alternatives cAlternatives_4 = (Alternatives)cGroup.eContents().get(4);
+		private final Assignment cPrimitiveTypeAssignment_4_0 = (Assignment)cAlternatives_4.eContents().get(0);
+		private final RuleCall cPrimitiveTypePrimitiveTypeEnumRuleCall_4_0_0 = (RuleCall)cPrimitiveTypeAssignment_4_0.eContents().get(0);
+		private final Assignment c_typeAssignment_4_1 = (Assignment)cAlternatives_4.eContents().get(1);
+		private final CrossReference c_typeDataTypeCrossReference_4_1_0 = (CrossReference)c_typeAssignment_4_1.eContents().get(0);
+		private final RuleCall c_typeDataTypeQualifiedNameParserRuleCall_4_1_0_1 = (RuleCall)c_typeDataTypeCrossReference_4_1_0.eContents().get(1);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cSubsetsKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Assignment cSubsetOfAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
+		private final CrossReference cSubsetOfAttributeCrossReference_5_1_0 = (CrossReference)cSubsetOfAssignment_5_1.eContents().get(0);
+		private final RuleCall cSubsetOfAttributeQualifiedNameParserRuleCall_5_1_0_1 = (RuleCall)cSubsetOfAttributeCrossReference_5_1_0.eContents().get(1);
+		private final Group cGroup_5_2 = (Group)cGroup_5.eContents().get(2);
+		private final Keyword cCommaKeyword_5_2_0 = (Keyword)cGroup_5_2.eContents().get(0);
+		private final Assignment cSubsetOfAssignment_5_2_1 = (Assignment)cGroup_5_2.eContents().get(1);
+		private final CrossReference cSubsetOfAttributeCrossReference_5_2_1_0 = (CrossReference)cSubsetOfAssignment_5_2_1.eContents().get(0);
+		private final RuleCall cSubsetOfAttributeQualifiedNameParserRuleCall_5_2_1_0_1 = (RuleCall)cSubsetOfAttributeCrossReference_5_2_1_0.eContents().get(1);
+		private final Assignment cRegularityTypeAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cRegularityTypeRegularityFeatureTypeEnumRuleCall_6_0 = (RuleCall)cRegularityTypeAssignment_6.eContents().get(0);
+		private final Assignment cRegulatedFeatureAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final CrossReference cRegulatedFeatureFeatureCrossReference_7_0 = (CrossReference)cRegulatedFeatureAssignment_7.eContents().get(0);
+		private final RuleCall cRegulatedFeatureFeatureQualifiedNameParserRuleCall_7_0_1 = (RuleCall)cRegulatedFeatureFeatureCrossReference_7_0.eContents().get(1);
+		
+		//RegularityAttribute ml2::Attribute:
+		//	'regularity' 'att'? name=ID ':' (primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName]) ('subsets'
+		//	subsetOf+=[ml2::Attribute|QualifiedName] (',' subsetOf+=[ml2::Attribute|QualifiedName])*)?
+		//	regularityType=RegularityFeatureType regulatedFeature=[ml2::Feature|QualifiedName];
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'regularity' 'att'? name=ID ':' (primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName]) ('subsets'
+		//subsetOf+=[ml2::Attribute|QualifiedName] (',' subsetOf+=[ml2::Attribute|QualifiedName])*)?
+		//regularityType=RegularityFeatureType regulatedFeature=[ml2::Feature|QualifiedName]
+		public Group getGroup() { return cGroup; }
+		
+		//'regularity'
+		public Keyword getRegularityKeyword_0() { return cRegularityKeyword_0; }
+		
+		//'att'?
+		public Keyword getAttKeyword_1() { return cAttKeyword_1; }
+		
+		//name=ID
+		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
+		
+		//':'
+		public Keyword getColonKeyword_3() { return cColonKeyword_3; }
+		
+		//(primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName])
+		public Alternatives getAlternatives_4() { return cAlternatives_4; }
+		
+		//primitiveType=PrimitiveType
+		public Assignment getPrimitiveTypeAssignment_4_0() { return cPrimitiveTypeAssignment_4_0; }
+		
+		//PrimitiveType
+		public RuleCall getPrimitiveTypePrimitiveTypeEnumRuleCall_4_0_0() { return cPrimitiveTypePrimitiveTypeEnumRuleCall_4_0_0; }
+		
+		//_type=[ml2::DataType|QualifiedName]
+		public Assignment get_typeAssignment_4_1() { return c_typeAssignment_4_1; }
+		
+		//[ml2::DataType|QualifiedName]
+		public CrossReference get_typeDataTypeCrossReference_4_1_0() { return c_typeDataTypeCrossReference_4_1_0; }
+		
+		//QualifiedName
+		public RuleCall get_typeDataTypeQualifiedNameParserRuleCall_4_1_0_1() { return c_typeDataTypeQualifiedNameParserRuleCall_4_1_0_1; }
+		
+		//('subsets' subsetOf+=[ml2::Attribute|QualifiedName] (',' subsetOf+=[ml2::Attribute|QualifiedName])*)?
+		public Group getGroup_5() { return cGroup_5; }
+		
+		//'subsets'
+		public Keyword getSubsetsKeyword_5_0() { return cSubsetsKeyword_5_0; }
+		
+		//subsetOf+=[ml2::Attribute|QualifiedName]
+		public Assignment getSubsetOfAssignment_5_1() { return cSubsetOfAssignment_5_1; }
+		
+		//[ml2::Attribute|QualifiedName]
+		public CrossReference getSubsetOfAttributeCrossReference_5_1_0() { return cSubsetOfAttributeCrossReference_5_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubsetOfAttributeQualifiedNameParserRuleCall_5_1_0_1() { return cSubsetOfAttributeQualifiedNameParserRuleCall_5_1_0_1; }
+		
+		//(',' subsetOf+=[ml2::Attribute|QualifiedName])*
+		public Group getGroup_5_2() { return cGroup_5_2; }
+		
+		//','
+		public Keyword getCommaKeyword_5_2_0() { return cCommaKeyword_5_2_0; }
+		
+		//subsetOf+=[ml2::Attribute|QualifiedName]
+		public Assignment getSubsetOfAssignment_5_2_1() { return cSubsetOfAssignment_5_2_1; }
+		
+		//[ml2::Attribute|QualifiedName]
+		public CrossReference getSubsetOfAttributeCrossReference_5_2_1_0() { return cSubsetOfAttributeCrossReference_5_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubsetOfAttributeQualifiedNameParserRuleCall_5_2_1_0_1() { return cSubsetOfAttributeQualifiedNameParserRuleCall_5_2_1_0_1; }
+		
+		//regularityType=RegularityFeatureType
+		public Assignment getRegularityTypeAssignment_6() { return cRegularityTypeAssignment_6; }
+		
+		//RegularityFeatureType
+		public RuleCall getRegularityTypeRegularityFeatureTypeEnumRuleCall_6_0() { return cRegularityTypeRegularityFeatureTypeEnumRuleCall_6_0; }
+		
+		//regulatedFeature=[ml2::Feature|QualifiedName]
+		public Assignment getRegulatedFeatureAssignment_7() { return cRegulatedFeatureAssignment_7; }
+		
+		//[ml2::Feature|QualifiedName]
+		public CrossReference getRegulatedFeatureFeatureCrossReference_7_0() { return cRegulatedFeatureFeatureCrossReference_7_0; }
+		
+		//QualifiedName
+		public RuleCall getRegulatedFeatureFeatureQualifiedNameParserRuleCall_7_0_1() { return cRegulatedFeatureFeatureQualifiedNameParserRuleCall_7_0_1; }
+	}
+	public class RegularityReferenceElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.RegularityReference");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cRegularityKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cRefKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cNameIDTerminalRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
+		private final Keyword cColonKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cSubsetsKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Assignment cSubsetOfAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final CrossReference cSubsetOfReferenceCrossReference_4_1_0 = (CrossReference)cSubsetOfAssignment_4_1.eContents().get(0);
+		private final RuleCall cSubsetOfReferenceQualifiedNameParserRuleCall_4_1_0_1 = (RuleCall)cSubsetOfReferenceCrossReference_4_1_0.eContents().get(1);
+		private final Group cGroup_4_2 = (Group)cGroup_4.eContents().get(2);
+		private final Keyword cCommaKeyword_4_2_0 = (Keyword)cGroup_4_2.eContents().get(0);
+		private final Assignment cSubsetOfAssignment_4_2_1 = (Assignment)cGroup_4_2.eContents().get(1);
+		private final CrossReference cSubsetOfReferenceCrossReference_4_2_1_0 = (CrossReference)cSubsetOfAssignment_4_2_1.eContents().get(0);
+		private final RuleCall cSubsetOfReferenceQualifiedNameParserRuleCall_4_2_1_0_1 = (RuleCall)cSubsetOfReferenceCrossReference_4_2_1_0.eContents().get(1);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cIsOppositeToKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Assignment cOppositeToAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
+		private final CrossReference cOppositeToReferenceCrossReference_5_1_0 = (CrossReference)cOppositeToAssignment_5_1.eContents().get(0);
+		private final RuleCall cOppositeToReferenceQualifiedNameParserRuleCall_5_1_0_1 = (RuleCall)cOppositeToReferenceCrossReference_5_1_0.eContents().get(1);
+		private final Assignment cRegularityTypeAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cRegularityTypeRegularityFeatureTypeEnumRuleCall_6_0 = (RuleCall)cRegularityTypeAssignment_6.eContents().get(0);
+		private final Assignment cRegulatedFeatureAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final CrossReference cRegulatedFeatureFeatureCrossReference_7_0 = (CrossReference)cRegulatedFeatureAssignment_7.eContents().get(0);
+		private final RuleCall cRegulatedFeatureFeatureQualifiedNameParserRuleCall_7_0_1 = (RuleCall)cRegulatedFeatureFeatureCrossReference_7_0.eContents().get(1);
+		
+		//RegularityReference ml2::Reference:
+		//	'regularity' 'ref' name=ID ':' ('subsets' subsetOf+=[ml2::Reference|QualifiedName] (','
+		//	subsetOf+=[ml2::Reference|QualifiedName])*)? ('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])?
+		//	regularityType=RegularityFeatureType regulatedFeature=[ml2::Feature|QualifiedName];
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'regularity' 'ref' name=ID ':' ('subsets' subsetOf+=[ml2::Reference|QualifiedName] (','
+		//subsetOf+=[ml2::Reference|QualifiedName])*)? ('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])?
+		//regularityType=RegularityFeatureType regulatedFeature=[ml2::Feature|QualifiedName]
+		public Group getGroup() { return cGroup; }
+		
+		//'regularity'
+		public Keyword getRegularityKeyword_0() { return cRegularityKeyword_0; }
+		
+		//'ref'
+		public Keyword getRefKeyword_1() { return cRefKeyword_1; }
+		
+		//name=ID
+		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
+		
+		//':'
+		public Keyword getColonKeyword_3() { return cColonKeyword_3; }
+		
+		//('subsets' subsetOf+=[ml2::Reference|QualifiedName] (',' subsetOf+=[ml2::Reference|QualifiedName])*)?
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//'subsets'
+		public Keyword getSubsetsKeyword_4_0() { return cSubsetsKeyword_4_0; }
+		
+		//subsetOf+=[ml2::Reference|QualifiedName]
+		public Assignment getSubsetOfAssignment_4_1() { return cSubsetOfAssignment_4_1; }
+		
+		//[ml2::Reference|QualifiedName]
+		public CrossReference getSubsetOfReferenceCrossReference_4_1_0() { return cSubsetOfReferenceCrossReference_4_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubsetOfReferenceQualifiedNameParserRuleCall_4_1_0_1() { return cSubsetOfReferenceQualifiedNameParserRuleCall_4_1_0_1; }
+		
+		//(',' subsetOf+=[ml2::Reference|QualifiedName])*
+		public Group getGroup_4_2() { return cGroup_4_2; }
+		
+		//','
+		public Keyword getCommaKeyword_4_2_0() { return cCommaKeyword_4_2_0; }
+		
+		//subsetOf+=[ml2::Reference|QualifiedName]
+		public Assignment getSubsetOfAssignment_4_2_1() { return cSubsetOfAssignment_4_2_1; }
+		
+		//[ml2::Reference|QualifiedName]
+		public CrossReference getSubsetOfReferenceCrossReference_4_2_1_0() { return cSubsetOfReferenceCrossReference_4_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getSubsetOfReferenceQualifiedNameParserRuleCall_4_2_1_0_1() { return cSubsetOfReferenceQualifiedNameParserRuleCall_4_2_1_0_1; }
+		
+		//('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])?
+		public Group getGroup_5() { return cGroup_5; }
+		
+		//'isOppositeTo'
+		public Keyword getIsOppositeToKeyword_5_0() { return cIsOppositeToKeyword_5_0; }
+		
+		//oppositeTo=[ml2::Reference|QualifiedName]
+		public Assignment getOppositeToAssignment_5_1() { return cOppositeToAssignment_5_1; }
+		
+		//[ml2::Reference|QualifiedName]
+		public CrossReference getOppositeToReferenceCrossReference_5_1_0() { return cOppositeToReferenceCrossReference_5_1_0; }
+		
+		//QualifiedName
+		public RuleCall getOppositeToReferenceQualifiedNameParserRuleCall_5_1_0_1() { return cOppositeToReferenceQualifiedNameParserRuleCall_5_1_0_1; }
+		
+		//regularityType=RegularityFeatureType
+		public Assignment getRegularityTypeAssignment_6() { return cRegularityTypeAssignment_6; }
+		
+		//RegularityFeatureType
+		public RuleCall getRegularityTypeRegularityFeatureTypeEnumRuleCall_6_0() { return cRegularityTypeRegularityFeatureTypeEnumRuleCall_6_0; }
+		
+		//regulatedFeature=[ml2::Feature|QualifiedName]
+		public Assignment getRegulatedFeatureAssignment_7() { return cRegulatedFeatureAssignment_7; }
+		
+		//[ml2::Feature|QualifiedName]
+		public CrossReference getRegulatedFeatureFeatureCrossReference_7_0() { return cRegulatedFeatureFeatureCrossReference_7_0; }
+		
+		//QualifiedName
+		public RuleCall getRegulatedFeatureFeatureQualifiedNameParserRuleCall_7_0_1() { return cRegulatedFeatureFeatureQualifiedNameParserRuleCall_7_0_1; }
+	}
+	public class FeatureAssignmentElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.FeatureAssignment");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cReferenceAssignmentParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cSingleAttributeAssignmentParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//FeatureAssignment ml2::FeatureAssignment:
+		//	ReferenceAssignment | SingleAttributeAssignment;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//ReferenceAssignment | SingleAttributeAssignment
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//ReferenceAssignment
+		public RuleCall getReferenceAssignmentParserRuleCall_0() { return cReferenceAssignmentParserRuleCall_0; }
+		
+		//SingleAttributeAssignment
+		public RuleCall getSingleAttributeAssignmentParserRuleCall_1() { return cSingleAttributeAssignmentParserRuleCall_1; }
+	}
+	public class SingleAttributeAssignmentElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.SingleAttributeAssignment");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cAttKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cAttributeAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final CrossReference cAttributeAttributeCrossReference_1_0 = (CrossReference)cAttributeAssignment_1.eContents().get(0);
+		private final RuleCall cAttributeAttributeQualifiedNameParserRuleCall_1_0_1 = (RuleCall)cAttributeAttributeCrossReference_1_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cIndividualAssignmentsAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final CrossReference cIndividualAssignmentsIndividualCrossReference_3_0 = (CrossReference)cIndividualAssignmentsAssignment_3.eContents().get(0);
+		private final RuleCall cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_3_0_1 = (RuleCall)cIndividualAssignmentsIndividualCrossReference_3_0.eContents().get(1);
+		
+		//// | MultipleAttributeAssignment ;
+		//SingleAttributeAssignment ml2::AttributeAssignment:
+		//	'att'? attribute=[ml2::Attribute|QualifiedName] '='
+		//	individualAssignments+=[ml2::Individual|QualifiedName];
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'att'? attribute=[ml2::Attribute|QualifiedName] '=' individualAssignments+=[ml2::Individual|QualifiedName]
+		public Group getGroup() { return cGroup; }
+		
+		//'att'?
+		public Keyword getAttKeyword_0() { return cAttKeyword_0; }
+		
+		//attribute=[ml2::Attribute|QualifiedName]
+		public Assignment getAttributeAssignment_1() { return cAttributeAssignment_1; }
+		
+		//[ml2::Attribute|QualifiedName]
+		public CrossReference getAttributeAttributeCrossReference_1_0() { return cAttributeAttributeCrossReference_1_0; }
+		
+		//QualifiedName
+		public RuleCall getAttributeAttributeQualifiedNameParserRuleCall_1_0_1() { return cAttributeAttributeQualifiedNameParserRuleCall_1_0_1; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		
+		//individualAssignments+=[ml2::Individual|QualifiedName]
+		public Assignment getIndividualAssignmentsAssignment_3() { return cIndividualAssignmentsAssignment_3; }
+		
+		//[ml2::Individual|QualifiedName]
+		public CrossReference getIndividualAssignmentsIndividualCrossReference_3_0() { return cIndividualAssignmentsIndividualCrossReference_3_0; }
+		
+		//QualifiedName
+		public RuleCall getIndividualAssignmentsIndividualQualifiedNameParserRuleCall_3_0_1() { return cIndividualAssignmentsIndividualQualifiedNameParserRuleCall_3_0_1; }
+	}
+	public class ReferenceAssignmentElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.ReferenceAssignment");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cRefKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cReferenceAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final CrossReference cReferenceReferenceCrossReference_1_0 = (CrossReference)cReferenceAssignment_1.eContents().get(0);
+		private final RuleCall cReferenceReferenceQualifiedNameParserRuleCall_1_0_1 = (RuleCall)cReferenceReferenceCrossReference_1_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Alternatives cAlternatives_3 = (Alternatives)cGroup.eContents().get(3);
+		private final Assignment cAssignmentsAssignment_3_0 = (Assignment)cAlternatives_3.eContents().get(0);
+		private final CrossReference cAssignmentsEntityDeclarationCrossReference_3_0_0 = (CrossReference)cAssignmentsAssignment_3_0.eContents().get(0);
+		private final RuleCall cAssignmentsEntityDeclarationQualifiedNameParserRuleCall_3_0_0_1 = (RuleCall)cAssignmentsEntityDeclarationCrossReference_3_0_0.eContents().get(1);
+		private final Group cGroup_3_1 = (Group)cAlternatives_3.eContents().get(1);
+		private final Keyword cLeftCurlyBracketKeyword_3_1_0 = (Keyword)cGroup_3_1.eContents().get(0);
+		private final Assignment cAssignmentsAssignment_3_1_1 = (Assignment)cGroup_3_1.eContents().get(1);
+		private final CrossReference cAssignmentsEntityDeclarationCrossReference_3_1_1_0 = (CrossReference)cAssignmentsAssignment_3_1_1.eContents().get(0);
+		private final RuleCall cAssignmentsEntityDeclarationQualifiedNameParserRuleCall_3_1_1_0_1 = (RuleCall)cAssignmentsEntityDeclarationCrossReference_3_1_1_0.eContents().get(1);
+		private final Group cGroup_3_1_2 = (Group)cGroup_3_1.eContents().get(2);
+		private final Keyword cCommaKeyword_3_1_2_0 = (Keyword)cGroup_3_1_2.eContents().get(0);
+		private final Assignment cAssignmentsAssignment_3_1_2_1 = (Assignment)cGroup_3_1_2.eContents().get(1);
+		private final CrossReference cAssignmentsEntityDeclarationCrossReference_3_1_2_1_0 = (CrossReference)cAssignmentsAssignment_3_1_2_1.eContents().get(0);
+		private final RuleCall cAssignmentsEntityDeclarationQualifiedNameParserRuleCall_3_1_2_1_0_1 = (RuleCall)cAssignmentsEntityDeclarationCrossReference_3_1_2_1_0.eContents().get(1);
+		private final Keyword cRightCurlyBracketKeyword_3_1_3 = (Keyword)cGroup_3_1.eContents().get(3);
+		
+		////		| unnamedIndividualAssignments+=UnnamedIndividual );
+		////		| literalAssignments+=Literal ) ;
+		////MultipleAttributeAssignment returns ml2::AttributeAssignment: 
+		////	'att'? attribute=[ml2::Attribute|QualifiedName] '=' '{'
+		//////	((literalAssignments+=Literal (',' literalAssignments+=Literal)*)
+		////	(((individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
+		////	(',' (individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
+		////	) 
+		////	)?  '}';
+		//ReferenceAssignment ml2::ReferenceAssignment:
+		//	'ref' reference=[ml2::Reference|QualifiedName] '=' (assignments+=[ml2::EntityDeclaration|QualifiedName] | '{'
+		//	assignments+=[ml2::EntityDeclaration|QualifiedName] (',' assignments+=[ml2::EntityDeclaration|QualifiedName])* '}');
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'ref' reference=[ml2::Reference|QualifiedName] '=' (assignments+=[ml2::EntityDeclaration|QualifiedName] | '{'
+		//assignments+=[ml2::EntityDeclaration|QualifiedName] (',' assignments+=[ml2::EntityDeclaration|QualifiedName])* '}')
+		public Group getGroup() { return cGroup; }
+		
+		//'ref'
+		public Keyword getRefKeyword_0() { return cRefKeyword_0; }
+		
+		//reference=[ml2::Reference|QualifiedName]
+		public Assignment getReferenceAssignment_1() { return cReferenceAssignment_1; }
+		
+		//[ml2::Reference|QualifiedName]
+		public CrossReference getReferenceReferenceCrossReference_1_0() { return cReferenceReferenceCrossReference_1_0; }
+		
+		//QualifiedName
+		public RuleCall getReferenceReferenceQualifiedNameParserRuleCall_1_0_1() { return cReferenceReferenceQualifiedNameParserRuleCall_1_0_1; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		
+		//(assignments+=[ml2::EntityDeclaration|QualifiedName] | '{' assignments+=[ml2::EntityDeclaration|QualifiedName] (','
+		//assignments+=[ml2::EntityDeclaration|QualifiedName])* '}')
+		public Alternatives getAlternatives_3() { return cAlternatives_3; }
+		
+		//assignments+=[ml2::EntityDeclaration|QualifiedName]
+		public Assignment getAssignmentsAssignment_3_0() { return cAssignmentsAssignment_3_0; }
+		
+		//[ml2::EntityDeclaration|QualifiedName]
+		public CrossReference getAssignmentsEntityDeclarationCrossReference_3_0_0() { return cAssignmentsEntityDeclarationCrossReference_3_0_0; }
+		
+		//QualifiedName
+		public RuleCall getAssignmentsEntityDeclarationQualifiedNameParserRuleCall_3_0_0_1() { return cAssignmentsEntityDeclarationQualifiedNameParserRuleCall_3_0_0_1; }
+		
+		//'{' assignments+=[ml2::EntityDeclaration|QualifiedName] (',' assignments+=[ml2::EntityDeclaration|QualifiedName])* '}'
+		public Group getGroup_3_1() { return cGroup_3_1; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_3_1_0() { return cLeftCurlyBracketKeyword_3_1_0; }
+		
+		//assignments+=[ml2::EntityDeclaration|QualifiedName]
+		public Assignment getAssignmentsAssignment_3_1_1() { return cAssignmentsAssignment_3_1_1; }
+		
+		//[ml2::EntityDeclaration|QualifiedName]
+		public CrossReference getAssignmentsEntityDeclarationCrossReference_3_1_1_0() { return cAssignmentsEntityDeclarationCrossReference_3_1_1_0; }
+		
+		//QualifiedName
+		public RuleCall getAssignmentsEntityDeclarationQualifiedNameParserRuleCall_3_1_1_0_1() { return cAssignmentsEntityDeclarationQualifiedNameParserRuleCall_3_1_1_0_1; }
+		
+		//(',' assignments+=[ml2::EntityDeclaration|QualifiedName])*
+		public Group getGroup_3_1_2() { return cGroup_3_1_2; }
+		
+		//','
+		public Keyword getCommaKeyword_3_1_2_0() { return cCommaKeyword_3_1_2_0; }
+		
+		//assignments+=[ml2::EntityDeclaration|QualifiedName]
+		public Assignment getAssignmentsAssignment_3_1_2_1() { return cAssignmentsAssignment_3_1_2_1; }
+		
+		//[ml2::EntityDeclaration|QualifiedName]
+		public CrossReference getAssignmentsEntityDeclarationCrossReference_3_1_2_1_0() { return cAssignmentsEntityDeclarationCrossReference_3_1_2_1_0; }
+		
+		//QualifiedName
+		public RuleCall getAssignmentsEntityDeclarationQualifiedNameParserRuleCall_3_1_2_1_0_1() { return cAssignmentsEntityDeclarationQualifiedNameParserRuleCall_3_1_2_1_0_1; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_3_1_3() { return cRightCurlyBracketKeyword_3_1_3; }
 	}
 	
+	public class CategorizationTypeElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.CategorizationType");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cCATEGORIZEREnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cCATEGORIZERCategorizesKeyword_0_0 = (Keyword)cCATEGORIZEREnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cCOMPLETE_CATEGORIZEREnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cCOMPLETE_CATEGORIZERCompleteCategorizesKeyword_1_0 = (Keyword)cCOMPLETE_CATEGORIZEREnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cDISJOINT_CATEGORIZEREnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cDISJOINT_CATEGORIZERDisjointCategorizesKeyword_2_0 = (Keyword)cDISJOINT_CATEGORIZEREnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cPARTITIONEREnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cPARTITIONERPartitionsKeyword_3_0 = (Keyword)cPARTITIONEREnumLiteralDeclaration_3.eContents().get(0);
+		
+		//enum CategorizationType returns ml2::CategorizationType:
+		//	CATEGORIZER="categorizes" | COMPLETE_CATEGORIZER="completeCategorizes" | DISJOINT_CATEGORIZER="disjointCategorizes" |
+		//	PARTITIONER="partitions";
+		public EnumRule getRule() { return rule; }
+		
+		//CATEGORIZER="categorizes" | COMPLETE_CATEGORIZER="completeCategorizes" | DISJOINT_CATEGORIZER="disjointCategorizes" |
+		//PARTITIONER="partitions"
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//CATEGORIZER="categorizes"
+		public EnumLiteralDeclaration getCATEGORIZEREnumLiteralDeclaration_0() { return cCATEGORIZEREnumLiteralDeclaration_0; }
+		
+		//"categorizes"
+		public Keyword getCATEGORIZERCategorizesKeyword_0_0() { return cCATEGORIZERCategorizesKeyword_0_0; }
+		
+		//COMPLETE_CATEGORIZER="completeCategorizes"
+		public EnumLiteralDeclaration getCOMPLETE_CATEGORIZEREnumLiteralDeclaration_1() { return cCOMPLETE_CATEGORIZEREnumLiteralDeclaration_1; }
+		
+		//"completeCategorizes"
+		public Keyword getCOMPLETE_CATEGORIZERCompleteCategorizesKeyword_1_0() { return cCOMPLETE_CATEGORIZERCompleteCategorizesKeyword_1_0; }
+		
+		//DISJOINT_CATEGORIZER="disjointCategorizes"
+		public EnumLiteralDeclaration getDISJOINT_CATEGORIZEREnumLiteralDeclaration_2() { return cDISJOINT_CATEGORIZEREnumLiteralDeclaration_2; }
+		
+		//"disjointCategorizes"
+		public Keyword getDISJOINT_CATEGORIZERDisjointCategorizesKeyword_2_0() { return cDISJOINT_CATEGORIZERDisjointCategorizesKeyword_2_0; }
+		
+		//PARTITIONER="partitions"
+		public EnumLiteralDeclaration getPARTITIONEREnumLiteralDeclaration_3() { return cPARTITIONEREnumLiteralDeclaration_3; }
+		
+		//"partitions"
+		public Keyword getPARTITIONERPartitionsKeyword_3_0() { return cPARTITIONERPartitionsKeyword_3_0; }
+	}
+	public class PrimitiveTypeElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.PrimitiveType");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cSTRINGEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cSTRINGStringKeyword_0_0 = (Keyword)cSTRINGEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cNUMBEREnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cNUMBERNumberKeyword_1_0 = (Keyword)cNUMBEREnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cBOOLEANEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cBOOLEANBooleanKeyword_2_0 = (Keyword)cBOOLEANEnumLiteralDeclaration_2.eContents().get(0);
+		
+		//enum PrimitiveType returns ml2::PrimitiveType:
+		//	STRING="String" | NUMBER="Number" | BOOLEAN="Boolean";
+		public EnumRule getRule() { return rule; }
+		
+		//STRING="String" | NUMBER="Number" | BOOLEAN="Boolean"
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//STRING="String"
+		public EnumLiteralDeclaration getSTRINGEnumLiteralDeclaration_0() { return cSTRINGEnumLiteralDeclaration_0; }
+		
+		//"String"
+		public Keyword getSTRINGStringKeyword_0_0() { return cSTRINGStringKeyword_0_0; }
+		
+		//NUMBER="Number"
+		public EnumLiteralDeclaration getNUMBEREnumLiteralDeclaration_1() { return cNUMBEREnumLiteralDeclaration_1; }
+		
+		//"Number"
+		public Keyword getNUMBERNumberKeyword_1_0() { return cNUMBERNumberKeyword_1_0; }
+		
+		//BOOLEAN="Boolean"
+		public EnumLiteralDeclaration getBOOLEANEnumLiteralDeclaration_2() { return cBOOLEANEnumLiteralDeclaration_2; }
+		
+		//"Boolean"
+		public Keyword getBOOLEANBooleanKeyword_2_0() { return cBOOLEANBooleanKeyword_2_0; }
+	}
+	public class RegularityFeatureTypeElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.RegularityFeatureType");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cDETERMINES_VALUEEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cDETERMINES_VALUEDeterminesValueKeyword_0_0 = (Keyword)cDETERMINES_VALUEEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cDETERMINES_TYPEEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cDETERMINES_TYPEDeterminesTypeKeyword_1_0 = (Keyword)cDETERMINES_TYPEEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cDETERMINES_MIN_VALUEEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cDETERMINES_MIN_VALUEDeterminesMinValueKeyword_2_0 = (Keyword)cDETERMINES_MIN_VALUEEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cDETERMINES_ALLOWED_VALUESEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cDETERMINES_ALLOWED_VALUESDeterminesAllowedValuesKeyword_3_0 = (Keyword)cDETERMINES_ALLOWED_VALUESEnumLiteralDeclaration_3.eContents().get(0);
+		private final EnumLiteralDeclaration cDETERMINES_ALLOWED_TYPESEnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
+		private final Keyword cDETERMINES_ALLOWED_TYPESDeterminesAllowedTypesKeyword_4_0 = (Keyword)cDETERMINES_ALLOWED_TYPESEnumLiteralDeclaration_4.eContents().get(0);
+		private final EnumLiteralDeclaration cDETERMINES_MAX_VALUEEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
+		private final Keyword cDETERMINES_MAX_VALUEDeterminesMaxValueKeyword_5_0 = (Keyword)cDETERMINES_MAX_VALUEEnumLiteralDeclaration_5.eContents().get(0);
+		
+		//enum RegularityFeatureType returns ml2::RegularityFeatureType:
+		//	DETERMINES_VALUE="determinesValue" | DETERMINES_TYPE="determinesType" | DETERMINES_MIN_VALUE="determinesMinValue" |
+		//	DETERMINES_ALLOWED_VALUES="determinesAllowedValues" | DETERMINES_ALLOWED_TYPES="determinesAllowedTypes" |
+		//	DETERMINES_MAX_VALUE="determinesMaxValue";
+		public EnumRule getRule() { return rule; }
+		
+		//DETERMINES_VALUE="determinesValue" | DETERMINES_TYPE="determinesType" | DETERMINES_MIN_VALUE="determinesMinValue" |
+		//DETERMINES_ALLOWED_VALUES="determinesAllowedValues" | DETERMINES_ALLOWED_TYPES="determinesAllowedTypes" |
+		//DETERMINES_MAX_VALUE="determinesMaxValue"
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//DETERMINES_VALUE="determinesValue"
+		public EnumLiteralDeclaration getDETERMINES_VALUEEnumLiteralDeclaration_0() { return cDETERMINES_VALUEEnumLiteralDeclaration_0; }
+		
+		//"determinesValue"
+		public Keyword getDETERMINES_VALUEDeterminesValueKeyword_0_0() { return cDETERMINES_VALUEDeterminesValueKeyword_0_0; }
+		
+		//DETERMINES_TYPE="determinesType"
+		public EnumLiteralDeclaration getDETERMINES_TYPEEnumLiteralDeclaration_1() { return cDETERMINES_TYPEEnumLiteralDeclaration_1; }
+		
+		//"determinesType"
+		public Keyword getDETERMINES_TYPEDeterminesTypeKeyword_1_0() { return cDETERMINES_TYPEDeterminesTypeKeyword_1_0; }
+		
+		//DETERMINES_MIN_VALUE="determinesMinValue"
+		public EnumLiteralDeclaration getDETERMINES_MIN_VALUEEnumLiteralDeclaration_2() { return cDETERMINES_MIN_VALUEEnumLiteralDeclaration_2; }
+		
+		//"determinesMinValue"
+		public Keyword getDETERMINES_MIN_VALUEDeterminesMinValueKeyword_2_0() { return cDETERMINES_MIN_VALUEDeterminesMinValueKeyword_2_0; }
+		
+		//DETERMINES_ALLOWED_VALUES="determinesAllowedValues"
+		public EnumLiteralDeclaration getDETERMINES_ALLOWED_VALUESEnumLiteralDeclaration_3() { return cDETERMINES_ALLOWED_VALUESEnumLiteralDeclaration_3; }
+		
+		//"determinesAllowedValues"
+		public Keyword getDETERMINES_ALLOWED_VALUESDeterminesAllowedValuesKeyword_3_0() { return cDETERMINES_ALLOWED_VALUESDeterminesAllowedValuesKeyword_3_0; }
+		
+		//DETERMINES_ALLOWED_TYPES="determinesAllowedTypes"
+		public EnumLiteralDeclaration getDETERMINES_ALLOWED_TYPESEnumLiteralDeclaration_4() { return cDETERMINES_ALLOWED_TYPESEnumLiteralDeclaration_4; }
+		
+		//"determinesAllowedTypes"
+		public Keyword getDETERMINES_ALLOWED_TYPESDeterminesAllowedTypesKeyword_4_0() { return cDETERMINES_ALLOWED_TYPESDeterminesAllowedTypesKeyword_4_0; }
+		
+		//DETERMINES_MAX_VALUE="determinesMaxValue"
+		public EnumLiteralDeclaration getDETERMINES_MAX_VALUEEnumLiteralDeclaration_5() { return cDETERMINES_MAX_VALUEEnumLiteralDeclaration_5; }
+		
+		//"determinesMaxValue"
+		public Keyword getDETERMINES_MAX_VALUEDeterminesMaxValueKeyword_5_0() { return cDETERMINES_MAX_VALUEDeterminesMaxValueKeyword_5_0; }
+	}
 	
 	private final ModelElements pModel;
-	private final GreetingElements pGreeting;
+	private final QualifiedNameElements pQualifiedName;
+	private final QualifiedNameWithWildcardElements pQualifiedNameWithWildcard;
+	private final ImportElements pImport;
+	private final ModelElementElements pModelElement;
+	private final EntityDeclarationElements pEntityDeclaration;
+	private final IndividualElements pIndividual;
+	private final ClassElements pClass;
+	private final FOClassOrDataTypeElements pFOClassOrDataType;
+	private final HigherOrderClassElements pHigherOrderClass;
+	private final CategorizationTypeElements eCategorizationType;
+	private final FOClassElements pFOClass;
+	private final DataTypeElements pDataType;
+	private final HOClassElements pHOClass;
+	private final OrderlessClassElements pOrderlessClass;
+	private final GeneralizationSetElements pGeneralizationSet;
+	private final FeatureElements pFeature;
+	private final CommonFeatureElements pCommonFeature;
+	private final RegularityFeatureElements pRegularityFeature;
+	private final AttributeElements pAttribute;
+	private final ReferenceElements pReference;
+	private final RegularityAttributeElements pRegularityAttribute;
+	private final RegularityReferenceElements pRegularityReference;
+	private final PrimitiveTypeElements ePrimitiveType;
+	private final RegularityFeatureTypeElements eRegularityFeatureType;
+	private final FeatureAssignmentElements pFeatureAssignment;
+	private final SingleAttributeAssignmentElements pSingleAttributeAssignment;
+	private final ReferenceAssignmentElements pReferenceAssignment;
 	
 	private final Grammar grammar;
 	
@@ -78,7 +1707,33 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaTerminals = gaTerminals;
 		this.pModel = new ModelElements();
-		this.pGreeting = new GreetingElements();
+		this.pQualifiedName = new QualifiedNameElements();
+		this.pQualifiedNameWithWildcard = new QualifiedNameWithWildcardElements();
+		this.pImport = new ImportElements();
+		this.pModelElement = new ModelElementElements();
+		this.pEntityDeclaration = new EntityDeclarationElements();
+		this.pIndividual = new IndividualElements();
+		this.pClass = new ClassElements();
+		this.pFOClassOrDataType = new FOClassOrDataTypeElements();
+		this.pHigherOrderClass = new HigherOrderClassElements();
+		this.eCategorizationType = new CategorizationTypeElements();
+		this.pFOClass = new FOClassElements();
+		this.pDataType = new DataTypeElements();
+		this.pHOClass = new HOClassElements();
+		this.pOrderlessClass = new OrderlessClassElements();
+		this.pGeneralizationSet = new GeneralizationSetElements();
+		this.pFeature = new FeatureElements();
+		this.pCommonFeature = new CommonFeatureElements();
+		this.pRegularityFeature = new RegularityFeatureElements();
+		this.pAttribute = new AttributeElements();
+		this.pReference = new ReferenceElements();
+		this.pRegularityAttribute = new RegularityAttributeElements();
+		this.pRegularityReference = new RegularityReferenceElements();
+		this.ePrimitiveType = new PrimitiveTypeElements();
+		this.eRegularityFeatureType = new RegularityFeatureTypeElements();
+		this.pFeatureAssignment = new FeatureAssignmentElements();
+		this.pSingleAttributeAssignment = new SingleAttributeAssignmentElements();
+		this.pReferenceAssignment = new ReferenceAssignmentElements();
 	}
 	
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
@@ -108,8 +1763,9 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	
-	//Model:
-	//	greetings+=Greeting*;
+	//Model ml2::Model:
+	//	'module' name=QualifiedName '{' ('include' includes+=[ml2::Model|QualifiedName] ';' | elements+=ModelElement)*
+	//	'}';
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -118,14 +1774,304 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		return getModelAccess().getRule();
 	}
 	
-	//Greeting:
-	//	'Hello' name=ID '!';
-	public GreetingElements getGreetingAccess() {
-		return pGreeting;
+	//QualifiedName:
+	//	ID ('.' ID)*;
+	public QualifiedNameElements getQualifiedNameAccess() {
+		return pQualifiedName;
 	}
 	
-	public ParserRule getGreetingRule() {
-		return getGreetingAccess().getRule();
+	public ParserRule getQualifiedNameRule() {
+		return getQualifiedNameAccess().getRule();
+	}
+	
+	//QualifiedNameWithWildcard:
+	//	QualifiedName '.*'?;
+	public QualifiedNameWithWildcardElements getQualifiedNameWithWildcardAccess() {
+		return pQualifiedNameWithWildcard;
+	}
+	
+	public ParserRule getQualifiedNameWithWildcardRule() {
+		return getQualifiedNameWithWildcardAccess().getRule();
+	}
+	
+	//Import ml2::Import:
+	//	'import' importedNamespace=QualifiedNameWithWildcard;
+	public ImportElements getImportAccess() {
+		return pImport;
+	}
+	
+	public ParserRule getImportRule() {
+		return getImportAccess().getRule();
+	}
+	
+	//ModelElement ml2::ModelElement:
+	//	(Import | EntityDeclaration | GeneralizationSet) ';';
+	public ModelElementElements getModelElementAccess() {
+		return pModelElement;
+	}
+	
+	public ParserRule getModelElementRule() {
+		return getModelElementAccess().getRule();
+	}
+	
+	//EntityDeclaration ml2::EntityDeclaration:
+	//	Class | Individual;
+	public EntityDeclarationElements getEntityDeclarationAccess() {
+		return pEntityDeclaration;
+	}
+	
+	public ParserRule getEntityDeclarationRule() {
+		return getEntityDeclarationAccess().getRule();
+	}
+	
+	//Individual ml2::Individual:
+	//	'individual' name=ID
+	//	':' instantiates+=[ml2::Class|QualifiedName] (',' instantiates+=[ml2::Class|QualifiedName])* ('{'
+	//	assignments+=FeatureAssignment* '}')?;
+	public IndividualElements getIndividualAccess() {
+		return pIndividual;
+	}
+	
+	public ParserRule getIndividualRule() {
+		return getIndividualAccess().getRule();
+	}
+	
+	//Class ml2::Class:
+	//	(FOClassOrDataType | HigherOrderClass) ('{' (assignments+=FeatureAssignment | features+=Feature)* '}')?;
+	public ClassElements getClassAccess() {
+		return pClass;
+	}
+	
+	public ParserRule getClassRule() {
+		return getClassAccess().getRule();
+	}
+	
+	//FOClassOrDataType ml2::Class:
+	//	(FOClass | DataType) (':' instantiates+=[ml2::Class|QualifiedName] (',' instantiates+=[ml2::Class|QualifiedName])*)?
+	//	('specializes' superClasses+=[ml2::Class|QualifiedName] (',' superClasses+=[ml2::Class|QualifiedName])*)?;
+	public FOClassOrDataTypeElements getFOClassOrDataTypeAccess() {
+		return pFOClassOrDataType;
+	}
+	
+	public ParserRule getFOClassOrDataTypeRule() {
+		return getFOClassOrDataTypeAccess().getRule();
+	}
+	
+	//HigherOrderClass ml2::Class:
+	//	(HOClass | OrderlessClass) (':' instantiates+=[ml2::Class|QualifiedName] (','
+	//	instantiates+=[ml2::Class|QualifiedName])*)? ('specializes' superClasses+=[ml2::Class|QualifiedName] (','
+	//	superClasses+=[ml2::Class|QualifiedName])*)? ('subordinatedTo' subordinators+=[ml2::Class|QualifiedName] (','
+	//	subordinators+=[ml2::Class|QualifiedName])*)? (categorizationType=CategorizationType
+	//	categorizedClass=[ml2::Class|QualifiedName] | 'isPowertypeOf' powertypeOf=[ml2::Class|QualifiedName])?;
+	public HigherOrderClassElements getHigherOrderClassAccess() {
+		return pHigherOrderClass;
+	}
+	
+	public ParserRule getHigherOrderClassRule() {
+		return getHigherOrderClassAccess().getRule();
+	}
+	
+	//enum CategorizationType returns ml2::CategorizationType:
+	//	CATEGORIZER="categorizes" | COMPLETE_CATEGORIZER="completeCategorizes" | DISJOINT_CATEGORIZER="disjointCategorizes" |
+	//	PARTITIONER="partitions";
+	public CategorizationTypeElements getCategorizationTypeAccess() {
+		return eCategorizationType;
+	}
+	
+	public EnumRule getCategorizationTypeRule() {
+		return getCategorizationTypeAccess().getRule();
+	}
+	
+	//FOClass ml2::FOClass:
+	//	'class' name=ID;
+	public FOClassElements getFOClassAccess() {
+		return pFOClass;
+	}
+	
+	public ParserRule getFOClassRule() {
+		return getFOClassAccess().getRule();
+	}
+	
+	//DataType ml2::DataType:
+	//	'datatype' name=ID;
+	public DataTypeElements getDataTypeAccess() {
+		return pDataType;
+	}
+	
+	public ParserRule getDataTypeRule() {
+		return getDataTypeAccess().getRule();
+	}
+	
+	//HOClass ml2::HOClass:
+	//	'order' order=INT 'class' name=ID;
+	public HOClassElements getHOClassAccess() {
+		return pHOClass;
+	}
+	
+	public ParserRule getHOClassRule() {
+		return getHOClassAccess().getRule();
+	}
+	
+	//OrderlessClass ml2::OrderlessClass:
+	//	'orderless' 'class' name=ID;
+	public OrderlessClassElements getOrderlessClassAccess() {
+		return pOrderlessClass;
+	}
+	
+	public ParserRule getOrderlessClassRule() {
+		return getOrderlessClassAccess().getRule();
+	}
+	
+	//GeneralizationSet ml2::GeneralizationSet:
+	//	(isDisjoint?='disjoint'? & isComplete?='complete'?) 'genset' name=ID?
+	//	'general' general=[ml2::Class|QualifiedName] ('categorizer' categorizer=[ml2::Class|QualifiedName])?
+	//	'specifics' specifics+=[ml2::Class|QualifiedName] (',' specifics+=[ml2::Class|QualifiedName])+;
+	public GeneralizationSetElements getGeneralizationSetAccess() {
+		return pGeneralizationSet;
+	}
+	
+	public ParserRule getGeneralizationSetRule() {
+		return getGeneralizationSetAccess().getRule();
+	}
+	
+	//Feature ml2::Feature:
+	//	CommonFeature | RegularityFeature;
+	public FeatureElements getFeatureAccess() {
+		return pFeature;
+	}
+	
+	public ParserRule getFeatureRule() {
+		return getFeatureAccess().getRule();
+	}
+	
+	//CommonFeature ml2::Feature:
+	//	Attribute | Reference;
+	public CommonFeatureElements getCommonFeatureAccess() {
+		return pCommonFeature;
+	}
+	
+	public ParserRule getCommonFeatureRule() {
+		return getCommonFeatureAccess().getRule();
+	}
+	
+	//RegularityFeature ml2::Feature:
+	//	RegularityAttribute | RegularityReference;
+	public RegularityFeatureElements getRegularityFeatureAccess() {
+		return pRegularityFeature;
+	}
+	
+	public ParserRule getRegularityFeatureRule() {
+		return getRegularityFeatureAccess().getRule();
+	}
+	
+	//Attribute ml2::Attribute:
+	//	'att'? name=ID ':' (primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName]) ('subsets'
+	//	subsetOf+=[ml2::Attribute|QualifiedName] (',' subsetOf+=[ml2::Attribute|QualifiedName])*)?;
+	public AttributeElements getAttributeAccess() {
+		return pAttribute;
+	}
+	
+	public ParserRule getAttributeRule() {
+		return getAttributeAccess().getRule();
+	}
+	
+	//Reference ml2::Reference:
+	//	'ref' name=ID ':' ('subsets' subsetOf+=[ml2::Reference|QualifiedName] (','
+	//	subsetOf+=[ml2::Reference|QualifiedName])*)? ('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])?;
+	public ReferenceElements getReferenceAccess() {
+		return pReference;
+	}
+	
+	public ParserRule getReferenceRule() {
+		return getReferenceAccess().getRule();
+	}
+	
+	//RegularityAttribute ml2::Attribute:
+	//	'regularity' 'att'? name=ID ':' (primitiveType=PrimitiveType | _type=[ml2::DataType|QualifiedName]) ('subsets'
+	//	subsetOf+=[ml2::Attribute|QualifiedName] (',' subsetOf+=[ml2::Attribute|QualifiedName])*)?
+	//	regularityType=RegularityFeatureType regulatedFeature=[ml2::Feature|QualifiedName];
+	public RegularityAttributeElements getRegularityAttributeAccess() {
+		return pRegularityAttribute;
+	}
+	
+	public ParserRule getRegularityAttributeRule() {
+		return getRegularityAttributeAccess().getRule();
+	}
+	
+	//RegularityReference ml2::Reference:
+	//	'regularity' 'ref' name=ID ':' ('subsets' subsetOf+=[ml2::Reference|QualifiedName] (','
+	//	subsetOf+=[ml2::Reference|QualifiedName])*)? ('isOppositeTo' oppositeTo=[ml2::Reference|QualifiedName])?
+	//	regularityType=RegularityFeatureType regulatedFeature=[ml2::Feature|QualifiedName];
+	public RegularityReferenceElements getRegularityReferenceAccess() {
+		return pRegularityReference;
+	}
+	
+	public ParserRule getRegularityReferenceRule() {
+		return getRegularityReferenceAccess().getRule();
+	}
+	
+	//enum PrimitiveType returns ml2::PrimitiveType:
+	//	STRING="String" | NUMBER="Number" | BOOLEAN="Boolean";
+	public PrimitiveTypeElements getPrimitiveTypeAccess() {
+		return ePrimitiveType;
+	}
+	
+	public EnumRule getPrimitiveTypeRule() {
+		return getPrimitiveTypeAccess().getRule();
+	}
+	
+	//enum RegularityFeatureType returns ml2::RegularityFeatureType:
+	//	DETERMINES_VALUE="determinesValue" | DETERMINES_TYPE="determinesType" | DETERMINES_MIN_VALUE="determinesMinValue" |
+	//	DETERMINES_ALLOWED_VALUES="determinesAllowedValues" | DETERMINES_ALLOWED_TYPES="determinesAllowedTypes" |
+	//	DETERMINES_MAX_VALUE="determinesMaxValue";
+	public RegularityFeatureTypeElements getRegularityFeatureTypeAccess() {
+		return eRegularityFeatureType;
+	}
+	
+	public EnumRule getRegularityFeatureTypeRule() {
+		return getRegularityFeatureTypeAccess().getRule();
+	}
+	
+	//FeatureAssignment ml2::FeatureAssignment:
+	//	ReferenceAssignment | SingleAttributeAssignment;
+	public FeatureAssignmentElements getFeatureAssignmentAccess() {
+		return pFeatureAssignment;
+	}
+	
+	public ParserRule getFeatureAssignmentRule() {
+		return getFeatureAssignmentAccess().getRule();
+	}
+	
+	//// | MultipleAttributeAssignment ;
+	//SingleAttributeAssignment ml2::AttributeAssignment:
+	//	'att'? attribute=[ml2::Attribute|QualifiedName] '='
+	//	individualAssignments+=[ml2::Individual|QualifiedName];
+	public SingleAttributeAssignmentElements getSingleAttributeAssignmentAccess() {
+		return pSingleAttributeAssignment;
+	}
+	
+	public ParserRule getSingleAttributeAssignmentRule() {
+		return getSingleAttributeAssignmentAccess().getRule();
+	}
+	
+	////		| unnamedIndividualAssignments+=UnnamedIndividual );
+	////		| literalAssignments+=Literal ) ;
+	////MultipleAttributeAssignment returns ml2::AttributeAssignment: 
+	////	'att'? attribute=[ml2::Attribute|QualifiedName] '=' '{'
+	//////	((literalAssignments+=Literal (',' literalAssignments+=Literal)*)
+	////	(((individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual)
+	////	(',' (individualAssignments+=[ml2::Individual|QualifiedName] | unnamedIndividualAssignments+=UnnamedIndividual))*
+	////	) 
+	////	)?  '}';
+	//ReferenceAssignment ml2::ReferenceAssignment:
+	//	'ref' reference=[ml2::Reference|QualifiedName] '=' (assignments+=[ml2::EntityDeclaration|QualifiedName] | '{'
+	//	assignments+=[ml2::EntityDeclaration|QualifiedName] (',' assignments+=[ml2::EntityDeclaration|QualifiedName])* '}');
+	public ReferenceAssignmentElements getReferenceAssignmentAccess() {
+		return pReferenceAssignment;
+	}
+	
+	public ParserRule getReferenceAssignmentRule() {
+		return getReferenceAssignmentAccess().getRule();
 	}
 	
 	//terminal ID:

@@ -7,4 +7,12 @@
 			class = "br.ufes.inf.nemo.ml2.mL2.ML2Package"
 			genModel = "model/generated/ML2.genmodel" />
 	</extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ML2 -->
+      <package
+            uri="http://www.ufes.br/inf/nemo/ml2"
+            class="br.ufes.inf.nemo.ml2.ML2.ML2Package"
+            genModel="model/ML2.genmodel"/>
+   </extension>
+
 </plugin>
