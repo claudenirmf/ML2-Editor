@@ -2,13 +2,12 @@ Manifest-Version: 1.0
 Automatic-Module-Name: br.ufes.inf.nemo.ml2.ui
 Bundle-ManifestVersion: 2
 Bundle-Name: br.ufes.inf.nemo.ml2.ui
-Bundle-Vendor: NEMO
+Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: br.ufes.inf.nemo.ml2.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: br.ufes.inf.nemo.ml2,
  br.ufes.inf.nemo.ml2.ide,
- br.ufes.inf.nemo.ml2.model,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.ui.shared,
  org.eclipse.xtext.ui.codetemplates.ui,
@@ -16,11 +15,9 @@ Require-Bundle: br.ufes.inf.nemo.ml2,
  org.eclipse.ui.ide;bundle-version="3.5.0",
  org.eclipse.ui,
  org.eclipse.compare,
- org.eclipse.xtext.builder,
- org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
- org.eclipse.xtend.lib;bundle-version="2.14.0";resolution:=optional
+ org.eclipse.xtext.builder
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: br.ufes.inf.nemo.ml2.ui.contentassist,
  br.ufes.inf.nemo.ml2.ui.internal,
  br.ufes.inf.nemo.ml2.ui.quickfix
