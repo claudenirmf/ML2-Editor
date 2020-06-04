@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: br.ufes.inf.nemo.ml2
+Bundle-ManifestVersion: 2
+Bundle-Name: br.ufes.inf.nemo.ml2
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: br.ufes.inf.nemo.ml2; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common,
+ org.eclipse.xtend.lib;bundle-version="2.14.0",
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: br.ufes.inf.nemo.ml2,
+ br.ufes.inf.nemo.ml2.formatting,
+ br.ufes.inf.nemo.ml2.generator,
+ br.ufes.inf.nemo.ml2.model,
+ br.ufes.inf.nemo.ml2.model.impl,
+ br.ufes.inf.nemo.ml2.model.util,
+ br.ufes.inf.nemo.ml2.parser.antlr,
+ br.ufes.inf.nemo.ml2.parser.antlr.internal,
+ br.ufes.inf.nemo.ml2.scoping,
+ br.ufes.inf.nemo.ml2.serializer,
+ br.ufes.inf.nemo.ml2.services,
+ br.ufes.inf.nemo.ml2.util,
+ br.ufes.inf.nemo.ml2.validation
+Import-Package: org.apache.log4j

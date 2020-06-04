@@ -1,0 +1,251 @@
+grammar br.ufes.inf.nemo.ml2.ML2 with org.eclipse.xtext.common.Terminals
+
+generate model "http://www.ufes.br/inf/nemo/ml2"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+Model:
+	'module' name=QualifiedName 
+	'{'
+		( 'include' includes+=[Model|QualifiedName] ';' | elements+=ModelElement )*
+	'}'
+;
+
+QualifiedName:
+	ID ('.' ID)*
+;
+
+QualifiedNameWithWildcard:
+	QualifiedName '.*'?
+;
+
+Import:
+	'import' importedNamespace = QualifiedNameWithWildcard
+;
+	
+ModelElement:
+	( Import | EntityDeclaration | GeneralizationSet | Feature | FeatureAssignment ) ';' 
+;
+	
+EntityDeclaration:
+	Class | Individual 
+;
+
+Class:
+	( FirstOrderClassOrDataType | HigherOrderClass ) 
+;
+
+FirstOrderClassOrDataType returns FirstOrderClass:
+	( FirstOrderClass | DataType ) 
+;
+
+HigherOrderClass:
+	( HighOrderClass | OrderlessClass ) 
+;
+
+Individual:
+	'individual' name=ID
+	':' classifiers+=[Class|QualifiedName] (',' classifiers+=[Class|QualifiedName])*
+	( '{' assignments+=FeatureAssignment* '}' )? 
+;
+
+// ParserRule used to enforce specialization only
+ClassIntoOrderedOrOrderless returns Class:
+	OrderlessClass | OrderedClass
+;
+
+// ParserRule used to enforce specialization only
+OrderedClass:
+	HighOrderClass | FirstOrderClass
+;
+
+FirstOrderClass returns FirstOrderClass:
+	'class' name=ID 
+	(':' classifiers+=[Class|QualifiedName] (',' classifiers+=[Class|QualifiedName])*) ?
+	('specializes' superClasses+=[Class|QualifiedName] (',' superClasses+=[Class|QualifiedName])*) ? 
+	('{' ( assignments+=FeatureAssignment | features+=Feature )* '}')?
+;
+
+DataType returns DataType:
+	'datatype' name=ID 
+	(':' classifiers+=[Class|QualifiedName] (',' classifiers+=[Class|QualifiedName])*) ?
+	('specializes' superClasses+=[Class|QualifiedName] (',' superClasses+=[Class|QualifiedName])*) ? 
+	('{' ( assignments+=FeatureAssignment | features+=Feature )* '}')?
+;
+
+HighOrderClass:
+	'order' order=INT 'class' name=ID 
+	(':' classifiers+=[Class|QualifiedName] (',' classifiers+=[Class|QualifiedName])*) ?
+	('specializes' superClasses+=[Class|QualifiedName] (',' superClasses+=[Class|QualifiedName])*) ?
+	('subordinatedTo' subordinators+=[HigherOrderClass|QualifiedName]  (',' subordinators+=[HigherOrderClass|QualifiedName])*) ?
+	( categorizationType=CategorizationType categorizedClass=[Class|QualifiedName] | 'isPowertypeOf' powertypeOf=[Class|QualifiedName] ) ?
+	('{' ( assignments+=FeatureAssignment | features+=Feature )* '}')?
+; 
+
+OrderlessClass:
+	'orderless' 'class' name=ID 
+	(':' classifiers+=[Class|QualifiedName] (',' classifiers+=[Class|QualifiedName])*) ?
+	('specializes' superClasses+=[Class|QualifiedName] (',' superClasses+=[Class|QualifiedName])*) ?
+	('subordinatedTo' subordinators+=[HigherOrderClass|QualifiedName]  (',' subordinators+=[HigherOrderClass|QualifiedName])*) ?
+	( categorizationType=CategorizationType categorizedClass=[Class|QualifiedName] | 'isPowertypeOf' powertypeOf=[Class|QualifiedName] ) ?
+	('{' ( assignments+=FeatureAssignment | features+=Feature )* '}')?
+;
+
+enum CategorizationType:
+	CATEGORIZER='categorizes' 
+	| COMPLETE_CATEGORIZER='completeCategorizes' 
+	| DISJOINT_CATEGORIZER='disjointCategorizes' 
+	| PARTITIONER='partitions'
+;
+
+GeneralizationSet:
+	(isDisjoint?='disjoint'? & isComplete?='complete'?) 'genset' (name=ID)? 
+	'general' general=[Class|QualifiedName]
+	('categorizer' categorizer=[HigherOrderClass|QualifiedName])? 
+	'specifics' specifics+=[Class|QualifiedName] (',' specifics+=[Class|QualifiedName])+ 
+;
+
+Feature:
+	Attribute | Reference
+;
+
+Attribute:
+	RegularityAttribute |
+	'att'? name=ID ':' 
+		('[' lowerBound=CARDINALITY '..' upperBound=CARDINALITY ']') ? 
+		(primitiveType=PrimitiveType | _type=[DataType|QualifiedName])
+		('subsets' subsetOf+=[Attribute|QualifiedName] (',' subsetOf+=[Attribute|QualifiedName])* ) ? 
+;
+
+RegularityAttribute:
+	'regularity'? 'att'? name=ID ':' 
+		('[' lowerBound=CARDINALITY '..' upperBound=CARDINALITY ']') ? 
+		(primitiveType=PrimitiveType | _type=[DataType|QualifiedName])
+		('subsets' subsetOf+=[Attribute|QualifiedName] (',' subsetOf+=[Attribute|QualifiedName])* ) ?
+		regularityType=RegularityFeatureType regulates=[Attribute|QualifiedName] 
+;
+
+Reference:
+	RegularityReference |
+	'ref' name=ID ':' 
+		('[' lowerBound=CARDINALITY '..' upperBound=CARDINALITY ']')?
+		_type=[Class|QualifiedName]
+		('subsets' subsetOf+=[Reference|QualifiedName] (',' subsetOf+=[Reference|QualifiedName])*) ?
+		('isOppositeTo' oppositeTo=[Reference|QualifiedName])? 
+;
+
+RegularityReference:
+	'regularity'? 'ref' name=ID ':' 
+		('[' lowerBound=CARDINALITY '..' upperBound=CARDINALITY ']')?
+		_type=[Class|QualifiedName]
+		('subsets' subsetOf+=[Reference|QualifiedName] (',' subsetOf+=[Reference|QualifiedName])*) ?
+		('isOppositeTo' oppositeTo=[Reference|QualifiedName])?
+		regularityType=RegularityFeatureType regulates=[Reference|QualifiedName]
+;
+
+// ParserRule used to enforce specialization only
+FeatureIntoRegularityFeature returns Feature:
+	RegularityFeature
+;
+
+// ParserRule used to enforce specialization only
+RegularityFeature:
+	RegularityAttribute | RegularityReference
+;
+
+CARDINALITY returns ecore::EInt:
+	'*' | INT
+;
+	
+enum PrimitiveType returns PrimitiveType:
+	STRING='String' 
+	| NUMBER='Number'
+	| BOOLEAN='Boolean' 
+;
+
+
+enum RegularityFeatureType:
+	DETERMINES_MAX_VALUE="determinesMaxValue"
+	| DETERMINES_MIN_VALUE="determinesMinValue"
+	| DETERMINES_VALUE="determinesValue"
+	| DETERMINES_ALLOWED_VALUES="determinesAllowedValues"
+	| DETERMINES_TYPE="determinesType"
+	| DETERMINES_ALLOWED_TYPES="determinesAllowedTypes"
+;
+
+FeatureAssignment:
+	SingleReferenceAssignment 
+	| MultipleReferenceAssignment
+	| SingleAttributeAssignment 
+	| MultipleAttributeAssignment 
+;
+
+SingleReferenceAssignment returns ReferenceAssignment:
+	'ref' reference=[Reference|QualifiedName] '=' values+=[EntityDeclaration|QualifiedName]
+;
+
+MultipleReferenceAssignment returns ReferenceAssignment:
+	'ref' reference=[Reference|QualifiedName] '=' 
+	'{' 
+		values+=[EntityDeclaration|QualifiedName] (',' values+=[EntityDeclaration|QualifiedName])* 
+	'}'
+;
+
+SingleAttributeAssignment returns AttributeAssignment: 
+	'att'? attribute=[Attribute|QualifiedName] '='
+	( 
+		literalValues+=Literal 
+		| datatypeValues+=[Individual|QualifiedName]
+		| unnamedValues+=UnnamedIndividual
+	)
+;
+
+MultipleAttributeAssignment returns AttributeAssignment: 
+	'att'? attribute=[Attribute|QualifiedName] '=' 
+	'{' 
+		( literalValues+=Literal (',' literalValues+=Literal)*
+		| datatypeValues+=[Individual|QualifiedName] (',' datatypeValues+=[Individual|QualifiedName])*
+		| unnamedValues+=UnnamedIndividual (',' unnamedValues+=UnnamedIndividual)* )
+	'}'
+;
+
+Literal returns ecore::EObject:
+	STRING 
+	| NUMBER 
+	| BOOLEAN 
+;
+
+BOOLEAN returns ecore::EBoolean:
+	'true' | 'false'
+;
+
+NUMBER returns ecore::EDouble:
+	'-'? INT ( '.' INT )? 
+;
+
+UnnamedIndividual returns Individual:
+	{Individual} '[' assignments+=SimpleAttributeAssignment* ']' 
+;
+
+SimpleAttributeAssignment returns AttributeAssignment:
+	SingleSimpleAttributeAssignment
+	| MultipleSimpleAttributeAssignment
+;
+
+SingleSimpleAttributeAssignment returns AttributeAssignment:
+	attribute=[Attribute|QualifiedName] '='
+	(
+		literalValues+=Literal
+		| datatypeValues+=[Individual|QualifiedName]
+		| unnamedValues+=UnnamedIndividual
+	) 
+;
+
+MultipleSimpleAttributeAssignment returns AttributeAssignment:
+	attribute=[Attribute|QualifiedName] '='
+	'{'
+		( literalValues+=Literal (',' literalValues+=Literal)*
+		| datatypeValues+=[Individual|QualifiedName] (',' datatypeValues+=[Individual|QualifiedName])*
+		| unnamedValues+=UnnamedIndividual (',' unnamedValues+=UnnamedIndividual)* )
+	'}'
+;
