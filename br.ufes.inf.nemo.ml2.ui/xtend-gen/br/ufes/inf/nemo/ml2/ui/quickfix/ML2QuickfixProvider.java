@@ -10,6 +10,5 @@ import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider;
  * 
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#quick-fixes
  */
-@SuppressWarnings("all")
 public class ML2QuickfixProvider extends DefaultQuickfixProvider {
 }

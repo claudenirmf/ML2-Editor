@@ -9,6 +9,5 @@ import br.ufes.inf.nemo.ml2.ui.contentassist.AbstractML2ProposalProvider;
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#content-assist
  * on how to customize the content assistant.
  */
-@SuppressWarnings("all")
 public class ML2ProposalProvider extends AbstractML2ProposalProvider {
 }

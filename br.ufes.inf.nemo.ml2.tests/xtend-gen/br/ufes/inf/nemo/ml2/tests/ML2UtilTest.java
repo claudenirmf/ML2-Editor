@@ -1,33 +1,22 @@
 package br.ufes.inf.nemo.ml2.tests;
 
 import br.ufes.inf.nemo.ml2.model.Model;
-import br.ufes.inf.nemo.ml2.model.ModelElement;
-import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.tests.ML2InjectorProvider;
 import br.ufes.inf.nemo.ml2.util.ML2Util;
-import br.ufes.inf.nemo.ml2.validation.LinguisticRules;
 import com.google.inject.Inject;
-import java.util.Set;
-import java.util.function.Consumer;
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.extensions.InjectionExtension;
-import org.eclipse.xtext.testing.util.ParseHelper;
 import org.eclipse.xtext.testing.validation.ValidationTestHelper;
-import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith(InjectionExtension.class)
-@InjectWith(ML2InjectorProvider.class)
-@SuppressWarnings("all")
+@ExtendWith(InjectionExtension.class)/* 
+@InjectWith(ML2InjectorProvider.class) */
 public class ML2UtilTest {
   @Inject
   @Extension
-  private ParseHelper<Model> _parseHelper;
+  private /* ParseHelper<Model> */Object _parseHelper;
   
   @Inject
   @Extension
@@ -39,85 +28,37 @@ public class ML2UtilTest {
   
   @Test
   public void testClassHierarchyGetter() {
-    try {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("module t{");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("class A;");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("class B specializes A;");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("class C specializes A;");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("class D specializes B,C;");
-      _builder.newLine();
-      _builder.append("}");
-      _builder.newLine();
-      final String unparssedModel = _builder.toString();
-      final Model model = this._parseHelper.parse(unparssedModel);
-      this._validationTestHelper.assertNoErrors(model);
-      final BasicEList<br.ufes.inf.nemo.ml2.model.Class> classes = new BasicEList<br.ufes.inf.nemo.ml2.model.Class>();
-      final Consumer<ModelElement> _function = (ModelElement it) -> {
-        if ((it instanceof br.ufes.inf.nemo.ml2.model.Class)) {
-          classes.add(((br.ufes.inf.nemo.ml2.model.Class)it));
-        }
-      };
-      model.getElements().forEach(_function);
-      Set<br.ufes.inf.nemo.ml2.model.Class> list = this._mL2Util.classHierarchy(classes.get(3));
-      Assert.assertTrue(
-        (((list.contains(classes.get(0)) && list.contains(classes.get(1))) && list.contains(classes.get(2))) && (list.size() == 3)));
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
+    throw new Error("Unresolved compilation problems:"
+      + "\nSet cannot be resolved to a type."
+      + "\nThe method classHierarchy(Class) from the type ML2Util refers to the missing type Object"
+      + "\nparse cannot be resolved"
+      + "\nassertNoErrors cannot be resolved"
+      + "\nelements cannot be resolved"
+      + "\nforEach cannot be resolved"
+      + "\nassertTrue cannot be resolved"
+      + "\ncontains cannot be resolved"
+      + "\n&& cannot be resolved"
+      + "\ncontains cannot be resolved"
+      + "\n&& cannot be resolved"
+      + "\ncontains cannot be resolved"
+      + "\n&& cannot be resolved"
+      + "\nsize cannot be resolved"
+      + "\n== cannot be resolved");
   }
   
   @Test
   public void testClassHierarchyCycle() {
-    try {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("module t{");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("class A specializes B;");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("class B specializes A;");
-      _builder.newLine();
-      _builder.append("}");
-      _builder.newLine();
-      final Model model = this._parseHelper.parse(_builder);
-      this._validationTestHelper.assertError(model, ModelPackage.eINSTANCE.getClass_(), LinguisticRules.CYCLIC_SPECIALIZATION);
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
+    throw new Error("Unresolved compilation problems:"
+      + "\nparse cannot be resolved"
+      + "\nassertError cannot be resolved"
+      + "\neINSTANCE cannot be resolved"
+      + "\nclass_ cannot be resolved"
+      + "\nCYCLIC_SPECIALIZATION cannot be resolved");
   }
   
   @Test
   public void testAllInstantiatedClasses() {
-    try {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("module t {");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("order 2 class A ispowertypeof X;");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("class X;");
-      _builder.newLine();
-      _builder.append("\t");
-      _builder.append("class Y specializes X;");
-      _builder.newLine();
-      _builder.append("}");
-      _builder.newLine();
-      this._parseHelper.parse(_builder);
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
+    throw new Error("Unresolved compilation problems:"
+      + "\nparse cannot be resolved");
   }
 }

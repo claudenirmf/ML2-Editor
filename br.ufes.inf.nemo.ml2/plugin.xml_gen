@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 	<extension point="org.eclipse.emf.ecore.generated_package">
-		<package
+		<package 
 			uri = "http://www.ufes.br/inf/nemo/ml2"
 			class = "br.ufes.inf.nemo.ml2.model.ModelPackage"
 			genModel = "model/generated/ML2.genmodel" />

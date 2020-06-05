@@ -12,7 +12,6 @@ import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
  * 
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#label-provider
  */
-@SuppressWarnings("all")
 public class ML2LabelProvider extends DefaultEObjectLabelProvider {
   @Inject
   public ML2LabelProvider(final AdapterFactoryLabelProvider delegate) {
