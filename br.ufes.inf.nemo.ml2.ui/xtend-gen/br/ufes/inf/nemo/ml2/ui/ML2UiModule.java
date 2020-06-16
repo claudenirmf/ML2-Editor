@@ -3,11 +3,17 @@
  */
 package br.ufes.inf.nemo.ml2.ui;
 
+import br.ufes.inf.nemo.ml2.ui.AbstractML2UiModule;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor;
 
 /**
  * Use this class to register components to be used within the Eclipse IDE.
  */
 @FinalFieldsConstructor
-public class ML2UiModule /* implements AbstractML2UiModule  */{
+@SuppressWarnings("all")
+public class ML2UiModule extends AbstractML2UiModule {
+  public ML2UiModule(final AbstractUIPlugin plugin) {
+    super(plugin);
+  }
 }

@@ -10,5 +10,6 @@ import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
  * 
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#outline
  */
+@SuppressWarnings("all")
 public class ML2OutlineTreeProvider extends DefaultOutlineTreeProvider {
 }

@@ -24,7 +24,7 @@ Import:
 ;
 	
 ModelElement:
-	( Import | EntityDeclaration | GeneralizationSet | Feature | FeatureAssignment ) ';' 
+	( Import | EntityDeclaration | GeneralizationSet | Feature | FeatureAssignment | ConstraintDeclaration ) ';' 
 ;
 	
 EntityDeclaration:
@@ -248,4 +248,226 @@ MultipleSimpleAttributeAssignment returns AttributeAssignment:
 		| datatypeValues+=[Individual|QualifiedName] (',' datatypeValues+=[Individual|QualifiedName])*
 		| unnamedValues+=UnnamedIndividual (',' unnamedValues+=UnnamedIndividual)* )
 	'}'
+;
+
+ConstraintDeclaration returns Constraint:
+	InvariantConstraint | DerivationConstraint
+;
+
+InvariantConstraint:
+	'context' (contextAlias=ID ':')? classContext=[Class]
+	'inv' (invariantAlias=ID)? ':' expression=OclExpression
+;
+
+DerivationConstraint:
+	'context' classContext=[Class] '::' featureContext=[Feature] ':' typename=TypeLiteralExpression
+	'derive' ':' expression=OclExpression
+;
+
+OclExpression:
+	LetExpression | IfExpression | ImpliesExpression
+;
+
+LetExpression:
+	'let' variables+=VariableDeclaration (',' variables+=VariableDeclaration)* 
+	'in' inExpression=OclExpression
+;
+	
+VariableDeclaration:
+	variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=LiteralExpression
+;
+	
+IfExpression:
+	'if' condition=OclExpression 'then'
+		thenExpression=OclExpression
+	'else' 
+		elseExpression=OclExpression
+	'endif'
+;
+
+ImpliesExpression:
+	left=XorExpression ('implies' right+=XorExpression)*
+;
+	
+XorExpression:
+	left=OrExpression ('xor' right+=OrExpression)*
+;
+	
+OrExpression:
+	left=AndExpression ('or' right+=AndExpression)*
+;
+	
+AndExpression:
+	left=ComparisonExpression ('and' right+=ComparisonExpression)*
+;
+
+ComparisonExpression:
+	left=RelationalExpression (right+=ComparisonOperation)*
+;
+	
+ComparisonOperation:
+	operator=ComparisonOperator right=RelationalExpression
+;
+
+enum ComparisonOperator:
+	EQUAL='=' | NOT_EQUAL='<>'
+;
+
+RelationalExpression:
+	left=AdditionExpression (right+=RelationalOperation)*
+;
+
+RelationalOperation:
+	operator=RelationalOperator right=AdditionExpression
+;
+
+enum RelationalOperator:
+	GREATER='>' | LESS='<' | GREATER_EQUAL='>=' | LESS_EQUAL='<='
+;
+
+AdditionExpression:
+	left=MultiplicationExpression (right+=AdditionOperation)*
+;
+	
+AdditionOperation:
+	operator=AdditionOperator right=MultiplicationExpression
+;
+
+enum AdditionOperator:
+	PLUS='+' | MINUS='-'
+;
+	
+MultiplicationExpression:
+	left=UnaryExpression ('*' right+=UnaryExpression)*
+;	
+
+UnaryExpression:
+	(operator=UnaryOperator)? right=TermExpression
+;	
+
+enum UnaryOperator:
+	NONE | NOT='not' | MINUS='-'
+;
+
+TermExpression:
+	=> CallExpression | LiteralExpression | '(' OclExpression ')'
+;
+
+CallExpression:
+	left=VariableExpression (right+=CallOperation)*
+;
+	
+CallOperation:
+	DotOperation | ArrowOperation
+;
+	
+DotOperation:
+	'.' right=VariableExpression
+;
+
+ArrowOperation:
+	'->' right=BuiltInOperation
+;
+	
+BuiltInOperation:
+	UnarySetOperation | BinarySetOperation | UnaryIteration | BinaryIteration
+;
+	
+UnarySetOperation:
+	operator=UnarySetOperator '(' ')'
+;
+	
+enum UnarySetOperator:
+	SIZE='size' | IS_EMPTY='isEmpty' | NOT_EMPTY='notEmpty' | SUM='sum'
+;
+	
+BinarySetOperation:
+	operator=BinarySetOperator '(' argument=OclExpression ')'
+;
+	
+enum BinarySetOperator:
+	INCLUDES='includes' | INCLUDES_ALL='includesAll' | EXCLUDES='excludes' | EXCLUDES_ALL='excludesAll' |
+	INCLUDING='including' | EXCLUDING='excluding' |	UNION='union' | INTERSECTION='intersection' |
+	SYMMETRIC_DIFFERENCE='symmetricDifference'
+;
+
+UnaryIteration:
+	iterator=UnaryIterator '(' (variables+=ID '|')? body=OclExpression ')'
+;
+	
+enum UnaryIterator:
+	COUNT='count' | EXISTS='exists' | SELECT='select' | REJECT='reject' | ONE='one' | IS_UNIQUE='isUnique' | COLLECT='collect'
+;
+	
+BinaryIteration:
+	'forAll' '(' (variables+=ID ',' variables+=ID '|')? body=OclExpression ')'
+;
+
+LiteralExpression:
+	PrimitiveLiteralExpression | CollectionLiteralExpression | TypeLiteralExpression | TupleLiteralExpression
+;
+
+PrimitiveLiteralExpression:
+	NullLiteralExpression | BooleanLiteralExpression | NumberLiteralExpression | StringLiteralExpression
+;
+
+NullLiteralExpression:
+	nullSymbol='null'
+;
+
+BooleanLiteralExpression:
+	booleanSymbol=BOOLEAN_LITERAL
+;
+
+NumberLiteralExpression:
+	numberSymbol=NUMBER_LITERAL
+;
+
+StringLiteralExpression:
+	stringSymbol=STRING
+;
+
+CollectionLiteralExpression:
+	'Set' '{' parts+=OclExpression (',' parts+=OclExpression)* '}'
+;
+
+TypeLiteralExpression:
+	PrimitiveTypeName | CollectionTypeName | TupleTypeName | OclTypeName | DataTypeName
+;
+
+TupleLiteralExpression:
+	'Tuple' '{' variables+=ID (',' variables+=ID)* '}'
+;
+
+VariableExpression:
+	referringVariable=ID | referringVariable='self'
+;
+
+BOOLEAN_LITERAL returns ecore::EBoolean:
+	'true' | 'false'
+;
+
+NUMBER_LITERAL returns ecore::EDouble:
+	INT ( '.' INT )?
+;
+
+PrimitiveTypeName:
+	typename='Boolean' | typename='Number' | typename='String'
+;
+
+CollectionTypeName:
+	typename='Set' '(' elementType=TypeLiteralExpression ')'
+;
+
+TupleTypeName:
+	typename='Tuple' '(' (variables+=ID (',' variables+=ID)*)? ')'
+;
+
+OclTypeName:
+	typename='OclAny' | typename='OclVoid'
+;
+
+// TODO
+DataTypeName:
+	typename=[DataType]
 ;
