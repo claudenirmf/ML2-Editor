@@ -17639,9 +17639,9 @@ rule__CollectionLiteralExpression__PartsAssignment_2
 	}
 :
 	(
-		{ before(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_2_0()); }
-		ruleOclExpression
-		{ after(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_2_0()); }
+		{ before(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_2_0()); }
+		ruleLiteralExpression
+		{ after(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_2_0()); }
 	)
 ;
 finally {
@@ -17654,9 +17654,9 @@ rule__CollectionLiteralExpression__PartsAssignment_3_1
 	}
 :
 	(
-		{ before(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_3_1_0()); }
-		ruleOclExpression
-		{ after(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_3_1_0()); }
+		{ before(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_3_1_0()); }
+		ruleLiteralExpression
+		{ after(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_3_1_0()); }
 	)
 ;
 finally {

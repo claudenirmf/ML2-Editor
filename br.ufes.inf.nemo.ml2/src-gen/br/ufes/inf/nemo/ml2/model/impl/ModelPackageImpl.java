@@ -3257,7 +3257,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     initEAttribute(getStringLiteralExpression_StringSymbol(), ecorePackage.getEString(), "stringSymbol", null, 0, 1, StringLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(collectionLiteralExpressionEClass, CollectionLiteralExpression.class, "CollectionLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getCollectionLiteralExpression_Parts(), this.getOclExpression(), null, "parts", null, 0, -1, CollectionLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCollectionLiteralExpression_Parts(), this.getLiteralExpression(), null, "parts", null, 0, -1, CollectionLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(typeLiteralExpressionEClass, TypeLiteralExpression.class, "TypeLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

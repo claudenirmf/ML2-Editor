@@ -3778,18 +3778,19 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSetKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cPartsAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cPartsOclExpressionParserRuleCall_2_0 = (RuleCall)cPartsAssignment_2.eContents().get(0);
+		private final RuleCall cPartsLiteralExpressionParserRuleCall_2_0 = (RuleCall)cPartsAssignment_2.eContents().get(0);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
 		private final Keyword cCommaKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
 		private final Assignment cPartsAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cPartsOclExpressionParserRuleCall_3_1_0 = (RuleCall)cPartsAssignment_3_1.eContents().get(0);
+		private final RuleCall cPartsLiteralExpressionParserRuleCall_3_1_0 = (RuleCall)cPartsAssignment_3_1.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
+		////TODO: LiteralExpression cannot be a collection here
 		//CollectionLiteralExpression:
-		//	'Set' '{' parts+=OclExpression (',' parts+=OclExpression)* '}';
+		//	'Set' '{' parts+=LiteralExpression (',' parts+=LiteralExpression)* '}';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'Set' '{' parts+=OclExpression (',' parts+=OclExpression)* '}'
+		//'Set' '{' parts+=LiteralExpression (',' parts+=LiteralExpression)* '}'
 		public Group getGroup() { return cGroup; }
 		
 		//'Set'
@@ -3798,23 +3799,23 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_1() { return cLeftCurlyBracketKeyword_1; }
 		
-		//parts+=OclExpression
+		//parts+=LiteralExpression
 		public Assignment getPartsAssignment_2() { return cPartsAssignment_2; }
 		
-		//OclExpression
-		public RuleCall getPartsOclExpressionParserRuleCall_2_0() { return cPartsOclExpressionParserRuleCall_2_0; }
+		//LiteralExpression
+		public RuleCall getPartsLiteralExpressionParserRuleCall_2_0() { return cPartsLiteralExpressionParserRuleCall_2_0; }
 		
-		//(',' parts+=OclExpression)*
+		//(',' parts+=LiteralExpression)*
 		public Group getGroup_3() { return cGroup_3; }
 		
 		//','
 		public Keyword getCommaKeyword_3_0() { return cCommaKeyword_3_0; }
 		
-		//parts+=OclExpression
+		//parts+=LiteralExpression
 		public Assignment getPartsAssignment_3_1() { return cPartsAssignment_3_1; }
 		
-		//OclExpression
-		public RuleCall getPartsOclExpressionParserRuleCall_3_1_0() { return cPartsOclExpressionParserRuleCall_3_1_0; }
+		//LiteralExpression
+		public RuleCall getPartsLiteralExpressionParserRuleCall_3_1_0() { return cPartsLiteralExpressionParserRuleCall_3_1_0; }
 		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_4() { return cRightCurlyBracketKeyword_4; }
@@ -5743,8 +5744,9 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		return getStringLiteralExpressionAccess().getRule();
 	}
 	
+	////TODO: LiteralExpression cannot be a collection here
 	//CollectionLiteralExpression:
-	//	'Set' '{' parts+=OclExpression (',' parts+=OclExpression)* '}';
+	//	'Set' '{' parts+=LiteralExpression (',' parts+=LiteralExpression)* '}';
 	public CollectionLiteralExpressionElements getCollectionLiteralExpressionAccess() {
 		return pCollectionLiteralExpression;
 	}

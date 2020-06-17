@@ -6,10 +6,27 @@
  */
 package br.ufes.inf.nemo.ml2.generator;
 
+import br.ufes.inf.nemo.ml2.model.AdditionExpression;
+import br.ufes.inf.nemo.ml2.model.AdditionOperation;
+import br.ufes.inf.nemo.ml2.model.AdditionOperator;
+import br.ufes.inf.nemo.ml2.model.AndExpression;
+import br.ufes.inf.nemo.ml2.model.ArrowOperation;
 import br.ufes.inf.nemo.ml2.model.Attribute;
 import br.ufes.inf.nemo.ml2.model.AttributeAssignment;
+import br.ufes.inf.nemo.ml2.model.BinaryIteration;
+import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
+import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.BuiltInOperation;
+import br.ufes.inf.nemo.ml2.model.CallExpression;
+import br.ufes.inf.nemo.ml2.model.CallOperation;
 import br.ufes.inf.nemo.ml2.model.CategorizationType;
+import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.ComparisonExpression;
+import br.ufes.inf.nemo.ml2.model.ComparisonOperation;
+import br.ufes.inf.nemo.ml2.model.ComparisonOperator;
 import br.ufes.inf.nemo.ml2.model.DataType;
+import br.ufes.inf.nemo.ml2.model.DerivationConstraint;
+import br.ufes.inf.nemo.ml2.model.DotOperation;
 import br.ufes.inf.nemo.ml2.model.EntityDeclaration;
 import br.ufes.inf.nemo.ml2.model.Feature;
 import br.ufes.inf.nemo.ml2.model.FeatureAssignment;
@@ -17,18 +34,42 @@ import br.ufes.inf.nemo.ml2.model.FirstOrderClass;
 import br.ufes.inf.nemo.ml2.model.GeneralizationSet;
 import br.ufes.inf.nemo.ml2.model.HighOrderClass;
 import br.ufes.inf.nemo.ml2.model.HigherOrderClass;
+import br.ufes.inf.nemo.ml2.model.IfExpression;
+import br.ufes.inf.nemo.ml2.model.ImpliesExpression;
 import br.ufes.inf.nemo.ml2.model.Individual;
+import br.ufes.inf.nemo.ml2.model.InvariantConstraint;
+import br.ufes.inf.nemo.ml2.model.LetExpression;
+import br.ufes.inf.nemo.ml2.model.LiteralExpression;
 import br.ufes.inf.nemo.ml2.model.Model;
 import br.ufes.inf.nemo.ml2.model.ModelElement;
+import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
+import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.OclExpression;
+import br.ufes.inf.nemo.ml2.model.OrExpression;
 import br.ufes.inf.nemo.ml2.model.OrderlessClass;
+import br.ufes.inf.nemo.ml2.model.PrimitiveLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.PrimitiveType;
 import br.ufes.inf.nemo.ml2.model.Reference;
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.model.RegularityAttribute;
 import br.ufes.inf.nemo.ml2.model.RegularityFeatureType;
 import br.ufes.inf.nemo.ml2.model.RegularityReference;
+import br.ufes.inf.nemo.ml2.model.RelationalExpression;
+import br.ufes.inf.nemo.ml2.model.RelationalOperation;
+import br.ufes.inf.nemo.ml2.model.RelationalOperator;
+import br.ufes.inf.nemo.ml2.model.StringLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.TermExpression;
+import br.ufes.inf.nemo.ml2.model.TupleLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.UnaryExpression;
+import br.ufes.inf.nemo.ml2.model.UnaryIteration;
+import br.ufes.inf.nemo.ml2.model.UnaryOperator;
+import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
+import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
+import br.ufes.inf.nemo.ml2.model.VariableExpression;
+import br.ufes.inf.nemo.ml2.model.XorExpression;
 import br.ufes.inf.nemo.ml2.util.ML2Util;
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -956,7 +997,7 @@ public class ML2Generator extends AbstractGenerator {
       EList<br.ufes.inf.nemo.ml2.model.Class> _classifiers = _class.getClassifiers();
       for(final br.ufes.inf.nemo.ml2.model.Class classifier : _classifiers) {
         {
-          if (((classifier instanceof HigherOrderClass) && (!Objects.equal(((HigherOrderClass) classifier).getCategorizedClass(), null)))) {
+          if (((classifier instanceof HigherOrderClass) && (((HigherOrderClass) classifier).getCategorizedClass() != null))) {
             {
               EList<FeatureAssignment> _assignments = _class.getAssignments();
               for(final FeatureAssignment assignment : _assignments) {
@@ -1063,6 +1104,520 @@ public class ML2Generator extends AbstractGenerator {
       _xifexpression = _xifexpression_2;
     }
     return _xifexpression;
+  }
+  
+  protected static CharSequence _generateAlloyElement(final InvariantConstraint constraint) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("fact {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("all self: ");
+    String _name = constraint.getClassContext().getName();
+    _builder.append(_name, "\t");
+    _builder.append(" | ");
+    CharSequence _generateOclExpression = ML2Generator.generateOclExpression(constraint.getExpression());
+    _builder.append(_generateOclExpression, "\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    return _builder;
+  }
+  
+  protected static CharSequence _generateAlloyElement(final DerivationConstraint constraint) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("fact {");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("all self: ");
+    String _name = constraint.getClassContext().getName();
+    _builder.append(_name, "\t\t\t\t");
+    _builder.append(" | FEATURENAME = ");
+    CharSequence _generateOclExpression = ML2Generator.generateOclExpression(constraint.getExpression());
+    _builder.append(_generateOclExpression, "\t\t\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    return _builder;
+  }
+  
+  protected static CharSequence _generateOclExpression(final LetExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("let ");
+    {
+      EList<VariableDeclaration> _variables = expression.getVariables();
+      boolean _hasElements = false;
+      for(final VariableDeclaration variable : _variables) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(", ", "");
+        }
+        CharSequence _generateVariableDeclaration = ML2Generator.generateVariableDeclaration(variable);
+        _builder.append(_generateVariableDeclaration);
+      }
+    }
+    _builder.append(" | ");
+    CharSequence _generateOclExpression = ML2Generator.generateOclExpression(expression.getInExpression());
+    _builder.append(_generateOclExpression);
+    return _builder;
+  }
+  
+  protected static CharSequence _generateOclExpression(final IfExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateOclExpression = ML2Generator.generateOclExpression(expression.getCondition());
+    _builder.append(_generateOclExpression);
+    _builder.append(" implies ");
+    CharSequence _generateOclExpression_1 = ML2Generator.generateOclExpression(expression.getThenExpression());
+    _builder.append(_generateOclExpression_1);
+    _builder.append(" else ");
+    CharSequence _generateOclExpression_2 = ML2Generator.generateOclExpression(expression.getElseExpression());
+    _builder.append(_generateOclExpression_2);
+    return _builder;
+  }
+  
+  protected static CharSequence _generateOclExpression(final ImpliesExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateXorExpression = ML2Generator.generateXorExpression(expression.getLeft());
+    _builder.append(_generateXorExpression);
+    {
+      EList<XorExpression> _right = expression.getRight();
+      boolean _hasElements = false;
+      for(final XorExpression operation : _right) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(" implies ", "");
+        }
+        CharSequence _generateXorExpression_1 = ML2Generator.generateXorExpression(operation);
+        _builder.append(_generateXorExpression_1);
+      }
+    }
+    return _builder;
+  }
+  
+  public static CharSequence generateVariableDeclaration(final VariableDeclaration variable) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _variableName = variable.getVariableName();
+    _builder.append(_variableName);
+    _builder.append(" = ");
+    CharSequence _generateLiteralExpression = ML2Generator.generateLiteralExpression(variable.getInitialValue());
+    _builder.append(_generateLiteralExpression);
+    return _builder;
+  }
+  
+  public static CharSequence generateXorExpression(final XorExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateOrExpression = ML2Generator.generateOrExpression(expression.getLeft());
+    _builder.append(_generateOrExpression);
+    {
+      EList<OrExpression> _right = expression.getRight();
+      boolean _hasElements = false;
+      for(final OrExpression operation : _right) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(" or ", "");
+        }
+        CharSequence _generateOrExpression_1 = ML2Generator.generateOrExpression(operation);
+        _builder.append(_generateOrExpression_1);
+      }
+    }
+    _builder.append(" and not ");
+    CharSequence _generateOrExpression_2 = ML2Generator.generateOrExpression(expression.getLeft());
+    _builder.append(_generateOrExpression_2);
+    {
+      EList<OrExpression> _right_1 = expression.getRight();
+      boolean _hasElements_1 = false;
+      for(final OrExpression operation_1 : _right_1) {
+        if (!_hasElements_1) {
+          _hasElements_1 = true;
+        } else {
+          _builder.appendImmediate(" or ", "");
+        }
+        CharSequence _generateOrExpression_3 = ML2Generator.generateOrExpression(operation_1);
+        _builder.append(_generateOrExpression_3);
+      }
+    }
+    return _builder;
+  }
+  
+  public static CharSequence generateOrExpression(final OrExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateAndExpression = ML2Generator.generateAndExpression(expression.getLeft());
+    _builder.append(_generateAndExpression);
+    {
+      EList<AndExpression> _right = expression.getRight();
+      boolean _hasElements = false;
+      for(final AndExpression operation : _right) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(" or ", "");
+        }
+        CharSequence _generateAndExpression_1 = ML2Generator.generateAndExpression(operation);
+        _builder.append(_generateAndExpression_1);
+      }
+    }
+    return _builder;
+  }
+  
+  public static CharSequence generateAndExpression(final AndExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateComparisonExpression = ML2Generator.generateComparisonExpression(expression.getLeft());
+    _builder.append(_generateComparisonExpression);
+    {
+      EList<ComparisonExpression> _right = expression.getRight();
+      boolean _hasElements = false;
+      for(final ComparisonExpression operation : _right) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(" and ", "");
+        }
+        CharSequence _generateComparisonExpression_1 = ML2Generator.generateComparisonExpression(operation);
+        _builder.append(_generateComparisonExpression_1);
+      }
+    }
+    return _builder;
+  }
+  
+  public static CharSequence generateComparisonExpression(final ComparisonExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateRelationalExpression = ML2Generator.generateRelationalExpression(expression.getLeft());
+    _builder.append(_generateRelationalExpression);
+    {
+      EList<ComparisonOperation> _right = expression.getRight();
+      boolean _hasElements = false;
+      for(final ComparisonOperation operation : _right) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(" ", "");
+        }
+        CharSequence _generateComparisonOperation = ML2Generator.generateComparisonOperation(operation);
+        _builder.append(_generateComparisonOperation);
+      }
+    }
+    return _builder;
+  }
+  
+  public static CharSequence generateComparisonOperation(final ComparisonOperation operation) {
+    CharSequence _switchResult = null;
+    ComparisonOperator _operator = operation.getOperator();
+    if (_operator != null) {
+      switch (_operator) {
+        case EQUAL:
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("= ");
+          CharSequence _generateRelationalExpression = ML2Generator.generateRelationalExpression(operation.getRight());
+          _builder.append(_generateRelationalExpression);
+          _switchResult = _builder;
+          break;
+        case NOT_EQUAL:
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("!= ");
+          CharSequence _generateRelationalExpression_1 = ML2Generator.generateRelationalExpression(operation.getRight());
+          _builder_1.append(_generateRelationalExpression_1);
+          _switchResult = _builder_1;
+          break;
+        default:
+          break;
+      }
+    }
+    return _switchResult;
+  }
+  
+  public static CharSequence generateRelationalExpression(final RelationalExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateAdditionExpression = ML2Generator.generateAdditionExpression(expression.getLeft());
+    _builder.append(_generateAdditionExpression);
+    {
+      EList<RelationalOperation> _right = expression.getRight();
+      boolean _hasElements = false;
+      for(final RelationalOperation operation : _right) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(" ", "");
+        }
+        CharSequence _generateRelationalOperation = ML2Generator.generateRelationalOperation(operation);
+        _builder.append(_generateRelationalOperation);
+      }
+    }
+    return _builder;
+  }
+  
+  public static CharSequence generateRelationalOperation(final RelationalOperation operation) {
+    CharSequence _switchResult = null;
+    RelationalOperator _operator = operation.getOperator();
+    if (_operator != null) {
+      switch (_operator) {
+        case GREATER:
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("> ");
+          CharSequence _generateAdditionExpression = ML2Generator.generateAdditionExpression(operation.getRight());
+          _builder.append(_generateAdditionExpression);
+          _switchResult = _builder;
+          break;
+        case LESS:
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("< ");
+          CharSequence _generateAdditionExpression_1 = ML2Generator.generateAdditionExpression(operation.getRight());
+          _builder_1.append(_generateAdditionExpression_1);
+          _switchResult = _builder_1;
+          break;
+        case GREATER_EQUAL:
+          StringConcatenation _builder_2 = new StringConcatenation();
+          _builder_2.append(">= ");
+          CharSequence _generateAdditionExpression_2 = ML2Generator.generateAdditionExpression(operation.getRight());
+          _builder_2.append(_generateAdditionExpression_2);
+          _switchResult = _builder_2;
+          break;
+        case LESS_EQUAL:
+          StringConcatenation _builder_3 = new StringConcatenation();
+          _builder_3.append("<= ");
+          CharSequence _generateAdditionExpression_3 = ML2Generator.generateAdditionExpression(operation.getRight());
+          _builder_3.append(_generateAdditionExpression_3);
+          _switchResult = _builder_3;
+          break;
+        default:
+          break;
+      }
+    }
+    return _switchResult;
+  }
+  
+  public static CharSequence generateAdditionExpression(final AdditionExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateMultiplicationExpression = ML2Generator.generateMultiplicationExpression(expression.getLeft());
+    _builder.append(_generateMultiplicationExpression);
+    {
+      EList<AdditionOperation> _right = expression.getRight();
+      for(final AdditionOperation operation : _right) {
+        CharSequence _generateAdditionOperation = ML2Generator.generateAdditionOperation(operation);
+        _builder.append(_generateAdditionOperation);
+      }
+    }
+    return _builder;
+  }
+  
+  public static CharSequence generateAdditionOperation(final AdditionOperation operation) {
+    CharSequence _switchResult = null;
+    AdditionOperator _operator = operation.getOperator();
+    if (_operator != null) {
+      switch (_operator) {
+        case PLUS:
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append(".plus[");
+          CharSequence _generateMultiplicationExpression = ML2Generator.generateMultiplicationExpression(operation.getRight());
+          _builder.append(_generateMultiplicationExpression);
+          _builder.append("]");
+          _switchResult = _builder;
+          break;
+        case MINUS:
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append(".minus[");
+          CharSequence _generateMultiplicationExpression_1 = ML2Generator.generateMultiplicationExpression(operation.getRight());
+          _builder_1.append(_generateMultiplicationExpression_1);
+          _builder_1.append("]");
+          _switchResult = _builder_1;
+          break;
+        default:
+          break;
+      }
+    }
+    return _switchResult;
+  }
+  
+  public static CharSequence generateMultiplicationExpression(final MultiplicationExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateUnaryExpression = ML2Generator.generateUnaryExpression(expression.getLeft());
+    _builder.append(_generateUnaryExpression);
+    {
+      EList<UnaryExpression> _right = expression.getRight();
+      for(final UnaryExpression operation : _right) {
+        _builder.append(".mul[");
+        CharSequence _generateUnaryExpression_1 = ML2Generator.generateUnaryExpression(operation);
+        _builder.append(_generateUnaryExpression_1);
+        _builder.append("]");
+      }
+    }
+    return _builder;
+  }
+  
+  public static CharSequence generateUnaryExpression(final UnaryExpression expression) {
+    CharSequence _switchResult = null;
+    UnaryOperator _operator = expression.getOperator();
+    if (_operator != null) {
+      switch (_operator) {
+        case NONE:
+          StringConcatenation _builder = new StringConcatenation();
+          CharSequence _generateTermExpression = ML2Generator.generateTermExpression(expression.getRight());
+          _builder.append(_generateTermExpression);
+          _switchResult = _builder;
+          break;
+        case NOT:
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("not ");
+          CharSequence _generateTermExpression_1 = ML2Generator.generateTermExpression(expression.getRight());
+          _builder_1.append(_generateTermExpression_1);
+          _switchResult = _builder_1;
+          break;
+        case MINUS:
+          StringConcatenation _builder_2 = new StringConcatenation();
+          _builder_2.append("negate[");
+          CharSequence _generateTermExpression_2 = ML2Generator.generateTermExpression(expression.getRight());
+          _builder_2.append(_generateTermExpression_2);
+          _builder_2.append("]");
+          _switchResult = _builder_2;
+          break;
+        default:
+          break;
+      }
+    }
+    return _switchResult;
+  }
+  
+  protected static CharSequence _generateTermExpression(final CallExpression expression) {
+    return ML2Generator.generateCallExpression(expression);
+  }
+  
+  protected static CharSequence _generateTermExpression(final LiteralExpression expression) {
+    return ML2Generator.generateLiteralExpression(expression);
+  }
+  
+  protected static CharSequence _generateTermExpression(final OclExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("(");
+    CharSequence _generateOclExpression = ML2Generator.generateOclExpression(expression);
+    _builder.append(_generateOclExpression);
+    _builder.append(")");
+    return _builder;
+  }
+  
+  public static CharSequence generateCallExpression(final CallExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateVariableExpression = ML2Generator.generateVariableExpression(expression.getLeft());
+    _builder.append(_generateVariableExpression);
+    _builder.append(" ");
+    {
+      EList<CallOperation> _right = expression.getRight();
+      for(final CallOperation operation : _right) {
+        CharSequence _generateCallOperation = ML2Generator.generateCallOperation(operation);
+        _builder.append(_generateCallOperation);
+      }
+    }
+    return _builder;
+  }
+  
+  protected static CharSequence _generateCallOperation(final DotOperation operation) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append(".");
+    CharSequence _generateVariableExpression = ML2Generator.generateVariableExpression(operation.getRight());
+    _builder.append(_generateVariableExpression);
+    return _builder;
+  }
+  
+  protected static CharSequence _generateCallOperation(final ArrowOperation operation) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("->");
+    CharSequence _generateBuiltInOperation = ML2Generator.generateBuiltInOperation(operation.getRight());
+    _builder.append(_generateBuiltInOperation);
+    return _builder;
+  }
+  
+  protected static CharSequence _generateBuiltInOperation(final UnarySetOperation operation) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("uso");
+    return _builder;
+  }
+  
+  protected static CharSequence _generateBuiltInOperation(final BinarySetOperation operation) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("bso");
+    return _builder;
+  }
+  
+  protected static CharSequence _generateBuiltInOperation(final UnaryIteration operation) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("ui");
+    return _builder;
+  }
+  
+  protected static CharSequence _generateBuiltInOperation(final BinaryIteration operation) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("bi");
+    return _builder;
+  }
+  
+  protected static CharSequence _generateLiteralExpression(final PrimitiveLiteralExpression expression) {
+    return ML2Generator.generatePrimitiveLiteralExpression(expression);
+  }
+  
+  protected static CharSequence _generateLiteralExpression(final CollectionLiteralExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      EList<LiteralExpression> _parts = expression.getParts();
+      boolean _hasElements = false;
+      for(final LiteralExpression part : _parts) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(" + ", "");
+        }
+        CharSequence _generateLiteralExpression = ML2Generator.generateLiteralExpression(part);
+        _builder.append(_generateLiteralExpression);
+      }
+    }
+    return _builder;
+  }
+  
+  protected static CharSequence _generateLiteralExpression(final TypeLiteralExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("TYPE_LITERAL_TRANSFORM");
+    return _builder;
+  }
+  
+  protected static CharSequence _generateLiteralExpression(final TupleLiteralExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("TUPLE_TRANSFORM");
+    return _builder;
+  }
+  
+  protected static CharSequence _generatePrimitiveLiteralExpression(final NullLiteralExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("none");
+    return _builder;
+  }
+  
+  protected static CharSequence _generatePrimitiveLiteralExpression(final BooleanLiteralExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    boolean _isBooleanSymbol = expression.isBooleanSymbol();
+    _builder.append(_isBooleanSymbol);
+    return _builder;
+  }
+  
+  protected static CharSequence _generatePrimitiveLiteralExpression(final NumberLiteralExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    int _intValue = Double.valueOf(expression.getNumberSymbol()).intValue();
+    _builder.append(_intValue);
+    return _builder;
+  }
+  
+  protected static CharSequence _generatePrimitiveLiteralExpression(final StringLiteralExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _stringSymbol = expression.getStringSymbol();
+    _builder.append(_stringSymbol);
+    return _builder;
+  }
+  
+  public static CharSequence generateVariableExpression(final VariableExpression expression) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _referringVariable = expression.getReferringVariable();
+    _builder.append(_referringVariable);
+    return _builder;
   }
   
   /**
@@ -1446,8 +2001,8 @@ public class ML2Generator extends AbstractGenerator {
   protected static CharSequence _generateAlloySignatureFields(final Attribute attribute) {
     CharSequence _xifexpression = null;
     DataType __type = attribute.get_type();
-    boolean _notEquals = (!Objects.equal(__type, null));
-    if (_notEquals) {
+    boolean _tripleNotEquals = (__type != null);
+    if (_tripleNotEquals) {
       StringConcatenation _builder = new StringConcatenation();
       String _name = attribute.getName();
       _builder.append(_name);
@@ -2140,8 +2695,8 @@ public class ML2Generator extends AbstractGenerator {
     CharSequence _xifexpression = null;
     Reference _reference = referenceAssignment.getReference();
     Reference _regulates = ((RegularityReference) _reference).getRegulates();
-    boolean _notEquals = (!Objects.equal(_regulates, null));
-    if (_notEquals) {
+    boolean _tripleNotEquals = (_regulates != null);
+    if (_tripleNotEquals) {
       CharSequence _xblockexpression = null;
       {
         Reference _reference_1 = referenceAssignment.getReference();
@@ -2205,8 +2760,8 @@ public class ML2Generator extends AbstractGenerator {
     if ((_class instanceof HigherOrderClass)) {
       CharSequence _xifexpression_1 = null;
       br.ufes.inf.nemo.ml2.model.Class _powertypeOf = ((HigherOrderClass)_class).getPowertypeOf();
-      boolean _notEquals = (!Objects.equal(_powertypeOf, null));
-      if (_notEquals) {
+      boolean _tripleNotEquals = (_powertypeOf != null);
+      if (_tripleNotEquals) {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("fact ");
         String _name = ((HigherOrderClass)_class).getName();
@@ -2284,8 +2839,8 @@ public class ML2Generator extends AbstractGenerator {
     if ((_class instanceof HigherOrderClass)) {
       CharSequence _xifexpression_1 = null;
       br.ufes.inf.nemo.ml2.model.Class _categorizedClass = ((HigherOrderClass)_class).getCategorizedClass();
-      boolean _notEquals = (!Objects.equal(_categorizedClass, null));
-      if (_notEquals) {
+      boolean _tripleNotEquals = (_categorizedClass != null);
+      if (_tripleNotEquals) {
         CharSequence _switchResult = null;
         CategorizationType _categorizationType = ((HigherOrderClass)_class).getCategorizationType();
         if (_categorizationType != null) {
@@ -2739,13 +3294,99 @@ public class ML2Generator extends AbstractGenerator {
   public static CharSequence generateAlloyElement(final ModelElement _class) {
     if (_class instanceof br.ufes.inf.nemo.ml2.model.Class) {
       return _generateAlloyElement((br.ufes.inf.nemo.ml2.model.Class)_class);
+    } else if (_class instanceof DerivationConstraint) {
+      return _generateAlloyElement((DerivationConstraint)_class);
     } else if (_class instanceof Individual) {
       return _generateAlloyElement((Individual)_class);
+    } else if (_class instanceof InvariantConstraint) {
+      return _generateAlloyElement((InvariantConstraint)_class);
     } else if (_class instanceof GeneralizationSet) {
       return _generateAlloyElement((GeneralizationSet)_class);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(_class).toString());
+    }
+  }
+  
+  public static CharSequence generateOclExpression(final OclExpression expression) {
+    if (expression instanceof IfExpression) {
+      return _generateOclExpression((IfExpression)expression);
+    } else if (expression instanceof ImpliesExpression) {
+      return _generateOclExpression((ImpliesExpression)expression);
+    } else if (expression instanceof LetExpression) {
+      return _generateOclExpression((LetExpression)expression);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(expression).toString());
+    }
+  }
+  
+  public static CharSequence generateTermExpression(final TermExpression expression) {
+    if (expression instanceof CallExpression) {
+      return _generateTermExpression((CallExpression)expression);
+    } else if (expression instanceof LiteralExpression) {
+      return _generateTermExpression((LiteralExpression)expression);
+    } else if (expression instanceof OclExpression) {
+      return _generateTermExpression((OclExpression)expression);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(expression).toString());
+    }
+  }
+  
+  public static CharSequence generateCallOperation(final CallOperation operation) {
+    if (operation instanceof ArrowOperation) {
+      return _generateCallOperation((ArrowOperation)operation);
+    } else if (operation instanceof DotOperation) {
+      return _generateCallOperation((DotOperation)operation);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(operation).toString());
+    }
+  }
+  
+  public static CharSequence generateBuiltInOperation(final BuiltInOperation operation) {
+    if (operation instanceof BinaryIteration) {
+      return _generateBuiltInOperation((BinaryIteration)operation);
+    } else if (operation instanceof BinarySetOperation) {
+      return _generateBuiltInOperation((BinarySetOperation)operation);
+    } else if (operation instanceof UnaryIteration) {
+      return _generateBuiltInOperation((UnaryIteration)operation);
+    } else if (operation instanceof UnarySetOperation) {
+      return _generateBuiltInOperation((UnarySetOperation)operation);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(operation).toString());
+    }
+  }
+  
+  public static CharSequence generateLiteralExpression(final LiteralExpression expression) {
+    if (expression instanceof CollectionLiteralExpression) {
+      return _generateLiteralExpression((CollectionLiteralExpression)expression);
+    } else if (expression instanceof PrimitiveLiteralExpression) {
+      return _generateLiteralExpression((PrimitiveLiteralExpression)expression);
+    } else if (expression instanceof TupleLiteralExpression) {
+      return _generateLiteralExpression((TupleLiteralExpression)expression);
+    } else if (expression instanceof TypeLiteralExpression) {
+      return _generateLiteralExpression((TypeLiteralExpression)expression);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(expression).toString());
+    }
+  }
+  
+  public static CharSequence generatePrimitiveLiteralExpression(final PrimitiveLiteralExpression expression) {
+    if (expression instanceof BooleanLiteralExpression) {
+      return _generatePrimitiveLiteralExpression((BooleanLiteralExpression)expression);
+    } else if (expression instanceof NullLiteralExpression) {
+      return _generatePrimitiveLiteralExpression((NullLiteralExpression)expression);
+    } else if (expression instanceof NumberLiteralExpression) {
+      return _generatePrimitiveLiteralExpression((NumberLiteralExpression)expression);
+    } else if (expression instanceof StringLiteralExpression) {
+      return _generatePrimitiveLiteralExpression((StringLiteralExpression)expression);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(expression).toString());
     }
   }
   

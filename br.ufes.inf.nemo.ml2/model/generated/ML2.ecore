@@ -314,7 +314,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CollectionLiteralExpression" eSuperTypes="#//LiteralExpression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="parts" upperBound="-1"
-        eType="#//OclExpression" containment="true"/>
+        eType="#//LiteralExpression" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypeLiteralExpression" eSuperTypes="#//LiteralExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="TupleLiteralExpression" eSuperTypes="#//LiteralExpression">

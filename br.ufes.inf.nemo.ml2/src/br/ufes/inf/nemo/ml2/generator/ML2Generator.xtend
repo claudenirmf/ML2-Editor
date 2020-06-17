@@ -36,6 +36,46 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import com.google.inject.Inject
 import br.ufes.inf.nemo.ml2.util.ML2Util
 
+import br.ufes.inf.nemo.ml2.model.DerivationConstraint
+import br.ufes.inf.nemo.ml2.model.InvariantConstraint
+import br.ufes.inf.nemo.ml2.model.OclExpression
+import br.ufes.inf.nemo.ml2.model.LetExpression
+import br.ufes.inf.nemo.ml2.model.VariableDeclaration
+import br.ufes.inf.nemo.ml2.model.IfExpression
+import br.ufes.inf.nemo.ml2.model.ImpliesExpression
+import br.ufes.inf.nemo.ml2.model.XorExpression
+import br.ufes.inf.nemo.ml2.model.OrExpression
+import br.ufes.inf.nemo.ml2.model.AndExpression
+import br.ufes.inf.nemo.ml2.model.ComparisonExpression
+import br.ufes.inf.nemo.ml2.model.ComparisonOperation
+import br.ufes.inf.nemo.ml2.model.ComparisonOperator
+import br.ufes.inf.nemo.ml2.model.RelationalExpression
+import br.ufes.inf.nemo.ml2.model.RelationalOperation
+import br.ufes.inf.nemo.ml2.model.RelationalOperator
+import br.ufes.inf.nemo.ml2.model.AdditionExpression
+import br.ufes.inf.nemo.ml2.model.AdditionOperation
+import br.ufes.inf.nemo.ml2.model.AdditionOperator
+import br.ufes.inf.nemo.ml2.model.MultiplicationExpression
+import br.ufes.inf.nemo.ml2.model.UnaryExpression
+import br.ufes.inf.nemo.ml2.model.UnaryOperator
+import br.ufes.inf.nemo.ml2.model.CallExpression
+import br.ufes.inf.nemo.ml2.model.DotOperation
+import br.ufes.inf.nemo.ml2.model.ArrowOperation
+import br.ufes.inf.nemo.ml2.model.UnarySetOperation
+import br.ufes.inf.nemo.ml2.model.BinarySetOperation
+import br.ufes.inf.nemo.ml2.model.UnaryIteration
+import br.ufes.inf.nemo.ml2.model.BinaryIteration
+import br.ufes.inf.nemo.ml2.model.LiteralExpression
+import br.ufes.inf.nemo.ml2.model.PrimitiveLiteralExpression
+import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression
+import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression
+import br.ufes.inf.nemo.ml2.model.TupleLiteralExpression
+import br.ufes.inf.nemo.ml2.model.NullLiteralExpression
+import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression
+import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression
+import br.ufes.inf.nemo.ml2.model.StringLiteralExpression
+import br.ufes.inf.nemo.ml2.model.VariableExpression
+
 /**
  * Generates an Alloy model from an ML2 Model.
  */
@@ -463,7 +503,7 @@ class ML2Generator extends AbstractGenerator {
 		«generateCategorizationFact(_class)»
 		«generateSubordinationFact(_class)»
 		«FOR classifier : _class.classifiers»
-			«IF classifier instanceof HigherOrderClass && (classifier as HigherOrderClass).categorizedClass != null»
+			«IF classifier instanceof HigherOrderClass && (classifier as HigherOrderClass).categorizedClass !== null»
 				«FOR assignment : _class.assignments»
 					«generateRegularityFeatureFact(assignment, _class)»
 				«ENDFOR»
@@ -508,6 +548,185 @@ class ML2Generator extends AbstractGenerator {
 			
 		'''	
 		}
+	}
+	
+	def static dispatch generateAlloyElement(InvariantConstraint constraint) {'''
+		fact {
+			all self: «constraint.classContext.name» | «generateOclExpression(constraint.expression)»
+		}
+
+	'''	
+	}
+	
+	def static dispatch generateAlloyElement(DerivationConstraint constraint) {'''
+		fact {
+			«««all self: «constraint.classContext.name» | self.«constraint.featureContext.name» = «generateOclExpression(constraint.expression)»
+			all self: «constraint.classContext.name» | FEATURENAME = «generateOclExpression(constraint.expression)»
+		}
+
+	'''	
+	}
+	
+	def static dispatch CharSequence generateOclExpression(LetExpression expression) {
+		'''let «FOR variable : expression.variables SEPARATOR ', '»«generateVariableDeclaration(variable)»«ENDFOR» | «generateOclExpression(expression.inExpression)»'''
+	}
+	
+	def static dispatch CharSequence generateOclExpression(IfExpression expression) {
+		'''«generateOclExpression(expression.condition)» implies «generateOclExpression(expression.thenExpression)» else «generateOclExpression(expression.elseExpression)»'''	
+	}
+	
+	def static dispatch CharSequence generateOclExpression(ImpliesExpression expression) {
+		'''«generateXorExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' implies '»«generateXorExpression(operation)»«ENDFOR»'''
+	}
+	
+	def static generateVariableDeclaration(VariableDeclaration variable) {
+		'''«variable.variableName» = «generateLiteralExpression(variable.initialValue)»'''
+	}
+	
+	def static generateXorExpression(XorExpression expression) {
+		'''«generateOrExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' or '»«generateOrExpression(operation)»«ENDFOR» and not «generateOrExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' or '»«generateOrExpression(operation)»«ENDFOR»'''
+	}
+	
+	def static generateOrExpression(OrExpression expression) {
+		'''«generateAndExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' or '»«generateAndExpression(operation)»«ENDFOR»'''
+	}
+
+	def static generateAndExpression(AndExpression expression) {
+		'''«generateComparisonExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' and '»«generateComparisonExpression(operation)»«ENDFOR»'''
+	}
+	
+	def static generateComparisonExpression(ComparisonExpression expression) {
+		'''«generateRelationalExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' '»«generateComparisonOperation(operation)»«ENDFOR»'''
+	}
+	
+	def static generateComparisonOperation(ComparisonOperation operation) {
+		switch operation.operator {
+			case ComparisonOperator.EQUAL:
+				'''= «generateRelationalExpression(operation.right)»'''
+			case ComparisonOperator.NOT_EQUAL:
+				'''!= «generateRelationalExpression(operation.right)»'''
+		}
+	}
+	
+	def static generateRelationalExpression(RelationalExpression expression) {
+		'''«generateAdditionExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' '»«generateRelationalOperation(operation)»«ENDFOR»'''
+	}
+	
+	def static generateRelationalOperation(RelationalOperation operation) {
+		switch operation.operator {
+			case RelationalOperator.GREATER:
+				'''> «generateAdditionExpression(operation.right)»'''
+			case RelationalOperator.LESS:
+				'''< «generateAdditionExpression(operation.right)»'''
+			case RelationalOperator.GREATER_EQUAL:
+				'''>= «generateAdditionExpression(operation.right)»'''
+			case RelationalOperator.LESS_EQUAL:
+				'''<= «generateAdditionExpression(operation.right)»'''
+		}
+	}
+
+	def static generateAdditionExpression(AdditionExpression expression) {
+		'''«generateMultiplicationExpression(expression.left)»«FOR operation : expression.right»«generateAdditionOperation(operation)»«ENDFOR»'''
+	}
+	
+	def static generateAdditionOperation(AdditionOperation operation) {
+		switch operation.operator {
+			case AdditionOperator.PLUS:
+				'''.plus[«generateMultiplicationExpression(operation.right)»]'''
+			case AdditionOperator.MINUS:
+				'''.minus[«generateMultiplicationExpression(operation.right)»]'''
+		}
+	}
+
+	def static generateMultiplicationExpression(MultiplicationExpression expression) {
+		'''«generateUnaryExpression(expression.left)»«FOR operation : expression.right».mul[«generateUnaryExpression(operation)»]«ENDFOR»'''
+	}
+	
+	def static generateUnaryExpression(UnaryExpression expression) {
+		switch expression.operator {
+			case UnaryOperator.NONE:
+				'''«generateTermExpression(expression.right)»'''
+			case UnaryOperator.NOT:
+				'''not «generateTermExpression(expression.right)»'''
+			case UnaryOperator.MINUS:
+				'''negate[«generateTermExpression(expression.right)»]'''
+		}
+	}
+	
+	def static dispatch CharSequence generateTermExpression(CallExpression expression) {
+		generateCallExpression(expression)
+	}
+	
+	def static dispatch CharSequence generateTermExpression(LiteralExpression expression) {
+		generateLiteralExpression(expression)
+	}
+	
+	def static dispatch CharSequence generateTermExpression(OclExpression expression) {
+		'''(«generateOclExpression(expression)»)'''
+	}
+	
+	def static generateCallExpression(CallExpression expression) {
+		'''«generateVariableExpression(expression.left)» «FOR operation : expression.right»«generateCallOperation(operation)»«ENDFOR»'''
+	}
+	
+	def static dispatch CharSequence generateCallOperation(DotOperation operation) {
+		'''.«generateVariableExpression(operation.right)»'''
+	}
+	
+	def static dispatch CharSequence generateCallOperation(ArrowOperation operation) {
+		'''->«generateBuiltInOperation(operation.right)»'''
+	}
+	
+	def static dispatch CharSequence generateBuiltInOperation(UnarySetOperation operation) {
+		'''uso'''
+	}
+	
+	def static dispatch CharSequence generateBuiltInOperation(BinarySetOperation operation) {
+		'''bso'''
+	}
+	
+	def static dispatch CharSequence generateBuiltInOperation(UnaryIteration operation) {
+		'''ui'''
+	}
+	
+	def static dispatch CharSequence generateBuiltInOperation(BinaryIteration operation) {
+		'''bi'''
+	}
+	
+	def static dispatch CharSequence generateLiteralExpression(PrimitiveLiteralExpression expression) {
+		generatePrimitiveLiteralExpression(expression)
+	}
+	
+	def static dispatch CharSequence generateLiteralExpression(CollectionLiteralExpression expression) {
+		'''«FOR part : expression.parts SEPARATOR ' + '»«generateLiteralExpression(part)»«ENDFOR»'''
+	}
+	
+	def static dispatch CharSequence generateLiteralExpression(TypeLiteralExpression expression) {
+		'''TYPE_LITERAL_TRANSFORM'''
+	}
+	
+	def static dispatch CharSequence generateLiteralExpression(TupleLiteralExpression expression) {
+		'''TUPLE_TRANSFORM'''
+	}
+	
+	def static dispatch CharSequence generatePrimitiveLiteralExpression(NullLiteralExpression expression) {
+		'''none'''
+	}
+	
+	def static dispatch CharSequence generatePrimitiveLiteralExpression(BooleanLiteralExpression expression) {
+		'''«expression.booleanSymbol»'''
+	}
+	
+	def static dispatch CharSequence generatePrimitiveLiteralExpression(NumberLiteralExpression expression) {
+		'''«expression.numberSymbol.intValue»'''
+	}
+	
+	def static dispatch CharSequence generatePrimitiveLiteralExpression(StringLiteralExpression expression) {
+		'''«expression.stringSymbol»'''
+	}
+	
+	def static generateVariableExpression(VariableExpression expression) {
+		'''«expression.referringVariable»'''
 	}
 
 	/************************************************************************************************
@@ -658,7 +877,7 @@ class ML2Generator extends AbstractGenerator {
 	 * @param attribute the ML2 Attribute element to be transformed.
 	 */
 	def static dispatch generateAlloySignatureFields(Attribute attribute) {
-		if(attribute._type != null) {'''
+		if(attribute._type !== null) {'''
 			«attribute.name»: «decideMultiplicityKeyword(attribute)»«attribute._type.name»
 		'''
 		} else {
@@ -1015,7 +1234,7 @@ class ML2Generator extends AbstractGenerator {
 	 */
 	def static dispatch generateRegularityFeatureFact(ReferenceAssignment referenceAssignment, Class ml2class) {
 		// TODO: double check regularity attribute
-		if((referenceAssignment.reference as RegularityReference).regulates != null) {
+		if((referenceAssignment.reference as RegularityReference).regulates !== null) {
 			val regRef = referenceAssignment.reference as RegularityReference
 			
 			switch regRef.regularityType {
@@ -1041,7 +1260,7 @@ class ML2Generator extends AbstractGenerator {
 	 */
 	def static generatePowertypeFact(Class _class) {
 		if (_class instanceof HigherOrderClass) {
-			if (_class.powertypeOf != null) {
+			if (_class.powertypeOf !== null) {
 				'''
 					fact «_class.name»Powertype {
 						powertypeOf[«_class.name»Reified,«_class.powertypeOf.name»Reified]
@@ -1079,7 +1298,7 @@ class ML2Generator extends AbstractGenerator {
 	 */
 	def static generateCategorizationFact(Class _class) {
 		if (_class instanceof HigherOrderClass) {
-			if (_class.categorizedClass != null) {
+			if (_class.categorizedClass !== null) {
 				switch _class.categorizationType {
 					case CategorizationType.CATEGORIZER: '''
 						fact «_class.name»Categorization {

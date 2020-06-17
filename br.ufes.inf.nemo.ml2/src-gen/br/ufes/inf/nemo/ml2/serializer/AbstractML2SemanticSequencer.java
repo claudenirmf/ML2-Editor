@@ -440,7 +440,7 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *     CollectionLiteralExpression returns CollectionLiteralExpression
 	 *
 	 * Constraint:
-	 *     (parts+=OclExpression parts+=OclExpression*)
+	 *     (parts+=LiteralExpression parts+=LiteralExpression*)
 	 */
 	protected void sequence_CollectionLiteralExpression(ISerializationContext context, CollectionLiteralExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

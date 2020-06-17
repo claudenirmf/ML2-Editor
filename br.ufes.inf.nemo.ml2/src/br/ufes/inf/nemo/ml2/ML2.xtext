@@ -427,14 +427,16 @@ StringLiteralExpression:
 	stringSymbol=STRING
 ;
 
+//TODO: LiteralExpression cannot be a collection here
 CollectionLiteralExpression:
-	'Set' '{' parts+=OclExpression (',' parts+=OclExpression)* '}'
+	'Set' '{' parts+=LiteralExpression (',' parts+=LiteralExpression)* '}'
 ;
 
 TypeLiteralExpression:
 	PrimitiveTypeName | CollectionTypeName | TupleTypeName | OclTypeName | DataTypeName
 ;
 
+//TODO: review
 TupleLiteralExpression:
 	'Tuple' '{' variables+=ID (',' variables+=ID)* '}'
 ;
@@ -459,6 +461,7 @@ CollectionTypeName:
 	typename='Set' '(' elementType=TypeLiteralExpression ')'
 ;
 
+//TODO: review
 TupleTypeName:
 	typename='Tuple' '(' (variables+=ID (',' variables+=ID)*)? ')'
 ;

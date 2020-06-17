@@ -17200,7 +17200,7 @@ public class InternalML2Parser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCollectionLiteralExpression"
-    // InternalML2.g:5807:1: ruleCollectionLiteralExpression returns [EObject current=null] : (otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleOclExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleOclExpression ) ) )* otherlv_5= '}' ) ;
+    // InternalML2.g:5807:1: ruleCollectionLiteralExpression returns [EObject current=null] : (otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleLiteralExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleLiteralExpression ) ) )* otherlv_5= '}' ) ;
     public final EObject ruleCollectionLiteralExpression() throws RecognitionException {
         EObject current = null;
 
@@ -17217,11 +17217,11 @@ public class InternalML2Parser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalML2.g:5813:2: ( (otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleOclExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleOclExpression ) ) )* otherlv_5= '}' ) )
-            // InternalML2.g:5814:2: (otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleOclExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleOclExpression ) ) )* otherlv_5= '}' )
+            // InternalML2.g:5813:2: ( (otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleLiteralExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleLiteralExpression ) ) )* otherlv_5= '}' ) )
+            // InternalML2.g:5814:2: (otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleLiteralExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleLiteralExpression ) ) )* otherlv_5= '}' )
             {
-            // InternalML2.g:5814:2: (otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleOclExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleOclExpression ) ) )* otherlv_5= '}' )
-            // InternalML2.g:5815:3: otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleOclExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleOclExpression ) ) )* otherlv_5= '}'
+            // InternalML2.g:5814:2: (otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleLiteralExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleLiteralExpression ) ) )* otherlv_5= '}' )
+            // InternalML2.g:5815:3: otherlv_0= 'Set' otherlv_1= '{' ( (lv_parts_2_0= ruleLiteralExpression ) ) (otherlv_3= ',' ( (lv_parts_4_0= ruleLiteralExpression ) ) )* otherlv_5= '}'
             {
             otherlv_0=(Token)match(input,68,FOLLOW_4); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -17229,25 +17229,25 @@ public class InternalML2Parser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_0, grammarAccess.getCollectionLiteralExpressionAccess().getSetKeyword_0());
               		
             }
-            otherlv_1=(Token)match(input,12,FOLLOW_51); if (state.failed) return current;
+            otherlv_1=(Token)match(input,12,FOLLOW_56); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			newLeafNode(otherlv_1, grammarAccess.getCollectionLiteralExpressionAccess().getLeftCurlyBracketKeyword_1());
               		
             }
-            // InternalML2.g:5823:3: ( (lv_parts_2_0= ruleOclExpression ) )
-            // InternalML2.g:5824:4: (lv_parts_2_0= ruleOclExpression )
+            // InternalML2.g:5823:3: ( (lv_parts_2_0= ruleLiteralExpression ) )
+            // InternalML2.g:5824:4: (lv_parts_2_0= ruleLiteralExpression )
             {
-            // InternalML2.g:5824:4: (lv_parts_2_0= ruleOclExpression )
-            // InternalML2.g:5825:5: lv_parts_2_0= ruleOclExpression
+            // InternalML2.g:5824:4: (lv_parts_2_0= ruleLiteralExpression )
+            // InternalML2.g:5825:5: lv_parts_2_0= ruleLiteralExpression
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_2_0());
+              					newCompositeNode(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_2_0());
               				
             }
             pushFollow(FOLLOW_45);
-            lv_parts_2_0=ruleOclExpression();
+            lv_parts_2_0=ruleLiteralExpression();
 
             state._fsp--;
             if (state.failed) return current;
@@ -17260,7 +17260,7 @@ public class InternalML2Parser extends AbstractInternalAntlrParser {
               						current,
               						"parts",
               						lv_parts_2_0,
-              						"br.ufes.inf.nemo.ml2.ML2.OclExpression");
+              						"br.ufes.inf.nemo.ml2.ML2.LiteralExpression");
               					afterParserOrEnumRuleCall();
               				
             }
@@ -17270,7 +17270,7 @@ public class InternalML2Parser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalML2.g:5842:3: (otherlv_3= ',' ( (lv_parts_4_0= ruleOclExpression ) ) )*
+            // InternalML2.g:5842:3: (otherlv_3= ',' ( (lv_parts_4_0= ruleLiteralExpression ) ) )*
             loop114:
             do {
                 int alt114=2;
@@ -17283,27 +17283,27 @@ public class InternalML2Parser extends AbstractInternalAntlrParser {
 
                 switch (alt114) {
             	case 1 :
-            	    // InternalML2.g:5843:4: otherlv_3= ',' ( (lv_parts_4_0= ruleOclExpression ) )
+            	    // InternalML2.g:5843:4: otherlv_3= ',' ( (lv_parts_4_0= ruleLiteralExpression ) )
             	    {
-            	    otherlv_3=(Token)match(input,21,FOLLOW_51); if (state.failed) return current;
+            	    otherlv_3=(Token)match(input,21,FOLLOW_56); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
             	      				newLeafNode(otherlv_3, grammarAccess.getCollectionLiteralExpressionAccess().getCommaKeyword_3_0());
             	      			
             	    }
-            	    // InternalML2.g:5847:4: ( (lv_parts_4_0= ruleOclExpression ) )
-            	    // InternalML2.g:5848:5: (lv_parts_4_0= ruleOclExpression )
+            	    // InternalML2.g:5847:4: ( (lv_parts_4_0= ruleLiteralExpression ) )
+            	    // InternalML2.g:5848:5: (lv_parts_4_0= ruleLiteralExpression )
             	    {
-            	    // InternalML2.g:5848:5: (lv_parts_4_0= ruleOclExpression )
-            	    // InternalML2.g:5849:6: lv_parts_4_0= ruleOclExpression
+            	    // InternalML2.g:5848:5: (lv_parts_4_0= ruleLiteralExpression )
+            	    // InternalML2.g:5849:6: lv_parts_4_0= ruleLiteralExpression
             	    {
             	    if ( state.backtracking==0 ) {
 
-            	      						newCompositeNode(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_3_1_0());
+            	      						newCompositeNode(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_3_1_0());
             	      					
             	    }
             	    pushFollow(FOLLOW_45);
-            	    lv_parts_4_0=ruleOclExpression();
+            	    lv_parts_4_0=ruleLiteralExpression();
 
             	    state._fsp--;
             	    if (state.failed) return current;
@@ -17316,7 +17316,7 @@ public class InternalML2Parser extends AbstractInternalAntlrParser {
             	      							current,
             	      							"parts",
             	      							lv_parts_4_0,
-            	      							"br.ufes.inf.nemo.ml2.ML2.OclExpression");
+            	      							"br.ufes.inf.nemo.ml2.ML2.LiteralExpression");
             	      						afterParserOrEnumRuleCall();
             	      					
             	    }

@@ -5823,9 +5823,9 @@ ruleCollectionLiteralExpression returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_2_0());
+					newCompositeNode(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_2_0());
 				}
-				lv_parts_2_0=ruleOclExpression
+				lv_parts_2_0=ruleLiteralExpression
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getCollectionLiteralExpressionRule());
@@ -5834,7 +5834,7 @@ ruleCollectionLiteralExpression returns [EObject current=null]
 						$current,
 						"parts",
 						lv_parts_2_0,
-						"br.ufes.inf.nemo.ml2.ML2.OclExpression");
+						"br.ufes.inf.nemo.ml2.ML2.LiteralExpression");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -5847,9 +5847,9 @@ ruleCollectionLiteralExpression returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_3_1_0());
+						newCompositeNode(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_3_1_0());
 					}
-					lv_parts_4_0=ruleOclExpression
+					lv_parts_4_0=ruleLiteralExpression
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getCollectionLiteralExpressionRule());
@@ -5858,7 +5858,7 @@ ruleCollectionLiteralExpression returns [EObject current=null]
 							$current,
 							"parts",
 							lv_parts_4_0,
-							"br.ufes.inf.nemo.ml2.ML2.OclExpression");
+							"br.ufes.inf.nemo.ml2.ML2.LiteralExpression");
 						afterParserOrEnumRuleCall();
 					}
 				)

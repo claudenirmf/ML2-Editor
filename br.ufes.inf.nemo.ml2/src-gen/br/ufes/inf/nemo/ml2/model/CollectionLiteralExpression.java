@@ -25,7 +25,7 @@ public interface CollectionLiteralExpression extends LiteralExpression
 {
   /**
    * Returns the value of the '<em><b>Parts</b></em>' containment reference list.
-   * The list contents are of type {@link br.ufes.inf.nemo.ml2.model.OclExpression}.
+   * The list contents are of type {@link br.ufes.inf.nemo.ml2.model.LiteralExpression}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the value of the '<em>Parts</em>' containment reference list.
@@ -33,6 +33,6 @@ public interface CollectionLiteralExpression extends LiteralExpression
    * @model containment="true"
    * @generated
    */
-  EList<OclExpression> getParts();
+  EList<LiteralExpression> getParts();
 
 } // CollectionLiteralExpression

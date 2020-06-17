@@ -47274,7 +47274,7 @@ public class InternalML2Parser extends AbstractInternalContentAssistParser {
             // InternalML2.g:13922:1: ( rule__CollectionLiteralExpression__Group__1__Impl rule__CollectionLiteralExpression__Group__2 )
             // InternalML2.g:13923:2: rule__CollectionLiteralExpression__Group__1__Impl rule__CollectionLiteralExpression__Group__2
             {
-            pushFollow(FOLLOW_49);
+            pushFollow(FOLLOW_54);
             rule__CollectionLiteralExpression__Group__1__Impl();
 
             state._fsp--;
@@ -47623,7 +47623,7 @@ public class InternalML2Parser extends AbstractInternalContentAssistParser {
             // InternalML2.g:14030:1: ( rule__CollectionLiteralExpression__Group_3__0__Impl rule__CollectionLiteralExpression__Group_3__1 )
             // InternalML2.g:14031:2: rule__CollectionLiteralExpression__Group_3__0__Impl rule__CollectionLiteralExpression__Group_3__1
             {
-            pushFollow(FOLLOW_49);
+            pushFollow(FOLLOW_54);
             rule__CollectionLiteralExpression__Group_3__0__Impl();
 
             state._fsp--;
@@ -58474,28 +58474,28 @@ public class InternalML2Parser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__CollectionLiteralExpression__PartsAssignment_2"
-    // InternalML2.g:17636:1: rule__CollectionLiteralExpression__PartsAssignment_2 : ( ruleOclExpression ) ;
+    // InternalML2.g:17636:1: rule__CollectionLiteralExpression__PartsAssignment_2 : ( ruleLiteralExpression ) ;
     public final void rule__CollectionLiteralExpression__PartsAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalML2.g:17640:1: ( ( ruleOclExpression ) )
-            // InternalML2.g:17641:2: ( ruleOclExpression )
+            // InternalML2.g:17640:1: ( ( ruleLiteralExpression ) )
+            // InternalML2.g:17641:2: ( ruleLiteralExpression )
             {
-            // InternalML2.g:17641:2: ( ruleOclExpression )
-            // InternalML2.g:17642:3: ruleOclExpression
+            // InternalML2.g:17641:2: ( ruleLiteralExpression )
+            // InternalML2.g:17642:3: ruleLiteralExpression
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_2_0()); 
+               before(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_2_0()); 
             }
             pushFollow(FOLLOW_2);
-            ruleOclExpression();
+            ruleLiteralExpression();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_2_0()); 
+               after(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_2_0()); 
             }
 
             }
@@ -58519,28 +58519,28 @@ public class InternalML2Parser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__CollectionLiteralExpression__PartsAssignment_3_1"
-    // InternalML2.g:17651:1: rule__CollectionLiteralExpression__PartsAssignment_3_1 : ( ruleOclExpression ) ;
+    // InternalML2.g:17651:1: rule__CollectionLiteralExpression__PartsAssignment_3_1 : ( ruleLiteralExpression ) ;
     public final void rule__CollectionLiteralExpression__PartsAssignment_3_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalML2.g:17655:1: ( ( ruleOclExpression ) )
-            // InternalML2.g:17656:2: ( ruleOclExpression )
+            // InternalML2.g:17655:1: ( ( ruleLiteralExpression ) )
+            // InternalML2.g:17656:2: ( ruleLiteralExpression )
             {
-            // InternalML2.g:17656:2: ( ruleOclExpression )
-            // InternalML2.g:17657:3: ruleOclExpression
+            // InternalML2.g:17656:2: ( ruleLiteralExpression )
+            // InternalML2.g:17657:3: ruleLiteralExpression
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_3_1_0()); 
+               before(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_3_1_0()); 
             }
             pushFollow(FOLLOW_2);
-            ruleOclExpression();
+            ruleLiteralExpression();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getCollectionLiteralExpressionAccess().getPartsOclExpressionParserRuleCall_3_1_0()); 
+               after(grammarAccess.getCollectionLiteralExpressionAccess().getPartsLiteralExpressionParserRuleCall_3_1_0()); 
             }
 
             }

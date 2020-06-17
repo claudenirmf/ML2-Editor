@@ -4,8 +4,8 @@
 package br.ufes.inf.nemo.ml2.model.impl;
 
 import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.LiteralExpression;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
-import br.ufes.inf.nemo.ml2.model.OclExpression;
 
 import java.util.Collection;
 
@@ -42,7 +42,7 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
    * @generated
    * @ordered
    */
-  protected EList<OclExpression> parts;
+  protected EList<LiteralExpression> parts;
 
   /**
    * <!-- begin-user-doc -->
@@ -71,11 +71,11 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
    * @generated
    */
   @Override
-  public EList<OclExpression> getParts()
+  public EList<LiteralExpression> getParts()
   {
     if (parts == null)
     {
-      parts = new EObjectContainmentEList<OclExpression>(OclExpression.class, this, ModelPackage.COLLECTION_LITERAL_EXPRESSION__PARTS);
+      parts = new EObjectContainmentEList<LiteralExpression>(LiteralExpression.class, this, ModelPackage.COLLECTION_LITERAL_EXPRESSION__PARTS);
     }
     return parts;
   }
@@ -125,7 +125,7 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
     {
       case ModelPackage.COLLECTION_LITERAL_EXPRESSION__PARTS:
         getParts().clear();
-        getParts().addAll((Collection<? extends OclExpression>)newValue);
+        getParts().addAll((Collection<? extends LiteralExpression>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
