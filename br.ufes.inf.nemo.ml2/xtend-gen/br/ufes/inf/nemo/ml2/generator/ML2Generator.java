@@ -69,9 +69,7 @@ import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 import br.ufes.inf.nemo.ml2.model.VariableExpression;
 import br.ufes.inf.nemo.ml2.model.XorExpression;
-import br.ufes.inf.nemo.ml2.util.ML2Util;
 import com.google.common.collect.Iterables;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -86,7 +84,6 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
-import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IntegerRange;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -96,10 +93,6 @@ import org.eclipse.xtext.xbase.lib.IterableExtensions;
  */
 @SuppressWarnings("all")
 public class ML2Generator extends AbstractGenerator {
-  @Inject
-  @Extension
-  private ML2Util _mL2Util;
-  
   @Override
   public void doGenerate(final Resource xtextResource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     EcoreUtil.resolveAll(xtextResource);
@@ -1125,21 +1118,8 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   protected static CharSequence _generateAlloyElement(final DerivationConstraint constraint) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("fact {");
-    _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("all self: ");
-    String _name = constraint.getClassContext().getName();
-    _builder.append(_name, "\t\t\t\t");
-    _builder.append(" | FEATURENAME = ");
-    CharSequence _generateOclExpression = ML2Generator.generateOclExpression(constraint.getExpression());
-    _builder.append(_generateOclExpression, "\t\t\t\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    return _builder;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field name is undefined for the type Feature");
   }
   
   protected static CharSequence _generateOclExpression(final LetExpression expression) {
@@ -1208,39 +1188,54 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   public static CharSequence generateXorExpression(final XorExpression expression) {
-    StringConcatenation _builder = new StringConcatenation();
-    CharSequence _generateOrExpression = ML2Generator.generateOrExpression(expression.getLeft());
-    _builder.append(_generateOrExpression);
-    {
-      EList<OrExpression> _right = expression.getRight();
-      boolean _hasElements = false;
-      for(final OrExpression operation : _right) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(" or ", "");
+    CharSequence _xifexpression = null;
+    int _size = expression.getRight().size();
+    boolean _greaterThan = (_size > 0);
+    if (_greaterThan) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("(");
+      CharSequence _generateOrExpression = ML2Generator.generateOrExpression(expression.getLeft());
+      _builder.append(_generateOrExpression);
+      _builder.append(" or ");
+      {
+        EList<OrExpression> _right = expression.getRight();
+        boolean _hasElements = false;
+        for(final OrExpression operation : _right) {
+          if (!_hasElements) {
+            _hasElements = true;
+          } else {
+            _builder.appendImmediate(" or ", "");
+          }
+          CharSequence _generateOrExpression_1 = ML2Generator.generateOrExpression(operation);
+          _builder.append(_generateOrExpression_1);
         }
-        CharSequence _generateOrExpression_1 = ML2Generator.generateOrExpression(operation);
-        _builder.append(_generateOrExpression_1);
       }
-    }
-    _builder.append(" and not ");
-    CharSequence _generateOrExpression_2 = ML2Generator.generateOrExpression(expression.getLeft());
-    _builder.append(_generateOrExpression_2);
-    {
-      EList<OrExpression> _right_1 = expression.getRight();
-      boolean _hasElements_1 = false;
-      for(final OrExpression operation_1 : _right_1) {
-        if (!_hasElements_1) {
-          _hasElements_1 = true;
-        } else {
-          _builder.appendImmediate(" or ", "");
+      _builder.append(") and not (");
+      CharSequence _generateOrExpression_2 = ML2Generator.generateOrExpression(expression.getLeft());
+      _builder.append(_generateOrExpression_2);
+      _builder.append(" and ");
+      {
+        EList<OrExpression> _right_1 = expression.getRight();
+        boolean _hasElements_1 = false;
+        for(final OrExpression operation_1 : _right_1) {
+          if (!_hasElements_1) {
+            _hasElements_1 = true;
+          } else {
+            _builder.appendImmediate(" and ", "");
+          }
+          CharSequence _generateOrExpression_3 = ML2Generator.generateOrExpression(operation_1);
+          _builder.append(_generateOrExpression_3);
         }
-        CharSequence _generateOrExpression_3 = ML2Generator.generateOrExpression(operation_1);
-        _builder.append(_generateOrExpression_3);
       }
+      _builder.append(")");
+      _xifexpression = _builder;
+    } else {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      CharSequence _generateOrExpression_4 = ML2Generator.generateOrExpression(expression.getLeft());
+      _builder_1.append(_generateOrExpression_4);
+      _xifexpression = _builder_1;
     }
-    return _builder;
+    return _xifexpression;
   }
   
   public static CharSequence generateOrExpression(final OrExpression expression) {
@@ -1289,13 +1284,7 @@ public class ML2Generator extends AbstractGenerator {
     _builder.append(_generateRelationalExpression);
     {
       EList<ComparisonOperation> _right = expression.getRight();
-      boolean _hasElements = false;
       for(final ComparisonOperation operation : _right) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(" ", "");
-        }
         CharSequence _generateComparisonOperation = ML2Generator.generateComparisonOperation(operation);
         _builder.append(_generateComparisonOperation);
       }
@@ -1310,16 +1299,18 @@ public class ML2Generator extends AbstractGenerator {
       switch (_operator) {
         case EQUAL:
           StringConcatenation _builder = new StringConcatenation();
+          _builder.append(" ");
           _builder.append("= ");
           CharSequence _generateRelationalExpression = ML2Generator.generateRelationalExpression(operation.getRight());
-          _builder.append(_generateRelationalExpression);
+          _builder.append(_generateRelationalExpression, " ");
           _switchResult = _builder;
           break;
         case NOT_EQUAL:
           StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append(" ");
           _builder_1.append("!= ");
           CharSequence _generateRelationalExpression_1 = ML2Generator.generateRelationalExpression(operation.getRight());
-          _builder_1.append(_generateRelationalExpression_1);
+          _builder_1.append(_generateRelationalExpression_1, " ");
           _switchResult = _builder_1;
           break;
         default:
@@ -1335,13 +1326,7 @@ public class ML2Generator extends AbstractGenerator {
     _builder.append(_generateAdditionExpression);
     {
       EList<RelationalOperation> _right = expression.getRight();
-      boolean _hasElements = false;
       for(final RelationalOperation operation : _right) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(" ", "");
-        }
         CharSequence _generateRelationalOperation = ML2Generator.generateRelationalOperation(operation);
         _builder.append(_generateRelationalOperation);
       }
@@ -1356,30 +1341,34 @@ public class ML2Generator extends AbstractGenerator {
       switch (_operator) {
         case GREATER:
           StringConcatenation _builder = new StringConcatenation();
+          _builder.append(" ");
           _builder.append("> ");
           CharSequence _generateAdditionExpression = ML2Generator.generateAdditionExpression(operation.getRight());
-          _builder.append(_generateAdditionExpression);
+          _builder.append(_generateAdditionExpression, " ");
           _switchResult = _builder;
           break;
         case LESS:
           StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append(" ");
           _builder_1.append("< ");
           CharSequence _generateAdditionExpression_1 = ML2Generator.generateAdditionExpression(operation.getRight());
-          _builder_1.append(_generateAdditionExpression_1);
+          _builder_1.append(_generateAdditionExpression_1, " ");
           _switchResult = _builder_1;
           break;
         case GREATER_EQUAL:
           StringConcatenation _builder_2 = new StringConcatenation();
+          _builder_2.append(" ");
           _builder_2.append(">= ");
           CharSequence _generateAdditionExpression_2 = ML2Generator.generateAdditionExpression(operation.getRight());
-          _builder_2.append(_generateAdditionExpression_2);
+          _builder_2.append(_generateAdditionExpression_2, " ");
           _switchResult = _builder_2;
           break;
         case LESS_EQUAL:
           StringConcatenation _builder_3 = new StringConcatenation();
+          _builder_3.append(" ");
           _builder_3.append("<= ");
           CharSequence _generateAdditionExpression_3 = ML2Generator.generateAdditionExpression(operation.getRight());
-          _builder_3.append(_generateAdditionExpression_3);
+          _builder_3.append(_generateAdditionExpression_3, " ");
           _switchResult = _builder_3;
           break;
         default:
@@ -1447,6 +1436,9 @@ public class ML2Generator extends AbstractGenerator {
     return _builder;
   }
   
+  /**
+   * TODO: set difference
+   */
   public static CharSequence generateUnaryExpression(final UnaryExpression expression) {
     CharSequence _switchResult = null;
     UnaryOperator _operator = expression.getOperator();
@@ -1501,7 +1493,6 @@ public class ML2Generator extends AbstractGenerator {
     StringConcatenation _builder = new StringConcatenation();
     CharSequence _generateVariableExpression = ML2Generator.generateVariableExpression(expression.getLeft());
     _builder.append(_generateVariableExpression);
-    _builder.append(" ");
     {
       EList<CallOperation> _right = expression.getRight();
       for(final CallOperation operation : _right) {
@@ -1521,11 +1512,7 @@ public class ML2Generator extends AbstractGenerator {
   }
   
   protected static CharSequence _generateCallOperation(final ArrowOperation operation) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("->");
-    CharSequence _generateBuiltInOperation = ML2Generator.generateBuiltInOperation(operation.getRight());
-    _builder.append(_generateBuiltInOperation);
-    return _builder;
+    return ML2Generator.generateBuiltInOperation(operation.getRight());
   }
   
   protected static CharSequence _generateBuiltInOperation(final UnarySetOperation operation) {

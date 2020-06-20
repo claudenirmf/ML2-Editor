@@ -33,8 +33,8 @@ import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
-import com.google.inject.Inject
-import br.ufes.inf.nemo.ml2.util.ML2Util
+//import com.google.inject.Inject
+//import br.ufes.inf.nemo.ml2.util.ML2Util
 
 import br.ufes.inf.nemo.ml2.model.DerivationConstraint
 import br.ufes.inf.nemo.ml2.model.InvariantConstraint
@@ -81,7 +81,7 @@ import br.ufes.inf.nemo.ml2.model.VariableExpression
  */
 class ML2Generator extends AbstractGenerator {
 	
-	@Inject extension ML2Util
+//	@Inject extension ML2Util
 
 	override void doGenerate(Resource xtextResource, IFileSystemAccess2 fsa, IGeneratorContext context) {		
 		EcoreUtil.resolveAll(xtextResource)
@@ -549,7 +549,7 @@ class ML2Generator extends AbstractGenerator {
 		'''	
 		}
 	}
-	
+
 	def static dispatch generateAlloyElement(InvariantConstraint constraint) {'''
 		fact {
 			all self: «constraint.classContext.name» | «generateOclExpression(constraint.expression)»
@@ -560,8 +560,7 @@ class ML2Generator extends AbstractGenerator {
 	
 	def static dispatch generateAlloyElement(DerivationConstraint constraint) {'''
 		fact {
-			«««all self: «constraint.classContext.name» | self.«constraint.featureContext.name» = «generateOclExpression(constraint.expression)»
-			all self: «constraint.classContext.name» | FEATURENAME = «generateOclExpression(constraint.expression)»
+			all self: «constraint.classContext.name» | self.«constraint.featureContext.name» = «generateOclExpression(constraint.expression)»
 		}
 
 	'''	
@@ -584,7 +583,11 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	def static generateXorExpression(XorExpression expression) {
-		'''«generateOrExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' or '»«generateOrExpression(operation)»«ENDFOR» and not «generateOrExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' or '»«generateOrExpression(operation)»«ENDFOR»'''
+		if(expression.right.size > 0) {
+			'''(«generateOrExpression(expression.left)» or «FOR operation : expression.right SEPARATOR ' or '»«generateOrExpression(operation)»«ENDFOR») and not («generateOrExpression(expression.left)» and «FOR operation : expression.right SEPARATOR ' and '»«generateOrExpression(operation)»«ENDFOR»)'''
+		} else {
+			'''«generateOrExpression(expression.left)»'''
+		}
 	}
 	
 	def static generateOrExpression(OrExpression expression) {
@@ -596,32 +599,32 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	def static generateComparisonExpression(ComparisonExpression expression) {
-		'''«generateRelationalExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' '»«generateComparisonOperation(operation)»«ENDFOR»'''
+		'''«generateRelationalExpression(expression.left)»«FOR operation : expression.right»«generateComparisonOperation(operation)»«ENDFOR»'''
 	}
 	
 	def static generateComparisonOperation(ComparisonOperation operation) {
 		switch operation.operator {
 			case ComparisonOperator.EQUAL:
-				'''= «generateRelationalExpression(operation.right)»'''
+				''' = «generateRelationalExpression(operation.right)»'''
 			case ComparisonOperator.NOT_EQUAL:
-				'''!= «generateRelationalExpression(operation.right)»'''
+				''' != «generateRelationalExpression(operation.right)»'''
 		}
 	}
 	
 	def static generateRelationalExpression(RelationalExpression expression) {
-		'''«generateAdditionExpression(expression.left)»«FOR operation : expression.right SEPARATOR ' '»«generateRelationalOperation(operation)»«ENDFOR»'''
+		'''«generateAdditionExpression(expression.left)»«FOR operation : expression.right»«generateRelationalOperation(operation)»«ENDFOR»'''
 	}
 	
 	def static generateRelationalOperation(RelationalOperation operation) {
 		switch operation.operator {
 			case RelationalOperator.GREATER:
-				'''> «generateAdditionExpression(operation.right)»'''
+				''' > «generateAdditionExpression(operation.right)»'''
 			case RelationalOperator.LESS:
-				'''< «generateAdditionExpression(operation.right)»'''
+				''' < «generateAdditionExpression(operation.right)»'''
 			case RelationalOperator.GREATER_EQUAL:
-				'''>= «generateAdditionExpression(operation.right)»'''
+				''' >= «generateAdditionExpression(operation.right)»'''
 			case RelationalOperator.LESS_EQUAL:
-				'''<= «generateAdditionExpression(operation.right)»'''
+				''' <= «generateAdditionExpression(operation.right)»'''
 		}
 	}
 
@@ -642,6 +645,7 @@ class ML2Generator extends AbstractGenerator {
 		'''«generateUnaryExpression(expression.left)»«FOR operation : expression.right».mul[«generateUnaryExpression(operation)»]«ENDFOR»'''
 	}
 	
+	/* TODO: set difference */
 	def static generateUnaryExpression(UnaryExpression expression) {
 		switch expression.operator {
 			case UnaryOperator.NONE:
@@ -666,7 +670,7 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	def static generateCallExpression(CallExpression expression) {
-		'''«generateVariableExpression(expression.left)» «FOR operation : expression.right»«generateCallOperation(operation)»«ENDFOR»'''
+		'''«generateVariableExpression(expression.left)»«FOR operation : expression.right»«generateCallOperation(operation)»«ENDFOR»'''
 	}
 	
 	def static dispatch CharSequence generateCallOperation(DotOperation operation) {
@@ -674,7 +678,7 @@ class ML2Generator extends AbstractGenerator {
 	}
 	
 	def static dispatch CharSequence generateCallOperation(ArrowOperation operation) {
-		'''->«generateBuiltInOperation(operation.right)»'''
+		generateBuiltInOperation(operation.right)
 	}
 	
 	def static dispatch CharSequence generateBuiltInOperation(UnarySetOperation operation) {

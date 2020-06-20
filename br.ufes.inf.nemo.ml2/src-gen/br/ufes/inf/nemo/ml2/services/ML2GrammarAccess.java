@@ -3864,6 +3864,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cVariablesIDTerminalRuleCall_3_1_0 = (RuleCall)cVariablesAssignment_3_1.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
+		////TODO: review
 		//TupleLiteralExpression:
 		//	'Tuple' '{' variables+=ID (',' variables+=ID)* '}';
 		@Override public ParserRule getRule() { return rule; }
@@ -4056,6 +4057,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cVariablesIDTerminalRuleCall_2_1_1_0 = (RuleCall)cVariablesAssignment_2_1_1.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
+		////TODO: review
 		//TupleTypeName:
 		//	typename='Tuple' '(' (variables+=ID (',' variables+=ID)*)? ')';
 		@Override public ParserRule getRule() { return rule; }
@@ -5765,6 +5767,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		return getTypeLiteralExpressionAccess().getRule();
 	}
 	
+	////TODO: review
 	//TupleLiteralExpression:
 	//	'Tuple' '{' variables+=ID (',' variables+=ID)* '}';
 	public TupleLiteralExpressionElements getTupleLiteralExpressionAccess() {
@@ -5825,6 +5828,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		return getCollectionTypeNameAccess().getRule();
 	}
 	
+	////TODO: review
 	//TupleTypeName:
 	//	typename='Tuple' '(' (variables+=ID (',' variables+=ID)*)? ')';
 	public TupleTypeNameElements getTupleTypeNameAccess() {
