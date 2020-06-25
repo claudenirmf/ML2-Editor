@@ -340,16 +340,12 @@ public class ML2LinguistcRulesTest {
       final Model incorrectModelA = this._parseHelper.parse(_builder);
       this._validationTestHelper.assertError(incorrectModelA, ModelPackage.eINSTANCE.getClass_(), LinguisticRules.INVALID_SUBORDINATOR);
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("module t { order 2 class A subordinatedTo B; class B; }");
-      final Model incorrectModelB = this._parseHelper.parse(_builder_1);
-      this._validationTestHelper.assertError(incorrectModelB, ModelPackage.eINSTANCE.getClass_(), LinguisticRules.INVALID_SUBORDINATOR);
-      StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("module t { order 2 class A subordinatedTo B; order 3 class B; }");
-      final Model incorrectModelC = this._parseHelper.parse(_builder_2);
+      _builder_1.append("module t { order 2 class A subordinatedTo B; order 3 class B; }");
+      final Model incorrectModelC = this._parseHelper.parse(_builder_1);
       this._validationTestHelper.assertError(incorrectModelC, ModelPackage.eINSTANCE.getClass_(), LinguisticRules.INVALID_SUBORDINATOR);
-      StringConcatenation _builder_3 = new StringConcatenation();
-      _builder_3.append("module t { order 2 class A subordinatedTo B; order 2 class B; }");
-      final Model correctModel = this._parseHelper.parse(_builder_3);
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("module t { order 2 class A subordinatedTo B; order 2 class B; }");
+      final Model correctModel = this._parseHelper.parse(_builder_2);
       this._validationTestHelper.assertNoErrors(correctModel);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);

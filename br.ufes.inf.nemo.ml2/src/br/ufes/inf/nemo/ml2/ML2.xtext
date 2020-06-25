@@ -24,7 +24,11 @@ Import:
 ;
 	
 ModelElement:
-	( Import | EntityDeclaration | GeneralizationSet | Feature | FeatureAssignment ) ';' 
+	( Import | EntityDeclaration | GeneralizationSet ) ';' 
+;
+
+AllModelElements returns ModelElement:
+	( Import | EntityDeclaration | GeneralizationSet | Feature | FeatureAssignment )
 ;
 	
 EntityDeclaration:
@@ -203,9 +207,15 @@ SingleAttributeAssignment returns AttributeAssignment:
 MultipleAttributeAssignment returns AttributeAssignment: 
 	'att'? attribute=[Attribute|QualifiedName] '=' 
 	'{' 
-		( literalValues+=Literal (',' literalValues+=Literal)*
-		| datatypeValues+=[Individual|QualifiedName] (',' datatypeValues+=[Individual|QualifiedName])*
-		| unnamedValues+=UnnamedIndividual (',' unnamedValues+=UnnamedIndividual)* )
+		(( 
+			literalValues+=Literal 
+			| datatypeValues+=[Individual|QualifiedName] 
+			| unnamedValues+=UnnamedIndividual
+		)(
+			',' literalValues+=Literal
+			| ',' datatypeValues+=[Individual|QualifiedName]
+			| ',' unnamedValues+=UnnamedIndividual
+		)*)
 	'}'
 ;
 
@@ -243,9 +253,15 @@ SingleSimpleAttributeAssignment returns AttributeAssignment:
 
 MultipleSimpleAttributeAssignment returns AttributeAssignment:
 	attribute=[Attribute|QualifiedName] '='
-	'{'
-		( literalValues+=Literal (',' literalValues+=Literal)*
-		| datatypeValues+=[Individual|QualifiedName] (',' datatypeValues+=[Individual|QualifiedName])*
-		| unnamedValues+=UnnamedIndividual (',' unnamedValues+=UnnamedIndividual)* )
+	'{' 
+		(( 
+			literalValues+=Literal 
+			| datatypeValues+=[Individual|QualifiedName] 
+			| unnamedValues+=UnnamedIndividual
+		)(
+			',' literalValues+=Literal
+			| ',' datatypeValues+=[Individual|QualifiedName]
+			| ',' unnamedValues+=UnnamedIndividual
+		)*)
 	'}'
 ;

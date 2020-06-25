@@ -172,8 +172,8 @@ class ML2LinguistcRulesTest {
 		val incorrectModelA = '''module t { order 2 class A subordinatedTo A; }'''.parse
 		incorrectModelA.assertError(ModelPackage.eINSTANCE.class_,LinguisticRules.INVALID_SUBORDINATOR)
 		
-		val incorrectModelB = '''module t { order 2 class A subordinatedTo B; class B; }'''.parse
-		incorrectModelB.assertError(ModelPackage.eINSTANCE.class_,LinguisticRules.INVALID_SUBORDINATOR)
+//		val incorrectModelB = '''module t { order 2 class A subordinatedTo B; class B; }'''.parse
+//		incorrectModelB.assertError(ModelPackage.eINSTANCE.class_,LinguisticRules.INVALID_SUBORDINATOR)
 		
 		val incorrectModelC = '''module t { order 2 class A subordinatedTo B; order 3 class B; }'''.parse
 		incorrectModelC.assertError(ModelPackage.eINSTANCE.class_,LinguisticRules.INVALID_SUBORDINATOR)

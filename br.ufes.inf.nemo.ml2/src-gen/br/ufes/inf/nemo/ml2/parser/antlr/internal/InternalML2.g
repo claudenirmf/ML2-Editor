@@ -320,28 +320,10 @@ ruleModelElement returns [EObject current=null]
 				$current = $this_GeneralizationSet_2.current;
 				afterParserOrEnumRuleCall();
 			}
-			    |
-			{
-				newCompositeNode(grammarAccess.getModelElementAccess().getFeatureParserRuleCall_0_3());
-			}
-			this_Feature_3=ruleFeature
-			{
-				$current = $this_Feature_3.current;
-				afterParserOrEnumRuleCall();
-			}
-			    |
-			{
-				newCompositeNode(grammarAccess.getModelElementAccess().getFeatureAssignmentParserRuleCall_0_4());
-			}
-			this_FeatureAssignment_4=ruleFeatureAssignment
-			{
-				$current = $this_FeatureAssignment_4.current;
-				afterParserOrEnumRuleCall();
-			}
 		)
-		otherlv_5=';'
+		otherlv_3=';'
 		{
-			newLeafNode(otherlv_5, grammarAccess.getModelElementAccess().getSemicolonKeyword_1());
+			newLeafNode(otherlv_3, grammarAccess.getModelElementAccess().getSemicolonKeyword_1());
 		}
 	)
 ;
@@ -3081,34 +3063,7 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 						}
 					)
 				)
-				(
-					otherlv_5=','
-					{
-						newLeafNode(otherlv_5, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_0_1_0());
-					}
-					(
-						(
-							{
-								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_4_0_1_1_0());
-							}
-							lv_literalValues_6_0=ruleLiteral
-							{
-								if ($current==null) {
-									$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
-								}
-								add(
-									$current,
-									"literalValues",
-									lv_literalValues_6_0,
-									"br.ufes.inf.nemo.ml2.ML2.Literal");
-								afterParserOrEnumRuleCall();
-							}
-						)
-					)
-				)*
-			)
-			    |
-			(
+				    |
 				(
 					(
 						{
@@ -3117,7 +3072,7 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 							}
 						}
 						{
-							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_4_1_0_0());
+							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_4_0_1_0());
 						}
 						ruleQualifiedName
 						{
@@ -3125,10 +3080,58 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 						}
 					)
 				)
+				    |
 				(
-					otherlv_8=','
+					(
+						{
+							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_4_0_2_0());
+						}
+						lv_unnamedValues_6_0=ruleUnnamedIndividual
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
+							}
+							add(
+								$current,
+								"unnamedValues",
+								lv_unnamedValues_6_0,
+								"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
+			)
+			(
+				(
+					otherlv_7=','
 					{
-						newLeafNode(otherlv_8, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_1_0());
+						newLeafNode(otherlv_7, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_0_0());
+					}
+					(
+						(
+							{
+								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_4_1_0_1_0());
+							}
+							lv_literalValues_8_0=ruleLiteral
+							{
+								if ($current==null) {
+									$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
+								}
+								add(
+									$current,
+									"literalValues",
+									lv_literalValues_8_0,
+									"br.ufes.inf.nemo.ml2.ML2.Literal");
+								afterParserOrEnumRuleCall();
+							}
+						)
+					)
+				)
+				    |
+				(
+					otherlv_9=','
+					{
+						newLeafNode(otherlv_9, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_1_0());
 					}
 					(
 						(
@@ -3146,38 +3149,17 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 							}
 						)
 					)
-				)*
-			)
-			    |
-			(
-				(
-					(
-						{
-							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_4_2_0_0());
-						}
-						lv_unnamedValues_10_0=ruleUnnamedIndividual
-						{
-							if ($current==null) {
-								$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
-							}
-							add(
-								$current,
-								"unnamedValues",
-								lv_unnamedValues_10_0,
-								"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
-							afterParserOrEnumRuleCall();
-						}
-					)
 				)
+				    |
 				(
 					otherlv_11=','
 					{
-						newLeafNode(otherlv_11, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_2_1_0());
+						newLeafNode(otherlv_11, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_2_0());
 					}
 					(
 						(
 							{
-								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_4_2_1_1_0());
+								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_4_1_2_1_0());
 							}
 							lv_unnamedValues_12_0=ruleUnnamedIndividual
 							{
@@ -3193,8 +3175,8 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 							}
 						)
 					)
-				)*
-			)
+				)
+			)*
 		)
 		otherlv_13='}'
 		{
@@ -3566,34 +3548,7 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 						}
 					)
 				)
-				(
-					otherlv_4=','
-					{
-						newLeafNode(otherlv_4, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_0_1_0());
-					}
-					(
-						(
-							{
-								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_3_0_1_1_0());
-							}
-							lv_literalValues_5_0=ruleLiteral
-							{
-								if ($current==null) {
-									$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
-								}
-								add(
-									$current,
-									"literalValues",
-									lv_literalValues_5_0,
-									"br.ufes.inf.nemo.ml2.ML2.Literal");
-								afterParserOrEnumRuleCall();
-							}
-						)
-					)
-				)*
-			)
-			    |
-			(
+				    |
 				(
 					(
 						{
@@ -3602,7 +3557,7 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 							}
 						}
 						{
-							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_3_1_0_0());
+							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_3_0_1_0());
 						}
 						ruleQualifiedName
 						{
@@ -3610,10 +3565,58 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 						}
 					)
 				)
+				    |
 				(
-					otherlv_7=','
+					(
+						{
+							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_0_2_0());
+						}
+						lv_unnamedValues_5_0=ruleUnnamedIndividual
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
+							}
+							add(
+								$current,
+								"unnamedValues",
+								lv_unnamedValues_5_0,
+								"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
+			)
+			(
+				(
+					otherlv_6=','
 					{
-						newLeafNode(otherlv_7, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_1_0());
+						newLeafNode(otherlv_6, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_0_0());
+					}
+					(
+						(
+							{
+								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_3_1_0_1_0());
+							}
+							lv_literalValues_7_0=ruleLiteral
+							{
+								if ($current==null) {
+									$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
+								}
+								add(
+									$current,
+									"literalValues",
+									lv_literalValues_7_0,
+									"br.ufes.inf.nemo.ml2.ML2.Literal");
+								afterParserOrEnumRuleCall();
+							}
+						)
+					)
+				)
+				    |
+				(
+					otherlv_8=','
+					{
+						newLeafNode(otherlv_8, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_1_0());
 					}
 					(
 						(
@@ -3631,38 +3634,17 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 							}
 						)
 					)
-				)*
-			)
-			    |
-			(
-				(
-					(
-						{
-							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_2_0_0());
-						}
-						lv_unnamedValues_9_0=ruleUnnamedIndividual
-						{
-							if ($current==null) {
-								$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
-							}
-							add(
-								$current,
-								"unnamedValues",
-								lv_unnamedValues_9_0,
-								"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
-							afterParserOrEnumRuleCall();
-						}
-					)
 				)
+				    |
 				(
 					otherlv_10=','
 					{
-						newLeafNode(otherlv_10, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_2_1_0());
+						newLeafNode(otherlv_10, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_2_0());
 					}
 					(
 						(
 							{
-								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_2_1_1_0());
+								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_1_2_1_0());
 							}
 							lv_unnamedValues_11_0=ruleUnnamedIndividual
 							{
@@ -3678,8 +3660,8 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 							}
 						)
 					)
-				)*
-			)
+				)
+			)*
 		)
 		otherlv_12='}'
 		{
