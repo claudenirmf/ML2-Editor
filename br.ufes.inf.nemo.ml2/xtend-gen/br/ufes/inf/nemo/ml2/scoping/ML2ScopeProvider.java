@@ -59,7 +59,7 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
               return this.getScopeForReferenceOnReference_OppositeTo(context, reference);
             } else {
               if (((context instanceof RegularityAttribute) && Objects.equal(reference, ModelPackage.eINSTANCE.getRegularityAttribute_Regulates()))) {
-                return this.getScopeForRegularityAttributeOnRegularityAttribute_Reguletes(context, reference);
+                return this.getScopeForRegularityAttributeOnRegularityAttribute_Regulates(context, reference);
               } else {
                 if (((context instanceof RegularityReference) && Objects.equal(reference, ModelPackage.eINSTANCE.getRegularityReference_Regulates()))) {
                   return this.getScopeForReferenceOnFeature_Reguletes(context, reference);
@@ -165,15 +165,17 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
     return Scopes.<Reference>scopeFor(IterableExtensions.<Reference>filter(this._mL2Util.getReferences(ref.get_type()), _function), _function_1, Scopes.scopeFor(this._mL2Util.getReferences(c)));
   }
   
-  private IScope getScopeForRegularityAttributeOnRegularityAttribute_Reguletes(final EObject context, final EReference reference) {
+  private IScope getScopeForRegularityAttributeOnRegularityAttribute_Regulates(final EObject context, final EReference reference) {
     EObject _eContainer = context.eContainer();
-    final HigherOrderClass c = ((HigherOrderClass) _eContainer);
+    final br.ufes.inf.nemo.ml2.model.Class c = ((br.ufes.inf.nemo.ml2.model.Class) _eContainer);
     final BasicEList<Attribute> elements = new BasicEList<Attribute>();
-    br.ufes.inf.nemo.ml2.model.Class _categorizedClass = c.getCategorizedClass();
-    boolean _tripleNotEquals = (_categorizedClass != null);
-    if (_tripleNotEquals) {
-      elements.addAll(this._mL2Util.getAttributes(c.getCategorizedClass()));
-      elements.addAll(this._mL2Util.getAllInheritedAttributes(c.getCategorizedClass()));
+    if ((c instanceof HigherOrderClass)) {
+      br.ufes.inf.nemo.ml2.model.Class _categorizedClass = ((HigherOrderClass)c).getCategorizedClass();
+      boolean _tripleNotEquals = (_categorizedClass != null);
+      if (_tripleNotEquals) {
+        elements.addAll(this._mL2Util.getAttributes(((HigherOrderClass)c).getCategorizedClass()));
+        elements.addAll(this._mL2Util.getAllInheritedAttributes(((HigherOrderClass)c).getCategorizedClass()));
+      }
     }
     final Function<Attribute, QualifiedName> _function = (Attribute att) -> {
       QualifiedName _xifexpression = null;
@@ -194,13 +196,15 @@ public class ML2ScopeProvider extends AbstractML2ScopeProvider {
   
   private IScope getScopeForReferenceOnFeature_Reguletes(final EObject context, final EReference reference) {
     EObject _eContainer = context.eContainer();
-    final HigherOrderClass c = ((HigherOrderClass) _eContainer);
+    final br.ufes.inf.nemo.ml2.model.Class c = ((br.ufes.inf.nemo.ml2.model.Class) _eContainer);
     final BasicEList<Reference> elements = new BasicEList<Reference>();
-    br.ufes.inf.nemo.ml2.model.Class _categorizedClass = c.getCategorizedClass();
-    boolean _tripleNotEquals = (_categorizedClass != null);
-    if (_tripleNotEquals) {
-      elements.addAll(this._mL2Util.getReferences(c.getCategorizedClass()));
-      elements.addAll(this._mL2Util.getAllInheritedReferences(c.getCategorizedClass()));
+    if ((c instanceof HigherOrderClass)) {
+      br.ufes.inf.nemo.ml2.model.Class _categorizedClass = ((HigherOrderClass)c).getCategorizedClass();
+      boolean _tripleNotEquals = (_categorizedClass != null);
+      if (_tripleNotEquals) {
+        elements.addAll(this._mL2Util.getReferences(((HigherOrderClass)c).getCategorizedClass()));
+        elements.addAll(this._mL2Util.getAllInheritedReferences(((HigherOrderClass)c).getCategorizedClass()));
+      }
     }
     final Function<Reference, QualifiedName> _function = (Reference ref) -> {
       QualifiedName _xifexpression = null;

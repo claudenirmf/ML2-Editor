@@ -67,8 +67,12 @@ public class ML2Util {
    * Returns null if cast is not possible.
    */
   public String getName(final Feature f) {
-    if (((f instanceof Attribute) || (f instanceof Reference))) {
-      return this.getName(f);
+    if ((f instanceof Attribute)) {
+      return ((Attribute)f).getName();
+    } else {
+      if ((f instanceof Reference)) {
+        return ((Reference)f).getName();
+      }
     }
     return null;
   }

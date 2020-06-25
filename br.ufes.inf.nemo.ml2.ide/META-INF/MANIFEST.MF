@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Automatic-Module-Name: br.ufes.inf.nemo.ml2.ide
 Bundle-ManifestVersion: 2
 Bundle-Name: br.ufes.inf.nemo.ml2.ide
-Bundle-Vendor: My Company
+Bundle-Vendor: NEMO - Ontology & Conceptual Modeling Research Group
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: br.ufes.inf.nemo.ml2.ide; singleton:=true
 Bundle-ActivationPolicy: lazy

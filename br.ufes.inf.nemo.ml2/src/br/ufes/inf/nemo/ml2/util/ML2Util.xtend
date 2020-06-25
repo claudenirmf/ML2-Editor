@@ -52,7 +52,9 @@ class ML2Util {
 	 * Returns null if cast is not possible.
 	 */
 	def String getName(Feature f) {
-		if(f instanceof Attribute || f instanceof Reference) {
+		if(f instanceof Attribute) {
+			return f.name
+		} else if(f instanceof Reference) {
 			return f.name
 		}
 		return null;

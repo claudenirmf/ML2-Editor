@@ -21,6 +21,7 @@ import br.ufes.inf.nemo.ml2.model.RegularityAttribute
 import br.ufes.inf.nemo.ml2.model.RegularityReference
 import br.ufes.inf.nemo.ml2.model.EntityDeclaration
 import br.ufes.inf.nemo.ml2.model.HigherOrderClass
+import br.ufes.inf.nemo.ml2.model.Class
 import br.ufes.inf.nemo.ml2.model.ModelPackage
 
 //import br.ufes.inf.nemo.ml2.util.ML2Util
@@ -52,7 +53,7 @@ class ML2ScopeProvider extends AbstractML2ScopeProvider {
 			return getScopeForReferenceOnReference_OppositeTo(context,reference)
 		}
 		else if(context instanceof RegularityAttribute && reference==ModelPackage.eINSTANCE.regularityAttribute_Regulates){
-			return getScopeForRegularityAttributeOnRegularityAttribute_Reguletes(context,reference)
+			return getScopeForRegularityAttributeOnRegularityAttribute_Regulates(context,reference)
 		}
 		else if(context instanceof RegularityReference && reference==ModelPackage.eINSTANCE.regularityReference_Regulates){
 			return getScopeForReferenceOnFeature_Reguletes(context,reference)
@@ -112,13 +113,17 @@ class ML2ScopeProvider extends AbstractML2ScopeProvider {
 			[ QualifiedName.create(it.name) ], Scopes.scopeFor(c.references))
 	}
 	
-	def private getScopeForRegularityAttributeOnRegularityAttribute_Reguletes(EObject context, EReference reference) {
-		val c = context.eContainer as HigherOrderClass
+	def private getScopeForRegularityAttributeOnRegularityAttribute_Regulates(EObject context, EReference reference) {
+		val c = context.eContainer as Class
 		val elements = new BasicEList<Attribute>()
-		if(c.categorizedClass!==null) {
-			elements.addAll(c.categorizedClass.attributes)
-			elements.addAll(c.categorizedClass.allInheritedAttributes)
+		
+		if(c instanceof HigherOrderClass) {
+			if(c.categorizedClass!==null) {
+				elements.addAll(c.categorizedClass.attributes)
+				elements.addAll(c.categorizedClass.allInheritedAttributes)
+			}
 		}
+		
 //		return Scopes.scopeFor(elements, [ QualifiedName.create(it.name) ], IScope.NULLSCOPE)
 		return Scopes.scopeFor(elements, [ att |
 				if(elements.exists[name==att.name && it!=att])
@@ -129,11 +134,14 @@ class ML2ScopeProvider extends AbstractML2ScopeProvider {
 	}
 	
 	def private getScopeForReferenceOnFeature_Reguletes(EObject context, EReference reference) {
-		val c = context.eContainer as HigherOrderClass
+		val c = context.eContainer as Class
 		val elements = new BasicEList<Reference>()
-		if(c.categorizedClass!==null){
-			elements.addAll(c.categorizedClass.references)
-			elements.addAll(c.categorizedClass.allInheritedReferences)
+		
+		if(c instanceof HigherOrderClass) {
+			if(c.categorizedClass!==null){
+				elements.addAll(c.categorizedClass.references)
+				elements.addAll(c.categorizedClass.allInheritedReferences)
+			}
 		}
 //		return Scopes.scopeFor(elements, [ QualifiedName.create(it.name) ], IScope.NULLSCOPE)
 		return Scopes.scopeFor(elements, [ ref |
