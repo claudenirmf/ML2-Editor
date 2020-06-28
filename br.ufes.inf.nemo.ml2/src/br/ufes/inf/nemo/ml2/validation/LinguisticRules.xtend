@@ -78,37 +78,42 @@ class LinguisticRules {
 	
 	def ValidationIssue isValidInstantiation(EntityDeclaration e) {
 		var Class invalid
-		if(e instanceof Individual) {
-			invalid = e.classifiers.findFirst[ it instanceof HigherOrderClass ]
-		} 
-		else if (e instanceof FirstOrderClass) {
-			invalid = e.classifiers.findFirst[ 
-					if(it instanceof FirstOrderClass)	return true
-					else if(it instanceof HighOrderClass)
-						if(it.order!=MLTRules.MIN_ORDER)	return true
-					return false
-				]
-		} 
-		else if (e instanceof HighOrderClass) {
-			invalid = e.classifiers.findFirst[
-					if(it instanceof FirstOrderClass)	return true
-					else if(it instanceof HighOrderClass)
-						if(it.order!=e.order+1)	return true
-					return false
-				]
-		} 
-		else if (e instanceof OrderlessClass) {
-			invalid = e.classifiers.findFirst[ !(it instanceof OrderlessClass) ]
+
+		if (e instanceof Individual) {
+			invalid = e.classifiers.findFirst[it instanceof HighOrderClass]
+		} else if (e instanceof FirstOrderClass) {
+			invalid = e.classifiers.findFirst [
+				if (it instanceof FirstOrderClass) {
+					return true
+				} else if (it instanceof HighOrderClass) {
+					if (it.order != MLTRules.MIN_ORDER) {
+						return true
+					}
+				}
+
+				return false
+			]
+		} else if (e instanceof HighOrderClass) {
+			invalid = e.classifiers.findFirst [
+				if (it instanceof FirstOrderClass) {
+					return true
+				} else if (it instanceof HighOrderClass) {
+					if (it.order != e.order + 1) {
+						return true
+					}
+				}
+
+				return false
+			]
+		} else if (e instanceof OrderlessClass) {
+			invalid = e.classifiers.findFirst[!(it instanceof OrderlessClass)]
 		}
-		
-		if(invalid==null)	return null
-		else
+
+		if (invalid !== null){
 			return new ValidationError('''Invalid instantiation of «invalid.name»''',
-					ModelPackage.eINSTANCE.entityDeclaration_Classifiers,
-					e.classifiers.indexOf(invalid),
-					INVALID_INSTANTIATION,
-					null,
-					e)
+				ModelPackage.eINSTANCE.entityDeclaration_Classifiers, e.classifiers.indexOf(invalid),
+				INVALID_INSTANTIATION, null, e)
+		}
 	}
 	
 	def isValidSpecialization(Class c){
@@ -321,23 +326,32 @@ class LinguisticRules {
 	}
 	
 	// TODO: enable constraint	
-//	def obeysSubordination(Class c, Set<Class> ch, Set<Class> iof){
-//		val subordinated = new LinkedHashSet<Class>()
-//		iof.forEach[if(subordinators!==null) subordinated.addAll(subordinators)]
-//		if(subordinated.size==0)	return null
-//		
-//		val superClassesIof = new LinkedHashSet<Class>()
-//		ch.forEach[superClassesIof.addAll(allInstantiatedClasses)]
-//		
-//		val invalid = subordinated.findFirst[!superClassesIof.contains(it)]
-//		if(invalid===null)	return null
-//		else				return new ValidationError('''Missing specialization due to subordination to some instance of «invalid.name».''',
-//									Ml2Package.eINSTANCE.class_SuperClasses,
-//									ValidationIssue.NO_INDEX,
-//									MISSING_SPECIALIZATION_THROUGH_SUBODINATION,
-//									ValidationIssue.NO_ISSUE_CODE,
-//									c)
-//	}
+	def obeysSubordination(Class c, Set<Class> ch, Set<Class> iof){
+		val subordinated = new LinkedHashSet<HigherOrderClass>()
+		
+		iof.forEach [
+			if (it instanceof HigherOrderClass) {
+				if (subordinators !== null) {
+					subordinated.addAll(subordinators)
+				}
+			}
+		]
+		
+		if(subordinated.size == 0) {
+			return null
+		}
+
+		val superClassesIof = new LinkedHashSet<Class>()
+		ch.forEach[superClassesIof.addAll(allInstantiatedClasses)]
+
+		val invalid = subordinated.findFirst[!superClassesIof.contains(it)]
+		if (invalid === null)
+			return null
+		else
+			return new ValidationError('''Missing specialization due to subordination to some instance of «invalid.name».''',
+				ModelPackage.eINSTANCE.class_SuperClasses, ValidationIssue.NO_INDEX,
+				MISSING_SPECIALIZATION_THROUGH_SUBODINATION, ValidationIssue.NO_ISSUE_CODE, c)
+	}
 	
 	/**
 	 * Checked scenarios:
@@ -545,8 +559,9 @@ class LinguisticRules {
 			issue.message = '''Number of assignments must equal or less than «att.upperBound».'''
 			return issue
 		}
-		else
+		else {
 			return null
+		}
 	}
 	
 	def dispatch ValidationIssue checkFeatureAssignmentType(ReferenceAssignment ra){
@@ -586,7 +601,7 @@ class LinguisticRules {
 				return issue
 			}
 		}
-		for(EObject lit : aa.literalValues){
+		for(Object lit : aa.literalValues){
 			if(!lit.isConformantTo(att.primitiveType)){
 				issue.message = '''All assignments must be instances of «att.primitiveType».'''
 //				issue.index = aa.literalAssignments.indexOf(obj)
@@ -685,46 +700,48 @@ class LinguisticRules {
 		}
 	}
 	
-	// TODO: enable constraint
-//	dispatch def ValidationIssue checkRegularityFeatureConformance(AttributeAssignment atta){
-//		val att = atta.attribute
-//		val regAttSet = new LinkedHashSet<RegularityAttribute>
-//		val knowClasses = (atta.eContainer as EntityDeclaration).rechableClasses
-//		
-//		knowClasses.forEach[ c | c.attributes.forEach[
-//			if(it instanceof RegularityAttribute && (it as RegularityAttribute).regulates == att)	{
-//				regAttSet.add(it as RegularityAttribute)
-//			} 
-//		]]
-//		
-//		if(regAttSet.isEmpty)	return null
-//		
-//		val regAttAssigSet = new LinkedHashSet<AttributeAssignment>
-//		
-//		for(Class c : (atta.eContainer as EntityDeclaration).classifiers) {
-//			for(FeatureAssignment it : c.assignments) {
-//				if(it instanceof AttributeAssignment)
-//					if(regAttSet.contains(it.attribute))	regAttAssigSet.add(it)
-//			}
-//		}
-//		
-//		if(regAttAssigSet.isEmpty)	return null
-//		
-//		for(AttributeAssignment regAttAssig : regAttAssigSet) {
-//			for(RegularityAttribute regAtt : regAttSet) {
-//				if(regAttAssig.attribute!=regAtt) {}
-//				else if(!atta.isConformanTo(regAtt.regularityType, regAttAssig)) {
-//					val i = new ValidationWarning
-//					i.source = atta
-//					i.feature = Ml2Package.eINSTANCE.attributeAssignment_Attribute
-//					i.message = '''Assignment is non-conformant to the regularity feature «regAtt.name» of «(regAtt.eContainer as Class).name».'''
-//					i.code = NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT
-//					return i
-//				}
-//			}
-//		}
-//		return null
-//	}
+	dispatch def ValidationIssue checkRegularityFeatureConformance(AttributeAssignment atta){
+		val att = atta.attribute
+		val regAttSet = new LinkedHashSet<RegularityAttribute>
+		val knowClasses = (atta.eContainer as EntityDeclaration).rechableClasses
+		
+		knowClasses.forEach[ c | c.attributes.forEach[
+			if(it instanceof RegularityAttribute && (it as RegularityAttribute).regulates == att)	{
+				regAttSet.add(it as RegularityAttribute)
+			} 
+		]]
+		
+		if(regAttSet.isEmpty)	return null
+		
+		val regAttAssigSet = new LinkedHashSet<AttributeAssignment>
+		
+		for(Class c : (atta.eContainer as EntityDeclaration).classifiers) {
+			for(FeatureAssignment it : c.assignments) {
+				if(it instanceof AttributeAssignment) {
+					if(regAttSet.contains(it.attribute)) {
+						regAttAssigSet.add(it)
+					}
+				}
+			}
+		}
+		
+		if(regAttAssigSet.isEmpty)	return null
+		
+		for(AttributeAssignment regAttAssig : regAttAssigSet) {
+			for(RegularityAttribute regAtt : regAttSet) {
+				if(regAttAssig.attribute!=regAtt) {}
+				else if(!atta.isConformanTo(regAtt.regularityType, regAttAssig)) {
+					val i = new ValidationWarning
+					i.source = atta
+					i.feature = ModelPackage.eINSTANCE.attributeAssignment_Attribute
+					i.message = '''Assignment is non-conformant to the regularity feature «regAtt.name» of «(regAtt.eContainer as Class).name».'''
+					i.code = NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT
+					return i
+				}
+			}
+		}
+		return null
+	}
 	
 	dispatch def ValidationIssue checkRegularityFeatureConformance(ReferenceAssignment refa){
 		/* From an assignment, takes the reference and looks for regularities over it */

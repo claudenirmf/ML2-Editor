@@ -1332,13 +1332,31 @@ public interface ModelPackage extends EPackage
   int ATTRIBUTE_ASSIGNMENT__ATTRIBUTE = FEATURE_ASSIGNMENT_FEATURE_COUNT + 0;
 
   /**
-   * The feature id for the '<em><b>Literal Values</b></em>' containment reference list.
+   * The feature id for the '<em><b>String Values</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES = FEATURE_ASSIGNMENT_FEATURE_COUNT + 1;
+  int ATTRIBUTE_ASSIGNMENT__STRING_VALUES = FEATURE_ASSIGNMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Number Values</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES = FEATURE_ASSIGNMENT_FEATURE_COUNT + 2;
+
+  /**
+   * The feature id for the '<em><b>Boolean Values</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES = FEATURE_ASSIGNMENT_FEATURE_COUNT + 3;
 
   /**
    * The feature id for the '<em><b>Datatype Values</b></em>' reference list.
@@ -1347,7 +1365,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ATTRIBUTE_ASSIGNMENT__DATATYPE_VALUES = FEATURE_ASSIGNMENT_FEATURE_COUNT + 2;
+  int ATTRIBUTE_ASSIGNMENT__DATATYPE_VALUES = FEATURE_ASSIGNMENT_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>Unnamed Values</b></em>' containment reference list.
@@ -1356,7 +1374,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ATTRIBUTE_ASSIGNMENT__UNNAMED_VALUES = FEATURE_ASSIGNMENT_FEATURE_COUNT + 3;
+  int ATTRIBUTE_ASSIGNMENT__UNNAMED_VALUES = FEATURE_ASSIGNMENT_FEATURE_COUNT + 5;
 
   /**
    * The number of structural features of the '<em>Attribute Assignment</em>' class.
@@ -1365,7 +1383,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ATTRIBUTE_ASSIGNMENT_FEATURE_COUNT = FEATURE_ASSIGNMENT_FEATURE_COUNT + 4;
+  int ATTRIBUTE_ASSIGNMENT_FEATURE_COUNT = FEATURE_ASSIGNMENT_FEATURE_COUNT + 6;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.CategorizationType <em>Categorization Type</em>}' enum.
@@ -2037,15 +2055,37 @@ public interface ModelPackage extends EPackage
   EReference getAttributeAssignment_Attribute();
 
   /**
-   * Returns the meta object for the containment reference list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getLiteralValues <em>Literal Values</em>}'.
+   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getStringValues <em>String Values</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Literal Values</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getLiteralValues()
+   * @return the meta object for the attribute list '<em>String Values</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getStringValues()
    * @see #getAttributeAssignment()
    * @generated
    */
-  EReference getAttributeAssignment_LiteralValues();
+  EAttribute getAttributeAssignment_StringValues();
+
+  /**
+   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getNumberValues <em>Number Values</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Number Values</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getNumberValues()
+   * @see #getAttributeAssignment()
+   * @generated
+   */
+  EAttribute getAttributeAssignment_NumberValues();
+
+  /**
+   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getBooleanValues <em>Boolean Values</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Boolean Values</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getBooleanValues()
+   * @see #getAttributeAssignment()
+   * @generated
+   */
+  EAttribute getAttributeAssignment_BooleanValues();
 
   /**
    * Returns the meta object for the reference list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getDatatypeValues <em>Datatype Values</em>}'.
@@ -2647,12 +2687,28 @@ public interface ModelPackage extends EPackage
     EReference ATTRIBUTE_ASSIGNMENT__ATTRIBUTE = eINSTANCE.getAttributeAssignment_Attribute();
 
     /**
-     * The meta object literal for the '<em><b>Literal Values</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>String Values</b></em>' attribute list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES = eINSTANCE.getAttributeAssignment_LiteralValues();
+    EAttribute ATTRIBUTE_ASSIGNMENT__STRING_VALUES = eINSTANCE.getAttributeAssignment_StringValues();
+
+    /**
+     * The meta object literal for the '<em><b>Number Values</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES = eINSTANCE.getAttributeAssignment_NumberValues();
+
+    /**
+     * The meta object literal for the '<em><b>Boolean Values</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES = eINSTANCE.getAttributeAssignment_BooleanValues();
 
     /**
      * The meta object literal for the '<em><b>Datatype Values</b></em>' reference list feature.

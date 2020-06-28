@@ -16,11 +16,11 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -34,7 +34,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.AttributeAssignmentImpl#getAttribute <em>Attribute</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.AttributeAssignmentImpl#getLiteralValues <em>Literal Values</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.AttributeAssignmentImpl#getStringValues <em>String Values</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.AttributeAssignmentImpl#getNumberValues <em>Number Values</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.AttributeAssignmentImpl#getBooleanValues <em>Boolean Values</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.AttributeAssignmentImpl#getDatatypeValues <em>Datatype Values</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.AttributeAssignmentImpl#getUnnamedValues <em>Unnamed Values</em>}</li>
  * </ul>
@@ -54,14 +56,34 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
   protected Attribute attribute;
 
   /**
-   * The cached value of the '{@link #getLiteralValues() <em>Literal Values</em>}' containment reference list.
+   * The cached value of the '{@link #getStringValues() <em>String Values</em>}' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getLiteralValues()
+   * @see #getStringValues()
    * @generated
    * @ordered
    */
-  protected EList<EObject> literalValues;
+  protected EList<String> stringValues;
+
+  /**
+   * The cached value of the '{@link #getNumberValues() <em>Number Values</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getNumberValues()
+   * @generated
+   * @ordered
+   */
+  protected EList<Double> numberValues;
+
+  /**
+   * The cached value of the '{@link #getBooleanValues() <em>Boolean Values</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBooleanValues()
+   * @generated
+   * @ordered
+   */
+  protected EList<Boolean> booleanValues;
 
   /**
    * The cached value of the '{@link #getDatatypeValues() <em>Datatype Values</em>}' reference list.
@@ -155,13 +177,43 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
    * @generated
    */
   @Override
-  public EList<EObject> getLiteralValues()
+  public EList<String> getStringValues()
   {
-    if (literalValues == null)
+    if (stringValues == null)
     {
-      literalValues = new EObjectContainmentEList<EObject>(EObject.class, this, ModelPackage.ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES);
+      stringValues = new EDataTypeEList<String>(String.class, this, ModelPackage.ATTRIBUTE_ASSIGNMENT__STRING_VALUES);
     }
-    return literalValues;
+    return stringValues;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<Double> getNumberValues()
+  {
+    if (numberValues == null)
+    {
+      numberValues = new EDataTypeEList<Double>(Double.class, this, ModelPackage.ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES);
+    }
+    return numberValues;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<Boolean> getBooleanValues()
+  {
+    if (booleanValues == null)
+    {
+      booleanValues = new EDataTypeEList<Boolean>(Boolean.class, this, ModelPackage.ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES);
+    }
+    return booleanValues;
   }
 
   /**
@@ -204,8 +256,6 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
   {
     switch (featureID)
     {
-      case ModelPackage.ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES:
-        return ((InternalEList<?>)getLiteralValues()).basicRemove(otherEnd, msgs);
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__UNNAMED_VALUES:
         return ((InternalEList<?>)getUnnamedValues()).basicRemove(otherEnd, msgs);
     }
@@ -225,8 +275,12 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE:
         if (resolve) return getAttribute();
         return basicGetAttribute();
-      case ModelPackage.ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES:
-        return getLiteralValues();
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__STRING_VALUES:
+        return getStringValues();
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES:
+        return getNumberValues();
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES:
+        return getBooleanValues();
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__DATATYPE_VALUES:
         return getDatatypeValues();
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__UNNAMED_VALUES:
@@ -249,9 +303,17 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE:
         setAttribute((Attribute)newValue);
         return;
-      case ModelPackage.ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES:
-        getLiteralValues().clear();
-        getLiteralValues().addAll((Collection<? extends EObject>)newValue);
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__STRING_VALUES:
+        getStringValues().clear();
+        getStringValues().addAll((Collection<? extends String>)newValue);
+        return;
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES:
+        getNumberValues().clear();
+        getNumberValues().addAll((Collection<? extends Double>)newValue);
+        return;
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES:
+        getBooleanValues().clear();
+        getBooleanValues().addAll((Collection<? extends Boolean>)newValue);
         return;
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__DATATYPE_VALUES:
         getDatatypeValues().clear();
@@ -278,8 +340,14 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE:
         setAttribute((Attribute)null);
         return;
-      case ModelPackage.ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES:
-        getLiteralValues().clear();
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__STRING_VALUES:
+        getStringValues().clear();
+        return;
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES:
+        getNumberValues().clear();
+        return;
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES:
+        getBooleanValues().clear();
         return;
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__DATATYPE_VALUES:
         getDatatypeValues().clear();
@@ -303,14 +371,39 @@ public class AttributeAssignmentImpl extends FeatureAssignmentImpl implements At
     {
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__ATTRIBUTE:
         return attribute != null;
-      case ModelPackage.ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES:
-        return literalValues != null && !literalValues.isEmpty();
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__STRING_VALUES:
+        return stringValues != null && !stringValues.isEmpty();
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES:
+        return numberValues != null && !numberValues.isEmpty();
+      case ModelPackage.ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES:
+        return booleanValues != null && !booleanValues.isEmpty();
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__DATATYPE_VALUES:
         return datatypeValues != null && !datatypeValues.isEmpty();
       case ModelPackage.ATTRIBUTE_ASSIGNMENT__UNNAMED_VALUES:
         return unnamedValues != null && !unnamedValues.isEmpty();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (stringValues: ");
+    result.append(stringValues);
+    result.append(", numberValues: ");
+    result.append(numberValues);
+    result.append(", booleanValues: ");
+    result.append(booleanValues);
+    result.append(')');
+    return result.toString();
   }
 
 } //AttributeAssignmentImpl

@@ -198,7 +198,9 @@ MultipleReferenceAssignment returns ReferenceAssignment:
 SingleAttributeAssignment returns AttributeAssignment: 
 	'att'? attribute=[Attribute|QualifiedName] '='
 	( 
-		literalValues+=Literal 
+		stringValues+=STRING
+		| numberValues+=NUMBER
+		| booleanValues+=BOOLEAN 
 		| datatypeValues+=[Individual|QualifiedName]
 		| unnamedValues+=UnnamedIndividual
 	)
@@ -208,28 +210,26 @@ MultipleAttributeAssignment returns AttributeAssignment:
 	'att'? attribute=[Attribute|QualifiedName] '=' 
 	'{' 
 		(( 
-			literalValues+=Literal 
+			stringValues+=STRING
+			| numberValues+=NUMBER
+			| booleanValues+=BOOLEAN 
 			| datatypeValues+=[Individual|QualifiedName] 
 			| unnamedValues+=UnnamedIndividual
 		)(
-			',' literalValues+=Literal
+			',' stringValues+=STRING
+			| ',' numberValues+=NUMBER
+			| ',' booleanValues+=BOOLEAN 
 			| ',' datatypeValues+=[Individual|QualifiedName]
 			| ',' unnamedValues+=UnnamedIndividual
 		)*)
 	'}'
 ;
 
-Literal returns ecore::EObject:
-	STRING 
-	| NUMBER 
-	| BOOLEAN 
-;
-
-BOOLEAN returns ecore::EBoolean:
+BOOLEAN returns ecore::EBooleanObject:
 	'true' | 'false'
 ;
 
-NUMBER returns ecore::EDouble:
+NUMBER returns ecore::EDoubleObject:
 	'-'? INT ( '.' INT )? 
 ;
 
@@ -245,7 +245,9 @@ SimpleAttributeAssignment returns AttributeAssignment:
 SingleSimpleAttributeAssignment returns AttributeAssignment:
 	attribute=[Attribute|QualifiedName] '='
 	(
-		literalValues+=Literal
+		stringValues+=STRING
+		| numberValues+=NUMBER
+		| booleanValues+=BOOLEAN
 		| datatypeValues+=[Individual|QualifiedName]
 		| unnamedValues+=UnnamedIndividual
 	) 
@@ -255,11 +257,15 @@ MultipleSimpleAttributeAssignment returns AttributeAssignment:
 	attribute=[Attribute|QualifiedName] '='
 	'{' 
 		(( 
-			literalValues+=Literal 
+			stringValues+=STRING
+			| numberValues+=NUMBER
+			| booleanValues+=BOOLEAN 
 			| datatypeValues+=[Individual|QualifiedName] 
 			| unnamedValues+=UnnamedIndividual
 		)(
-			',' literalValues+=Literal
+			',' stringValues+=STRING
+			| ',' numberValues+=NUMBER
+			| ',' booleanValues+=BOOLEAN
 			| ',' datatypeValues+=[Individual|QualifiedName]
 			| ',' unnamedValues+=UnnamedIndividual
 		)*)

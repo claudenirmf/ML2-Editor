@@ -2938,19 +2938,58 @@ ruleSingleAttributeAssignment returns [EObject current=null]
 		(
 			(
 				(
+					lv_stringValues_3_0=RULE_STRING
 					{
-						newCompositeNode(grammarAccess.getSingleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_3_0_0());
+						newLeafNode(lv_stringValues_3_0, grammarAccess.getSingleAttributeAssignmentAccess().getStringValuesSTRINGTerminalRuleCall_3_0_0());
 					}
-					lv_literalValues_3_0=ruleLiteral
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getSingleAttributeAssignmentRule());
+						}
+						addWithLastConsumed(
+							$current,
+							"stringValues",
+							lv_stringValues_3_0,
+							"org.eclipse.xtext.common.Terminals.STRING");
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getSingleAttributeAssignmentAccess().getNumberValuesNUMBERParserRuleCall_3_1_0());
+					}
+					lv_numberValues_4_0=ruleNUMBER
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getSingleAttributeAssignmentRule());
 						}
 						add(
 							$current,
-							"literalValues",
-							lv_literalValues_3_0,
-							"br.ufes.inf.nemo.ml2.ML2.Literal");
+							"numberValues",
+							lv_numberValues_4_0,
+							"br.ufes.inf.nemo.ml2.ML2.NUMBER");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getSingleAttributeAssignmentAccess().getBooleanValuesBOOLEANParserRuleCall_3_2_0());
+					}
+					lv_booleanValues_5_0=ruleBOOLEAN
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getSingleAttributeAssignmentRule());
+						}
+						add(
+							$current,
+							"booleanValues",
+							lv_booleanValues_5_0,
+							"br.ufes.inf.nemo.ml2.ML2.BOOLEAN");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -2964,7 +3003,7 @@ ruleSingleAttributeAssignment returns [EObject current=null]
 						}
 					}
 					{
-						newCompositeNode(grammarAccess.getSingleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_3_1_0());
+						newCompositeNode(grammarAccess.getSingleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_3_3_0());
 					}
 					ruleQualifiedName
 					{
@@ -2976,9 +3015,9 @@ ruleSingleAttributeAssignment returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getSingleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_2_0());
+						newCompositeNode(grammarAccess.getSingleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_4_0());
 					}
-					lv_unnamedValues_5_0=ruleUnnamedIndividual
+					lv_unnamedValues_7_0=ruleUnnamedIndividual
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getSingleAttributeAssignmentRule());
@@ -2986,7 +3025,7 @@ ruleSingleAttributeAssignment returns [EObject current=null]
 						add(
 							$current,
 							"unnamedValues",
-							lv_unnamedValues_5_0,
+							lv_unnamedValues_7_0,
 							"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
 						afterParserOrEnumRuleCall();
 					}
@@ -3046,19 +3085,58 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 			(
 				(
 					(
+						lv_stringValues_4_0=RULE_STRING
 						{
-							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_4_0_0_0());
+							newLeafNode(lv_stringValues_4_0, grammarAccess.getMultipleAttributeAssignmentAccess().getStringValuesSTRINGTerminalRuleCall_4_0_0_0());
 						}
-						lv_literalValues_4_0=ruleLiteral
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getMultipleAttributeAssignmentRule());
+							}
+							addWithLastConsumed(
+								$current,
+								"stringValues",
+								lv_stringValues_4_0,
+								"org.eclipse.xtext.common.Terminals.STRING");
+						}
+					)
+				)
+				    |
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getNumberValuesNUMBERParserRuleCall_4_0_1_0());
+						}
+						lv_numberValues_5_0=ruleNUMBER
 						{
 							if ($current==null) {
 								$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
 							}
 							add(
 								$current,
-								"literalValues",
-								lv_literalValues_4_0,
-								"br.ufes.inf.nemo.ml2.ML2.Literal");
+								"numberValues",
+								lv_numberValues_5_0,
+								"br.ufes.inf.nemo.ml2.ML2.NUMBER");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
+				    |
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getBooleanValuesBOOLEANParserRuleCall_4_0_2_0());
+						}
+						lv_booleanValues_6_0=ruleBOOLEAN
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
+							}
+							add(
+								$current,
+								"booleanValues",
+								lv_booleanValues_6_0,
+								"br.ufes.inf.nemo.ml2.ML2.BOOLEAN");
 							afterParserOrEnumRuleCall();
 						}
 					)
@@ -3072,7 +3150,7 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 							}
 						}
 						{
-							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_4_0_1_0());
+							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_4_0_3_0());
 						}
 						ruleQualifiedName
 						{
@@ -3084,9 +3162,9 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 				(
 					(
 						{
-							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_4_0_2_0());
+							newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_4_0_4_0());
 						}
-						lv_unnamedValues_6_0=ruleUnnamedIndividual
+						lv_unnamedValues_8_0=ruleUnnamedIndividual
 						{
 							if ($current==null) {
 								$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
@@ -3094,7 +3172,7 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 							add(
 								$current,
 								"unnamedValues",
-								lv_unnamedValues_6_0,
+								lv_unnamedValues_8_0,
 								"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
 							afterParserOrEnumRuleCall();
 						}
@@ -3103,25 +3181,50 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 			)
 			(
 				(
-					otherlv_7=','
+					otherlv_9=','
 					{
-						newLeafNode(otherlv_7, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_0_0());
+						newLeafNode(otherlv_9, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_0_0());
+					}
+					(
+						(
+							lv_stringValues_10_0=RULE_STRING
+							{
+								newLeafNode(lv_stringValues_10_0, grammarAccess.getMultipleAttributeAssignmentAccess().getStringValuesSTRINGTerminalRuleCall_4_1_0_1_0());
+							}
+							{
+								if ($current==null) {
+									$current = createModelElement(grammarAccess.getMultipleAttributeAssignmentRule());
+								}
+								addWithLastConsumed(
+									$current,
+									"stringValues",
+									lv_stringValues_10_0,
+									"org.eclipse.xtext.common.Terminals.STRING");
+							}
+						)
+					)
+				)
+				    |
+				(
+					otherlv_11=','
+					{
+						newLeafNode(otherlv_11, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_1_0());
 					}
 					(
 						(
 							{
-								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_4_1_0_1_0());
+								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getNumberValuesNUMBERParserRuleCall_4_1_1_1_0());
 							}
-							lv_literalValues_8_0=ruleLiteral
+							lv_numberValues_12_0=ruleNUMBER
 							{
 								if ($current==null) {
 									$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
 								}
 								add(
 									$current,
-									"literalValues",
-									lv_literalValues_8_0,
-									"br.ufes.inf.nemo.ml2.ML2.Literal");
+									"numberValues",
+									lv_numberValues_12_0,
+									"br.ufes.inf.nemo.ml2.ML2.NUMBER");
 								afterParserOrEnumRuleCall();
 							}
 						)
@@ -3129,9 +3232,35 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 				)
 				    |
 				(
-					otherlv_9=','
+					otherlv_13=','
 					{
-						newLeafNode(otherlv_9, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_1_0());
+						newLeafNode(otherlv_13, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_2_0());
+					}
+					(
+						(
+							{
+								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getBooleanValuesBOOLEANParserRuleCall_4_1_2_1_0());
+							}
+							lv_booleanValues_14_0=ruleBOOLEAN
+							{
+								if ($current==null) {
+									$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
+								}
+								add(
+									$current,
+									"booleanValues",
+									lv_booleanValues_14_0,
+									"br.ufes.inf.nemo.ml2.ML2.BOOLEAN");
+								afterParserOrEnumRuleCall();
+							}
+						)
+					)
+				)
+				    |
+				(
+					otherlv_15=','
+					{
+						newLeafNode(otherlv_15, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_3_0());
 					}
 					(
 						(
@@ -3141,7 +3270,7 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 								}
 							}
 							{
-								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_4_1_1_1_0());
+								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_4_1_3_1_0());
 							}
 							ruleQualifiedName
 							{
@@ -3152,16 +3281,16 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 				)
 				    |
 				(
-					otherlv_11=','
+					otherlv_17=','
 					{
-						newLeafNode(otherlv_11, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_2_0());
+						newLeafNode(otherlv_17, grammarAccess.getMultipleAttributeAssignmentAccess().getCommaKeyword_4_1_4_0());
 					}
 					(
 						(
 							{
-								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_4_1_2_1_0());
+								newCompositeNode(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_4_1_4_1_0());
 							}
-							lv_unnamedValues_12_0=ruleUnnamedIndividual
+							lv_unnamedValues_18_0=ruleUnnamedIndividual
 							{
 								if ($current==null) {
 									$current = createModelElementForParent(grammarAccess.getMultipleAttributeAssignmentRule());
@@ -3169,7 +3298,7 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 								add(
 									$current,
 									"unnamedValues",
-									lv_unnamedValues_12_0,
+									lv_unnamedValues_18_0,
 									"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
 								afterParserOrEnumRuleCall();
 							}
@@ -3178,48 +3307,9 @@ ruleMultipleAttributeAssignment returns [EObject current=null]
 				)
 			)*
 		)
-		otherlv_13='}'
+		otherlv_19='}'
 		{
-			newLeafNode(otherlv_13, grammarAccess.getMultipleAttributeAssignmentAccess().getRightCurlyBracketKeyword_5());
-		}
-	)
-;
-
-// Entry rule entryRuleLiteral
-entryRuleLiteral returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getLiteralRule()); }
-	iv_ruleLiteral=ruleLiteral
-	{ $current=$iv_ruleLiteral.current; }
-	EOF;
-
-// Rule Literal
-ruleLiteral returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		this_STRING_0=RULE_STRING
-		{
-			newLeafNode(this_STRING_0, grammarAccess.getLiteralAccess().getSTRINGTerminalRuleCall_0());
-		}
-		    |
-		{
-			newCompositeNode(grammarAccess.getLiteralAccess().getNUMBERParserRuleCall_1());
-		}
-		ruleNUMBER
-		{
-			afterParserOrEnumRuleCall();
-		}
-		    |
-		{
-			newCompositeNode(grammarAccess.getLiteralAccess().getBOOLEANParserRuleCall_2());
-		}
-		ruleBOOLEAN
-		{
-			afterParserOrEnumRuleCall();
+			newLeafNode(otherlv_19, grammarAccess.getMultipleAttributeAssignmentAccess().getRightCurlyBracketKeyword_5());
 		}
 	)
 ;
@@ -3429,19 +3519,58 @@ ruleSingleSimpleAttributeAssignment returns [EObject current=null]
 		(
 			(
 				(
+					lv_stringValues_2_0=RULE_STRING
 					{
-						newCompositeNode(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_2_0_0());
+						newLeafNode(lv_stringValues_2_0, grammarAccess.getSingleSimpleAttributeAssignmentAccess().getStringValuesSTRINGTerminalRuleCall_2_0_0());
 					}
-					lv_literalValues_2_0=ruleLiteral
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getSingleSimpleAttributeAssignmentRule());
+						}
+						addWithLastConsumed(
+							$current,
+							"stringValues",
+							lv_stringValues_2_0,
+							"org.eclipse.xtext.common.Terminals.STRING");
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getNumberValuesNUMBERParserRuleCall_2_1_0());
+					}
+					lv_numberValues_3_0=ruleNUMBER
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getSingleSimpleAttributeAssignmentRule());
 						}
 						add(
 							$current,
-							"literalValues",
-							lv_literalValues_2_0,
-							"br.ufes.inf.nemo.ml2.ML2.Literal");
+							"numberValues",
+							lv_numberValues_3_0,
+							"br.ufes.inf.nemo.ml2.ML2.NUMBER");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getBooleanValuesBOOLEANParserRuleCall_2_2_0());
+					}
+					lv_booleanValues_4_0=ruleBOOLEAN
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getSingleSimpleAttributeAssignmentRule());
+						}
+						add(
+							$current,
+							"booleanValues",
+							lv_booleanValues_4_0,
+							"br.ufes.inf.nemo.ml2.ML2.BOOLEAN");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -3455,7 +3584,7 @@ ruleSingleSimpleAttributeAssignment returns [EObject current=null]
 						}
 					}
 					{
-						newCompositeNode(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_2_1_0());
+						newCompositeNode(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_2_3_0());
 					}
 					ruleQualifiedName
 					{
@@ -3467,9 +3596,9 @@ ruleSingleSimpleAttributeAssignment returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_2_2_0());
+						newCompositeNode(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_2_4_0());
 					}
-					lv_unnamedValues_4_0=ruleUnnamedIndividual
+					lv_unnamedValues_6_0=ruleUnnamedIndividual
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getSingleSimpleAttributeAssignmentRule());
@@ -3477,7 +3606,7 @@ ruleSingleSimpleAttributeAssignment returns [EObject current=null]
 						add(
 							$current,
 							"unnamedValues",
-							lv_unnamedValues_4_0,
+							lv_unnamedValues_6_0,
 							"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
 						afterParserOrEnumRuleCall();
 					}
@@ -3531,19 +3660,58 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 			(
 				(
 					(
+						lv_stringValues_3_0=RULE_STRING
 						{
-							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_3_0_0_0());
+							newLeafNode(lv_stringValues_3_0, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getStringValuesSTRINGTerminalRuleCall_3_0_0_0());
 						}
-						lv_literalValues_3_0=ruleLiteral
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
+							}
+							addWithLastConsumed(
+								$current,
+								"stringValues",
+								lv_stringValues_3_0,
+								"org.eclipse.xtext.common.Terminals.STRING");
+						}
+					)
+				)
+				    |
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getNumberValuesNUMBERParserRuleCall_3_0_1_0());
+						}
+						lv_numberValues_4_0=ruleNUMBER
 						{
 							if ($current==null) {
 								$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
 							}
 							add(
 								$current,
-								"literalValues",
-								lv_literalValues_3_0,
-								"br.ufes.inf.nemo.ml2.ML2.Literal");
+								"numberValues",
+								lv_numberValues_4_0,
+								"br.ufes.inf.nemo.ml2.ML2.NUMBER");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
+				    |
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getBooleanValuesBOOLEANParserRuleCall_3_0_2_0());
+						}
+						lv_booleanValues_5_0=ruleBOOLEAN
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
+							}
+							add(
+								$current,
+								"booleanValues",
+								lv_booleanValues_5_0,
+								"br.ufes.inf.nemo.ml2.ML2.BOOLEAN");
 							afterParserOrEnumRuleCall();
 						}
 					)
@@ -3557,7 +3725,7 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 							}
 						}
 						{
-							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_3_0_1_0());
+							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_3_0_3_0());
 						}
 						ruleQualifiedName
 						{
@@ -3569,9 +3737,9 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 				(
 					(
 						{
-							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_0_2_0());
+							newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_0_4_0());
 						}
-						lv_unnamedValues_5_0=ruleUnnamedIndividual
+						lv_unnamedValues_7_0=ruleUnnamedIndividual
 						{
 							if ($current==null) {
 								$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
@@ -3579,7 +3747,7 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 							add(
 								$current,
 								"unnamedValues",
-								lv_unnamedValues_5_0,
+								lv_unnamedValues_7_0,
 								"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
 							afterParserOrEnumRuleCall();
 						}
@@ -3588,25 +3756,50 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 			)
 			(
 				(
-					otherlv_6=','
+					otherlv_8=','
 					{
-						newLeafNode(otherlv_6, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_0_0());
+						newLeafNode(otherlv_8, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_0_0());
+					}
+					(
+						(
+							lv_stringValues_9_0=RULE_STRING
+							{
+								newLeafNode(lv_stringValues_9_0, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getStringValuesSTRINGTerminalRuleCall_3_1_0_1_0());
+							}
+							{
+								if ($current==null) {
+									$current = createModelElement(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
+								}
+								addWithLastConsumed(
+									$current,
+									"stringValues",
+									lv_stringValues_9_0,
+									"org.eclipse.xtext.common.Terminals.STRING");
+							}
+						)
+					)
+				)
+				    |
+				(
+					otherlv_10=','
+					{
+						newLeafNode(otherlv_10, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_1_0());
 					}
 					(
 						(
 							{
-								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getLiteralValuesLiteralParserRuleCall_3_1_0_1_0());
+								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getNumberValuesNUMBERParserRuleCall_3_1_1_1_0());
 							}
-							lv_literalValues_7_0=ruleLiteral
+							lv_numberValues_11_0=ruleNUMBER
 							{
 								if ($current==null) {
 									$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
 								}
 								add(
 									$current,
-									"literalValues",
-									lv_literalValues_7_0,
-									"br.ufes.inf.nemo.ml2.ML2.Literal");
+									"numberValues",
+									lv_numberValues_11_0,
+									"br.ufes.inf.nemo.ml2.ML2.NUMBER");
 								afterParserOrEnumRuleCall();
 							}
 						)
@@ -3614,9 +3807,35 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 				)
 				    |
 				(
-					otherlv_8=','
+					otherlv_12=','
 					{
-						newLeafNode(otherlv_8, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_1_0());
+						newLeafNode(otherlv_12, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_2_0());
+					}
+					(
+						(
+							{
+								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getBooleanValuesBOOLEANParserRuleCall_3_1_2_1_0());
+							}
+							lv_booleanValues_13_0=ruleBOOLEAN
+							{
+								if ($current==null) {
+									$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
+								}
+								add(
+									$current,
+									"booleanValues",
+									lv_booleanValues_13_0,
+									"br.ufes.inf.nemo.ml2.ML2.BOOLEAN");
+								afterParserOrEnumRuleCall();
+							}
+						)
+					)
+				)
+				    |
+				(
+					otherlv_14=','
+					{
+						newLeafNode(otherlv_14, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_3_0());
 					}
 					(
 						(
@@ -3626,7 +3845,7 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 								}
 							}
 							{
-								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_3_1_1_1_0());
+								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getDatatypeValuesIndividualCrossReference_3_1_3_1_0());
 							}
 							ruleQualifiedName
 							{
@@ -3637,16 +3856,16 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 				)
 				    |
 				(
-					otherlv_10=','
+					otherlv_16=','
 					{
-						newLeafNode(otherlv_10, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_2_0());
+						newLeafNode(otherlv_16, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getCommaKeyword_3_1_4_0());
 					}
 					(
 						(
 							{
-								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_1_2_1_0());
+								newCompositeNode(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesUnnamedIndividualParserRuleCall_3_1_4_1_0());
 							}
-							lv_unnamedValues_11_0=ruleUnnamedIndividual
+							lv_unnamedValues_17_0=ruleUnnamedIndividual
 							{
 								if ($current==null) {
 									$current = createModelElementForParent(grammarAccess.getMultipleSimpleAttributeAssignmentRule());
@@ -3654,7 +3873,7 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 								add(
 									$current,
 									"unnamedValues",
-									lv_unnamedValues_11_0,
+									lv_unnamedValues_17_0,
 									"br.ufes.inf.nemo.ml2.ML2.UnnamedIndividual");
 								afterParserOrEnumRuleCall();
 							}
@@ -3663,9 +3882,9 @@ ruleMultipleSimpleAttributeAssignment returns [EObject current=null]
 				)
 			)*
 		)
-		otherlv_12='}'
+		otherlv_18='}'
 		{
-			newLeafNode(otherlv_12, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getRightCurlyBracketKeyword_4());
+			newLeafNode(otherlv_18, grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getRightCurlyBracketKeyword_4());
 		}
 	)
 ;

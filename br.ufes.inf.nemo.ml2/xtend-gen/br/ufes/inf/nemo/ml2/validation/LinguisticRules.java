@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
@@ -124,7 +125,7 @@ public class LinguisticRules {
     br.ufes.inf.nemo.ml2.model.Class invalid = null;
     if ((e instanceof Individual)) {
       final Function1<br.ufes.inf.nemo.ml2.model.Class, Boolean> _function = (br.ufes.inf.nemo.ml2.model.Class it) -> {
-        return Boolean.valueOf((it instanceof HigherOrderClass));
+        return Boolean.valueOf((it instanceof HighOrderClass));
       };
       invalid = IterableExtensions.<br.ufes.inf.nemo.ml2.model.Class>findFirst(((Individual)e).getClassifiers(), _function);
     } else {
@@ -173,10 +174,7 @@ public class LinguisticRules {
         }
       }
     }
-    boolean _equals = Objects.equal(invalid, null);
-    if (_equals) {
-      return null;
-    } else {
+    if ((invalid != null)) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Invalid instantiation of ");
       String _name = invalid.getName();
@@ -184,9 +182,9 @@ public class LinguisticRules {
       EReference _entityDeclaration_Classifiers = ModelPackage.eINSTANCE.getEntityDeclaration_Classifiers();
       int _indexOf = e.getClassifiers().indexOf(invalid);
       return new ValidationError(_builder.toString(), _entityDeclaration_Classifiers, _indexOf, 
-        LinguisticRules.INVALID_INSTANTIATION, 
-        null, e);
+        LinguisticRules.INVALID_INSTANTIATION, null, e);
     }
+    return null;
   }
   
   public ValidationError isValidSpecialization(final br.ufes.inf.nemo.ml2.model.Class c) {
@@ -525,6 +523,47 @@ public class LinguisticRules {
       }
     }
     return null;
+  }
+  
+  public ValidationError obeysSubordination(final br.ufes.inf.nemo.ml2.model.Class c, final Set<br.ufes.inf.nemo.ml2.model.Class> ch, final Set<br.ufes.inf.nemo.ml2.model.Class> iof) {
+    final LinkedHashSet<HigherOrderClass> subordinated = new LinkedHashSet<HigherOrderClass>();
+    final Consumer<br.ufes.inf.nemo.ml2.model.Class> _function = (br.ufes.inf.nemo.ml2.model.Class it) -> {
+      if ((it instanceof HigherOrderClass)) {
+        EList<HigherOrderClass> _subordinators = ((HigherOrderClass)it).getSubordinators();
+        boolean _tripleNotEquals = (_subordinators != null);
+        if (_tripleNotEquals) {
+          subordinated.addAll(((HigherOrderClass)it).getSubordinators());
+        }
+      }
+    };
+    iof.forEach(_function);
+    int _size = subordinated.size();
+    boolean _equals = (_size == 0);
+    if (_equals) {
+      return null;
+    }
+    final LinkedHashSet<br.ufes.inf.nemo.ml2.model.Class> superClassesIof = new LinkedHashSet<br.ufes.inf.nemo.ml2.model.Class>();
+    final Consumer<br.ufes.inf.nemo.ml2.model.Class> _function_1 = (br.ufes.inf.nemo.ml2.model.Class it) -> {
+      superClassesIof.addAll(this._mL2Util.getAllInstantiatedClasses(it));
+    };
+    ch.forEach(_function_1);
+    final Function1<HigherOrderClass, Boolean> _function_2 = (HigherOrderClass it) -> {
+      boolean _contains = superClassesIof.contains(it);
+      return Boolean.valueOf((!_contains));
+    };
+    final HigherOrderClass invalid = IterableExtensions.<HigherOrderClass>findFirst(subordinated, _function_2);
+    if ((invalid == null)) {
+      return null;
+    } else {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Missing specialization due to subordination to some instance of ");
+      String _name = invalid.getName();
+      _builder.append(_name);
+      _builder.append(".");
+      EReference _class_SuperClasses = ModelPackage.eINSTANCE.getClass_SuperClasses();
+      return new ValidationError(_builder.toString(), _class_SuperClasses, ValidationIssue.NO_INDEX, 
+        LinguisticRules.MISSING_SPECIALIZATION_THROUGH_SUBODINATION, ValidationIssue.NO_ISSUE_CODE, c);
+    }
   }
   
   /**
@@ -875,7 +914,7 @@ public class LinguisticRules {
       _size_1=_unnamedValues.size();
     }
     int _plus = (_size + _size_1);
-    EList<EObject> _literalValues = aa.getLiteralValues();
+    List<Object> _literalValues = this._mL2Util.getLiteralValues(aa);
     int _size_2 = 0;
     if (_literalValues!=null) {
       _size_2=_literalValues.size();
@@ -958,8 +997,8 @@ public class LinguisticRules {
         return issue;
       }
     }
-    EList<EObject> _literalValues = aa.getLiteralValues();
-    for (final EObject lit : _literalValues) {
+    List<Object> _literalValues = this._mL2Util.getLiteralValues(aa);
+    for (final Object lit : _literalValues) {
       boolean _isConformantTo_1 = this._mL2Util.isConformantTo(lit, att.getPrimitiveType());
       boolean _not_1 = (!_isConformantTo_1);
       if (_not_1) {
@@ -1095,6 +1134,73 @@ public class LinguisticRules {
     }
   }
   
+  protected ValidationIssue _checkRegularityFeatureConformance(final AttributeAssignment atta) {
+    final Attribute att = atta.getAttribute();
+    final LinkedHashSet<RegularityAttribute> regAttSet = new LinkedHashSet<RegularityAttribute>();
+    EObject _eContainer = atta.eContainer();
+    final Set<br.ufes.inf.nemo.ml2.model.Class> knowClasses = this._mL2Util.getRechableClasses(((EntityDeclaration) _eContainer));
+    final Consumer<br.ufes.inf.nemo.ml2.model.Class> _function = (br.ufes.inf.nemo.ml2.model.Class c) -> {
+      final Consumer<Attribute> _function_1 = (Attribute it) -> {
+        if (((it instanceof RegularityAttribute) && Objects.equal(((RegularityAttribute) it).getRegulates(), att))) {
+          regAttSet.add(((RegularityAttribute) it));
+        }
+      };
+      this._mL2Util.getAttributes(c).forEach(_function_1);
+    };
+    knowClasses.forEach(_function);
+    boolean _isEmpty = regAttSet.isEmpty();
+    if (_isEmpty) {
+      return null;
+    }
+    final LinkedHashSet<AttributeAssignment> regAttAssigSet = new LinkedHashSet<AttributeAssignment>();
+    EObject _eContainer_1 = atta.eContainer();
+    EList<br.ufes.inf.nemo.ml2.model.Class> _classifiers = ((EntityDeclaration) _eContainer_1).getClassifiers();
+    for (final br.ufes.inf.nemo.ml2.model.Class c : _classifiers) {
+      EList<FeatureAssignment> _assignments = c.getAssignments();
+      for (final FeatureAssignment it : _assignments) {
+        if ((it instanceof AttributeAssignment)) {
+          boolean _contains = regAttSet.contains(((AttributeAssignment)it).getAttribute());
+          if (_contains) {
+            regAttAssigSet.add(((AttributeAssignment)it));
+          }
+        }
+      }
+    }
+    boolean _isEmpty_1 = regAttAssigSet.isEmpty();
+    if (_isEmpty_1) {
+      return null;
+    }
+    for (final AttributeAssignment regAttAssig : regAttAssigSet) {
+      for (final RegularityAttribute regAtt : regAttSet) {
+        Attribute _attribute = regAttAssig.getAttribute();
+        boolean _notEquals = (!Objects.equal(_attribute, regAtt));
+        if (_notEquals) {
+        } else {
+          boolean _isConformanTo = this._mL2Util.isConformanTo(atta, regAtt.getRegularityType(), regAttAssig);
+          boolean _not = (!_isConformanTo);
+          if (_not) {
+            final ValidationWarning i = new ValidationWarning();
+            i.setSource(atta);
+            i.setFeature(ModelPackage.eINSTANCE.getAttributeAssignment_Attribute());
+            StringConcatenation _builder = new StringConcatenation();
+            _builder.append("Assignment is non-conformant to the regularity feature ");
+            String _name = regAtt.getName();
+            _builder.append(_name);
+            _builder.append(" of ");
+            EObject _eContainer_2 = regAtt.eContainer();
+            String _name_1 = ((br.ufes.inf.nemo.ml2.model.Class) _eContainer_2).getName();
+            _builder.append(_name_1);
+            _builder.append(".");
+            i.setMessage(_builder.toString());
+            i.setCode(LinguisticRules.NON_CONFORMANT_REGULATED_FEATURE_ASSIGNMENT);
+            return i;
+          }
+        }
+      }
+    }
+    return null;
+  }
+  
   protected ValidationIssue _checkRegularityFeatureConformance(final ReferenceAssignment refa) {
     final Reference ref = refa.getReference();
     final LinkedHashSet<RegularityReference> regRefSet = new LinkedHashSet<RegularityReference>();
@@ -1190,7 +1296,14 @@ public class LinguisticRules {
     }
   }
   
-  public ValidationIssue checkRegularityFeatureConformance(final ReferenceAssignment refa) {
-    return _checkRegularityFeatureConformance(refa);
+  public ValidationIssue checkRegularityFeatureConformance(final FeatureAssignment atta) {
+    if (atta instanceof AttributeAssignment) {
+      return _checkRegularityFeatureConformance((AttributeAssignment)atta);
+    } else if (atta instanceof ReferenceAssignment) {
+      return _checkRegularityFeatureConformance((ReferenceAssignment)atta);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(atta).toString());
+    }
   }
 }

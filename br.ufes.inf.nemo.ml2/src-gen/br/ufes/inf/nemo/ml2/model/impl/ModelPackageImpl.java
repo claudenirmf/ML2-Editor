@@ -950,9 +950,31 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EReference getAttributeAssignment_LiteralValues()
+  public EAttribute getAttributeAssignment_StringValues()
   {
-    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)attributeAssignmentEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getAttributeAssignment_NumberValues()
+  {
+    return (EAttribute)attributeAssignmentEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getAttributeAssignment_BooleanValues()
+  {
+    return (EAttribute)attributeAssignmentEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -963,7 +985,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   @Override
   public EReference getAttributeAssignment_DatatypeValues()
   {
-    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(2);
+    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -974,7 +996,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   @Override
   public EReference getAttributeAssignment_UnnamedValues()
   {
-    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(3);
+    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -1122,7 +1144,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
     attributeAssignmentEClass = createEClass(ATTRIBUTE_ASSIGNMENT);
     createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__ATTRIBUTE);
-    createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES);
+    createEAttribute(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__STRING_VALUES);
+    createEAttribute(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES);
+    createEAttribute(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES);
     createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__DATATYPE_VALUES);
     createEReference(attributeAssignmentEClass, ATTRIBUTE_ASSIGNMENT__UNNAMED_VALUES);
 
@@ -1268,7 +1292,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
     initEClass(attributeAssignmentEClass, AttributeAssignment.class, "AttributeAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getAttributeAssignment_Attribute(), this.getAttribute(), null, "attribute", null, 0, 1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getAttributeAssignment_LiteralValues(), ecorePackage.getEObject(), null, "literalValues", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAttributeAssignment_StringValues(), ecorePackage.getEString(), "stringValues", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAttributeAssignment_NumberValues(), ecorePackage.getEDoubleObject(), "numberValues", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAttributeAssignment_BooleanValues(), ecorePackage.getEBooleanObject(), "booleanValues", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getAttributeAssignment_DatatypeValues(), this.getIndividual(), null, "datatypeValues", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getAttributeAssignment_UnnamedValues(), this.getIndividual(), null, "unnamedValues", null, 0, -1, AttributeAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

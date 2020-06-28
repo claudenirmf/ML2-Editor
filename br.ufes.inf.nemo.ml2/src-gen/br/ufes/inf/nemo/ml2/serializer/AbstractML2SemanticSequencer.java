@@ -305,9 +305,12 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 * Constraint:
 	 *     (
 	 *         attribute=[Attribute|QualifiedName] 
-	 *         (literalValues+=Literal | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
-	 *         literalValues+=Literal? 
-	 *         ((datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? literalValues+=Literal?)*
+	 *         (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
+	 *         stringValues+=STRING? 
+	 *         (
+	 *             (numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? 
+	 *             stringValues+=STRING?
+	 *         )*
 	 *     )
 	 */
 	protected void sequence_MultipleAttributeAssignment(ISerializationContext context, AttributeAssignment semanticObject) {
@@ -322,12 +325,18 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *
 	 * Constraint:
 	 *     (
-	 *         (attribute=[Attribute|QualifiedName] (literalValues+=Literal | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)) | 
 	 *         (
 	 *             attribute=[Attribute|QualifiedName] 
-	 *             (literalValues+=Literal | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
-	 *             unnamedValues+=UnnamedIndividual? 
-	 *             ((literalValues+=Literal | datatypeValues+=[Individual|QualifiedName])? unnamedValues+=UnnamedIndividual?)*
+	 *             (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)
+	 *         ) | 
+	 *         (
+	 *             attribute=[Attribute|QualifiedName] 
+	 *             (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
+	 *             stringValues+=STRING? 
+	 *             (
+	 *                 (numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? 
+	 *                 stringValues+=STRING?
+	 *             )*
 	 *         )
 	 *     )
 	 */
@@ -371,9 +380,12 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 * Constraint:
 	 *     (
 	 *         attribute=[Attribute|QualifiedName] 
-	 *         (literalValues+=Literal | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
-	 *         literalValues+=Literal? 
-	 *         ((datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? literalValues+=Literal?)*
+	 *         (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
+	 *         stringValues+=STRING? 
+	 *         (
+	 *             (numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? 
+	 *             stringValues+=STRING?
+	 *         )*
 	 *     )
 	 */
 	protected void sequence_MultipleSimpleAttributeAssignment(ISerializationContext context, AttributeAssignment semanticObject) {
@@ -387,12 +399,18 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *
 	 * Constraint:
 	 *     (
-	 *         (attribute=[Attribute|QualifiedName] (literalValues+=Literal | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)) | 
 	 *         (
 	 *             attribute=[Attribute|QualifiedName] 
-	 *             (literalValues+=Literal | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
-	 *             unnamedValues+=UnnamedIndividual? 
-	 *             ((literalValues+=Literal | datatypeValues+=[Individual|QualifiedName])? unnamedValues+=UnnamedIndividual?)*
+	 *             (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)
+	 *         ) | 
+	 *         (
+	 *             attribute=[Attribute|QualifiedName] 
+	 *             (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
+	 *             stringValues+=STRING? 
+	 *             (
+	 *                 (numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? 
+	 *                 stringValues+=STRING?
+	 *             )*
 	 *         )
 	 *     )
 	 */
@@ -500,7 +518,10 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *     SingleAttributeAssignment returns AttributeAssignment
 	 *
 	 * Constraint:
-	 *     (attribute=[Attribute|QualifiedName] (literalValues+=Literal | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual))
+	 *     (
+	 *         attribute=[Attribute|QualifiedName] 
+	 *         (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)
+	 *     )
 	 */
 	protected void sequence_SingleAttributeAssignment(ISerializationContext context, AttributeAssignment semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -524,7 +545,10 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *     SingleSimpleAttributeAssignment returns AttributeAssignment
 	 *
 	 * Constraint:
-	 *     (attribute=[Attribute|QualifiedName] (literalValues+=Literal | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual))
+	 *     (
+	 *         attribute=[Attribute|QualifiedName] 
+	 *         (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)
+	 *     )
 	 */
 	protected void sequence_SingleSimpleAttributeAssignment(ISerializationContext context, AttributeAssignment semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

@@ -924,7 +924,7 @@ public class ML2LinguistcRulesTest {
       _builder_2.append("ref refToA : [2..3] A");
       _builder_2.newLine();
       _builder_2.append("\t\t\t\t\t");
-      _builder_2.append("att nicknames : [2..3] A\t// This is going to fire other issues not related to multiplicity");
+      _builder_2.append("att nicknames : [2..3] String\t// This is going to fire other issues not related to multiplicity");
       _builder_2.newLine();
       _builder_2.append("\t\t\t\t");
       _builder_2.append("};");

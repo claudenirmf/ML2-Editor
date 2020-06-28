@@ -27,10 +27,12 @@ import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
@@ -154,27 +156,35 @@ public class ML2Util {
     }
   }
   
+  public List<Object> getLiteralValues(final AttributeAssignment assignment) {
+    final ArrayList<Object> literalValues = new ArrayList<Object>();
+    literalValues.addAll(assignment.getStringValues());
+    literalValues.addAll(assignment.getBooleanValues());
+    literalValues.addAll(assignment.getNumberValues());
+    return literalValues;
+  }
+  
   public boolean hasDatatypeValues(final AttributeAssignment assignment) {
     return ((!assignment.getDatatypeValues().isEmpty()) || (!assignment.getUnnamedValues().isEmpty()));
   }
   
   public boolean hasLiteralValues(final AttributeAssignment assignment) {
-    boolean _isEmpty = assignment.getLiteralValues().isEmpty();
+    boolean _isEmpty = this.getLiteralValues(assignment).isEmpty();
     return (!_isEmpty);
   }
   
-  public ArrayList<Individual> getAllValues(final AttributeAssignment assignment) {
+  public List<Individual> getAllValues(final AttributeAssignment assignment) {
     final ArrayList<Individual> l = new ArrayList<Individual>();
     l.addAll(assignment.getDatatypeValues());
     l.addAll(assignment.getUnnamedValues());
     return l;
   }
   
-  public ArrayList<Object> getAllAssignments(final AttributeAssignment assignment) {
+  public List<Object> getAllAssignments(final AttributeAssignment assignment) {
     final ArrayList<Object> l = new ArrayList<Object>();
     l.addAll(assignment.getDatatypeValues());
     l.addAll(assignment.getUnnamedValues());
-    l.addAll(assignment.getLiteralValues());
+    l.addAll(this.getLiteralValues(assignment));
     return l;
   }
   
@@ -397,6 +407,125 @@ public class ML2Util {
           return Objects.equal(assigType, PrimitiveType.BOOLEAN);
         }
       }
+    }
+    return false;
+  }
+  
+  public boolean isConformanTo(final AttributeAssignment regulatedAssig, final RegularityFeatureType regType, final AttributeAssignment regulatingAssig) {
+    if (regType != null) {
+      switch (regType) {
+        case DETERMINES_MAX_VALUE:
+          boolean _hasDatatypeValues = this.hasDatatypeValues(regulatedAssig);
+          if (_hasDatatypeValues) {
+            return false;
+          }
+          final Function1<Double, Boolean> _function = (Double it) -> {
+            boolean _xtrycatchfinallyexpression = false;
+            try {
+              boolean _or = false;
+              boolean _or_1 = false;
+              boolean _not = (!(it instanceof Double));
+              if (_not) {
+                _or_1 = true;
+              } else {
+                EList<Double> _numberValues = regulatingAssig.getNumberValues();
+                int _size = 0;
+                if (_numberValues!=null) {
+                  _size=_numberValues.size();
+                }
+                boolean _notEquals = (_size != 1);
+                _or_1 = _notEquals;
+              }
+              if (_or_1) {
+                _or = true;
+              } else {
+                Double _head = IterableExtensions.<Double>head(regulatingAssig.getNumberValues());
+                boolean _greaterThan = (it.compareTo(_head) > 0);
+                _or = _greaterThan;
+              }
+              _xtrycatchfinallyexpression = _or;
+            } catch (final Throwable _t) {
+              if (_t instanceof ClassCastException) {
+                return Boolean.valueOf(false);
+              } else if (_t instanceof NullPointerException) {
+                return Boolean.valueOf(false);
+              } else {
+                throw Exceptions.sneakyThrow(_t);
+              }
+            }
+            return Boolean.valueOf(_xtrycatchfinallyexpression);
+          };
+          boolean _exists = IterableExtensions.<Double>exists(regulatedAssig.getNumberValues(), _function);
+          final boolean ret = (!_exists);
+          return ret;
+        case DETERMINES_MIN_VALUE:
+          boolean _hasDatatypeValues_1 = this.hasDatatypeValues(regulatedAssig);
+          if (_hasDatatypeValues_1) {
+            return false;
+          }
+          final Function1<Double, Boolean> _function_1 = (Double it) -> {
+            boolean _xtrycatchfinallyexpression = false;
+            try {
+              boolean _or = false;
+              boolean _or_1 = false;
+              boolean _not = (!(it instanceof Double));
+              if (_not) {
+                _or_1 = true;
+              } else {
+                EList<Double> _numberValues = regulatingAssig.getNumberValues();
+                int _size = 0;
+                if (_numberValues!=null) {
+                  _size=_numberValues.size();
+                }
+                boolean _notEquals = (_size != 1);
+                _or_1 = _notEquals;
+              }
+              if (_or_1) {
+                _or = true;
+              } else {
+                Double _head = IterableExtensions.<Double>head(regulatingAssig.getNumberValues());
+                boolean _lessThan = (it.compareTo(_head) < 0);
+                _or = _lessThan;
+              }
+              _xtrycatchfinallyexpression = _or;
+            } catch (final Throwable _t) {
+              if (_t instanceof ClassCastException) {
+                return Boolean.valueOf(false);
+              } else if (_t instanceof NullPointerException) {
+                return Boolean.valueOf(false);
+              } else {
+                throw Exceptions.sneakyThrow(_t);
+              }
+            }
+            return Boolean.valueOf(_xtrycatchfinallyexpression);
+          };
+          boolean _exists_1 = IterableExtensions.<Double>exists(regulatedAssig.getNumberValues(), _function_1);
+          final boolean ret_1 = (!_exists_1);
+          return ret_1;
+        case DETERMINES_VALUE:
+          List<Object> _allAssignments = this.getAllAssignments(regulatedAssig);
+          for (final Object obj : _allAssignments) {
+            boolean _contains = this.getAllAssignments(regulatingAssig).contains(obj);
+            boolean _not = (!_contains);
+            if (_not) {
+              return false;
+            }
+          }
+          List<Object> _allAssignments_1 = this.getAllAssignments(regulatingAssig);
+          for (final Object obj_1 : _allAssignments_1) {
+            boolean _contains_1 = this.getAllAssignments(regulatedAssig).contains(obj_1);
+            boolean _not_1 = (!_contains_1);
+            if (_not_1) {
+              return false;
+            }
+          }
+          return true;
+        case DETERMINES_ALLOWED_VALUES:
+          return this.getAllAssignments(regulatingAssig).containsAll(this.getAllAssignments(regulatedAssig));
+        default:
+          break;
+      }
+    } else {
     }
     return false;
   }
