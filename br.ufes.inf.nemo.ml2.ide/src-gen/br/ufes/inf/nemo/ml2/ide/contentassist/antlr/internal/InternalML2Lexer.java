@@ -23,11 +23,19 @@ public class InternalML2Lexer extends Lexer {
     public static final int T__53=53;
     public static final int T__54=54;
     public static final int T__60=60;
+<<<<<<< HEAD
     public static final int T__61=61;
     public static final int RULE_ID=6;
+=======
+    public static final int RULE_ID=5;
+    public static final int T__26=26;
+    public static final int T__27=27;
+    public static final int T__28=28;
+>>>>>>> development
     public static final int RULE_INT=4;
     public static final int T__66=66;
     public static final int RULE_ML_COMMENT=7;
+<<<<<<< HEAD
     public static final int T__67=67;
     public static final int T__68=68;
     public static final int T__69=69;
@@ -35,6 +43,15 @@ public class InternalML2Lexer extends Lexer {
     public static final int T__63=63;
     public static final int T__64=64;
     public static final int T__65=65;
+=======
+    public static final int T__23=23;
+    public static final int T__24=24;
+    public static final int T__25=25;
+    public static final int T__20=20;
+    public static final int T__21=21;
+    public static final int RULE_STRING=6;
+    public static final int RULE_SL_COMMENT=8;
+>>>>>>> development
     public static final int T__37=37;
     public static final int T__38=38;
     public static final int T__39=39;
@@ -1184,12 +1201,29 @@ public class InternalML2Lexer extends Lexer {
         try {
             int _type = T__61;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+<<<<<<< HEAD
             // InternalML2.g:61:7: ( ';' )
             // InternalML2.g:61:9: ';'
             {
             match(';'); 
+=======
+            // InternalML2.g:11559:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // InternalML2.g:11559:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            {
+            // InternalML2.g:11559:11: ( '^' )?
+            int alt1=2;
+            int LA1_0 = input.LA(1);
+>>>>>>> development
 
             }
+<<<<<<< HEAD
+=======
+            switch (alt1) {
+                case 1 :
+                    // InternalML2.g:11559:11: '^'
+                    {
+                    match('^'); 
+>>>>>>> development
 
             state.type = _type;
             state.channel = _channel;
@@ -1229,6 +1263,14 @@ public class InternalML2Lexer extends Lexer {
             {
             match(".*"); 
 
+<<<<<<< HEAD
+=======
+            // InternalML2.g:11559:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            loop2:
+            do {
+                int alt2=2;
+                int LA2_0 = input.LA(1);
+>>>>>>> development
 
             }
 
@@ -1287,10 +1329,22 @@ public class InternalML2Lexer extends Lexer {
         try {
             int _type = T__66;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+<<<<<<< HEAD
             // InternalML2.g:66:7: ( ':' )
             // InternalML2.g:66:9: ':'
             {
             match(':'); 
+=======
+            // InternalML2.g:11561:10: ( ( '0' .. '9' )+ )
+            // InternalML2.g:11561:12: ( '0' .. '9' )+
+            {
+            // InternalML2.g:11561:12: ( '0' .. '9' )+
+            int cnt3=0;
+            loop3:
+            do {
+                int alt3=2;
+                int LA3_0 = input.LA(1);
+>>>>>>> development
 
             }
 
@@ -1302,6 +1356,7 @@ public class InternalML2Lexer extends Lexer {
     }
     // $ANTLR end "T__66"
 
+<<<<<<< HEAD
     // $ANTLR start "T__67"
     public final void mT__67() throws RecognitionException {
         try {
@@ -1311,6 +1366,13 @@ public class InternalML2Lexer extends Lexer {
             // InternalML2.g:67:9: ','
             {
             match(','); 
+=======
+                switch (alt3) {
+            	case 1 :
+            	    // InternalML2.g:11561:13: '0' .. '9'
+            	    {
+            	    matchRange('0','9'); 
+>>>>>>> development
 
             }
 
@@ -1348,13 +1410,42 @@ public class InternalML2Lexer extends Lexer {
         try {
             int _type = T__69;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+<<<<<<< HEAD
             // InternalML2.g:69:7: ( 'specializes' )
             // InternalML2.g:69:9: 'specializes'
             {
             match("specializes"); 
+=======
+            // InternalML2.g:11563:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // InternalML2.g:11563:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            {
+            // InternalML2.g:11563:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            int alt6=2;
+            int LA6_0 = input.LA(1);
+>>>>>>> development
 
 
             }
+<<<<<<< HEAD
+=======
+            switch (alt6) {
+                case 1 :
+                    // InternalML2.g:11563:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    {
+                    match('\"'); 
+                    // InternalML2.g:11563:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    loop4:
+                    do {
+                        int alt4=3;
+                        int LA4_0 = input.LA(1);
+
+                        if ( (LA4_0=='\\') ) {
+                            alt4=1;
+                        }
+                        else if ( ((LA4_0>='\u0000' && LA4_0<='!')||(LA4_0>='#' && LA4_0<='[')||(LA4_0>=']' && LA4_0<='\uFFFF')) ) {
+                            alt4=2;
+                        }
+>>>>>>> development
 
             state.type = _type;
             state.channel = _channel;
@@ -1364,6 +1455,7 @@ public class InternalML2Lexer extends Lexer {
     }
     // $ANTLR end "T__69"
 
+<<<<<<< HEAD
     // $ANTLR start "T__70"
     public final void mT__70() throws RecognitionException {
         try {
@@ -1374,6 +1466,22 @@ public class InternalML2Lexer extends Lexer {
             {
             match("datatype"); 
 
+=======
+                        switch (alt4) {
+                    	case 1 :
+                    	    // InternalML2.g:11563:21: '\\\\' .
+                    	    {
+                    	    match('\\'); 
+                    	    matchAny(); 
+
+                    	    }
+                    	    break;
+                    	case 2 :
+                    	    // InternalML2.g:11563:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    {
+                    	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
+                    	        input.consume();
+>>>>>>> development
 
             }
 
@@ -1398,6 +1506,7 @@ public class InternalML2Lexer extends Lexer {
 
             }
 
+<<<<<<< HEAD
             state.type = _type;
             state.channel = _channel;
         }
@@ -1405,6 +1514,19 @@ public class InternalML2Lexer extends Lexer {
         }
     }
     // $ANTLR end "T__71"
+=======
+                    }
+                    break;
+                case 2 :
+                    // InternalML2.g:11563:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    {
+                    match('\''); 
+                    // InternalML2.g:11563:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    loop5:
+                    do {
+                        int alt5=3;
+                        int LA5_0 = input.LA(1);
+>>>>>>> development
 
     // $ANTLR start "T__72"
     public final void mT__72() throws RecognitionException {
@@ -1417,6 +1539,7 @@ public class InternalML2Lexer extends Lexer {
             match("subordinatedTo"); 
 
 
+<<<<<<< HEAD
             }
 
             state.type = _type;
@@ -1426,6 +1549,22 @@ public class InternalML2Lexer extends Lexer {
         }
     }
     // $ANTLR end "T__72"
+=======
+                        switch (alt5) {
+                    	case 1 :
+                    	    // InternalML2.g:11563:54: '\\\\' .
+                    	    {
+                    	    match('\\'); 
+                    	    matchAny(); 
+
+                    	    }
+                    	    break;
+                    	case 2 :
+                    	    // InternalML2.g:11563:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    {
+                    	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
+                    	        input.consume();
+>>>>>>> development
 
     // $ANTLR start "T__73"
     public final void mT__73() throws RecognitionException {
@@ -1495,10 +1634,26 @@ public class InternalML2Lexer extends Lexer {
         try {
             int _type = T__76;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+<<<<<<< HEAD
             // InternalML2.g:76:7: ( 'general' )
             // InternalML2.g:76:9: 'general'
             {
             match("general"); 
+=======
+            // InternalML2.g:11565:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalML2.g:11565:19: '/*' ( options {greedy=false; } : . )* '*/'
+            {
+            match("/*"); 
+
+            // InternalML2.g:11565:24: ( options {greedy=false; } : . )*
+            loop7:
+            do {
+                int alt7=2;
+                int LA7_0 = input.LA(1);
+
+                if ( (LA7_0=='*') ) {
+                    int LA7_1 = input.LA(2);
+>>>>>>> development
 
 
             }
@@ -1521,6 +1676,14 @@ public class InternalML2Lexer extends Lexer {
             {
             match("specifics"); 
 
+<<<<<<< HEAD
+=======
+                switch (alt7) {
+            	case 1 :
+            	    // InternalML2.g:11565:52: .
+            	    {
+            	    matchAny(); 
+>>>>>>> development
 
             }
 
@@ -1558,11 +1721,24 @@ public class InternalML2Lexer extends Lexer {
         try {
             int _type = T__79;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+<<<<<<< HEAD
             // InternalML2.g:79:7: ( 'att' )
             // InternalML2.g:79:9: 'att'
+=======
+            // InternalML2.g:11567:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalML2.g:11567:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+>>>>>>> development
             {
             match("att"); 
 
+<<<<<<< HEAD
+=======
+            // InternalML2.g:11567:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            loop8:
+            do {
+                int alt8=2;
+                int LA8_0 = input.LA(1);
+>>>>>>> development
 
             }
 
@@ -1574,6 +1750,7 @@ public class InternalML2Lexer extends Lexer {
     }
     // $ANTLR end "T__79"
 
+<<<<<<< HEAD
     // $ANTLR start "T__80"
     public final void mT__80() throws RecognitionException {
         try {
@@ -1583,6 +1760,14 @@ public class InternalML2Lexer extends Lexer {
             // InternalML2.g:80:9: '['
             {
             match('['); 
+=======
+                switch (alt8) {
+            	case 1 :
+            	    // InternalML2.g:11567:24: ~ ( ( '\\n' | '\\r' ) )
+            	    {
+            	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
+            	        input.consume();
+>>>>>>> development
 
             }
 
@@ -1605,6 +1790,7 @@ public class InternalML2Lexer extends Lexer {
             match(".."); 
 
 
+<<<<<<< HEAD
             }
 
             state.type = _type;
@@ -1624,8 +1810,14 @@ public class InternalML2Lexer extends Lexer {
             // InternalML2.g:82:9: ']'
             {
             match(']'); 
+=======
+            // InternalML2.g:11567:40: ( ( '\\r' )? '\\n' )?
+            int alt10=2;
+            int LA10_0 = input.LA(1);
+>>>>>>> development
 
             }
+<<<<<<< HEAD
 
             state.type = _type;
             state.channel = _channel;
@@ -1634,6 +1826,24 @@ public class InternalML2Lexer extends Lexer {
         }
     }
     // $ANTLR end "T__82"
+=======
+            switch (alt10) {
+                case 1 :
+                    // InternalML2.g:11567:41: ( '\\r' )? '\\n'
+                    {
+                    // InternalML2.g:11567:41: ( '\\r' )?
+                    int alt9=2;
+                    int LA9_0 = input.LA(1);
+
+                    if ( (LA9_0=='\r') ) {
+                        alt9=1;
+                    }
+                    switch (alt9) {
+                        case 1 :
+                            // InternalML2.g:11567:41: '\\r'
+                            {
+                            match('\r'); 
+>>>>>>> development
 
     // $ANTLR start "T__83"
     public final void mT__83() throws RecognitionException {
@@ -3057,12 +3267,29 @@ public class InternalML2Lexer extends Lexer {
                 {
                 mT__49(); 
 
+<<<<<<< HEAD
                 }
                 break;
             case 40 :
                 // InternalML2.g:1:244: T__50
                 {
                 mT__50(); 
+=======
+    // $ANTLR start "RULE_WS"
+    public final void mRULE_WS() throws RecognitionException {
+        try {
+            int _type = RULE_WS;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // InternalML2.g:11569:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalML2.g:11569:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            {
+            // InternalML2.g:11569:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            int cnt11=0;
+            loop11:
+            do {
+                int alt11=2;
+                int LA11_0 = input.LA(1);
+>>>>>>> development
 
                 }
                 break;
@@ -3134,12 +3361,24 @@ public class InternalML2Lexer extends Lexer {
                 {
                 mT__60(); 
 
+<<<<<<< HEAD
                 }
                 break;
             case 51 :
                 // InternalML2.g:1:310: T__61
                 {
                 mT__61(); 
+=======
+    // $ANTLR start "RULE_ANY_OTHER"
+    public final void mRULE_ANY_OTHER() throws RecognitionException {
+        try {
+            int _type = RULE_ANY_OTHER;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // InternalML2.g:11571:16: ( . )
+            // InternalML2.g:11571:18: .
+            {
+            matchAny(); 
+>>>>>>> development
 
                 }
                 break;

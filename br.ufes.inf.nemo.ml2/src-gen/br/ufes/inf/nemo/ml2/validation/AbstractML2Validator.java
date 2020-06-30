@@ -14,7 +14,6 @@ public abstract class AbstractML2Validator extends AbstractDeclarativeValidator 
 	protected List<EPackage> getEPackages() {
 		List<EPackage> result = new ArrayList<EPackage>();
 		result.add(br.ufes.inf.nemo.ml2.model.ModelPackage.eINSTANCE);
-		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/emf/2002/Ecore"));
 		return result;
 	}
 }

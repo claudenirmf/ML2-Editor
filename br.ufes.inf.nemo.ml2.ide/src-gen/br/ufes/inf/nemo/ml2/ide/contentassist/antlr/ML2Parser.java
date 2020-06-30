@@ -33,6 +33,7 @@ public class ML2Parser extends AbstractContentAssistParser {
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, ML2GrammarAccess grammarAccess) {
 			builder.put(grammarAccess.getModelAccess().getAlternatives_3(), "rule__Model__Alternatives_3");
 			builder.put(grammarAccess.getModelElementAccess().getAlternatives_0(), "rule__ModelElement__Alternatives_0");
+			builder.put(grammarAccess.getAllModelElementsAccess().getAlternatives(), "rule__AllModelElements__Alternatives");
 			builder.put(grammarAccess.getEntityDeclarationAccess().getAlternatives(), "rule__EntityDeclaration__Alternatives");
 			builder.put(grammarAccess.getClassAccess().getAlternatives(), "rule__Class__Alternatives");
 			builder.put(grammarAccess.getFirstOrderClassOrDataTypeAccess().getAlternatives(), "rule__FirstOrderClassOrDataType__Alternatives");
@@ -54,11 +55,12 @@ public class ML2Parser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getCARDINALITYAccess().getAlternatives(), "rule__CARDINALITY__Alternatives");
 			builder.put(grammarAccess.getFeatureAssignmentAccess().getAlternatives(), "rule__FeatureAssignment__Alternatives");
 			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getAlternatives_3(), "rule__SingleAttributeAssignment__Alternatives_3");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getAlternatives_4(), "rule__MultipleAttributeAssignment__Alternatives_4");
-			builder.put(grammarAccess.getLiteralAccess().getAlternatives(), "rule__Literal__Alternatives");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getAlternatives_4_0(), "rule__MultipleAttributeAssignment__Alternatives_4_0");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getAlternatives_4_1(), "rule__MultipleAttributeAssignment__Alternatives_4_1");
 			builder.put(grammarAccess.getBOOLEANAccess().getAlternatives(), "rule__BOOLEAN__Alternatives");
 			builder.put(grammarAccess.getSimpleAttributeAssignmentAccess().getAlternatives(), "rule__SimpleAttributeAssignment__Alternatives");
 			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getAlternatives_2(), "rule__SingleSimpleAttributeAssignment__Alternatives_2");
+<<<<<<< HEAD
 			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getAlternatives_3(), "rule__MultipleSimpleAttributeAssignment__Alternatives_3");
 			builder.put(grammarAccess.getConstraintDeclarationAccess().getAlternatives(), "rule__ConstraintDeclaration__Alternatives");
 			builder.put(grammarAccess.getOclExpressionAccess().getAlternatives(), "rule__OclExpression__Alternatives");
@@ -72,6 +74,10 @@ public class ML2Parser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getBOOLEAN_LITERALAccess().getAlternatives(), "rule__BOOLEAN_LITERAL__Alternatives");
 			builder.put(grammarAccess.getPrimitiveTypeNameAccess().getAlternatives(), "rule__PrimitiveTypeName__Alternatives");
 			builder.put(grammarAccess.getOclTypeNameAccess().getAlternatives(), "rule__OclTypeName__Alternatives");
+=======
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getAlternatives_3_0(), "rule__MultipleSimpleAttributeAssignment__Alternatives_3_0");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getAlternatives_3_1(), "rule__MultipleSimpleAttributeAssignment__Alternatives_3_1");
+>>>>>>> development
 			builder.put(grammarAccess.getCategorizationTypeAccess().getAlternatives(), "rule__CategorizationType__Alternatives");
 			builder.put(grammarAccess.getPrimitiveTypeAccess().getAlternatives(), "rule__PrimitiveType__Alternatives");
 			builder.put(grammarAccess.getRegularityFeatureTypeAccess().getAlternatives(), "rule__RegularityFeatureType__Alternatives");
@@ -150,21 +156,21 @@ public class ML2Parser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMultipleReferenceAssignmentAccess().getGroup_5(), "rule__MultipleReferenceAssignment__Group_5__0");
 			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getGroup(), "rule__SingleAttributeAssignment__Group__0");
 			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup(), "rule__MultipleAttributeAssignment__Group__0");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_0(), "rule__MultipleAttributeAssignment__Group_4_0__0");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_0_1(), "rule__MultipleAttributeAssignment__Group_4_0_1__0");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_1(), "rule__MultipleAttributeAssignment__Group_4_1__0");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4(), "rule__MultipleAttributeAssignment__Group_4__0");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_1_0(), "rule__MultipleAttributeAssignment__Group_4_1_0__0");
 			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_1_1(), "rule__MultipleAttributeAssignment__Group_4_1_1__0");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_2(), "rule__MultipleAttributeAssignment__Group_4_2__0");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_2_1(), "rule__MultipleAttributeAssignment__Group_4_2_1__0");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_1_2(), "rule__MultipleAttributeAssignment__Group_4_1_2__0");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_1_3(), "rule__MultipleAttributeAssignment__Group_4_1_3__0");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getGroup_4_1_4(), "rule__MultipleAttributeAssignment__Group_4_1_4__0");
 			builder.put(grammarAccess.getNUMBERAccess().getGroup(), "rule__NUMBER__Group__0");
 			builder.put(grammarAccess.getNUMBERAccess().getGroup_2(), "rule__NUMBER__Group_2__0");
 			builder.put(grammarAccess.getUnnamedIndividualAccess().getGroup(), "rule__UnnamedIndividual__Group__0");
 			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getGroup(), "rule__SingleSimpleAttributeAssignment__Group__0");
 			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup(), "rule__MultipleSimpleAttributeAssignment__Group__0");
-			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_0(), "rule__MultipleSimpleAttributeAssignment__Group_3_0__0");
-			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_0_1(), "rule__MultipleSimpleAttributeAssignment__Group_3_0_1__0");
-			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_1(), "rule__MultipleSimpleAttributeAssignment__Group_3_1__0");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3(), "rule__MultipleSimpleAttributeAssignment__Group_3__0");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_1_0(), "rule__MultipleSimpleAttributeAssignment__Group_3_1_0__0");
 			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_1_1(), "rule__MultipleSimpleAttributeAssignment__Group_3_1_1__0");
+<<<<<<< HEAD
 			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_2(), "rule__MultipleSimpleAttributeAssignment__Group_3_2__0");
 			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_2_1(), "rule__MultipleSimpleAttributeAssignment__Group_3_2_1__0");
 			builder.put(grammarAccess.getInvariantConstraintAccess().getGroup(), "rule__InvariantConstraint__Group__0");
@@ -211,6 +217,11 @@ public class ML2Parser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getTupleTypeNameAccess().getGroup(), "rule__TupleTypeName__Group__0");
 			builder.put(grammarAccess.getTupleTypeNameAccess().getGroup_2(), "rule__TupleTypeName__Group_2__0");
 			builder.put(grammarAccess.getTupleTypeNameAccess().getGroup_2_1(), "rule__TupleTypeName__Group_2_1__0");
+=======
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_1_2(), "rule__MultipleSimpleAttributeAssignment__Group_3_1_2__0");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_1_3(), "rule__MultipleSimpleAttributeAssignment__Group_3_1_3__0");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getGroup_3_1_4(), "rule__MultipleSimpleAttributeAssignment__Group_3_1_4__0");
+>>>>>>> development
 			builder.put(grammarAccess.getModelAccess().getNameAssignment_1(), "rule__Model__NameAssignment_1");
 			builder.put(grammarAccess.getModelAccess().getIncludesAssignment_3_0_1(), "rule__Model__IncludesAssignment_3_0_1");
 			builder.put(grammarAccess.getModelAccess().getElementsAssignment_3_1(), "rule__Model__ElementsAssignment_3_1");
@@ -303,22 +314,31 @@ public class ML2Parser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMultipleReferenceAssignmentAccess().getValuesAssignment_4(), "rule__MultipleReferenceAssignment__ValuesAssignment_4");
 			builder.put(grammarAccess.getMultipleReferenceAssignmentAccess().getValuesAssignment_5_1(), "rule__MultipleReferenceAssignment__ValuesAssignment_5_1");
 			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getAttributeAssignment_1(), "rule__SingleAttributeAssignment__AttributeAssignment_1");
-			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getLiteralValuesAssignment_3_0(), "rule__SingleAttributeAssignment__LiteralValuesAssignment_3_0");
-			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getDatatypeValuesAssignment_3_1(), "rule__SingleAttributeAssignment__DatatypeValuesAssignment_3_1");
-			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getUnnamedValuesAssignment_3_2(), "rule__SingleAttributeAssignment__UnnamedValuesAssignment_3_2");
+			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getStringValuesAssignment_3_0(), "rule__SingleAttributeAssignment__StringValuesAssignment_3_0");
+			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getNumberValuesAssignment_3_1(), "rule__SingleAttributeAssignment__NumberValuesAssignment_3_1");
+			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getBooleanValuesAssignment_3_2(), "rule__SingleAttributeAssignment__BooleanValuesAssignment_3_2");
+			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getDatatypeValuesAssignment_3_3(), "rule__SingleAttributeAssignment__DatatypeValuesAssignment_3_3");
+			builder.put(grammarAccess.getSingleAttributeAssignmentAccess().getUnnamedValuesAssignment_3_4(), "rule__SingleAttributeAssignment__UnnamedValuesAssignment_3_4");
 			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getAttributeAssignment_1(), "rule__MultipleAttributeAssignment__AttributeAssignment_1");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getLiteralValuesAssignment_4_0_0(), "rule__MultipleAttributeAssignment__LiteralValuesAssignment_4_0_0");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getLiteralValuesAssignment_4_0_1_1(), "rule__MultipleAttributeAssignment__LiteralValuesAssignment_4_0_1_1");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesAssignment_4_1_0(), "rule__MultipleAttributeAssignment__DatatypeValuesAssignment_4_1_0");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesAssignment_4_1_1_1(), "rule__MultipleAttributeAssignment__DatatypeValuesAssignment_4_1_1_1");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesAssignment_4_2_0(), "rule__MultipleAttributeAssignment__UnnamedValuesAssignment_4_2_0");
-			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesAssignment_4_2_1_1(), "rule__MultipleAttributeAssignment__UnnamedValuesAssignment_4_2_1_1");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getStringValuesAssignment_4_0_0(), "rule__MultipleAttributeAssignment__StringValuesAssignment_4_0_0");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getNumberValuesAssignment_4_0_1(), "rule__MultipleAttributeAssignment__NumberValuesAssignment_4_0_1");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getBooleanValuesAssignment_4_0_2(), "rule__MultipleAttributeAssignment__BooleanValuesAssignment_4_0_2");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesAssignment_4_0_3(), "rule__MultipleAttributeAssignment__DatatypeValuesAssignment_4_0_3");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesAssignment_4_0_4(), "rule__MultipleAttributeAssignment__UnnamedValuesAssignment_4_0_4");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getStringValuesAssignment_4_1_0_1(), "rule__MultipleAttributeAssignment__StringValuesAssignment_4_1_0_1");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getNumberValuesAssignment_4_1_1_1(), "rule__MultipleAttributeAssignment__NumberValuesAssignment_4_1_1_1");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getBooleanValuesAssignment_4_1_2_1(), "rule__MultipleAttributeAssignment__BooleanValuesAssignment_4_1_2_1");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getDatatypeValuesAssignment_4_1_3_1(), "rule__MultipleAttributeAssignment__DatatypeValuesAssignment_4_1_3_1");
+			builder.put(grammarAccess.getMultipleAttributeAssignmentAccess().getUnnamedValuesAssignment_4_1_4_1(), "rule__MultipleAttributeAssignment__UnnamedValuesAssignment_4_1_4_1");
 			builder.put(grammarAccess.getUnnamedIndividualAccess().getAssignmentsAssignment_2(), "rule__UnnamedIndividual__AssignmentsAssignment_2");
 			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getAttributeAssignment_0(), "rule__SingleSimpleAttributeAssignment__AttributeAssignment_0");
-			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getLiteralValuesAssignment_2_0(), "rule__SingleSimpleAttributeAssignment__LiteralValuesAssignment_2_0");
-			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getDatatypeValuesAssignment_2_1(), "rule__SingleSimpleAttributeAssignment__DatatypeValuesAssignment_2_1");
-			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getUnnamedValuesAssignment_2_2(), "rule__SingleSimpleAttributeAssignment__UnnamedValuesAssignment_2_2");
+			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getStringValuesAssignment_2_0(), "rule__SingleSimpleAttributeAssignment__StringValuesAssignment_2_0");
+			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getNumberValuesAssignment_2_1(), "rule__SingleSimpleAttributeAssignment__NumberValuesAssignment_2_1");
+			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getBooleanValuesAssignment_2_2(), "rule__SingleSimpleAttributeAssignment__BooleanValuesAssignment_2_2");
+			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getDatatypeValuesAssignment_2_3(), "rule__SingleSimpleAttributeAssignment__DatatypeValuesAssignment_2_3");
+			builder.put(grammarAccess.getSingleSimpleAttributeAssignmentAccess().getUnnamedValuesAssignment_2_4(), "rule__SingleSimpleAttributeAssignment__UnnamedValuesAssignment_2_4");
 			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getAttributeAssignment_0(), "rule__MultipleSimpleAttributeAssignment__AttributeAssignment_0");
+<<<<<<< HEAD
 			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getLiteralValuesAssignment_3_0_0(), "rule__MultipleSimpleAttributeAssignment__LiteralValuesAssignment_3_0_0");
 			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getLiteralValuesAssignment_3_0_1_1(), "rule__MultipleSimpleAttributeAssignment__LiteralValuesAssignment_3_0_1_1");
 			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getDatatypeValuesAssignment_3_1_0(), "rule__MultipleSimpleAttributeAssignment__DatatypeValuesAssignment_3_1_0");
@@ -400,6 +420,18 @@ public class ML2Parser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getOclTypeNameAccess().getTypenameAssignment_0(), "rule__OclTypeName__TypenameAssignment_0");
 			builder.put(grammarAccess.getOclTypeNameAccess().getTypenameAssignment_1(), "rule__OclTypeName__TypenameAssignment_1");
 			builder.put(grammarAccess.getDataTypeNameAccess().getTypenameAssignment(), "rule__DataTypeName__TypenameAssignment");
+=======
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getStringValuesAssignment_3_0_0(), "rule__MultipleSimpleAttributeAssignment__StringValuesAssignment_3_0_0");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getNumberValuesAssignment_3_0_1(), "rule__MultipleSimpleAttributeAssignment__NumberValuesAssignment_3_0_1");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getBooleanValuesAssignment_3_0_2(), "rule__MultipleSimpleAttributeAssignment__BooleanValuesAssignment_3_0_2");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getDatatypeValuesAssignment_3_0_3(), "rule__MultipleSimpleAttributeAssignment__DatatypeValuesAssignment_3_0_3");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesAssignment_3_0_4(), "rule__MultipleSimpleAttributeAssignment__UnnamedValuesAssignment_3_0_4");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getStringValuesAssignment_3_1_0_1(), "rule__MultipleSimpleAttributeAssignment__StringValuesAssignment_3_1_0_1");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getNumberValuesAssignment_3_1_1_1(), "rule__MultipleSimpleAttributeAssignment__NumberValuesAssignment_3_1_1_1");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getBooleanValuesAssignment_3_1_2_1(), "rule__MultipleSimpleAttributeAssignment__BooleanValuesAssignment_3_1_2_1");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getDatatypeValuesAssignment_3_1_3_1(), "rule__MultipleSimpleAttributeAssignment__DatatypeValuesAssignment_3_1_3_1");
+			builder.put(grammarAccess.getMultipleSimpleAttributeAssignmentAccess().getUnnamedValuesAssignment_3_1_4_1(), "rule__MultipleSimpleAttributeAssignment__UnnamedValuesAssignment_3_1_4_1");
+>>>>>>> development
 			builder.put(grammarAccess.getGeneralizationSetAccess().getUnorderedGroup_0(), "rule__GeneralizationSet__UnorderedGroup_0");
 		}
 	}

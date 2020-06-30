@@ -11,7 +11,6 @@ import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.AbstractElementAlias;
-import org.eclipse.xtext.serializer.analysis.GrammarAlias.AlternativeAlias;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.GroupAlias;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.TokenAlias;
 import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISynNavigable;
@@ -27,7 +26,6 @@ public abstract class AbstractML2SyntacticSequencer extends AbstractSyntacticSeq
 	protected AbstractElementAlias match_FirstOrderClass___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q;
 	protected AbstractElementAlias match_HighOrderClass___LeftCurlyBracketKeyword_8_0_RightCurlyBracketKeyword_8_2__q;
 	protected AbstractElementAlias match_Individual___LeftCurlyBracketKeyword_5_0_RightCurlyBracketKeyword_5_2__q;
-	protected AbstractElementAlias match_Literal_BOOLEANParserRuleCall_2_or_NUMBERParserRuleCall_1_or_STRINGTerminalRuleCall_0;
 	protected AbstractElementAlias match_MultipleAttributeAssignment_AttKeyword_0_q;
 	protected AbstractElementAlias match_OrderlessClass___LeftCurlyBracketKeyword_7_0_RightCurlyBracketKeyword_7_2__q;
 	protected AbstractElementAlias match_RegularityAttribute_AttKeyword_1_q;
@@ -43,7 +41,6 @@ public abstract class AbstractML2SyntacticSequencer extends AbstractSyntacticSeq
 		match_FirstOrderClass___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getFirstOrderClassAccess().getLeftCurlyBracketKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getFirstOrderClassAccess().getRightCurlyBracketKeyword_4_2()));
 		match_HighOrderClass___LeftCurlyBracketKeyword_8_0_RightCurlyBracketKeyword_8_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getHighOrderClassAccess().getLeftCurlyBracketKeyword_8_0()), new TokenAlias(false, false, grammarAccess.getHighOrderClassAccess().getRightCurlyBracketKeyword_8_2()));
 		match_Individual___LeftCurlyBracketKeyword_5_0_RightCurlyBracketKeyword_5_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getIndividualAccess().getLeftCurlyBracketKeyword_5_0()), new TokenAlias(false, false, grammarAccess.getIndividualAccess().getRightCurlyBracketKeyword_5_2()));
-		match_Literal_BOOLEANParserRuleCall_2_or_NUMBERParserRuleCall_1_or_STRINGTerminalRuleCall_0 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getLiteralAccess().getBOOLEANParserRuleCall_2()), new TokenAlias(false, false, grammarAccess.getLiteralAccess().getNUMBERParserRuleCall_1()), new TokenAlias(false, false, grammarAccess.getLiteralAccess().getSTRINGTerminalRuleCall_0()));
 		match_MultipleAttributeAssignment_AttKeyword_0_q = new TokenAlias(false, true, grammarAccess.getMultipleAttributeAssignmentAccess().getAttKeyword_0());
 		match_OrderlessClass___LeftCurlyBracketKeyword_7_0_RightCurlyBracketKeyword_7_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getOrderlessClassAccess().getLeftCurlyBracketKeyword_7_0()), new TokenAlias(false, false, grammarAccess.getOrderlessClassAccess().getRightCurlyBracketKeyword_7_2()));
 		match_RegularityAttribute_AttKeyword_1_q = new TokenAlias(false, true, grammarAccess.getRegularityAttributeAccess().getAttKeyword_1());
@@ -54,48 +51,9 @@ public abstract class AbstractML2SyntacticSequencer extends AbstractSyntacticSeq
 	
 	@Override
 	protected String getUnassignedRuleCallToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (ruleCall.getRule() == grammarAccess.getBOOLEANRule())
-			return getBOOLEANToken(semanticObject, ruleCall, node);
-		else if (ruleCall.getRule() == grammarAccess.getNUMBERRule())
-			return getNUMBERToken(semanticObject, ruleCall, node);
-		else if (ruleCall.getRule() == grammarAccess.getSTRINGRule())
-			return getSTRINGToken(semanticObject, ruleCall, node);
 		return "";
 	}
 	
-	/**
-	 * BOOLEAN returns ecore::EBoolean:
-	 * 	'true' | 'false'
-	 * ;
-	 */
-	protected String getBOOLEANToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (node != null)
-			return getTokenText(node);
-		return "true";
-	}
-	
-	/**
-	 * NUMBER returns ecore::EDouble:
-	 * 	'-'? INT ( '.' INT )? 
-	 * ;
-	 */
-	protected String getNUMBERToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (node != null)
-			return getTokenText(node);
-		return "";
-	}
-	
-	/**
-	 * terminal STRING:
-	 * 			'"' ( '\\' .  | !('\\'|'"') )* '"' |
-	 * 			"'" ( '\\' .  | !('\\'|"'") )* "'"
-	 * 		;
-	 */
-	protected String getSTRINGToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (node != null)
-			return getTokenText(node);
-		return "\"\"";
-	}
 	
 	@Override
 	protected void emitUnassignedTokens(EObject semanticObject, ISynTransition transition, INode fromNode, INode toNode) {
@@ -113,8 +71,6 @@ public abstract class AbstractML2SyntacticSequencer extends AbstractSyntacticSeq
 				emit_HighOrderClass___LeftCurlyBracketKeyword_8_0_RightCurlyBracketKeyword_8_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_Individual___LeftCurlyBracketKeyword_5_0_RightCurlyBracketKeyword_5_2__q.equals(syntax))
 				emit_Individual___LeftCurlyBracketKeyword_5_0_RightCurlyBracketKeyword_5_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_Literal_BOOLEANParserRuleCall_2_or_NUMBERParserRuleCall_1_or_STRINGTerminalRuleCall_0.equals(syntax))
-				emit_Literal_BOOLEANParserRuleCall_2_or_NUMBERParserRuleCall_1_or_STRINGTerminalRuleCall_0(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_MultipleAttributeAssignment_AttKeyword_0_q.equals(syntax))
 				emit_MultipleAttributeAssignment_AttKeyword_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_OrderlessClass___LeftCurlyBracketKeyword_7_0_RightCurlyBracketKeyword_7_2__q.equals(syntax))
@@ -205,17 +161,6 @@ public abstract class AbstractML2SyntacticSequencer extends AbstractSyntacticSeq
 	 *     classifiers+=[Class|QualifiedName] (ambiguity) (rule end)
 	 */
 	protected void emit_Individual___LeftCurlyBracketKeyword_5_0_RightCurlyBracketKeyword_5_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * Ambiguous syntax:
-	 *     STRING | NUMBER | BOOLEAN
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     (rule start) (ambiguity) (rule start)
-	 */
-	protected void emit_Literal_BOOLEANParserRuleCall_2_or_NUMBERParserRuleCall_1_or_STRINGTerminalRuleCall_0(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

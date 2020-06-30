@@ -3,6 +3,7 @@
  */
 package br.ufes.inf.nemo.ml2.validation;
 
+import br.ufes.inf.nemo.ml2.model.AttributeAssignment;
 import br.ufes.inf.nemo.ml2.model.DataType;
 import br.ufes.inf.nemo.ml2.model.EntityDeclaration;
 import br.ufes.inf.nemo.ml2.model.Feature;
@@ -215,6 +216,14 @@ public class ML2Validator extends AbstractML2Validator {
   }
   
   @Check(CheckType.NORMAL)
+  public void callCheckRegularityFeatureConformance(final AttributeAssignment fa) {
+    ValidationIssue _checkRegularityFeatureConformance = this._linguisticRules.checkRegularityFeatureConformance(fa);
+    if (_checkRegularityFeatureConformance!=null) {
+      this.runIssue(_checkRegularityFeatureConformance);
+    }
+  }
+  
+  @Check(CheckType.NORMAL)
   public void callCheckRegularityFeatureConformance(final ReferenceAssignment fa) {
     ValidationIssue _checkRegularityFeatureConformance = this._linguisticRules.checkRegularityFeatureConformance(fa);
     if (_checkRegularityFeatureConformance!=null) {
@@ -247,6 +256,16 @@ public class ML2Validator extends AbstractML2Validator {
     ValidationError _isMissingSpecializationThroughPowertype = this._mLTRules.isMissingSpecializationThroughPowertype(c, ch, iof);
     if (_isMissingSpecializationThroughPowertype!=null) {
       this.runIssue(_isMissingSpecializationThroughPowertype);
+    }
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void callObeysSubordination(final br.ufes.inf.nemo.ml2.model.Class c) {
+    final Set<br.ufes.inf.nemo.ml2.model.Class> ch = this._mL2Util.classHierarchy(c);
+    final LinkedHashSet<br.ufes.inf.nemo.ml2.model.Class> iof = this._mL2Util.getAllInstantiatedClasses(c);
+    ValidationError _obeysSubordination = this._linguisticRules.obeysSubordination(c, ch, iof);
+    if (_obeysSubordination!=null) {
+      this.runIssue(_obeysSubordination);
     }
   }
   

@@ -5,8 +5,6 @@ package br.ufes.inf.nemo.ml2.model;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Attribute Assignment</b></em>'.
@@ -17,7 +15,9 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getAttribute <em>Attribute</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getLiteralValues <em>Literal Values</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getStringValues <em>String Values</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getNumberValues <em>Number Values</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getBooleanValues <em>Boolean Values</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getDatatypeValues <em>Datatype Values</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getUnnamedValues <em>Unnamed Values</em>}</li>
  * </ul>
@@ -51,16 +51,40 @@ public interface AttributeAssignment extends FeatureAssignment
   void setAttribute(Attribute value);
 
   /**
-   * Returns the value of the '<em><b>Literal Values</b></em>' containment reference list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+   * Returns the value of the '<em><b>String Values</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Literal Values</em>' containment reference list.
-   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getAttributeAssignment_LiteralValues()
-   * @model containment="true"
+   * @return the value of the '<em>String Values</em>' attribute list.
+   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getAttributeAssignment_StringValues()
+   * @model unique="false"
    * @generated
    */
-  EList<EObject> getLiteralValues();
+  EList<String> getStringValues();
+
+  /**
+   * Returns the value of the '<em><b>Number Values</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Double}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Number Values</em>' attribute list.
+   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getAttributeAssignment_NumberValues()
+   * @model unique="false"
+   * @generated
+   */
+  EList<Double> getNumberValues();
+
+  /**
+   * Returns the value of the '<em><b>Boolean Values</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Boolean}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Boolean Values</em>' attribute list.
+   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getAttributeAssignment_BooleanValues()
+   * @model unique="false"
+   * @generated
+   */
+  EList<Boolean> getBooleanValues();
 
   /**
    * Returns the value of the '<em><b>Datatype Values</b></em>' reference list.

@@ -26,6 +26,7 @@ import br.ufes.inf.nemo.ml2.model.ReferenceAssignment
 import br.ufes.inf.nemo.ml2.model.RegularityFeature
 import br.ufes.inf.nemo.ml2.model.RegularityAttribute
 import br.ufes.inf.nemo.ml2.model.RegularityReference
+import java.util.List
 
 class ML2Util {
 	
@@ -52,7 +53,9 @@ class ML2Util {
 	 * Returns null if cast is not possible.
 	 */
 	def String getName(Feature f) {
-		if(f instanceof Attribute || f instanceof Reference) {
+		if(f instanceof Attribute) {
+			return f.name
+		} else if(f instanceof Reference) {
 			return f.name
 		}
 		return null;
@@ -133,6 +136,14 @@ class ML2Util {
 		}
 	}
 	
+	def List<Object> getLiteralValues(AttributeAssignment assignment) {
+		val literalValues = new ArrayList<Object>()
+		literalValues.addAll(assignment.stringValues);
+		literalValues.addAll(assignment.booleanValues);
+		literalValues.addAll(assignment.numberValues);
+		return literalValues
+	}
+	
 	def boolean hasDatatypeValues(AttributeAssignment assignment) {
 		return !assignment.datatypeValues.isEmpty || !assignment.unnamedValues.isEmpty
 	}
@@ -141,14 +152,14 @@ class ML2Util {
 		return !assignment.literalValues.isEmpty
 	}
 	
-	def ArrayList<Individual> getAllValues(AttributeAssignment assignment) {
+	def List<Individual> getAllValues(AttributeAssignment assignment) {
 		val l = new ArrayList<Individual>()
 		l.addAll(assignment.datatypeValues)
 		l.addAll(assignment.unnamedValues)
 		return l
 	}
 	
-	def ArrayList<Object> getAllAssignments(AttributeAssignment assignment) {
+	def List<Object> getAllAssignments(AttributeAssignment assignment) {
 		val l = new ArrayList<Object>()
 		l.addAll(assignment.datatypeValues)
 		l.addAll(assignment.unnamedValues)
@@ -316,57 +327,57 @@ class ML2Util {
 	}
 	
 	// TODO: update instanceof Double
-//	def boolean isConformanTo(AttributeAssignment regulatedAssig, RegularityFeatureType regType,
-//		AttributeAssignment regulatingAssig) {
-//		switch(regType){
-//			case DETERMINES_MAX_VALUE: {
-//				if(regulatedAssig.hasDatatypeValues)	return false
-//				val ret = !regulatedAssig.literalValues.exists[
-//					try {
-//					!(it instanceof Double)
-//					|| regulatingAssig.literalValues?.size != 1
-//					|| (it as Double).value > (regulatingAssig.literalValues.head as Double).value
-//					}
-//					catch(ClassCastException e) { return false }
-//					catch(NullPointerException e) { return false }
-//				]
-//				return ret
-//			}
-//			case DETERMINES_MIN_VALUE: {
-//				if(regulatedAssig.hasDatatypeValues)	return false
-//				val ret = !regulatedAssig.literalValues.exists[
-//					try {
-//					!(it instanceof Double)
-//					|| regulatingAssig.literalValues?.size != 1
-//					|| (it as Double).value < (regulatingAssig.literalValues.head as Double).value
-//					}
-//					catch(ClassCastException e) { return false }
-//					catch(NullPointerException e) { return false }
-//				]
-//				return ret
-//			}
-//			case DETERMINES_VALUE: {
-////				val diff = Sets.difference(regulatingAssig.allAssignments.toSet, 
-////					regulatedAssig.allAssignments.toSet)
-////				if(diff.isEmpty)	return true;
-//				for(Object obj : regulatedAssig.allAssignments) {
-//					if(!regulatingAssig.allAssignments.contains(obj))
-//						return false
-//				}
-//				for(Object obj : regulatingAssig.allAssignments) {
-//					if(!regulatedAssig.allAssignments.contains(obj))
-//						return false
-//				}
-//				return true
-//			}
-//			case DETERMINES_ALLOWED_VALUES: {
-//				return regulatingAssig.allAssignments.containsAll(regulatedAssig.allAssignments)
-//			}
-//			default : {}
-//		}
-//		
-//		return false
-//	}
+	def boolean isConformanTo(AttributeAssignment regulatedAssig, RegularityFeatureType regType,
+		AttributeAssignment regulatingAssig) {
+		switch(regType){
+			case DETERMINES_MAX_VALUE: {
+				if(regulatedAssig.hasDatatypeValues)	return false
+				val ret = !regulatedAssig.numberValues.exists[
+					try {
+					!(it instanceof Double)
+					|| regulatingAssig.numberValues?.size != 1
+					|| it > regulatingAssig.numberValues.head
+					}
+					catch(ClassCastException e) { return false }
+					catch(NullPointerException e) { return false }
+				]
+				return ret
+			}
+			case DETERMINES_MIN_VALUE: {
+				if(regulatedAssig.hasDatatypeValues)	return false
+				val ret = !regulatedAssig.numberValues.exists[
+					try {
+					!(it instanceof Double)
+					|| regulatingAssig.numberValues?.size != 1
+					|| it < regulatingAssig.numberValues.head
+					}
+					catch(ClassCastException e) { return false }
+					catch(NullPointerException e) { return false }
+				]
+				return ret
+			}
+			case DETERMINES_VALUE: {
+//				val diff = Sets.difference(regulatingAssig.allAssignments.toSet, 
+//					regulatedAssig.allAssignments.toSet)
+//				if(diff.isEmpty)	return true;
+				for(Object obj : regulatedAssig.allAssignments) {
+					if(!regulatingAssig.allAssignments.contains(obj))
+						return false
+				}
+				for(Object obj : regulatingAssig.allAssignments) {
+					if(!regulatedAssig.allAssignments.contains(obj))
+						return false
+				}
+				return true
+			}
+			case DETERMINES_ALLOWED_VALUES: {
+				return regulatingAssig.allAssignments.containsAll(regulatedAssig.allAssignments)
+			}
+			default : {}
+		}
+		
+		return false
+	}
 	
 	def boolean isConformanTo(ReferenceAssignment regulatedAssig, RegularityFeatureType regType,
 		ReferenceAssignment regulatingAssig) {

@@ -17,6 +17,7 @@ import br.ufes.inf.nemo.ml2.model.DataType
 import br.ufes.inf.nemo.ml2.model.HigherOrderClass
 import br.ufes.inf.nemo.ml2.model.RegularityFeature
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment
+import br.ufes.inf.nemo.ml2.model.AttributeAssignment
 
 /**
  * This class contains custom validation rules. 
@@ -126,6 +127,11 @@ class ML2Validator extends AbstractML2Validator {
 	
 	// TODO: enable for attribute assignments as well 	
 	@Check(CheckType.NORMAL)
+	def void callCheckRegularityFeatureConformance(AttributeAssignment fa){
+		fa.checkRegularityFeatureConformance?.runIssue
+	}
+	
+	@Check(CheckType.NORMAL)
 	def void callCheckRegularityFeatureConformance(ReferenceAssignment fa){
 		fa.checkRegularityFeatureConformance?.runIssue
 	}
@@ -150,12 +156,12 @@ class ML2Validator extends AbstractML2Validator {
 	}
 	
 	// TODO: enable constraint
-//	@Check(CheckType.NORMAL)
-//	def void callObeysSubordination(Class c) {
-//		val ch = c.classHierarchy
-//		val iof = c.allInstantiatedClasses
-//		c.obeysSubordination(ch, iof)?.runIssue
-//	}
+	@Check(CheckType.NORMAL)
+	def void callObeysSubordination(Class c) {
+		val ch = c.classHierarchy
+		val iof = c.allInstantiatedClasses
+		c.obeysSubordination(ch, iof)?.runIssue
+	}
 	
 	@Check(CheckType.NORMAL)
 	def void callHasSimpleSubordinationCycle(HigherOrderClass c) {
