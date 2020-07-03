@@ -9,10 +9,9 @@ import br.ufes.inf.nemo.ml2.model.AndExpression;
 import br.ufes.inf.nemo.ml2.model.ArrowOperation;
 import br.ufes.inf.nemo.ml2.model.Attribute;
 import br.ufes.inf.nemo.ml2.model.AttributeAssignment;
-import br.ufes.inf.nemo.ml2.model.BinaryIteration;
+import br.ufes.inf.nemo.ml2.model.BinaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
 import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.BuiltInOperation;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
 import br.ufes.inf.nemo.ml2.model.CallOperation;
 import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
@@ -41,6 +40,7 @@ import br.ufes.inf.nemo.ml2.model.LiteralExpression;
 import br.ufes.inf.nemo.ml2.model.Model;
 import br.ufes.inf.nemo.ml2.model.ModelElement;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
+import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
@@ -65,6 +65,7 @@ import br.ufes.inf.nemo.ml2.model.TupleTypeName;
 import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
+import br.ufes.inf.nemo.ml2.model.UnaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 import br.ufes.inf.nemo.ml2.model.VariableExpression;
@@ -366,14 +367,19 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
         return createDotOperationAdapter();
       }
       @Override
+      public Adapter caseUnaryNumberOperation(UnaryNumberOperation object)
+      {
+        return createUnaryNumberOperationAdapter();
+      }
+      @Override
+      public Adapter caseBinaryNumberOperation(BinaryNumberOperation object)
+      {
+        return createBinaryNumberOperationAdapter();
+      }
+      @Override
       public Adapter caseArrowOperation(ArrowOperation object)
       {
         return createArrowOperationAdapter();
-      }
-      @Override
-      public Adapter caseBuiltInOperation(BuiltInOperation object)
-      {
-        return createBuiltInOperationAdapter();
       }
       @Override
       public Adapter caseUnarySetOperation(UnarySetOperation object)
@@ -391,9 +397,9 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
         return createUnaryIterationAdapter();
       }
       @Override
-      public Adapter caseBinaryIteration(BinaryIteration object)
+      public Adapter caseMultiaryIteration(MultiaryIteration object)
       {
-        return createBinaryIterationAdapter();
+        return createMultiaryIterationAdapter();
       }
       @Override
       public Adapter caseLiteralExpression(LiteralExpression object)
@@ -1168,6 +1174,36 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.UnaryNumberOperation <em>Unary Number Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see br.ufes.inf.nemo.ml2.model.UnaryNumberOperation
+   * @generated
+   */
+  public Adapter createUnaryNumberOperationAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.BinaryNumberOperation <em>Binary Number Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see br.ufes.inf.nemo.ml2.model.BinaryNumberOperation
+   * @generated
+   */
+  public Adapter createBinaryNumberOperationAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.ArrowOperation <em>Arrow Operation</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1178,21 +1214,6 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createArrowOperationAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.BuiltInOperation <em>Built In Operation</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.BuiltInOperation
-   * @generated
-   */
-  public Adapter createBuiltInOperationAdapter()
   {
     return null;
   }
@@ -1243,16 +1264,16 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.BinaryIteration <em>Binary Iteration</em>}'.
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.MultiaryIteration <em>Multiary Iteration</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.BinaryIteration
+   * @see br.ufes.inf.nemo.ml2.model.MultiaryIteration
    * @generated
    */
-  public Adapter createBinaryIterationAdapter()
+  public Adapter createMultiaryIterationAdapter()
   {
     return null;
   }

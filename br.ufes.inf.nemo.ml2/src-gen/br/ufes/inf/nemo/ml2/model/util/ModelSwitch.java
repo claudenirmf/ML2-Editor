@@ -9,10 +9,9 @@ import br.ufes.inf.nemo.ml2.model.AndExpression;
 import br.ufes.inf.nemo.ml2.model.ArrowOperation;
 import br.ufes.inf.nemo.ml2.model.Attribute;
 import br.ufes.inf.nemo.ml2.model.AttributeAssignment;
-import br.ufes.inf.nemo.ml2.model.BinaryIteration;
+import br.ufes.inf.nemo.ml2.model.BinaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
 import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.BuiltInOperation;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
 import br.ufes.inf.nemo.ml2.model.CallOperation;
 import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
@@ -41,6 +40,7 @@ import br.ufes.inf.nemo.ml2.model.LiteralExpression;
 import br.ufes.inf.nemo.ml2.model.Model;
 import br.ufes.inf.nemo.ml2.model.ModelElement;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
+import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
@@ -65,6 +65,7 @@ import br.ufes.inf.nemo.ml2.model.TupleTypeName;
 import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
+import br.ufes.inf.nemo.ml2.model.UnaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 import br.ufes.inf.nemo.ml2.model.VariableExpression;
@@ -518,6 +519,24 @@ public class ModelSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case ModelPackage.UNARY_NUMBER_OPERATION:
+      {
+        UnaryNumberOperation unaryNumberOperation = (UnaryNumberOperation)theEObject;
+        T result = caseUnaryNumberOperation(unaryNumberOperation);
+        if (result == null) result = caseDotOperation(unaryNumberOperation);
+        if (result == null) result = caseCallOperation(unaryNumberOperation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ModelPackage.BINARY_NUMBER_OPERATION:
+      {
+        BinaryNumberOperation binaryNumberOperation = (BinaryNumberOperation)theEObject;
+        T result = caseBinaryNumberOperation(binaryNumberOperation);
+        if (result == null) result = caseDotOperation(binaryNumberOperation);
+        if (result == null) result = caseCallOperation(binaryNumberOperation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case ModelPackage.ARROW_OPERATION:
       {
         ArrowOperation arrowOperation = (ArrowOperation)theEObject;
@@ -526,18 +545,12 @@ public class ModelSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ModelPackage.BUILT_IN_OPERATION:
-      {
-        BuiltInOperation builtInOperation = (BuiltInOperation)theEObject;
-        T result = caseBuiltInOperation(builtInOperation);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case ModelPackage.UNARY_SET_OPERATION:
       {
         UnarySetOperation unarySetOperation = (UnarySetOperation)theEObject;
         T result = caseUnarySetOperation(unarySetOperation);
-        if (result == null) result = caseBuiltInOperation(unarySetOperation);
+        if (result == null) result = caseArrowOperation(unarySetOperation);
+        if (result == null) result = caseCallOperation(unarySetOperation);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -545,7 +558,8 @@ public class ModelSwitch<T> extends Switch<T>
       {
         BinarySetOperation binarySetOperation = (BinarySetOperation)theEObject;
         T result = caseBinarySetOperation(binarySetOperation);
-        if (result == null) result = caseBuiltInOperation(binarySetOperation);
+        if (result == null) result = caseArrowOperation(binarySetOperation);
+        if (result == null) result = caseCallOperation(binarySetOperation);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -553,15 +567,17 @@ public class ModelSwitch<T> extends Switch<T>
       {
         UnaryIteration unaryIteration = (UnaryIteration)theEObject;
         T result = caseUnaryIteration(unaryIteration);
-        if (result == null) result = caseBuiltInOperation(unaryIteration);
+        if (result == null) result = caseArrowOperation(unaryIteration);
+        if (result == null) result = caseCallOperation(unaryIteration);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ModelPackage.BINARY_ITERATION:
+      case ModelPackage.MULTIARY_ITERATION:
       {
-        BinaryIteration binaryIteration = (BinaryIteration)theEObject;
-        T result = caseBinaryIteration(binaryIteration);
-        if (result == null) result = caseBuiltInOperation(binaryIteration);
+        MultiaryIteration multiaryIteration = (MultiaryIteration)theEObject;
+        T result = caseMultiaryIteration(multiaryIteration);
+        if (result == null) result = caseArrowOperation(multiaryIteration);
+        if (result == null) result = caseCallOperation(multiaryIteration);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -653,6 +669,8 @@ public class ModelSwitch<T> extends Switch<T>
       {
         VariableExpression variableExpression = (VariableExpression)theEObject;
         T result = caseVariableExpression(variableExpression);
+        if (result == null) result = caseDotOperation(variableExpression);
+        if (result == null) result = caseCallOperation(variableExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -1431,6 +1449,38 @@ public class ModelSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Unary Number Operation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Unary Number Operation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseUnaryNumberOperation(UnaryNumberOperation object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Binary Number Operation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Binary Number Operation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseBinaryNumberOperation(BinaryNumberOperation object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Arrow Operation</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1442,22 +1492,6 @@ public class ModelSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseArrowOperation(ArrowOperation object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Built In Operation</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Built In Operation</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseBuiltInOperation(BuiltInOperation object)
   {
     return null;
   }
@@ -1511,17 +1545,17 @@ public class ModelSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Binary Iteration</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Multiary Iteration</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Binary Iteration</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Multiary Iteration</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseBinaryIteration(BinaryIteration object)
+  public T caseMultiaryIteration(MultiaryIteration object)
   {
     return null;
   }

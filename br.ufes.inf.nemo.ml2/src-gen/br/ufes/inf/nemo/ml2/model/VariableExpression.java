@@ -3,7 +3,6 @@
  */
 package br.ufes.inf.nemo.ml2.model;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface VariableExpression extends EObject
+public interface VariableExpression extends DotOperation
 {
   /**
    * Returns the value of the '<em><b>Referring Variable</b></em>' attribute.

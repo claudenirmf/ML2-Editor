@@ -58,7 +58,47 @@ public enum UnarySetOperator implements Enumerator
    * @generated
    * @ordered
    */
-  SUM(3, "SUM", "sum");
+  SUM(3, "SUM", "sum"),
+
+  /**
+   * The '<em><b>MIN</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #MIN_VALUE
+   * @generated
+   * @ordered
+   */
+  MIN(4, "MIN", "min"),
+
+  /**
+   * The '<em><b>MAX</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #MAX_VALUE
+   * @generated
+   * @ordered
+   */
+  MAX(5, "MAX", "max"),
+
+  /**
+   * The '<em><b>AS SET</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #AS_SET_VALUE
+   * @generated
+   * @ordered
+   */
+  AS_SET(6, "AS_SET", "asSet"),
+
+  /**
+   * The '<em><b>FLATTEN</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #FLATTEN_VALUE
+   * @generated
+   * @ordered
+   */
+  FLATTEN(7, "FLATTEN", "flatten");
 
   /**
    * The '<em><b>SIZE</b></em>' literal value.
@@ -105,6 +145,50 @@ public enum UnarySetOperator implements Enumerator
   public static final int SUM_VALUE = 3;
 
   /**
+   * The '<em><b>MIN</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #MIN
+   * @model literal="min"
+   * @generated
+   * @ordered
+   */
+  public static final int MIN_VALUE = 4;
+
+  /**
+   * The '<em><b>MAX</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #MAX
+   * @model literal="max"
+   * @generated
+   * @ordered
+   */
+  public static final int MAX_VALUE = 5;
+
+  /**
+   * The '<em><b>AS SET</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #AS_SET
+   * @model literal="asSet"
+   * @generated
+   * @ordered
+   */
+  public static final int AS_SET_VALUE = 6;
+
+  /**
+   * The '<em><b>FLATTEN</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #FLATTEN
+   * @model literal="flatten"
+   * @generated
+   * @ordered
+   */
+  public static final int FLATTEN_VALUE = 7;
+
+  /**
    * An array of all the '<em><b>Unary Set Operator</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -117,6 +201,10 @@ public enum UnarySetOperator implements Enumerator
       IS_EMPTY,
       NOT_EMPTY,
       SUM,
+      MIN,
+      MAX,
+      AS_SET,
+      FLATTEN,
     };
 
   /**
@@ -185,6 +273,10 @@ public enum UnarySetOperator implements Enumerator
       case IS_EMPTY_VALUE: return IS_EMPTY;
       case NOT_EMPTY_VALUE: return NOT_EMPTY;
       case SUM_VALUE: return SUM;
+      case MIN_VALUE: return MIN;
+      case MAX_VALUE: return MAX;
+      case AS_SET_VALUE: return AS_SET;
+      case FLATTEN_VALUE: return FLATTEN;
     }
     return null;
   }

@@ -10,11 +10,11 @@ import br.ufes.inf.nemo.ml2.model.AndExpression;
 import br.ufes.inf.nemo.ml2.model.ArrowOperation;
 import br.ufes.inf.nemo.ml2.model.Attribute;
 import br.ufes.inf.nemo.ml2.model.AttributeAssignment;
-import br.ufes.inf.nemo.ml2.model.BinaryIteration;
+import br.ufes.inf.nemo.ml2.model.BinaryNumberOperation;
+import br.ufes.inf.nemo.ml2.model.BinaryNumberOperator;
 import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
 import br.ufes.inf.nemo.ml2.model.BinarySetOperator;
 import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.BuiltInOperation;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
 import br.ufes.inf.nemo.ml2.model.CallOperation;
 import br.ufes.inf.nemo.ml2.model.CategorizationType;
@@ -46,6 +46,8 @@ import br.ufes.inf.nemo.ml2.model.Model;
 import br.ufes.inf.nemo.ml2.model.ModelElement;
 import br.ufes.inf.nemo.ml2.model.ModelFactory;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
+import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
+import br.ufes.inf.nemo.ml2.model.MultiaryIterator;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
@@ -74,6 +76,8 @@ import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
 import br.ufes.inf.nemo.ml2.model.UnaryIterator;
+import br.ufes.inf.nemo.ml2.model.UnaryNumberOperation;
+import br.ufes.inf.nemo.ml2.model.UnaryNumberOperator;
 import br.ufes.inf.nemo.ml2.model.UnaryOperator;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperator;
@@ -187,12 +191,13 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
       case ModelPackage.CALL_EXPRESSION: return createCallExpression();
       case ModelPackage.CALL_OPERATION: return createCallOperation();
       case ModelPackage.DOT_OPERATION: return createDotOperation();
+      case ModelPackage.UNARY_NUMBER_OPERATION: return createUnaryNumberOperation();
+      case ModelPackage.BINARY_NUMBER_OPERATION: return createBinaryNumberOperation();
       case ModelPackage.ARROW_OPERATION: return createArrowOperation();
-      case ModelPackage.BUILT_IN_OPERATION: return createBuiltInOperation();
       case ModelPackage.UNARY_SET_OPERATION: return createUnarySetOperation();
       case ModelPackage.BINARY_SET_OPERATION: return createBinarySetOperation();
       case ModelPackage.UNARY_ITERATION: return createUnaryIteration();
-      case ModelPackage.BINARY_ITERATION: return createBinaryIteration();
+      case ModelPackage.MULTIARY_ITERATION: return createMultiaryIteration();
       case ModelPackage.LITERAL_EXPRESSION: return createLiteralExpression();
       case ModelPackage.PRIMITIVE_LITERAL_EXPRESSION: return createPrimitiveLiteralExpression();
       case ModelPackage.NULL_LITERAL_EXPRESSION: return createNullLiteralExpression();
@@ -237,12 +242,18 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
         return createAdditionOperatorFromString(eDataType, initialValue);
       case ModelPackage.UNARY_OPERATOR:
         return createUnaryOperatorFromString(eDataType, initialValue);
+      case ModelPackage.UNARY_NUMBER_OPERATOR:
+        return createUnaryNumberOperatorFromString(eDataType, initialValue);
+      case ModelPackage.BINARY_NUMBER_OPERATOR:
+        return createBinaryNumberOperatorFromString(eDataType, initialValue);
       case ModelPackage.UNARY_SET_OPERATOR:
         return createUnarySetOperatorFromString(eDataType, initialValue);
       case ModelPackage.BINARY_SET_OPERATOR:
         return createBinarySetOperatorFromString(eDataType, initialValue);
       case ModelPackage.UNARY_ITERATOR:
         return createUnaryIteratorFromString(eDataType, initialValue);
+      case ModelPackage.MULTIARY_ITERATOR:
+        return createMultiaryIteratorFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -272,12 +283,18 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
         return convertAdditionOperatorToString(eDataType, instanceValue);
       case ModelPackage.UNARY_OPERATOR:
         return convertUnaryOperatorToString(eDataType, instanceValue);
+      case ModelPackage.UNARY_NUMBER_OPERATOR:
+        return convertUnaryNumberOperatorToString(eDataType, instanceValue);
+      case ModelPackage.BINARY_NUMBER_OPERATOR:
+        return convertBinaryNumberOperatorToString(eDataType, instanceValue);
       case ModelPackage.UNARY_SET_OPERATOR:
         return convertUnarySetOperatorToString(eDataType, instanceValue);
       case ModelPackage.BINARY_SET_OPERATOR:
         return convertBinarySetOperatorToString(eDataType, instanceValue);
       case ModelPackage.UNARY_ITERATOR:
         return convertUnaryIteratorToString(eDataType, instanceValue);
+      case ModelPackage.MULTIARY_ITERATOR:
+        return convertMultiaryIteratorToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -829,10 +846,10 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
-  public ArrowOperation createArrowOperation()
+  public UnaryNumberOperation createUnaryNumberOperation()
   {
-    ArrowOperationImpl arrowOperation = new ArrowOperationImpl();
-    return arrowOperation;
+    UnaryNumberOperationImpl unaryNumberOperation = new UnaryNumberOperationImpl();
+    return unaryNumberOperation;
   }
 
   /**
@@ -841,10 +858,22 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
-  public BuiltInOperation createBuiltInOperation()
+  public BinaryNumberOperation createBinaryNumberOperation()
   {
-    BuiltInOperationImpl builtInOperation = new BuiltInOperationImpl();
-    return builtInOperation;
+    BinaryNumberOperationImpl binaryNumberOperation = new BinaryNumberOperationImpl();
+    return binaryNumberOperation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ArrowOperation createArrowOperation()
+  {
+    ArrowOperationImpl arrowOperation = new ArrowOperationImpl();
+    return arrowOperation;
   }
 
   /**
@@ -889,10 +918,10 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
-  public BinaryIteration createBinaryIteration()
+  public MultiaryIteration createMultiaryIteration()
   {
-    BinaryIterationImpl binaryIteration = new BinaryIterationImpl();
-    return binaryIteration;
+    MultiaryIterationImpl multiaryIteration = new MultiaryIterationImpl();
+    return multiaryIteration;
   }
 
   /**
@@ -1234,6 +1263,50 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public UnaryNumberOperator createUnaryNumberOperatorFromString(EDataType eDataType, String initialValue)
+  {
+    UnaryNumberOperator result = UnaryNumberOperator.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertUnaryNumberOperatorToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public BinaryNumberOperator createBinaryNumberOperatorFromString(EDataType eDataType, String initialValue)
+  {
+    BinaryNumberOperator result = BinaryNumberOperator.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertBinaryNumberOperatorToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public UnarySetOperator createUnarySetOperatorFromString(EDataType eDataType, String initialValue)
   {
     UnarySetOperator result = UnarySetOperator.get(initialValue);
@@ -1291,6 +1364,28 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   public String convertUnaryIteratorToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public MultiaryIterator createMultiaryIteratorFromString(EDataType eDataType, String initialValue)
+  {
+    MultiaryIterator result = MultiaryIterator.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertMultiaryIteratorToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

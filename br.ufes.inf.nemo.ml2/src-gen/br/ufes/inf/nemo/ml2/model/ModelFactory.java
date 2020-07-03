@@ -429,6 +429,24 @@ public interface ModelFactory extends EFactory
   DotOperation createDotOperation();
 
   /**
+   * Returns a new object of class '<em>Unary Number Operation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Unary Number Operation</em>'.
+   * @generated
+   */
+  UnaryNumberOperation createUnaryNumberOperation();
+
+  /**
+   * Returns a new object of class '<em>Binary Number Operation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Binary Number Operation</em>'.
+   * @generated
+   */
+  BinaryNumberOperation createBinaryNumberOperation();
+
+  /**
    * Returns a new object of class '<em>Arrow Operation</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -436,15 +454,6 @@ public interface ModelFactory extends EFactory
    * @generated
    */
   ArrowOperation createArrowOperation();
-
-  /**
-   * Returns a new object of class '<em>Built In Operation</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Built In Operation</em>'.
-   * @generated
-   */
-  BuiltInOperation createBuiltInOperation();
 
   /**
    * Returns a new object of class '<em>Unary Set Operation</em>'.
@@ -474,13 +483,13 @@ public interface ModelFactory extends EFactory
   UnaryIteration createUnaryIteration();
 
   /**
-   * Returns a new object of class '<em>Binary Iteration</em>'.
+   * Returns a new object of class '<em>Multiary Iteration</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Binary Iteration</em>'.
+   * @return a new object of class '<em>Multiary Iteration</em>'.
    * @generated
    */
-  BinaryIteration createBinaryIteration();
+  MultiaryIteration createMultiaryIteration();
 
   /**
    * Returns a new object of class '<em>Literal Expression</em>'.

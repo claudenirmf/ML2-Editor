@@ -9,12 +9,6 @@ package br.ufes.inf.nemo.ml2.model;
  * A representation of the model object '<em><b>Arrow Operation</b></em>'.
  * <!-- end-user-doc -->
  *
- * <p>
- * The following features are supported:
- * </p>
- * <ul>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.ArrowOperation#getRight <em>Right</em>}</li>
- * </ul>
  *
  * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getArrowOperation()
  * @model
@@ -22,26 +16,4 @@ package br.ufes.inf.nemo.ml2.model;
  */
 public interface ArrowOperation extends CallOperation
 {
-  /**
-   * Returns the value of the '<em><b>Right</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Right</em>' containment reference.
-   * @see #setRight(BuiltInOperation)
-   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getArrowOperation_Right()
-   * @model containment="true"
-   * @generated
-   */
-  BuiltInOperation getRight();
-
-  /**
-   * Sets the value of the '{@link br.ufes.inf.nemo.ml2.model.ArrowOperation#getRight <em>Right</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Right</em>' containment reference.
-   * @see #getRight()
-   * @generated
-   */
-  void setRight(BuiltInOperation value);
-
 } // ArrowOperation

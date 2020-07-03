@@ -4,8 +4,8 @@
 package br.ufes.inf.nemo.ml2.model.impl;
 
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
-import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
-import br.ufes.inf.nemo.ml2.model.UnarySetOperator;
+import br.ufes.inf.nemo.ml2.model.UnaryNumberOperation;
+import br.ufes.inf.nemo.ml2.model.UnaryNumberOperator;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -15,18 +15,18 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Unary Set Operation</b></em>'.
+ * An implementation of the model object '<em><b>Unary Number Operation</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.UnarySetOperationImpl#getOperator <em>Operator</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.UnaryNumberOperationImpl#getOperator <em>Operator</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySetOperation
+public class UnaryNumberOperationImpl extends DotOperationImpl implements UnaryNumberOperation
 {
   /**
    * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -36,7 +36,7 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
    * @generated
    * @ordered
    */
-  protected static final UnarySetOperator OPERATOR_EDEFAULT = UnarySetOperator.SIZE;
+  protected static final UnaryNumberOperator OPERATOR_EDEFAULT = UnaryNumberOperator.ABS;
 
   /**
    * The cached value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -46,14 +46,14 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
    * @generated
    * @ordered
    */
-  protected UnarySetOperator operator = OPERATOR_EDEFAULT;
+  protected UnaryNumberOperator operator = OPERATOR_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected UnarySetOperationImpl()
+  protected UnaryNumberOperationImpl()
   {
     super();
   }
@@ -66,7 +66,7 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
   @Override
   protected EClass eStaticClass()
   {
-    return ModelPackage.Literals.UNARY_SET_OPERATION;
+    return ModelPackage.Literals.UNARY_NUMBER_OPERATION;
   }
 
   /**
@@ -75,7 +75,7 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
    * @generated
    */
   @Override
-  public UnarySetOperator getOperator()
+  public UnaryNumberOperator getOperator()
   {
     return operator;
   }
@@ -86,12 +86,12 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
    * @generated
    */
   @Override
-  public void setOperator(UnarySetOperator newOperator)
+  public void setOperator(UnaryNumberOperator newOperator)
   {
-    UnarySetOperator oldOperator = operator;
+    UnaryNumberOperator oldOperator = operator;
     operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.UNARY_SET_OPERATION__OPERATOR, oldOperator, operator));
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.UNARY_NUMBER_OPERATION__OPERATOR, oldOperator, operator));
   }
 
   /**
@@ -104,7 +104,7 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
   {
     switch (featureID)
     {
-      case ModelPackage.UNARY_SET_OPERATION__OPERATOR:
+      case ModelPackage.UNARY_NUMBER_OPERATION__OPERATOR:
         return getOperator();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -120,8 +120,8 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
   {
     switch (featureID)
     {
-      case ModelPackage.UNARY_SET_OPERATION__OPERATOR:
-        setOperator((UnarySetOperator)newValue);
+      case ModelPackage.UNARY_NUMBER_OPERATION__OPERATOR:
+        setOperator((UnaryNumberOperator)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -137,7 +137,7 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
   {
     switch (featureID)
     {
-      case ModelPackage.UNARY_SET_OPERATION__OPERATOR:
+      case ModelPackage.UNARY_NUMBER_OPERATION__OPERATOR:
         setOperator(OPERATOR_EDEFAULT);
         return;
     }
@@ -154,7 +154,7 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
   {
     switch (featureID)
     {
-      case ModelPackage.UNARY_SET_OPERATION__OPERATOR:
+      case ModelPackage.UNARY_NUMBER_OPERATION__OPERATOR:
         return operator != OPERATOR_EDEFAULT;
     }
     return super.eIsSet(featureID);
@@ -177,4 +177,4 @@ public class UnarySetOperationImpl extends ArrowOperationImpl implements UnarySe
     return result.toString();
   }
 
-} //UnarySetOperationImpl
+} //UnaryNumberOperationImpl

@@ -6,10 +6,9 @@ package br.ufes.inf.nemo.ml2.serializer;
 import br.ufes.inf.nemo.ml2.model.AdditionExpression;
 import br.ufes.inf.nemo.ml2.model.AdditionOperation;
 import br.ufes.inf.nemo.ml2.model.AndExpression;
-import br.ufes.inf.nemo.ml2.model.ArrowOperation;
 import br.ufes.inf.nemo.ml2.model.Attribute;
 import br.ufes.inf.nemo.ml2.model.AttributeAssignment;
-import br.ufes.inf.nemo.ml2.model.BinaryIteration;
+import br.ufes.inf.nemo.ml2.model.BinaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
 import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
@@ -20,7 +19,6 @@ import br.ufes.inf.nemo.ml2.model.ComparisonOperation;
 import br.ufes.inf.nemo.ml2.model.DataType;
 import br.ufes.inf.nemo.ml2.model.DataTypeName;
 import br.ufes.inf.nemo.ml2.model.DerivationConstraint;
-import br.ufes.inf.nemo.ml2.model.DotOperation;
 import br.ufes.inf.nemo.ml2.model.FirstOrderClass;
 import br.ufes.inf.nemo.ml2.model.GeneralizationSet;
 import br.ufes.inf.nemo.ml2.model.HighOrderClass;
@@ -32,6 +30,7 @@ import br.ufes.inf.nemo.ml2.model.InvariantConstraint;
 import br.ufes.inf.nemo.ml2.model.LetExpression;
 import br.ufes.inf.nemo.ml2.model.Model;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
+import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
@@ -50,6 +49,7 @@ import br.ufes.inf.nemo.ml2.model.TupleLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.TupleTypeName;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
+import br.ufes.inf.nemo.ml2.model.UnaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 import br.ufes.inf.nemo.ml2.model.VariableExpression;
@@ -90,9 +90,6 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 			case ModelPackage.AND_EXPRESSION:
 				sequence_AndExpression(context, (AndExpression) semanticObject); 
 				return; 
-			case ModelPackage.ARROW_OPERATION:
-				sequence_ArrowOperation(context, (ArrowOperation) semanticObject); 
-				return; 
 			case ModelPackage.ATTRIBUTE:
 				sequence_Attribute(context, (Attribute) semanticObject); 
 				return; 
@@ -123,8 +120,8 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 					return; 
 				}
 				else break;
-			case ModelPackage.BINARY_ITERATION:
-				sequence_BinaryIteration(context, (BinaryIteration) semanticObject); 
+			case ModelPackage.BINARY_NUMBER_OPERATION:
+				sequence_BinaryNumberOperation(context, (BinaryNumberOperation) semanticObject); 
 				return; 
 			case ModelPackage.BINARY_SET_OPERATION:
 				sequence_BinarySetOperation(context, (BinarySetOperation) semanticObject); 
@@ -155,9 +152,6 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 				return; 
 			case ModelPackage.DERIVATION_CONSTRAINT:
 				sequence_DerivationConstraint(context, (DerivationConstraint) semanticObject); 
-				return; 
-			case ModelPackage.DOT_OPERATION:
-				sequence_DotOperation(context, (DotOperation) semanticObject); 
 				return; 
 			case ModelPackage.FIRST_ORDER_CLASS:
 				sequence_FirstOrderClass(context, (FirstOrderClass) semanticObject); 
@@ -198,6 +192,9 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 				return; 
 			case ModelPackage.MODEL:
 				sequence_Model(context, (Model) semanticObject); 
+				return; 
+			case ModelPackage.MULTIARY_ITERATION:
+				sequence_MultiaryIteration(context, (MultiaryIteration) semanticObject); 
 				return; 
 			case ModelPackage.MULTIPLICATION_EXPRESSION:
 				sequence_MultiplicationExpression(context, (MultiplicationExpression) semanticObject); 
@@ -265,6 +262,9 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 			case ModelPackage.UNARY_ITERATION:
 				sequence_UnaryIteration(context, (UnaryIteration) semanticObject); 
 				return; 
+			case ModelPackage.UNARY_NUMBER_OPERATION:
+				sequence_UnaryNumberOperation(context, (UnaryNumberOperation) semanticObject); 
+				return; 
 			case ModelPackage.UNARY_SET_OPERATION:
 				sequence_UnarySetOperation(context, (UnarySetOperation) semanticObject); 
 				return; 
@@ -284,7 +284,6 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-<<<<<<< HEAD
 	 *     AdditionExpression returns AdditionExpression
 	 *
 	 * Constraint:
@@ -330,29 +329,7 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     CallOperation returns ArrowOperation
-	 *     ArrowOperation returns ArrowOperation
-	 *
-	 * Constraint:
-	 *     right=BuiltInOperation
-	 */
-	protected void sequence_ArrowOperation(ISerializationContext context, ArrowOperation semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.ARROW_OPERATION__RIGHT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.ARROW_OPERATION__RIGHT));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getArrowOperationAccess().getRightBuiltInOperationParserRuleCall_1_0(), semanticObject.getRight());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     ModelElement returns Attribute
-=======
 	 *     AllModelElements returns Attribute
->>>>>>> development
 	 *     Feature returns Attribute
 	 *     Attribute returns Attribute
 	 *
@@ -371,20 +348,31 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     BuiltInOperation returns BinaryIteration
-	 *     BinaryIteration returns BinaryIteration
+	 *     CallOperation returns BinaryNumberOperation
+	 *     DotOperation returns BinaryNumberOperation
+	 *     BinaryNumberOperation returns BinaryNumberOperation
 	 *
 	 * Constraint:
-	 *     ((variables+=ID variables+=ID)? body=OclExpression)
+	 *     (operator=BinaryNumberOperator argument=OclExpression)
 	 */
-	protected void sequence_BinaryIteration(ISerializationContext context, BinaryIteration semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+	protected void sequence_BinaryNumberOperation(ISerializationContext context, BinaryNumberOperation semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.BINARY_NUMBER_OPERATION__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.BINARY_NUMBER_OPERATION__OPERATOR));
+			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.BINARY_NUMBER_OPERATION__ARGUMENT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.BINARY_NUMBER_OPERATION__ARGUMENT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getBinaryNumberOperationAccess().getOperatorBinaryNumberOperatorEnumRuleCall_0_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getBinaryNumberOperationAccess().getArgumentOclExpressionParserRuleCall_2_0(), semanticObject.getArgument());
+		feeder.finish();
 	}
 	
 	
 	/**
 	 * Contexts:
-	 *     BuiltInOperation returns BinarySetOperation
+	 *     CallOperation returns BinarySetOperation
+	 *     ArrowOperation returns BinarySetOperation
 	 *     BinarySetOperation returns BinarySetOperation
 	 *
 	 * Constraint:
@@ -583,25 +571,6 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     CallOperation returns DotOperation
-	 *     DotOperation returns DotOperation
-	 *
-	 * Constraint:
-	 *     right=VariableExpression
-	 */
-	protected void sequence_DotOperation(ISerializationContext context, DotOperation semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.DOT_OPERATION__RIGHT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.DOT_OPERATION__RIGHT));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getDotOperationAccess().getRightVariableExpressionParserRuleCall_1_0(), semanticObject.getRight());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     ModelElement returns FirstOrderClass
 	 *     AllModelElements returns FirstOrderClass
 	 *     EntityDeclaration returns FirstOrderClass
@@ -789,6 +758,20 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
+	 *     CallOperation returns MultiaryIteration
+	 *     ArrowOperation returns MultiaryIteration
+	 *     MultiaryIteration returns MultiaryIteration
+	 *
+	 * Constraint:
+	 *     (iterator=MultiaryIterator (variables+=ID variables+=ID+)? body=OclExpression)
+	 */
+	protected void sequence_MultiaryIteration(ISerializationContext context, MultiaryIteration semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     MultipleAttributeAssignment returns AttributeAssignment
 	 *
 	 * Constraint:
@@ -895,10 +878,10 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *         (
 	 *             attribute=[Attribute|QualifiedName] 
 	 *             (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
-	 *             stringValues+=STRING? 
+	 *             numberValues+=NUMBER? 
 	 *             (
-	 *                 (numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? 
-	 *                 stringValues+=STRING?
+	 *                 (stringValues+=STRING | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? 
+	 *                 numberValues+=NUMBER?
 	 *             )*
 	 *         )
 	 *     )
@@ -1016,7 +999,6 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-<<<<<<< HEAD
 	 *     TermExpression returns PrimitiveTypeName
 	 *     LiteralExpression returns PrimitiveTypeName
 	 *     TypeLiteralExpression returns PrimitiveTypeName
@@ -1032,10 +1014,7 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     ModelElement returns Reference
-=======
 	 *     AllModelElements returns Reference
->>>>>>> development
 	 *     Feature returns Reference
 	 *     Reference returns Reference
 	 *
@@ -1241,11 +1220,12 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     BuiltInOperation returns UnaryIteration
+	 *     CallOperation returns UnaryIteration
+	 *     ArrowOperation returns UnaryIteration
 	 *     UnaryIteration returns UnaryIteration
 	 *
 	 * Constraint:
-	 *     (iterator=UnaryIterator variables+=ID? body=OclExpression)
+	 *     (iterator=UnaryIterator variable=ID? body=OclExpression)
 	 */
 	protected void sequence_UnaryIteration(ISerializationContext context, UnaryIteration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1254,7 +1234,28 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     BuiltInOperation returns UnarySetOperation
+	 *     CallOperation returns UnaryNumberOperation
+	 *     DotOperation returns UnaryNumberOperation
+	 *     UnaryNumberOperation returns UnaryNumberOperation
+	 *
+	 * Constraint:
+	 *     operator=UnaryNumberOperator
+	 */
+	protected void sequence_UnaryNumberOperation(ISerializationContext context, UnaryNumberOperation semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.UNARY_NUMBER_OPERATION__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.UNARY_NUMBER_OPERATION__OPERATOR));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getUnaryNumberOperationAccess().getOperatorUnaryNumberOperatorEnumRuleCall_0_0(), semanticObject.getOperator());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     CallOperation returns UnarySetOperation
+	 *     ArrowOperation returns UnarySetOperation
 	 *     UnarySetOperation returns UnarySetOperation
 	 *
 	 * Constraint:
@@ -1288,7 +1289,7 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *     VariableDeclaration returns VariableDeclaration
 	 *
 	 * Constraint:
-	 *     (variableName=ID variableType=TypeLiteralExpression initialValue=LiteralExpression)
+	 *     (variableName=ID variableType=TypeLiteralExpression initialValue=TermExpression)
 	 */
 	protected void sequence_VariableDeclaration(ISerializationContext context, VariableDeclaration semanticObject) {
 		if (errorAcceptor != null) {
@@ -1302,13 +1303,15 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getVariableDeclarationAccess().getVariableNameIDTerminalRuleCall_0_0(), semanticObject.getVariableName());
 		feeder.accept(grammarAccess.getVariableDeclarationAccess().getVariableTypeTypeLiteralExpressionParserRuleCall_2_0(), semanticObject.getVariableType());
-		feeder.accept(grammarAccess.getVariableDeclarationAccess().getInitialValueLiteralExpressionParserRuleCall_4_0(), semanticObject.getInitialValue());
+		feeder.accept(grammarAccess.getVariableDeclarationAccess().getInitialValueTermExpressionParserRuleCall_4_0(), semanticObject.getInitialValue());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Contexts:
+	 *     CallOperation returns VariableExpression
+	 *     DotOperation returns VariableExpression
 	 *     VariableExpression returns VariableExpression
 	 *
 	 * Constraint:

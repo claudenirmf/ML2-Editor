@@ -1969,48 +1969,13 @@ public interface ModelPackage extends EPackage
   int RELATIONAL_OPERATION = 36;
 
   /**
-<<<<<<< HEAD
    * The feature id for the '<em><b>Operator</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-=======
-   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getStringValues <em>String Values</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>String Values</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getStringValues()
-   * @see #getAttributeAssignment()
-   * @generated
-   */
-  EAttribute getAttributeAssignment_StringValues();
-
-  /**
-   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getNumberValues <em>Number Values</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>Number Values</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getNumberValues()
-   * @see #getAttributeAssignment()
-   * @generated
-   */
-  EAttribute getAttributeAssignment_NumberValues();
-
-  /**
-   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getBooleanValues <em>Boolean Values</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>Boolean Values</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getBooleanValues()
-   * @see #getAttributeAssignment()
->>>>>>> development
    * @generated
    * @ordered
    */
-<<<<<<< HEAD
   int RELATIONAL_OPERATION__OPERATOR = 0;
-=======
-  EAttribute getAttributeAssignment_BooleanValues();
->>>>>>> development
 
   /**
    * The feature id for the '<em><b>Right</b></em>' containment reference.
@@ -2245,22 +2210,78 @@ public interface ModelPackage extends EPackage
   int DOT_OPERATION = 44;
 
   /**
-   * The feature id for the '<em><b>Right</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int DOT_OPERATION__RIGHT = CALL_OPERATION_FEATURE_COUNT + 0;
-
-  /**
    * The number of structural features of the '<em>Dot Operation</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int DOT_OPERATION_FEATURE_COUNT = CALL_OPERATION_FEATURE_COUNT + 1;
+  int DOT_OPERATION_FEATURE_COUNT = CALL_OPERATION_FEATURE_COUNT + 0;
+
+  /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.UnaryNumberOperationImpl <em>Unary Number Operation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.impl.UnaryNumberOperationImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryNumberOperation()
+   * @generated
+   */
+  int UNARY_NUMBER_OPERATION = 45;
+
+  /**
+   * The feature id for the '<em><b>Operator</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_NUMBER_OPERATION__OPERATOR = DOT_OPERATION_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Unary Number Operation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_NUMBER_OPERATION_FEATURE_COUNT = DOT_OPERATION_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.BinaryNumberOperationImpl <em>Binary Number Operation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.impl.BinaryNumberOperationImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinaryNumberOperation()
+   * @generated
+   */
+  int BINARY_NUMBER_OPERATION = 46;
+
+  /**
+   * The feature id for the '<em><b>Operator</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BINARY_NUMBER_OPERATION__OPERATOR = DOT_OPERATION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Argument</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BINARY_NUMBER_OPERATION__ARGUMENT = DOT_OPERATION_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Binary Number Operation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BINARY_NUMBER_OPERATION_FEATURE_COUNT = DOT_OPERATION_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.ArrowOperationImpl <em>Arrow Operation</em>}' class.
@@ -2270,16 +2291,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getArrowOperation()
    * @generated
    */
-  int ARROW_OPERATION = 45;
-
-  /**
-   * The feature id for the '<em><b>Right</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ARROW_OPERATION__RIGHT = CALL_OPERATION_FEATURE_COUNT + 0;
+  int ARROW_OPERATION = 47;
 
   /**
    * The number of structural features of the '<em>Arrow Operation</em>' class.
@@ -2288,26 +2300,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ARROW_OPERATION_FEATURE_COUNT = CALL_OPERATION_FEATURE_COUNT + 1;
-
-  /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.BuiltInOperationImpl <em>Built In Operation</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.BuiltInOperationImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBuiltInOperation()
-   * @generated
-   */
-  int BUILT_IN_OPERATION = 46;
-
-  /**
-   * The number of structural features of the '<em>Built In Operation</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BUILT_IN_OPERATION_FEATURE_COUNT = 0;
+  int ARROW_OPERATION_FEATURE_COUNT = CALL_OPERATION_FEATURE_COUNT + 0;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.UnarySetOperationImpl <em>Unary Set Operation</em>}' class.
@@ -2317,7 +2310,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnarySetOperation()
    * @generated
    */
-  int UNARY_SET_OPERATION = 47;
+  int UNARY_SET_OPERATION = 48;
 
   /**
    * The feature id for the '<em><b>Operator</b></em>' attribute.
@@ -2326,7 +2319,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int UNARY_SET_OPERATION__OPERATOR = BUILT_IN_OPERATION_FEATURE_COUNT + 0;
+  int UNARY_SET_OPERATION__OPERATOR = ARROW_OPERATION_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Unary Set Operation</em>' class.
@@ -2335,7 +2328,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int UNARY_SET_OPERATION_FEATURE_COUNT = BUILT_IN_OPERATION_FEATURE_COUNT + 1;
+  int UNARY_SET_OPERATION_FEATURE_COUNT = ARROW_OPERATION_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.BinarySetOperationImpl <em>Binary Set Operation</em>}' class.
@@ -2345,7 +2338,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinarySetOperation()
    * @generated
    */
-  int BINARY_SET_OPERATION = 48;
+  int BINARY_SET_OPERATION = 49;
 
   /**
    * The feature id for the '<em><b>Operator</b></em>' attribute.
@@ -2354,7 +2347,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int BINARY_SET_OPERATION__OPERATOR = BUILT_IN_OPERATION_FEATURE_COUNT + 0;
+  int BINARY_SET_OPERATION__OPERATOR = ARROW_OPERATION_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Argument</b></em>' containment reference.
@@ -2363,7 +2356,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int BINARY_SET_OPERATION__ARGUMENT = BUILT_IN_OPERATION_FEATURE_COUNT + 1;
+  int BINARY_SET_OPERATION__ARGUMENT = ARROW_OPERATION_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the '<em>Binary Set Operation</em>' class.
@@ -2372,7 +2365,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int BINARY_SET_OPERATION_FEATURE_COUNT = BUILT_IN_OPERATION_FEATURE_COUNT + 2;
+  int BINARY_SET_OPERATION_FEATURE_COUNT = ARROW_OPERATION_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.UnaryIterationImpl <em>Unary Iteration</em>}' class.
@@ -2382,7 +2375,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryIteration()
    * @generated
    */
-  int UNARY_ITERATION = 49;
+  int UNARY_ITERATION = 50;
 
   /**
    * The feature id for the '<em><b>Iterator</b></em>' attribute.
@@ -2391,16 +2384,16 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int UNARY_ITERATION__ITERATOR = BUILT_IN_OPERATION_FEATURE_COUNT + 0;
+  int UNARY_ITERATION__ITERATOR = ARROW_OPERATION_FEATURE_COUNT + 0;
 
   /**
-   * The feature id for the '<em><b>Variables</b></em>' attribute list.
+   * The feature id for the '<em><b>Variable</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int UNARY_ITERATION__VARIABLES = BUILT_IN_OPERATION_FEATURE_COUNT + 1;
+  int UNARY_ITERATION__VARIABLE = ARROW_OPERATION_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Body</b></em>' containment reference.
@@ -2409,7 +2402,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int UNARY_ITERATION__BODY = BUILT_IN_OPERATION_FEATURE_COUNT + 2;
+  int UNARY_ITERATION__BODY = ARROW_OPERATION_FEATURE_COUNT + 2;
 
   /**
    * The number of structural features of the '<em>Unary Iteration</em>' class.
@@ -2418,17 +2411,26 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int UNARY_ITERATION_FEATURE_COUNT = BUILT_IN_OPERATION_FEATURE_COUNT + 3;
+  int UNARY_ITERATION_FEATURE_COUNT = ARROW_OPERATION_FEATURE_COUNT + 3;
 
   /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.BinaryIterationImpl <em>Binary Iteration</em>}' class.
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.MultiaryIterationImpl <em>Multiary Iteration</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.BinaryIterationImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinaryIteration()
+   * @see br.ufes.inf.nemo.ml2.model.impl.MultiaryIterationImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiaryIteration()
    * @generated
    */
-  int BINARY_ITERATION = 50;
+  int MULTIARY_ITERATION = 51;
+
+  /**
+   * The feature id for the '<em><b>Iterator</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MULTIARY_ITERATION__ITERATOR = ARROW_OPERATION_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Variables</b></em>' attribute list.
@@ -2437,7 +2439,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int BINARY_ITERATION__VARIABLES = BUILT_IN_OPERATION_FEATURE_COUNT + 0;
+  int MULTIARY_ITERATION__VARIABLES = ARROW_OPERATION_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Body</b></em>' containment reference.
@@ -2446,16 +2448,16 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int BINARY_ITERATION__BODY = BUILT_IN_OPERATION_FEATURE_COUNT + 1;
+  int MULTIARY_ITERATION__BODY = ARROW_OPERATION_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the '<em>Binary Iteration</em>' class.
+   * The number of structural features of the '<em>Multiary Iteration</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int BINARY_ITERATION_FEATURE_COUNT = BUILT_IN_OPERATION_FEATURE_COUNT + 2;
+  int MULTIARY_ITERATION_FEATURE_COUNT = ARROW_OPERATION_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.LiteralExpressionImpl <em>Literal Expression</em>}' class.
@@ -2465,7 +2467,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getLiteralExpression()
    * @generated
    */
-  int LITERAL_EXPRESSION = 51;
+  int LITERAL_EXPRESSION = 52;
 
   /**
    * The number of structural features of the '<em>Literal Expression</em>' class.
@@ -2484,7 +2486,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getPrimitiveLiteralExpression()
    * @generated
    */
-  int PRIMITIVE_LITERAL_EXPRESSION = 52;
+  int PRIMITIVE_LITERAL_EXPRESSION = 53;
 
   /**
    * The number of structural features of the '<em>Primitive Literal Expression</em>' class.
@@ -2503,7 +2505,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getNullLiteralExpression()
    * @generated
    */
-  int NULL_LITERAL_EXPRESSION = 53;
+  int NULL_LITERAL_EXPRESSION = 54;
 
   /**
    * The feature id for the '<em><b>Null Symbol</b></em>' attribute.
@@ -2531,7 +2533,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBooleanLiteralExpression()
    * @generated
    */
-  int BOOLEAN_LITERAL_EXPRESSION = 54;
+  int BOOLEAN_LITERAL_EXPRESSION = 55;
 
   /**
    * The feature id for the '<em><b>Boolean Symbol</b></em>' attribute.
@@ -2559,7 +2561,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getNumberLiteralExpression()
    * @generated
    */
-  int NUMBER_LITERAL_EXPRESSION = 55;
+  int NUMBER_LITERAL_EXPRESSION = 56;
 
   /**
    * The feature id for the '<em><b>Number Symbol</b></em>' attribute.
@@ -2587,7 +2589,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getStringLiteralExpression()
    * @generated
    */
-  int STRING_LITERAL_EXPRESSION = 56;
+  int STRING_LITERAL_EXPRESSION = 57;
 
   /**
    * The feature id for the '<em><b>String Symbol</b></em>' attribute.
@@ -2615,7 +2617,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getCollectionLiteralExpression()
    * @generated
    */
-  int COLLECTION_LITERAL_EXPRESSION = 57;
+  int COLLECTION_LITERAL_EXPRESSION = 58;
 
   /**
    * The feature id for the '<em><b>Parts</b></em>' containment reference list.
@@ -2643,7 +2645,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTypeLiteralExpression()
    * @generated
    */
-  int TYPE_LITERAL_EXPRESSION = 58;
+  int TYPE_LITERAL_EXPRESSION = 59;
 
   /**
    * The number of structural features of the '<em>Type Literal Expression</em>' class.
@@ -2662,7 +2664,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTupleLiteralExpression()
    * @generated
    */
-  int TUPLE_LITERAL_EXPRESSION = 59;
+  int TUPLE_LITERAL_EXPRESSION = 60;
 
   /**
    * The feature id for the '<em><b>Variables</b></em>' attribute list.
@@ -2690,7 +2692,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getVariableExpression()
    * @generated
    */
-  int VARIABLE_EXPRESSION = 60;
+  int VARIABLE_EXPRESSION = 61;
 
   /**
    * The feature id for the '<em><b>Referring Variable</b></em>' attribute.
@@ -2699,7 +2701,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int VARIABLE_EXPRESSION__REFERRING_VARIABLE = 0;
+  int VARIABLE_EXPRESSION__REFERRING_VARIABLE = DOT_OPERATION_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Variable Expression</em>' class.
@@ -2708,7 +2710,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int VARIABLE_EXPRESSION_FEATURE_COUNT = 1;
+  int VARIABLE_EXPRESSION_FEATURE_COUNT = DOT_OPERATION_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeNameImpl <em>Primitive Type Name</em>}' class.
@@ -2718,7 +2720,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getPrimitiveTypeName()
    * @generated
    */
-  int PRIMITIVE_TYPE_NAME = 61;
+  int PRIMITIVE_TYPE_NAME = 62;
 
   /**
    * The feature id for the '<em><b>Typename</b></em>' attribute.
@@ -2746,7 +2748,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getCollectionTypeName()
    * @generated
    */
-  int COLLECTION_TYPE_NAME = 62;
+  int COLLECTION_TYPE_NAME = 63;
 
   /**
    * The feature id for the '<em><b>Typename</b></em>' attribute.
@@ -2783,7 +2785,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTupleTypeName()
    * @generated
    */
-  int TUPLE_TYPE_NAME = 63;
+  int TUPLE_TYPE_NAME = 64;
 
   /**
    * The feature id for the '<em><b>Typename</b></em>' attribute.
@@ -2820,7 +2822,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getOclTypeName()
    * @generated
    */
-  int OCL_TYPE_NAME = 64;
+  int OCL_TYPE_NAME = 65;
 
   /**
    * The feature id for the '<em><b>Typename</b></em>' attribute.
@@ -2848,7 +2850,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getDataTypeName()
    * @generated
    */
-  int DATA_TYPE_NAME = 65;
+  int DATA_TYPE_NAME = 66;
 
   /**
    * The feature id for the '<em><b>Typename</b></em>' reference.
@@ -2876,7 +2878,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getCategorizationType()
    * @generated
    */
-  int CATEGORIZATION_TYPE = 66;
+  int CATEGORIZATION_TYPE = 67;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.PrimitiveType <em>Primitive Type</em>}' enum.
@@ -2886,7 +2888,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getPrimitiveType()
    * @generated
    */
-  int PRIMITIVE_TYPE = 67;
+  int PRIMITIVE_TYPE = 68;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.RegularityFeatureType <em>Regularity Feature Type</em>}' enum.
@@ -2896,7 +2898,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getRegularityFeatureType()
    * @generated
    */
-  int REGULARITY_FEATURE_TYPE = 68;
+  int REGULARITY_FEATURE_TYPE = 69;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.ComparisonOperator <em>Comparison Operator</em>}' enum.
@@ -2906,7 +2908,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getComparisonOperator()
    * @generated
    */
-  int COMPARISON_OPERATOR = 69;
+  int COMPARISON_OPERATOR = 70;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.RelationalOperator <em>Relational Operator</em>}' enum.
@@ -2916,7 +2918,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getRelationalOperator()
    * @generated
    */
-  int RELATIONAL_OPERATOR = 70;
+  int RELATIONAL_OPERATOR = 71;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.AdditionOperator <em>Addition Operator</em>}' enum.
@@ -2926,7 +2928,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getAdditionOperator()
    * @generated
    */
-  int ADDITION_OPERATOR = 71;
+  int ADDITION_OPERATOR = 72;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.UnaryOperator <em>Unary Operator</em>}' enum.
@@ -2936,7 +2938,27 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryOperator()
    * @generated
    */
-  int UNARY_OPERATOR = 72;
+  int UNARY_OPERATOR = 73;
+
+  /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.UnaryNumberOperator <em>Unary Number Operator</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.UnaryNumberOperator
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryNumberOperator()
+   * @generated
+   */
+  int UNARY_NUMBER_OPERATOR = 74;
+
+  /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.BinaryNumberOperator <em>Binary Number Operator</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.BinaryNumberOperator
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinaryNumberOperator()
+   * @generated
+   */
+  int BINARY_NUMBER_OPERATOR = 75;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.UnarySetOperator <em>Unary Set Operator</em>}' enum.
@@ -2946,7 +2968,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnarySetOperator()
    * @generated
    */
-  int UNARY_SET_OPERATOR = 73;
+  int UNARY_SET_OPERATOR = 76;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.BinarySetOperator <em>Binary Set Operator</em>}' enum.
@@ -2956,7 +2978,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinarySetOperator()
    * @generated
    */
-  int BINARY_SET_OPERATOR = 74;
+  int BINARY_SET_OPERATOR = 77;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.UnaryIterator <em>Unary Iterator</em>}' enum.
@@ -2966,7 +2988,17 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryIterator()
    * @generated
    */
-  int UNARY_ITERATOR = 75;
+  int UNARY_ITERATOR = 78;
+
+  /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.MultiaryIterator <em>Multiary Iterator</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.MultiaryIterator
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiaryIterator()
+   * @generated
+   */
+  int MULTIARY_ITERATOR = 79;
 
 
   /**
@@ -3608,15 +3640,37 @@ public interface ModelPackage extends EPackage
   EReference getAttributeAssignment_Attribute();
 
   /**
-   * Returns the meta object for the containment reference list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getLiteralValues <em>Literal Values</em>}'.
+   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getStringValues <em>String Values</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Literal Values</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getLiteralValues()
+   * @return the meta object for the attribute list '<em>String Values</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getStringValues()
    * @see #getAttributeAssignment()
    * @generated
    */
-  EReference getAttributeAssignment_LiteralValues();
+  EAttribute getAttributeAssignment_StringValues();
+
+  /**
+   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getNumberValues <em>Number Values</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Number Values</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getNumberValues()
+   * @see #getAttributeAssignment()
+   * @generated
+   */
+  EAttribute getAttributeAssignment_NumberValues();
+
+  /**
+   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getBooleanValues <em>Boolean Values</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Boolean Values</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.AttributeAssignment#getBooleanValues()
+   * @see #getAttributeAssignment()
+   * @generated
+   */
+  EAttribute getAttributeAssignment_BooleanValues();
 
   /**
    * Returns the meta object for the reference list '{@link br.ufes.inf.nemo.ml2.model.AttributeAssignment#getDatatypeValues <em>Datatype Values</em>}'.
@@ -4311,15 +4365,57 @@ public interface ModelPackage extends EPackage
   EClass getDotOperation();
 
   /**
-   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.DotOperation#getRight <em>Right</em>}'.
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.UnaryNumberOperation <em>Unary Number Operation</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Right</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.DotOperation#getRight()
-   * @see #getDotOperation()
+   * @return the meta object for class '<em>Unary Number Operation</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.UnaryNumberOperation
    * @generated
    */
-  EReference getDotOperation_Right();
+  EClass getUnaryNumberOperation();
+
+  /**
+   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.UnaryNumberOperation#getOperator <em>Operator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Operator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.UnaryNumberOperation#getOperator()
+   * @see #getUnaryNumberOperation()
+   * @generated
+   */
+  EAttribute getUnaryNumberOperation_Operator();
+
+  /**
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.BinaryNumberOperation <em>Binary Number Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Binary Number Operation</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.BinaryNumberOperation
+   * @generated
+   */
+  EClass getBinaryNumberOperation();
+
+  /**
+   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.BinaryNumberOperation#getOperator <em>Operator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Operator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.BinaryNumberOperation#getOperator()
+   * @see #getBinaryNumberOperation()
+   * @generated
+   */
+  EAttribute getBinaryNumberOperation_Operator();
+
+  /**
+   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.BinaryNumberOperation#getArgument <em>Argument</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Argument</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.BinaryNumberOperation#getArgument()
+   * @see #getBinaryNumberOperation()
+   * @generated
+   */
+  EReference getBinaryNumberOperation_Argument();
 
   /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.ArrowOperation <em>Arrow Operation</em>}'.
@@ -4330,27 +4426,6 @@ public interface ModelPackage extends EPackage
    * @generated
    */
   EClass getArrowOperation();
-
-  /**
-   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.ArrowOperation#getRight <em>Right</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Right</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.ArrowOperation#getRight()
-   * @see #getArrowOperation()
-   * @generated
-   */
-  EReference getArrowOperation_Right();
-
-  /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.BuiltInOperation <em>Built In Operation</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Built In Operation</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.BuiltInOperation
-   * @generated
-   */
-  EClass getBuiltInOperation();
 
   /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.UnarySetOperation <em>Unary Set Operation</em>}'.
@@ -4427,15 +4502,15 @@ public interface ModelPackage extends EPackage
   EAttribute getUnaryIteration_Iterator();
 
   /**
-   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.UnaryIteration#getVariables <em>Variables</em>}'.
+   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.UnaryIteration#getVariable <em>Variable</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>Variables</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.UnaryIteration#getVariables()
+   * @return the meta object for the attribute '<em>Variable</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.UnaryIteration#getVariable()
    * @see #getUnaryIteration()
    * @generated
    */
-  EAttribute getUnaryIteration_Variables();
+  EAttribute getUnaryIteration_Variable();
 
   /**
    * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.UnaryIteration#getBody <em>Body</em>}'.
@@ -4449,36 +4524,47 @@ public interface ModelPackage extends EPackage
   EReference getUnaryIteration_Body();
 
   /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.BinaryIteration <em>Binary Iteration</em>}'.
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.MultiaryIteration <em>Multiary Iteration</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Binary Iteration</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.BinaryIteration
+   * @return the meta object for class '<em>Multiary Iteration</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.MultiaryIteration
    * @generated
    */
-  EClass getBinaryIteration();
+  EClass getMultiaryIteration();
 
   /**
-   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.BinaryIteration#getVariables <em>Variables</em>}'.
+   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.MultiaryIteration#getIterator <em>Iterator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Iterator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.MultiaryIteration#getIterator()
+   * @see #getMultiaryIteration()
+   * @generated
+   */
+  EAttribute getMultiaryIteration_Iterator();
+
+  /**
+   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.MultiaryIteration#getVariables <em>Variables</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Variables</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.BinaryIteration#getVariables()
-   * @see #getBinaryIteration()
+   * @see br.ufes.inf.nemo.ml2.model.MultiaryIteration#getVariables()
+   * @see #getMultiaryIteration()
    * @generated
    */
-  EAttribute getBinaryIteration_Variables();
+  EAttribute getMultiaryIteration_Variables();
 
   /**
-   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.BinaryIteration#getBody <em>Body</em>}'.
+   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.MultiaryIteration#getBody <em>Body</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Body</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.BinaryIteration#getBody()
-   * @see #getBinaryIteration()
+   * @see br.ufes.inf.nemo.ml2.model.MultiaryIteration#getBody()
+   * @see #getMultiaryIteration()
    * @generated
    */
-  EReference getBinaryIteration_Body();
+  EReference getMultiaryIteration_Body();
 
   /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.LiteralExpression <em>Literal Expression</em>}'.
@@ -4855,6 +4941,26 @@ public interface ModelPackage extends EPackage
   EEnum getUnaryOperator();
 
   /**
+   * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.model.UnaryNumberOperator <em>Unary Number Operator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Unary Number Operator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.UnaryNumberOperator
+   * @generated
+   */
+  EEnum getUnaryNumberOperator();
+
+  /**
+   * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.model.BinaryNumberOperator <em>Binary Number Operator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Binary Number Operator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.BinaryNumberOperator
+   * @generated
+   */
+  EEnum getBinaryNumberOperator();
+
+  /**
    * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.model.UnarySetOperator <em>Unary Set Operator</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4883,6 +4989,16 @@ public interface ModelPackage extends EPackage
    * @generated
    */
   EEnum getUnaryIterator();
+
+  /**
+   * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.model.MultiaryIterator <em>Multiary Iterator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Multiary Iterator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.MultiaryIterator
+   * @generated
+   */
+  EEnum getMultiaryIterator();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -5432,12 +5548,28 @@ public interface ModelPackage extends EPackage
     EReference ATTRIBUTE_ASSIGNMENT__ATTRIBUTE = eINSTANCE.getAttributeAssignment_Attribute();
 
     /**
-     * The meta object literal for the '<em><b>Literal Values</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>String Values</b></em>' attribute list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference ATTRIBUTE_ASSIGNMENT__LITERAL_VALUES = eINSTANCE.getAttributeAssignment_LiteralValues();
+    EAttribute ATTRIBUTE_ASSIGNMENT__STRING_VALUES = eINSTANCE.getAttributeAssignment_StringValues();
+
+    /**
+     * The meta object literal for the '<em><b>Number Values</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES = eINSTANCE.getAttributeAssignment_NumberValues();
+
+    /**
+     * The meta object literal for the '<em><b>Boolean Values</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES = eINSTANCE.getAttributeAssignment_BooleanValues();
 
     /**
      * The meta object literal for the '<em><b>Datatype Values</b></em>' reference list feature.
@@ -6006,12 +6138,48 @@ public interface ModelPackage extends EPackage
     EClass DOT_OPERATION = eINSTANCE.getDotOperation();
 
     /**
-     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.UnaryNumberOperationImpl <em>Unary Number Operation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.impl.UnaryNumberOperationImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryNumberOperation()
+     * @generated
+     */
+    EClass UNARY_NUMBER_OPERATION = eINSTANCE.getUnaryNumberOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference DOT_OPERATION__RIGHT = eINSTANCE.getDotOperation_Right();
+    EAttribute UNARY_NUMBER_OPERATION__OPERATOR = eINSTANCE.getUnaryNumberOperation_Operator();
+
+    /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.BinaryNumberOperationImpl <em>Binary Number Operation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.impl.BinaryNumberOperationImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinaryNumberOperation()
+     * @generated
+     */
+    EClass BINARY_NUMBER_OPERATION = eINSTANCE.getBinaryNumberOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BINARY_NUMBER_OPERATION__OPERATOR = eINSTANCE.getBinaryNumberOperation_Operator();
+
+    /**
+     * The meta object literal for the '<em><b>Argument</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BINARY_NUMBER_OPERATION__ARGUMENT = eINSTANCE.getBinaryNumberOperation_Argument();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.ArrowOperationImpl <em>Arrow Operation</em>}' class.
@@ -6022,24 +6190,6 @@ public interface ModelPackage extends EPackage
      * @generated
      */
     EClass ARROW_OPERATION = eINSTANCE.getArrowOperation();
-
-    /**
-     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference ARROW_OPERATION__RIGHT = eINSTANCE.getArrowOperation_Right();
-
-    /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.BuiltInOperationImpl <em>Built In Operation</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.BuiltInOperationImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBuiltInOperation()
-     * @generated
-     */
-    EClass BUILT_IN_OPERATION = eINSTANCE.getBuiltInOperation();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.UnarySetOperationImpl <em>Unary Set Operation</em>}' class.
@@ -6104,12 +6254,12 @@ public interface ModelPackage extends EPackage
     EAttribute UNARY_ITERATION__ITERATOR = eINSTANCE.getUnaryIteration_Iterator();
 
     /**
-     * The meta object literal for the '<em><b>Variables</b></em>' attribute list feature.
+     * The meta object literal for the '<em><b>Variable</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute UNARY_ITERATION__VARIABLES = eINSTANCE.getUnaryIteration_Variables();
+    EAttribute UNARY_ITERATION__VARIABLE = eINSTANCE.getUnaryIteration_Variable();
 
     /**
      * The meta object literal for the '<em><b>Body</b></em>' containment reference feature.
@@ -6120,14 +6270,22 @@ public interface ModelPackage extends EPackage
     EReference UNARY_ITERATION__BODY = eINSTANCE.getUnaryIteration_Body();
 
     /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.BinaryIterationImpl <em>Binary Iteration</em>}' class.
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.MultiaryIterationImpl <em>Multiary Iteration</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.BinaryIterationImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinaryIteration()
+     * @see br.ufes.inf.nemo.ml2.model.impl.MultiaryIterationImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiaryIteration()
      * @generated
      */
-    EClass BINARY_ITERATION = eINSTANCE.getBinaryIteration();
+    EClass MULTIARY_ITERATION = eINSTANCE.getMultiaryIteration();
+
+    /**
+     * The meta object literal for the '<em><b>Iterator</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MULTIARY_ITERATION__ITERATOR = eINSTANCE.getMultiaryIteration_Iterator();
 
     /**
      * The meta object literal for the '<em><b>Variables</b></em>' attribute list feature.
@@ -6135,7 +6293,7 @@ public interface ModelPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute BINARY_ITERATION__VARIABLES = eINSTANCE.getBinaryIteration_Variables();
+    EAttribute MULTIARY_ITERATION__VARIABLES = eINSTANCE.getMultiaryIteration_Variables();
 
     /**
      * The meta object literal for the '<em><b>Body</b></em>' containment reference feature.
@@ -6143,7 +6301,7 @@ public interface ModelPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference BINARY_ITERATION__BODY = eINSTANCE.getBinaryIteration_Body();
+    EReference MULTIARY_ITERATION__BODY = eINSTANCE.getMultiaryIteration_Body();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.LiteralExpressionImpl <em>Literal Expression</em>}' class.
@@ -6382,36 +6540,12 @@ public interface ModelPackage extends EPackage
     EClass OCL_TYPE_NAME = eINSTANCE.getOclTypeName();
 
     /**
-<<<<<<< HEAD
      * The meta object literal for the '<em><b>Typename</b></em>' attribute feature.
-=======
-     * The meta object literal for the '<em><b>String Values</b></em>' attribute list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute ATTRIBUTE_ASSIGNMENT__STRING_VALUES = eINSTANCE.getAttributeAssignment_StringValues();
-
-    /**
-     * The meta object literal for the '<em><b>Number Values</b></em>' attribute list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute ATTRIBUTE_ASSIGNMENT__NUMBER_VALUES = eINSTANCE.getAttributeAssignment_NumberValues();
-
-    /**
-     * The meta object literal for the '<em><b>Boolean Values</b></em>' attribute list feature.
->>>>>>> development
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-<<<<<<< HEAD
     EAttribute OCL_TYPE_NAME__TYPENAME = eINSTANCE.getOclTypeName_Typename();
-=======
-    EAttribute ATTRIBUTE_ASSIGNMENT__BOOLEAN_VALUES = eINSTANCE.getAttributeAssignment_BooleanValues();
->>>>>>> development
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.DataTypeNameImpl <em>Data Type Name</em>}' class.
@@ -6502,6 +6636,26 @@ public interface ModelPackage extends EPackage
     EEnum UNARY_OPERATOR = eINSTANCE.getUnaryOperator();
 
     /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.UnaryNumberOperator <em>Unary Number Operator</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.UnaryNumberOperator
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryNumberOperator()
+     * @generated
+     */
+    EEnum UNARY_NUMBER_OPERATOR = eINSTANCE.getUnaryNumberOperator();
+
+    /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.BinaryNumberOperator <em>Binary Number Operator</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.BinaryNumberOperator
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinaryNumberOperator()
+     * @generated
+     */
+    EEnum BINARY_NUMBER_OPERATOR = eINSTANCE.getBinaryNumberOperator();
+
+    /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.UnarySetOperator <em>Unary Set Operator</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6530,6 +6684,16 @@ public interface ModelPackage extends EPackage
      * @generated
      */
     EEnum UNARY_ITERATOR = eINSTANCE.getUnaryIterator();
+
+    /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.MultiaryIterator <em>Multiary Iterator</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.MultiaryIterator
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiaryIterator()
+     * @generated
+     */
+    EEnum MULTIARY_ITERATOR = eINSTANCE.getMultiaryIterator();
 
   }
 

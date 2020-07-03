@@ -74,12 +74,12 @@ public interface VariableDeclaration extends EObject
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the value of the '<em>Initial Value</em>' containment reference.
-   * @see #setInitialValue(LiteralExpression)
+   * @see #setInitialValue(TermExpression)
    * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getVariableDeclaration_InitialValue()
    * @model containment="true"
    * @generated
    */
-  LiteralExpression getInitialValue();
+  TermExpression getInitialValue();
 
   /**
    * Sets the value of the '{@link br.ufes.inf.nemo.ml2.model.VariableDeclaration#getInitialValue <em>Initial Value</em>}' containment reference.
@@ -89,6 +89,6 @@ public interface VariableDeclaration extends EObject
    * @see #getInitialValue()
    * @generated
    */
-  void setInitialValue(LiteralExpression value);
+  void setInitialValue(TermExpression value);
 
 } // VariableDeclaration

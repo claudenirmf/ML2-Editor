@@ -3,7 +3,6 @@
  */
 package br.ufes.inf.nemo.ml2.model;
 
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -15,7 +14,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.UnaryIteration#getIterator <em>Iterator</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.UnaryIteration#getVariables <em>Variables</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.UnaryIteration#getVariable <em>Variable</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.UnaryIteration#getBody <em>Body</em>}</li>
  * </ul>
  *
@@ -23,7 +22,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface UnaryIteration extends BuiltInOperation
+public interface UnaryIteration extends ArrowOperation
 {
   /**
    * Returns the value of the '<em><b>Iterator</b></em>' attribute.
@@ -51,16 +50,26 @@ public interface UnaryIteration extends BuiltInOperation
   void setIterator(UnaryIterator value);
 
   /**
-   * Returns the value of the '<em><b>Variables</b></em>' attribute list.
-   * The list contents are of type {@link java.lang.String}.
+   * Returns the value of the '<em><b>Variable</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Variables</em>' attribute list.
-   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getUnaryIteration_Variables()
-   * @model unique="false"
+   * @return the value of the '<em>Variable</em>' attribute.
+   * @see #setVariable(String)
+   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getUnaryIteration_Variable()
+   * @model
    * @generated
    */
-  EList<String> getVariables();
+  String getVariable();
+
+  /**
+   * Sets the value of the '{@link br.ufes.inf.nemo.ml2.model.UnaryIteration#getVariable <em>Variable</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Variable</em>' attribute.
+   * @see #getVariable()
+   * @generated
+   */
+  void setVariable(String value);
 
   /**
    * Returns the value of the '<em><b>Body</b></em>' containment reference.

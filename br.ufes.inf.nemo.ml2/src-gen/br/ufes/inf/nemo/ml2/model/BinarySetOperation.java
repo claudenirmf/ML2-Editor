@@ -21,7 +21,7 @@ package br.ufes.inf.nemo.ml2.model;
  * @model
  * @generated
  */
-public interface BinarySetOperation extends BuiltInOperation
+public interface BinarySetOperation extends ArrowOperation
 {
   /**
    * Returns the value of the '<em><b>Operator</b></em>' attribute.

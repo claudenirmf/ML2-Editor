@@ -24,7 +24,7 @@ Import:
 ;
 	
 ModelElement:
-	( Import | EntityDeclaration | GeneralizationSet ) ';' 
+	( Import | EntityDeclaration | GeneralizationSet | ConstraintDeclaration ) ';' 
 ;
 
 AllModelElements returns ModelElement:
@@ -296,7 +296,7 @@ LetExpression:
 ;
 	
 VariableDeclaration:
-	variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=LiteralExpression
+	variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=TermExpression
 ;
 	
 IfExpression:
@@ -365,7 +365,7 @@ MultiplicationExpression:
 
 UnaryExpression:
 	(operator=UnaryOperator)? right=TermExpression
-;	
+;
 
 enum UnaryOperator:
 	NONE | NOT='not' | MINUS='-'
@@ -380,19 +380,31 @@ CallExpression:
 ;
 	
 CallOperation:
-	DotOperation | ArrowOperation
+	'.' DotOperation | '->' ArrowOperation
 ;
 	
 DotOperation:
-	'.' right=VariableExpression
+	UnaryNumberOperation | BinaryNumberOperation | VariableExpression //'.' right=VariableExpression
 ;
 
-ArrowOperation:
-	'->' right=BuiltInOperation
+UnaryNumberOperation:
+	operator=UnaryNumberOperator '(' ')'
+;
+
+enum UnaryNumberOperator:
+	ABS='abs' | FLOOR='floor' | ROUND='round'
+;
+
+BinaryNumberOperation:
+	operator=BinaryNumberOperator '(' argument=OclExpression ')'
+;
+
+enum BinaryNumberOperator:
+	MIN='min' | MAX='max' | DIV='div'
 ;
 	
-BuiltInOperation:
-	UnarySetOperation | BinarySetOperation | UnaryIteration | BinaryIteration
+ArrowOperation:
+	UnarySetOperation | BinarySetOperation | UnaryIteration | MultiaryIteration
 ;
 	
 UnarySetOperation:
@@ -400,7 +412,8 @@ UnarySetOperation:
 ;
 	
 enum UnarySetOperator:
-	SIZE='size' | IS_EMPTY='isEmpty' | NOT_EMPTY='notEmpty' | SUM='sum'
+	SIZE='size' | IS_EMPTY='isEmpty' | NOT_EMPTY='notEmpty' | SUM='sum' | MIN='min' | MAX='max' | 
+	AS_SET='asSet' | FLATTEN='flatten'
 ;
 	
 BinarySetOperation:
@@ -409,20 +422,25 @@ BinarySetOperation:
 	
 enum BinarySetOperator:
 	INCLUDES='includes' | INCLUDES_ALL='includesAll' | EXCLUDES='excludes' | EXCLUDES_ALL='excludesAll' |
-	INCLUDING='including' | EXCLUDING='excluding' |	UNION='union' | INTERSECTION='intersection' |
-	SYMMETRIC_DIFFERENCE='symmetricDifference'
+	INCLUDING='including' | EXCLUDING='excluding' |	COUNT='count' | UNION='union' | INTERSECTION='intersection' |
+	SYMMETRIC_DIFFERENCE='symmetricDifference' | PRODUCT='product'
 ;
 
 UnaryIteration:
-	iterator=UnaryIterator '(' (variables+=ID '|')? body=OclExpression ')'
+	iterator=UnaryIterator '(' (variable=ID '|')? body=OclExpression ')'
 ;
 	
 enum UnaryIterator:
-	COUNT='count' | EXISTS='exists' | SELECT='select' | REJECT='reject' | ONE='one' | IS_UNIQUE='isUnique' | COLLECT='collect'
+	SELECT='select' | REJECT='reject' | COLLECT='collect' | ANY='any' | ONE='one' |
+	IS_UNIQUE='isUnique' | CLOSURE='closure'
 ;
 	
-BinaryIteration:
-	'forAll' '(' (variables+=ID ',' variables+=ID '|')? body=OclExpression ')'
+MultiaryIteration:
+	iterator=MultiaryIterator '(' (variables+=ID (',' variables+=ID)+ '|')? body=OclExpression ')'
+;
+
+enum MultiaryIterator:
+	EXISTS='exists' | FOR_ALL='forAll'
 ;
 
 LiteralExpression:

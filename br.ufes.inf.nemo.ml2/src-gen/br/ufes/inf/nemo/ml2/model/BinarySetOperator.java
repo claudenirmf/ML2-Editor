@@ -81,6 +81,16 @@ public enum BinarySetOperator implements Enumerator
   EXCLUDING(5, "EXCLUDING", "excluding"),
 
   /**
+   * The '<em><b>COUNT</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #COUNT_VALUE
+   * @generated
+   * @ordered
+   */
+  COUNT(6, "COUNT", "count"),
+
+  /**
    * The '<em><b>UNION</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -88,7 +98,7 @@ public enum BinarySetOperator implements Enumerator
    * @generated
    * @ordered
    */
-  UNION(6, "UNION", "union"),
+  UNION(7, "UNION", "union"),
 
   /**
    * The '<em><b>INTERSECTION</b></em>' literal object.
@@ -98,7 +108,7 @@ public enum BinarySetOperator implements Enumerator
    * @generated
    * @ordered
    */
-  INTERSECTION(7, "INTERSECTION", "intersection"),
+  INTERSECTION(8, "INTERSECTION", "intersection"),
 
   /**
    * The '<em><b>SYMMETRIC DIFFERENCE</b></em>' literal object.
@@ -108,7 +118,17 @@ public enum BinarySetOperator implements Enumerator
    * @generated
    * @ordered
    */
-  SYMMETRIC_DIFFERENCE(8, "SYMMETRIC_DIFFERENCE", "symmetricDifference");
+  SYMMETRIC_DIFFERENCE(9, "SYMMETRIC_DIFFERENCE", "symmetricDifference"),
+
+  /**
+   * The '<em><b>PRODUCT</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #PRODUCT_VALUE
+   * @generated
+   * @ordered
+   */
+  PRODUCT(10, "PRODUCT", "product");
 
   /**
    * The '<em><b>INCLUDES</b></em>' literal value.
@@ -177,6 +197,17 @@ public enum BinarySetOperator implements Enumerator
   public static final int EXCLUDING_VALUE = 5;
 
   /**
+   * The '<em><b>COUNT</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #COUNT
+   * @model literal="count"
+   * @generated
+   * @ordered
+   */
+  public static final int COUNT_VALUE = 6;
+
+  /**
    * The '<em><b>UNION</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -185,7 +216,7 @@ public enum BinarySetOperator implements Enumerator
    * @generated
    * @ordered
    */
-  public static final int UNION_VALUE = 6;
+  public static final int UNION_VALUE = 7;
 
   /**
    * The '<em><b>INTERSECTION</b></em>' literal value.
@@ -196,7 +227,7 @@ public enum BinarySetOperator implements Enumerator
    * @generated
    * @ordered
    */
-  public static final int INTERSECTION_VALUE = 7;
+  public static final int INTERSECTION_VALUE = 8;
 
   /**
    * The '<em><b>SYMMETRIC DIFFERENCE</b></em>' literal value.
@@ -207,7 +238,18 @@ public enum BinarySetOperator implements Enumerator
    * @generated
    * @ordered
    */
-  public static final int SYMMETRIC_DIFFERENCE_VALUE = 8;
+  public static final int SYMMETRIC_DIFFERENCE_VALUE = 9;
+
+  /**
+   * The '<em><b>PRODUCT</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #PRODUCT
+   * @model literal="product"
+   * @generated
+   * @ordered
+   */
+  public static final int PRODUCT_VALUE = 10;
 
   /**
    * An array of all the '<em><b>Binary Set Operator</b></em>' enumerators.
@@ -224,9 +266,11 @@ public enum BinarySetOperator implements Enumerator
       EXCLUDES_ALL,
       INCLUDING,
       EXCLUDING,
+      COUNT,
       UNION,
       INTERSECTION,
       SYMMETRIC_DIFFERENCE,
+      PRODUCT,
     };
 
   /**
@@ -297,9 +341,11 @@ public enum BinarySetOperator implements Enumerator
       case EXCLUDES_ALL_VALUE: return EXCLUDES_ALL;
       case INCLUDING_VALUE: return INCLUDING;
       case EXCLUDING_VALUE: return EXCLUDING;
+      case COUNT_VALUE: return COUNT;
       case UNION_VALUE: return UNION;
       case INTERSECTION_VALUE: return INTERSECTION;
       case SYMMETRIC_DIFFERENCE_VALUE: return SYMMETRIC_DIFFERENCE;
+      case PRODUCT_VALUE: return PRODUCT;
     }
     return null;
   }

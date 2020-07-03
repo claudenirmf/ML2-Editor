@@ -10,11 +10,11 @@ import br.ufes.inf.nemo.ml2.model.AndExpression;
 import br.ufes.inf.nemo.ml2.model.ArrowOperation;
 import br.ufes.inf.nemo.ml2.model.Attribute;
 import br.ufes.inf.nemo.ml2.model.AttributeAssignment;
-import br.ufes.inf.nemo.ml2.model.BinaryIteration;
+import br.ufes.inf.nemo.ml2.model.BinaryNumberOperation;
+import br.ufes.inf.nemo.ml2.model.BinaryNumberOperator;
 import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
 import br.ufes.inf.nemo.ml2.model.BinarySetOperator;
 import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.BuiltInOperation;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
 import br.ufes.inf.nemo.ml2.model.CallOperation;
 import br.ufes.inf.nemo.ml2.model.CategorizationType;
@@ -46,6 +46,8 @@ import br.ufes.inf.nemo.ml2.model.Model;
 import br.ufes.inf.nemo.ml2.model.ModelElement;
 import br.ufes.inf.nemo.ml2.model.ModelFactory;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
+import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
+import br.ufes.inf.nemo.ml2.model.MultiaryIterator;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
@@ -74,6 +76,8 @@ import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
 import br.ufes.inf.nemo.ml2.model.UnaryIterator;
+import br.ufes.inf.nemo.ml2.model.UnaryNumberOperation;
+import br.ufes.inf.nemo.ml2.model.UnaryNumberOperator;
 import br.ufes.inf.nemo.ml2.model.UnaryOperator;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperator;
@@ -417,14 +421,21 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass arrowOperationEClass = null;
+  private EClass unaryNumberOperationEClass = null;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass builtInOperationEClass = null;
+  private EClass binaryNumberOperationEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass arrowOperationEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -452,7 +463,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass binaryIterationEClass = null;
+  private EClass multiaryIterationEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -613,6 +624,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EEnum unaryNumberOperatorEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum binaryNumberOperatorEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EEnum unarySetOperatorEEnum = null;
 
   /**
@@ -628,6 +653,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   private EEnum unaryIteratorEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum multiaryIteratorEEnum = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -1358,9 +1390,31 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EReference getAttributeAssignment_LiteralValues()
+  public EAttribute getAttributeAssignment_StringValues()
   {
-    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)attributeAssignmentEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getAttributeAssignment_NumberValues()
+  {
+    return (EAttribute)attributeAssignmentEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getAttributeAssignment_BooleanValues()
+  {
+    return (EAttribute)attributeAssignmentEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -1371,7 +1425,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   @Override
   public EReference getAttributeAssignment_DatatypeValues()
   {
-    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(2);
+    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -1382,7 +1436,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   @Override
   public EReference getAttributeAssignment_UnnamedValues()
   {
-    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(3);
+    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -2084,9 +2138,53 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EReference getDotOperation_Right()
+  public EClass getUnaryNumberOperation()
   {
-    return (EReference)dotOperationEClass.getEStructuralFeatures().get(0);
+    return unaryNumberOperationEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getUnaryNumberOperation_Operator()
+  {
+    return (EAttribute)unaryNumberOperationEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getBinaryNumberOperation()
+  {
+    return binaryNumberOperationEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getBinaryNumberOperation_Operator()
+  {
+    return (EAttribute)binaryNumberOperationEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getBinaryNumberOperation_Argument()
+  {
+    return (EReference)binaryNumberOperationEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -2098,28 +2196,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   public EClass getArrowOperation()
   {
     return arrowOperationEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getArrowOperation_Right()
-  {
-    return (EReference)arrowOperationEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getBuiltInOperation()
-  {
-    return builtInOperationEClass;
   }
 
   /**
@@ -2205,7 +2281,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EAttribute getUnaryIteration_Variables()
+  public EAttribute getUnaryIteration_Variable()
   {
     return (EAttribute)unaryIterationEClass.getEStructuralFeatures().get(1);
   }
@@ -2227,9 +2303,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EClass getBinaryIteration()
+  public EClass getMultiaryIteration()
   {
-    return binaryIterationEClass;
+    return multiaryIterationEClass;
   }
 
   /**
@@ -2238,9 +2314,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EAttribute getBinaryIteration_Variables()
+  public EAttribute getMultiaryIteration_Iterator()
   {
-    return (EAttribute)binaryIterationEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)multiaryIterationEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -2249,9 +2325,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EReference getBinaryIteration_Body()
+  public EAttribute getMultiaryIteration_Variables()
   {
-    return (EReference)binaryIterationEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)multiaryIterationEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getMultiaryIteration_Body()
+  {
+    return (EReference)multiaryIterationEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -2623,37 +2710,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-<<<<<<< HEAD
   public EEnum getRelationalOperator()
   {
     return relationalOperatorEEnum;
-=======
-  public EAttribute getAttributeAssignment_StringValues()
-  {
-    return (EAttribute)attributeAssignmentEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EAttribute getAttributeAssignment_NumberValues()
-  {
-    return (EAttribute)attributeAssignmentEClass.getEStructuralFeatures().get(2);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EAttribute getAttributeAssignment_BooleanValues()
-  {
-    return (EAttribute)attributeAssignmentEClass.getEStructuralFeatures().get(3);
->>>>>>> development
   }
 
   /**
@@ -2664,11 +2723,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   @Override
   public EEnum getAdditionOperator()
   {
-<<<<<<< HEAD
     return additionOperatorEEnum;
-=======
-    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(4);
->>>>>>> development
   }
 
   /**
@@ -2679,11 +2734,29 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   @Override
   public EEnum getUnaryOperator()
   {
-<<<<<<< HEAD
     return unaryOperatorEEnum;
-=======
-    return (EReference)attributeAssignmentEClass.getEStructuralFeatures().get(5);
->>>>>>> development
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EEnum getUnaryNumberOperator()
+  {
+    return unaryNumberOperatorEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EEnum getBinaryNumberOperator()
+  {
+    return binaryNumberOperatorEEnum;
   }
 
   /**
@@ -2717,6 +2790,17 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   public EEnum getUnaryIterator()
   {
     return unaryIteratorEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EEnum getMultiaryIterator()
+  {
+    return multiaryIteratorEEnum;
   }
 
   /**
@@ -2922,12 +3006,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     callOperationEClass = createEClass(CALL_OPERATION);
 
     dotOperationEClass = createEClass(DOT_OPERATION);
-    createEReference(dotOperationEClass, DOT_OPERATION__RIGHT);
+
+    unaryNumberOperationEClass = createEClass(UNARY_NUMBER_OPERATION);
+    createEAttribute(unaryNumberOperationEClass, UNARY_NUMBER_OPERATION__OPERATOR);
+
+    binaryNumberOperationEClass = createEClass(BINARY_NUMBER_OPERATION);
+    createEAttribute(binaryNumberOperationEClass, BINARY_NUMBER_OPERATION__OPERATOR);
+    createEReference(binaryNumberOperationEClass, BINARY_NUMBER_OPERATION__ARGUMENT);
 
     arrowOperationEClass = createEClass(ARROW_OPERATION);
-    createEReference(arrowOperationEClass, ARROW_OPERATION__RIGHT);
-
-    builtInOperationEClass = createEClass(BUILT_IN_OPERATION);
 
     unarySetOperationEClass = createEClass(UNARY_SET_OPERATION);
     createEAttribute(unarySetOperationEClass, UNARY_SET_OPERATION__OPERATOR);
@@ -2938,12 +3025,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
     unaryIterationEClass = createEClass(UNARY_ITERATION);
     createEAttribute(unaryIterationEClass, UNARY_ITERATION__ITERATOR);
-    createEAttribute(unaryIterationEClass, UNARY_ITERATION__VARIABLES);
+    createEAttribute(unaryIterationEClass, UNARY_ITERATION__VARIABLE);
     createEReference(unaryIterationEClass, UNARY_ITERATION__BODY);
 
-    binaryIterationEClass = createEClass(BINARY_ITERATION);
-    createEAttribute(binaryIterationEClass, BINARY_ITERATION__VARIABLES);
-    createEReference(binaryIterationEClass, BINARY_ITERATION__BODY);
+    multiaryIterationEClass = createEClass(MULTIARY_ITERATION);
+    createEAttribute(multiaryIterationEClass, MULTIARY_ITERATION__ITERATOR);
+    createEAttribute(multiaryIterationEClass, MULTIARY_ITERATION__VARIABLES);
+    createEReference(multiaryIterationEClass, MULTIARY_ITERATION__BODY);
 
     literalExpressionEClass = createEClass(LITERAL_EXPRESSION);
 
@@ -2997,9 +3085,12 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     relationalOperatorEEnum = createEEnum(RELATIONAL_OPERATOR);
     additionOperatorEEnum = createEEnum(ADDITION_OPERATOR);
     unaryOperatorEEnum = createEEnum(UNARY_OPERATOR);
+    unaryNumberOperatorEEnum = createEEnum(UNARY_NUMBER_OPERATOR);
+    binaryNumberOperatorEEnum = createEEnum(BINARY_NUMBER_OPERATOR);
     unarySetOperatorEEnum = createEEnum(UNARY_SET_OPERATOR);
     binarySetOperatorEEnum = createEEnum(BINARY_SET_OPERATOR);
     unaryIteratorEEnum = createEEnum(UNARY_ITERATOR);
+    multiaryIteratorEEnum = createEEnum(MULTIARY_ITERATOR);
   }
 
   /**
@@ -3064,11 +3155,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     impliesExpressionEClass.getESuperTypes().add(this.getOclExpression());
     callExpressionEClass.getESuperTypes().add(this.getTermExpression());
     dotOperationEClass.getESuperTypes().add(this.getCallOperation());
+    unaryNumberOperationEClass.getESuperTypes().add(this.getDotOperation());
+    binaryNumberOperationEClass.getESuperTypes().add(this.getDotOperation());
     arrowOperationEClass.getESuperTypes().add(this.getCallOperation());
-    unarySetOperationEClass.getESuperTypes().add(this.getBuiltInOperation());
-    binarySetOperationEClass.getESuperTypes().add(this.getBuiltInOperation());
-    unaryIterationEClass.getESuperTypes().add(this.getBuiltInOperation());
-    binaryIterationEClass.getESuperTypes().add(this.getBuiltInOperation());
+    unarySetOperationEClass.getESuperTypes().add(this.getArrowOperation());
+    binarySetOperationEClass.getESuperTypes().add(this.getArrowOperation());
+    unaryIterationEClass.getESuperTypes().add(this.getArrowOperation());
+    multiaryIterationEClass.getESuperTypes().add(this.getArrowOperation());
     literalExpressionEClass.getESuperTypes().add(this.getTermExpression());
     primitiveLiteralExpressionEClass.getESuperTypes().add(this.getLiteralExpression());
     nullLiteralExpressionEClass.getESuperTypes().add(this.getPrimitiveLiteralExpression());
@@ -3078,6 +3171,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     collectionLiteralExpressionEClass.getESuperTypes().add(this.getLiteralExpression());
     typeLiteralExpressionEClass.getESuperTypes().add(this.getLiteralExpression());
     tupleLiteralExpressionEClass.getESuperTypes().add(this.getLiteralExpression());
+    variableExpressionEClass.getESuperTypes().add(this.getDotOperation());
     primitiveTypeNameEClass.getESuperTypes().add(this.getTypeLiteralExpression());
     collectionTypeNameEClass.getESuperTypes().add(this.getTypeLiteralExpression());
     tupleTypeNameEClass.getESuperTypes().add(this.getTypeLiteralExpression());
@@ -3193,7 +3287,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     initEClass(variableDeclarationEClass, VariableDeclaration.class, "VariableDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getVariableDeclaration_VariableName(), ecorePackage.getEString(), "variableName", null, 0, 1, VariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getVariableDeclaration_VariableType(), this.getTypeLiteralExpression(), null, "variableType", null, 0, 1, VariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getVariableDeclaration_InitialValue(), this.getLiteralExpression(), null, "initialValue", null, 0, 1, VariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getVariableDeclaration_InitialValue(), this.getTermExpression(), null, "initialValue", null, 0, 1, VariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(ifExpressionEClass, IfExpression.class, "IfExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getIfExpression_Condition(), this.getOclExpression(), null, "condition", null, 0, 1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3257,12 +3351,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     initEClass(callOperationEClass, CallOperation.class, "CallOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(dotOperationEClass, DotOperation.class, "DotOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getDotOperation_Right(), this.getVariableExpression(), null, "right", null, 0, 1, DotOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(unaryNumberOperationEClass, UnaryNumberOperation.class, "UnaryNumberOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getUnaryNumberOperation_Operator(), this.getUnaryNumberOperator(), "operator", null, 0, 1, UnaryNumberOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(binaryNumberOperationEClass, BinaryNumberOperation.class, "BinaryNumberOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getBinaryNumberOperation_Operator(), this.getBinaryNumberOperator(), "operator", null, 0, 1, BinaryNumberOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getBinaryNumberOperation_Argument(), this.getOclExpression(), null, "argument", null, 0, 1, BinaryNumberOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(arrowOperationEClass, ArrowOperation.class, "ArrowOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getArrowOperation_Right(), this.getBuiltInOperation(), null, "right", null, 0, 1, ArrowOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(builtInOperationEClass, BuiltInOperation.class, "BuiltInOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(unarySetOperationEClass, UnarySetOperation.class, "UnarySetOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getUnarySetOperation_Operator(), this.getUnarySetOperator(), "operator", null, 0, 1, UnarySetOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3273,12 +3370,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
     initEClass(unaryIterationEClass, UnaryIteration.class, "UnaryIteration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getUnaryIteration_Iterator(), this.getUnaryIterator(), "iterator", null, 0, 1, UnaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getUnaryIteration_Variables(), ecorePackage.getEString(), "variables", null, 0, -1, UnaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getUnaryIteration_Variable(), ecorePackage.getEString(), "variable", null, 0, 1, UnaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getUnaryIteration_Body(), this.getOclExpression(), null, "body", null, 0, 1, UnaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(binaryIterationEClass, BinaryIteration.class, "BinaryIteration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getBinaryIteration_Variables(), ecorePackage.getEString(), "variables", null, 0, -1, BinaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getBinaryIteration_Body(), this.getOclExpression(), null, "body", null, 0, 1, BinaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(multiaryIterationEClass, MultiaryIteration.class, "MultiaryIteration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getMultiaryIteration_Iterator(), this.getMultiaryIterator(), "iterator", null, 0, 1, MultiaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMultiaryIteration_Variables(), ecorePackage.getEString(), "variables", null, 0, -1, MultiaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getMultiaryIteration_Body(), this.getOclExpression(), null, "body", null, 0, 1, MultiaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(literalExpressionEClass, LiteralExpression.class, "LiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -3363,11 +3461,25 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     addEEnumLiteral(unaryOperatorEEnum, UnaryOperator.NOT);
     addEEnumLiteral(unaryOperatorEEnum, UnaryOperator.MINUS);
 
+    initEEnum(unaryNumberOperatorEEnum, UnaryNumberOperator.class, "UnaryNumberOperator");
+    addEEnumLiteral(unaryNumberOperatorEEnum, UnaryNumberOperator.ABS);
+    addEEnumLiteral(unaryNumberOperatorEEnum, UnaryNumberOperator.FLOOR);
+    addEEnumLiteral(unaryNumberOperatorEEnum, UnaryNumberOperator.ROUND);
+
+    initEEnum(binaryNumberOperatorEEnum, BinaryNumberOperator.class, "BinaryNumberOperator");
+    addEEnumLiteral(binaryNumberOperatorEEnum, BinaryNumberOperator.MIN);
+    addEEnumLiteral(binaryNumberOperatorEEnum, BinaryNumberOperator.MAX);
+    addEEnumLiteral(binaryNumberOperatorEEnum, BinaryNumberOperator.DIV);
+
     initEEnum(unarySetOperatorEEnum, UnarySetOperator.class, "UnarySetOperator");
     addEEnumLiteral(unarySetOperatorEEnum, UnarySetOperator.SIZE);
     addEEnumLiteral(unarySetOperatorEEnum, UnarySetOperator.IS_EMPTY);
     addEEnumLiteral(unarySetOperatorEEnum, UnarySetOperator.NOT_EMPTY);
     addEEnumLiteral(unarySetOperatorEEnum, UnarySetOperator.SUM);
+    addEEnumLiteral(unarySetOperatorEEnum, UnarySetOperator.MIN);
+    addEEnumLiteral(unarySetOperatorEEnum, UnarySetOperator.MAX);
+    addEEnumLiteral(unarySetOperatorEEnum, UnarySetOperator.AS_SET);
+    addEEnumLiteral(unarySetOperatorEEnum, UnarySetOperator.FLATTEN);
 
     initEEnum(binarySetOperatorEEnum, BinarySetOperator.class, "BinarySetOperator");
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.INCLUDES);
@@ -3376,18 +3488,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.EXCLUDES_ALL);
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.INCLUDING);
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.EXCLUDING);
+    addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.COUNT);
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.UNION);
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.INTERSECTION);
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.SYMMETRIC_DIFFERENCE);
+    addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.PRODUCT);
 
     initEEnum(unaryIteratorEEnum, UnaryIterator.class, "UnaryIterator");
-    addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.COUNT);
-    addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.EXISTS);
     addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.SELECT);
     addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.REJECT);
+    addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.COLLECT);
+    addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.ANY);
     addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.ONE);
     addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.IS_UNIQUE);
-    addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.COLLECT);
+    addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.CLOSURE);
+
+    initEEnum(multiaryIteratorEEnum, MultiaryIterator.class, "MultiaryIterator");
+    addEEnumLiteral(multiaryIteratorEEnum, MultiaryIterator.EXISTS);
+    addEEnumLiteral(multiaryIteratorEEnum, MultiaryIterator.FOR_ALL);
 
     // Create resource
     createResource(eNS_URI);

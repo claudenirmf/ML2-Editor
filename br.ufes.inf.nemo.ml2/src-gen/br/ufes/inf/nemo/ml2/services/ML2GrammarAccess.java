@@ -173,32 +173,17 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cImportParserRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
 		private final RuleCall cEntityDeclarationParserRuleCall_0_1 = (RuleCall)cAlternatives_0.eContents().get(1);
 		private final RuleCall cGeneralizationSetParserRuleCall_0_2 = (RuleCall)cAlternatives_0.eContents().get(2);
-<<<<<<< HEAD
-		private final RuleCall cFeatureParserRuleCall_0_3 = (RuleCall)cAlternatives_0.eContents().get(3);
-		private final RuleCall cFeatureAssignmentParserRuleCall_0_4 = (RuleCall)cAlternatives_0.eContents().get(4);
-		private final RuleCall cConstraintDeclarationParserRuleCall_0_5 = (RuleCall)cAlternatives_0.eContents().get(5);
+		private final RuleCall cConstraintDeclarationParserRuleCall_0_3 = (RuleCall)cAlternatives_0.eContents().get(3);
 		private final Keyword cSemicolonKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		
 		//ModelElement:
-		//	(Import | EntityDeclaration | GeneralizationSet | Feature | FeatureAssignment | ConstraintDeclaration) ';';
+		//	(Import | EntityDeclaration | GeneralizationSet | ConstraintDeclaration) ';';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(Import | EntityDeclaration | GeneralizationSet | Feature | FeatureAssignment | ConstraintDeclaration) ';'
+		//(Import | EntityDeclaration | GeneralizationSet | ConstraintDeclaration) ';'
 		public Group getGroup() { return cGroup; }
 		
-		//(Import | EntityDeclaration | GeneralizationSet | Feature | FeatureAssignment | ConstraintDeclaration)
-=======
-		private final Keyword cSemicolonKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		
-		//ModelElement:
-		//	(Import | EntityDeclaration | GeneralizationSet) ';';
-		@Override public ParserRule getRule() { return rule; }
-		
-		//(Import | EntityDeclaration | GeneralizationSet) ';'
-		public Group getGroup() { return cGroup; }
-		
-		//(Import | EntityDeclaration | GeneralizationSet)
->>>>>>> development
+		//(Import | EntityDeclaration | GeneralizationSet | ConstraintDeclaration)
 		public Alternatives getAlternatives_0() { return cAlternatives_0; }
 		
 		//Import
@@ -209,6 +194,9 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		
 		//GeneralizationSet
 		public RuleCall getGeneralizationSetParserRuleCall_0_2() { return cGeneralizationSetParserRuleCall_0_2; }
+		
+		//ConstraintDeclaration
+		public RuleCall getConstraintDeclarationParserRuleCall_0_3() { return cConstraintDeclarationParserRuleCall_0_3; }
 		
 		//';'
 		public Keyword getSemicolonKeyword_1() { return cSemicolonKeyword_1; }
@@ -242,17 +230,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getFeatureParserRuleCall_3() { return cFeatureParserRuleCall_3; }
 		
 		//FeatureAssignment
-<<<<<<< HEAD
-		public RuleCall getFeatureAssignmentParserRuleCall_0_4() { return cFeatureAssignmentParserRuleCall_0_4; }
-		
-		//ConstraintDeclaration
-		public RuleCall getConstraintDeclarationParserRuleCall_0_5() { return cConstraintDeclarationParserRuleCall_0_5; }
-		
-		//';'
-		public Keyword getSemicolonKeyword_1() { return cSemicolonKeyword_1; }
-=======
 		public RuleCall getFeatureAssignmentParserRuleCall_4() { return cFeatureAssignmentParserRuleCall_4; }
->>>>>>> development
 	}
 	public class EntityDeclarationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.EntityDeclaration");
@@ -3021,7 +2999,6 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//VariableDeclaration
 		public RuleCall getVariablesVariableDeclarationParserRuleCall_2_1_0() { return cVariablesVariableDeclarationParserRuleCall_2_1_0; }
 		
-<<<<<<< HEAD
 		//'in'
 		public Keyword getInKeyword_3() { return cInKeyword_3; }
 		
@@ -3030,102 +3007,6 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		
 		//OclExpression
 		public RuleCall getInExpressionOclExpressionParserRuleCall_4_0() { return cInExpressionOclExpressionParserRuleCall_4_0; }
-=======
-		//"determinesAllowedTypes"
-		public Keyword getDETERMINES_ALLOWED_TYPESDeterminesAllowedTypesKeyword_5_0() { return cDETERMINES_ALLOWED_TYPESDeterminesAllowedTypesKeyword_5_0; }
-	}
-	
-	private final ModelElements pModel;
-	private final QualifiedNameElements pQualifiedName;
-	private final QualifiedNameWithWildcardElements pQualifiedNameWithWildcard;
-	private final ImportElements pImport;
-	private final ModelElementElements pModelElement;
-	private final AllModelElementsElements pAllModelElements;
-	private final EntityDeclarationElements pEntityDeclaration;
-	private final ClassElements pClass;
-	private final FirstOrderClassOrDataTypeElements pFirstOrderClassOrDataType;
-	private final HigherOrderClassElements pHigherOrderClass;
-	private final IndividualElements pIndividual;
-	private final ClassIntoOrderedOrOrderlessElements pClassIntoOrderedOrOrderless;
-	private final OrderedClassElements pOrderedClass;
-	private final FirstOrderClassElements pFirstOrderClass;
-	private final DataTypeElements pDataType;
-	private final HighOrderClassElements pHighOrderClass;
-	private final OrderlessClassElements pOrderlessClass;
-	private final CategorizationTypeElements eCategorizationType;
-	private final GeneralizationSetElements pGeneralizationSet;
-	private final FeatureElements pFeature;
-	private final AttributeElements pAttribute;
-	private final RegularityAttributeElements pRegularityAttribute;
-	private final ReferenceElements pReference;
-	private final RegularityReferenceElements pRegularityReference;
-	private final FeatureIntoRegularityFeatureElements pFeatureIntoRegularityFeature;
-	private final RegularityFeatureElements pRegularityFeature;
-	private final CARDINALITYElements pCARDINALITY;
-	private final PrimitiveTypeElements ePrimitiveType;
-	private final RegularityFeatureTypeElements eRegularityFeatureType;
-	private final FeatureAssignmentElements pFeatureAssignment;
-	private final SingleReferenceAssignmentElements pSingleReferenceAssignment;
-	private final MultipleReferenceAssignmentElements pMultipleReferenceAssignment;
-	private final SingleAttributeAssignmentElements pSingleAttributeAssignment;
-	private final MultipleAttributeAssignmentElements pMultipleAttributeAssignment;
-	private final BOOLEANElements pBOOLEAN;
-	private final NUMBERElements pNUMBER;
-	private final UnnamedIndividualElements pUnnamedIndividual;
-	private final SimpleAttributeAssignmentElements pSimpleAttributeAssignment;
-	private final SingleSimpleAttributeAssignmentElements pSingleSimpleAttributeAssignment;
-	private final MultipleSimpleAttributeAssignmentElements pMultipleSimpleAttributeAssignment;
-	
-	private final Grammar grammar;
-	
-	private final TerminalsGrammarAccess gaTerminals;
-
-	@Inject
-	public ML2GrammarAccess(GrammarProvider grammarProvider,
-			TerminalsGrammarAccess gaTerminals) {
-		this.grammar = internalFindGrammar(grammarProvider);
-		this.gaTerminals = gaTerminals;
-		this.pModel = new ModelElements();
-		this.pQualifiedName = new QualifiedNameElements();
-		this.pQualifiedNameWithWildcard = new QualifiedNameWithWildcardElements();
-		this.pImport = new ImportElements();
-		this.pModelElement = new ModelElementElements();
-		this.pAllModelElements = new AllModelElementsElements();
-		this.pEntityDeclaration = new EntityDeclarationElements();
-		this.pClass = new ClassElements();
-		this.pFirstOrderClassOrDataType = new FirstOrderClassOrDataTypeElements();
-		this.pHigherOrderClass = new HigherOrderClassElements();
-		this.pIndividual = new IndividualElements();
-		this.pClassIntoOrderedOrOrderless = new ClassIntoOrderedOrOrderlessElements();
-		this.pOrderedClass = new OrderedClassElements();
-		this.pFirstOrderClass = new FirstOrderClassElements();
-		this.pDataType = new DataTypeElements();
-		this.pHighOrderClass = new HighOrderClassElements();
-		this.pOrderlessClass = new OrderlessClassElements();
-		this.eCategorizationType = new CategorizationTypeElements();
-		this.pGeneralizationSet = new GeneralizationSetElements();
-		this.pFeature = new FeatureElements();
-		this.pAttribute = new AttributeElements();
-		this.pRegularityAttribute = new RegularityAttributeElements();
-		this.pReference = new ReferenceElements();
-		this.pRegularityReference = new RegularityReferenceElements();
-		this.pFeatureIntoRegularityFeature = new FeatureIntoRegularityFeatureElements();
-		this.pRegularityFeature = new RegularityFeatureElements();
-		this.pCARDINALITY = new CARDINALITYElements();
-		this.ePrimitiveType = new PrimitiveTypeElements();
-		this.eRegularityFeatureType = new RegularityFeatureTypeElements();
-		this.pFeatureAssignment = new FeatureAssignmentElements();
-		this.pSingleReferenceAssignment = new SingleReferenceAssignmentElements();
-		this.pMultipleReferenceAssignment = new MultipleReferenceAssignmentElements();
-		this.pSingleAttributeAssignment = new SingleAttributeAssignmentElements();
-		this.pMultipleAttributeAssignment = new MultipleAttributeAssignmentElements();
-		this.pBOOLEAN = new BOOLEANElements();
-		this.pNUMBER = new NUMBERElements();
-		this.pUnnamedIndividual = new UnnamedIndividualElements();
-		this.pSimpleAttributeAssignment = new SimpleAttributeAssignmentElements();
-		this.pSingleSimpleAttributeAssignment = new SingleSimpleAttributeAssignmentElements();
-		this.pMultipleSimpleAttributeAssignment = new MultipleSimpleAttributeAssignmentElements();
->>>>>>> development
 	}
 	public class VariableDeclarationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.VariableDeclaration");
@@ -3137,13 +3018,13 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cVariableTypeTypeLiteralExpressionParserRuleCall_2_0 = (RuleCall)cVariableTypeAssignment_2.eContents().get(0);
 		private final Keyword cEqualsSignKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		private final Assignment cInitialValueAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cInitialValueLiteralExpressionParserRuleCall_4_0 = (RuleCall)cInitialValueAssignment_4.eContents().get(0);
+		private final RuleCall cInitialValueTermExpressionParserRuleCall_4_0 = (RuleCall)cInitialValueAssignment_4.eContents().get(0);
 		
 		//VariableDeclaration:
-		//	variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=LiteralExpression;
+		//	variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=TermExpression;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=LiteralExpression
+		//variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=TermExpression
 		public Group getGroup() { return cGroup; }
 		
 		//variableName=ID
@@ -3164,11 +3045,11 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//'='
 		public Keyword getEqualsSignKeyword_3() { return cEqualsSignKeyword_3; }
 		
-		//initialValue=LiteralExpression
+		//initialValue=TermExpression
 		public Assignment getInitialValueAssignment_4() { return cInitialValueAssignment_4; }
 		
-		//LiteralExpression
-		public RuleCall getInitialValueLiteralExpressionParserRuleCall_4_0() { return cInitialValueLiteralExpressionParserRuleCall_4_0; }
+		//TermExpression
+		public RuleCall getInitialValueTermExpressionParserRuleCall_4_0() { return cInitialValueTermExpressionParserRuleCall_4_0; }
 	}
 	public class IfExpressionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.IfExpression");
@@ -3654,81 +3535,137 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	public class CallOperationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.CallOperation");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cDotOperationParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cArrowOperationParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Keyword cFullStopKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final RuleCall cDotOperationParserRuleCall_0_1 = (RuleCall)cGroup_0.eContents().get(1);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cHyphenMinusGreaterThanSignKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final RuleCall cArrowOperationParserRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		
 		//CallOperation:
-		//	DotOperation | ArrowOperation;
+		//	'.' DotOperation | '->' ArrowOperation;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//DotOperation | ArrowOperation
+		//'.' DotOperation | '->' ArrowOperation
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
+		//'.' DotOperation
+		public Group getGroup_0() { return cGroup_0; }
+		
+		//'.'
+		public Keyword getFullStopKeyword_0_0() { return cFullStopKeyword_0_0; }
+		
 		//DotOperation
-		public RuleCall getDotOperationParserRuleCall_0() { return cDotOperationParserRuleCall_0; }
+		public RuleCall getDotOperationParserRuleCall_0_1() { return cDotOperationParserRuleCall_0_1; }
+		
+		//'->' ArrowOperation
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//'->'
+		public Keyword getHyphenMinusGreaterThanSignKeyword_1_0() { return cHyphenMinusGreaterThanSignKeyword_1_0; }
 		
 		//ArrowOperation
-		public RuleCall getArrowOperationParserRuleCall_1() { return cArrowOperationParserRuleCall_1; }
+		public RuleCall getArrowOperationParserRuleCall_1_1() { return cArrowOperationParserRuleCall_1_1; }
 	}
 	public class DotOperationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.DotOperation");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cFullStopKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cRightAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cRightVariableExpressionParserRuleCall_1_0 = (RuleCall)cRightAssignment_1.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cUnaryNumberOperationParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cBinaryNumberOperationParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cVariableExpressionParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//DotOperation:
-		//	'.' right=VariableExpression;
+		//	UnaryNumberOperation | BinaryNumberOperation | VariableExpression //'.' right=VariableExpression
+		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'.' right=VariableExpression
-		public Group getGroup() { return cGroup; }
+		//UnaryNumberOperation | BinaryNumberOperation | VariableExpression
+		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//'.'
-		public Keyword getFullStopKeyword_0() { return cFullStopKeyword_0; }
+		//UnaryNumberOperation
+		public RuleCall getUnaryNumberOperationParserRuleCall_0() { return cUnaryNumberOperationParserRuleCall_0; }
 		
-		//right=VariableExpression
-		public Assignment getRightAssignment_1() { return cRightAssignment_1; }
+		//BinaryNumberOperation
+		public RuleCall getBinaryNumberOperationParserRuleCall_1() { return cBinaryNumberOperationParserRuleCall_1; }
 		
 		//VariableExpression
-		public RuleCall getRightVariableExpressionParserRuleCall_1_0() { return cRightVariableExpressionParserRuleCall_1_0; }
+		public RuleCall getVariableExpressionParserRuleCall_2() { return cVariableExpressionParserRuleCall_2; }
+	}
+	public class UnaryNumberOperationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.UnaryNumberOperation");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cOperatorAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cOperatorUnaryNumberOperatorEnumRuleCall_0_0 = (RuleCall)cOperatorAssignment_0.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cRightParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		
+		//UnaryNumberOperation:
+		//	operator=UnaryNumberOperator '(' ')';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//operator=UnaryNumberOperator '(' ')'
+		public Group getGroup() { return cGroup; }
+		
+		//operator=UnaryNumberOperator
+		public Assignment getOperatorAssignment_0() { return cOperatorAssignment_0; }
+		
+		//UnaryNumberOperator
+		public RuleCall getOperatorUnaryNumberOperatorEnumRuleCall_0_0() { return cOperatorUnaryNumberOperatorEnumRuleCall_0_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_2() { return cRightParenthesisKeyword_2; }
+	}
+	public class BinaryNumberOperationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.BinaryNumberOperation");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cOperatorAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cOperatorBinaryNumberOperatorEnumRuleCall_0_0 = (RuleCall)cOperatorAssignment_0.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cArgumentAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cArgumentOclExpressionParserRuleCall_2_0 = (RuleCall)cArgumentAssignment_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		
+		//BinaryNumberOperation:
+		//	operator=BinaryNumberOperator '(' argument=OclExpression ')';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//operator=BinaryNumberOperator '(' argument=OclExpression ')'
+		public Group getGroup() { return cGroup; }
+		
+		//operator=BinaryNumberOperator
+		public Assignment getOperatorAssignment_0() { return cOperatorAssignment_0; }
+		
+		//BinaryNumberOperator
+		public RuleCall getOperatorBinaryNumberOperatorEnumRuleCall_0_0() { return cOperatorBinaryNumberOperatorEnumRuleCall_0_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
+		
+		//argument=OclExpression
+		public Assignment getArgumentAssignment_2() { return cArgumentAssignment_2; }
+		
+		//OclExpression
+		public RuleCall getArgumentOclExpressionParserRuleCall_2_0() { return cArgumentOclExpressionParserRuleCall_2_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
 	}
 	public class ArrowOperationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.ArrowOperation");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cHyphenMinusGreaterThanSignKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cRightAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cRightBuiltInOperationParserRuleCall_1_0 = (RuleCall)cRightAssignment_1.eContents().get(0);
-		
-		//ArrowOperation:
-		//	'->' right=BuiltInOperation;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'->' right=BuiltInOperation
-		public Group getGroup() { return cGroup; }
-		
-		//'->'
-		public Keyword getHyphenMinusGreaterThanSignKeyword_0() { return cHyphenMinusGreaterThanSignKeyword_0; }
-		
-		//right=BuiltInOperation
-		public Assignment getRightAssignment_1() { return cRightAssignment_1; }
-		
-		//BuiltInOperation
-		public RuleCall getRightBuiltInOperationParserRuleCall_1_0() { return cRightBuiltInOperationParserRuleCall_1_0; }
-	}
-	public class BuiltInOperationElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.BuiltInOperation");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cUnarySetOperationParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cBinarySetOperationParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cUnaryIterationParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
-		private final RuleCall cBinaryIterationParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
+		private final RuleCall cMultiaryIterationParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
-		//BuiltInOperation:
-		//	UnarySetOperation | BinarySetOperation | UnaryIteration | BinaryIteration;
+		//ArrowOperation:
+		//	UnarySetOperation | BinarySetOperation | UnaryIteration | MultiaryIteration;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//UnarySetOperation | BinarySetOperation | UnaryIteration | BinaryIteration
+		//UnarySetOperation | BinarySetOperation | UnaryIteration | MultiaryIteration
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//UnarySetOperation
@@ -3740,8 +3677,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//UnaryIteration
 		public RuleCall getUnaryIterationParserRuleCall_2() { return cUnaryIterationParserRuleCall_2; }
 		
-		//BinaryIteration
-		public RuleCall getBinaryIterationParserRuleCall_3() { return cBinaryIterationParserRuleCall_3; }
+		//MultiaryIteration
+		public RuleCall getMultiaryIterationParserRuleCall_3() { return cMultiaryIterationParserRuleCall_3; }
 	}
 	public class UnarySetOperationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.UnarySetOperation");
@@ -3812,18 +3749,18 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cIteratorUnaryIteratorEnumRuleCall_0_0 = (RuleCall)cIteratorAssignment_0.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Assignment cVariablesAssignment_2_0 = (Assignment)cGroup_2.eContents().get(0);
-		private final RuleCall cVariablesIDTerminalRuleCall_2_0_0 = (RuleCall)cVariablesAssignment_2_0.eContents().get(0);
+		private final Assignment cVariableAssignment_2_0 = (Assignment)cGroup_2.eContents().get(0);
+		private final RuleCall cVariableIDTerminalRuleCall_2_0_0 = (RuleCall)cVariableAssignment_2_0.eContents().get(0);
 		private final Keyword cVerticalLineKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
 		private final Assignment cBodyAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cBodyOclExpressionParserRuleCall_3_0 = (RuleCall)cBodyAssignment_3.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//UnaryIteration:
-		//	iterator=UnaryIterator '(' (variables+=ID '|')? body=OclExpression ')';
+		//	iterator=UnaryIterator '(' (variable=ID '|')? body=OclExpression ')';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//iterator=UnaryIterator '(' (variables+=ID '|')? body=OclExpression ')'
+		//iterator=UnaryIterator '(' (variable=ID '|')? body=OclExpression ')'
 		public Group getGroup() { return cGroup; }
 		
 		//iterator=UnaryIterator
@@ -3835,14 +3772,14 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//'('
 		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
 		
-		//(variables+=ID '|')?
+		//(variable=ID '|')?
 		public Group getGroup_2() { return cGroup_2; }
 		
-		//variables+=ID
-		public Assignment getVariablesAssignment_2_0() { return cVariablesAssignment_2_0; }
+		//variable=ID
+		public Assignment getVariableAssignment_2_0() { return cVariableAssignment_2_0; }
 		
 		//ID
-		public RuleCall getVariablesIDTerminalRuleCall_2_0_0() { return cVariablesIDTerminalRuleCall_2_0_0; }
+		public RuleCall getVariableIDTerminalRuleCall_2_0_0() { return cVariableIDTerminalRuleCall_2_0_0; }
 		
 		//'|'
 		public Keyword getVerticalLineKeyword_2_1() { return cVerticalLineKeyword_2_1; }
@@ -3856,36 +3793,41 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//')'
 		public Keyword getRightParenthesisKeyword_4() { return cRightParenthesisKeyword_4; }
 	}
-	public class BinaryIterationElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.BinaryIteration");
+	public class MultiaryIterationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.MultiaryIteration");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cForAllKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cIteratorAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cIteratorMultiaryIteratorEnumRuleCall_0_0 = (RuleCall)cIteratorAssignment_0.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
 		private final Assignment cVariablesAssignment_2_0 = (Assignment)cGroup_2.eContents().get(0);
 		private final RuleCall cVariablesIDTerminalRuleCall_2_0_0 = (RuleCall)cVariablesAssignment_2_0.eContents().get(0);
-		private final Keyword cCommaKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
-		private final Assignment cVariablesAssignment_2_2 = (Assignment)cGroup_2.eContents().get(2);
-		private final RuleCall cVariablesIDTerminalRuleCall_2_2_0 = (RuleCall)cVariablesAssignment_2_2.eContents().get(0);
-		private final Keyword cVerticalLineKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
+		private final Group cGroup_2_1 = (Group)cGroup_2.eContents().get(1);
+		private final Keyword cCommaKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
+		private final Assignment cVariablesAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
+		private final RuleCall cVariablesIDTerminalRuleCall_2_1_1_0 = (RuleCall)cVariablesAssignment_2_1_1.eContents().get(0);
+		private final Keyword cVerticalLineKeyword_2_2 = (Keyword)cGroup_2.eContents().get(2);
 		private final Assignment cBodyAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cBodyOclExpressionParserRuleCall_3_0 = (RuleCall)cBodyAssignment_3.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
-		//BinaryIteration:
-		//	'forAll' '(' (variables+=ID ',' variables+=ID '|')? body=OclExpression ')';
+		//MultiaryIteration:
+		//	iterator=MultiaryIterator '(' (variables+=ID (',' variables+=ID)+ '|')? body=OclExpression ')';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'forAll' '(' (variables+=ID ',' variables+=ID '|')? body=OclExpression ')'
+		//iterator=MultiaryIterator '(' (variables+=ID (',' variables+=ID)+ '|')? body=OclExpression ')'
 		public Group getGroup() { return cGroup; }
 		
-		//'forAll'
-		public Keyword getForAllKeyword_0() { return cForAllKeyword_0; }
+		//iterator=MultiaryIterator
+		public Assignment getIteratorAssignment_0() { return cIteratorAssignment_0; }
+		
+		//MultiaryIterator
+		public RuleCall getIteratorMultiaryIteratorEnumRuleCall_0_0() { return cIteratorMultiaryIteratorEnumRuleCall_0_0; }
 		
 		//'('
 		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
 		
-		//(variables+=ID ',' variables+=ID '|')?
+		//(variables+=ID (',' variables+=ID)+ '|')?
 		public Group getGroup_2() { return cGroup_2; }
 		
 		//variables+=ID
@@ -3894,17 +3836,20 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getVariablesIDTerminalRuleCall_2_0_0() { return cVariablesIDTerminalRuleCall_2_0_0; }
 		
+		//(',' variables+=ID)+
+		public Group getGroup_2_1() { return cGroup_2_1; }
+		
 		//','
-		public Keyword getCommaKeyword_2_1() { return cCommaKeyword_2_1; }
+		public Keyword getCommaKeyword_2_1_0() { return cCommaKeyword_2_1_0; }
 		
 		//variables+=ID
-		public Assignment getVariablesAssignment_2_2() { return cVariablesAssignment_2_2; }
+		public Assignment getVariablesAssignment_2_1_1() { return cVariablesAssignment_2_1_1; }
 		
 		//ID
-		public RuleCall getVariablesIDTerminalRuleCall_2_2_0() { return cVariablesIDTerminalRuleCall_2_2_0; }
+		public RuleCall getVariablesIDTerminalRuleCall_2_1_1_0() { return cVariablesIDTerminalRuleCall_2_1_1_0; }
 		
 		//'|'
-		public Keyword getVerticalLineKeyword_2_3() { return cVerticalLineKeyword_2_3; }
+		public Keyword getVerticalLineKeyword_2_2() { return cVerticalLineKeyword_2_2; }
 		
 		//body=OclExpression
 		public Assignment getBodyAssignment_3() { return cBodyAssignment_3; }
@@ -4685,6 +4630,76 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//'-'
 		public Keyword getMINUSHyphenMinusKeyword_2_0() { return cMINUSHyphenMinusKeyword_2_0; }
 	}
+	public class UnaryNumberOperatorElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.UnaryNumberOperator");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cABSEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cABSAbsKeyword_0_0 = (Keyword)cABSEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cFLOOREnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cFLOORFloorKeyword_1_0 = (Keyword)cFLOOREnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cROUNDEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cROUNDRoundKeyword_2_0 = (Keyword)cROUNDEnumLiteralDeclaration_2.eContents().get(0);
+		
+		//enum UnaryNumberOperator:
+		//	ABS='abs' | FLOOR='floor' | ROUND='round';
+		public EnumRule getRule() { return rule; }
+		
+		//ABS='abs' | FLOOR='floor' | ROUND='round'
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//ABS='abs'
+		public EnumLiteralDeclaration getABSEnumLiteralDeclaration_0() { return cABSEnumLiteralDeclaration_0; }
+		
+		//'abs'
+		public Keyword getABSAbsKeyword_0_0() { return cABSAbsKeyword_0_0; }
+		
+		//FLOOR='floor'
+		public EnumLiteralDeclaration getFLOOREnumLiteralDeclaration_1() { return cFLOOREnumLiteralDeclaration_1; }
+		
+		//'floor'
+		public Keyword getFLOORFloorKeyword_1_0() { return cFLOORFloorKeyword_1_0; }
+		
+		//ROUND='round'
+		public EnumLiteralDeclaration getROUNDEnumLiteralDeclaration_2() { return cROUNDEnumLiteralDeclaration_2; }
+		
+		//'round'
+		public Keyword getROUNDRoundKeyword_2_0() { return cROUNDRoundKeyword_2_0; }
+	}
+	public class BinaryNumberOperatorElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.BinaryNumberOperator");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cMINEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cMINMinKeyword_0_0 = (Keyword)cMINEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cMAXEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cMAXMaxKeyword_1_0 = (Keyword)cMAXEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cDIVEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cDIVDivKeyword_2_0 = (Keyword)cDIVEnumLiteralDeclaration_2.eContents().get(0);
+		
+		//enum BinaryNumberOperator:
+		//	MIN='min' | MAX='max' | DIV='div';
+		public EnumRule getRule() { return rule; }
+		
+		//MIN='min' | MAX='max' | DIV='div'
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//MIN='min'
+		public EnumLiteralDeclaration getMINEnumLiteralDeclaration_0() { return cMINEnumLiteralDeclaration_0; }
+		
+		//'min'
+		public Keyword getMINMinKeyword_0_0() { return cMINMinKeyword_0_0; }
+		
+		//MAX='max'
+		public EnumLiteralDeclaration getMAXEnumLiteralDeclaration_1() { return cMAXEnumLiteralDeclaration_1; }
+		
+		//'max'
+		public Keyword getMAXMaxKeyword_1_0() { return cMAXMaxKeyword_1_0; }
+		
+		//DIV='div'
+		public EnumLiteralDeclaration getDIVEnumLiteralDeclaration_2() { return cDIVEnumLiteralDeclaration_2; }
+		
+		//'div'
+		public Keyword getDIVDivKeyword_2_0() { return cDIVDivKeyword_2_0; }
+	}
 	public class UnarySetOperatorElements extends AbstractEnumRuleElementFinder {
 		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.UnarySetOperator");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -4696,12 +4711,22 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cNOT_EMPTYNotEmptyKeyword_2_0 = (Keyword)cNOT_EMPTYEnumLiteralDeclaration_2.eContents().get(0);
 		private final EnumLiteralDeclaration cSUMEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
 		private final Keyword cSUMSumKeyword_3_0 = (Keyword)cSUMEnumLiteralDeclaration_3.eContents().get(0);
+		private final EnumLiteralDeclaration cMINEnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
+		private final Keyword cMINMinKeyword_4_0 = (Keyword)cMINEnumLiteralDeclaration_4.eContents().get(0);
+		private final EnumLiteralDeclaration cMAXEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
+		private final Keyword cMAXMaxKeyword_5_0 = (Keyword)cMAXEnumLiteralDeclaration_5.eContents().get(0);
+		private final EnumLiteralDeclaration cAS_SETEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
+		private final Keyword cAS_SETAsSetKeyword_6_0 = (Keyword)cAS_SETEnumLiteralDeclaration_6.eContents().get(0);
+		private final EnumLiteralDeclaration cFLATTENEnumLiteralDeclaration_7 = (EnumLiteralDeclaration)cAlternatives.eContents().get(7);
+		private final Keyword cFLATTENFlattenKeyword_7_0 = (Keyword)cFLATTENEnumLiteralDeclaration_7.eContents().get(0);
 		
 		//enum UnarySetOperator:
-		//	SIZE='size' | IS_EMPTY='isEmpty' | NOT_EMPTY='notEmpty' | SUM='sum';
+		//	SIZE='size' | IS_EMPTY='isEmpty' | NOT_EMPTY='notEmpty' | SUM='sum' | MIN='min' | MAX='max' |
+		//	AS_SET='asSet' | FLATTEN='flatten';
 		public EnumRule getRule() { return rule; }
 		
-		//SIZE='size' | IS_EMPTY='isEmpty' | NOT_EMPTY='notEmpty' | SUM='sum'
+		//SIZE='size' | IS_EMPTY='isEmpty' | NOT_EMPTY='notEmpty' | SUM='sum' | MIN='min' | MAX='max' | AS_SET='asSet' |
+		//FLATTEN='flatten'
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//SIZE='size'
@@ -4727,6 +4752,30 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		
 		//'sum'
 		public Keyword getSUMSumKeyword_3_0() { return cSUMSumKeyword_3_0; }
+		
+		//MIN='min'
+		public EnumLiteralDeclaration getMINEnumLiteralDeclaration_4() { return cMINEnumLiteralDeclaration_4; }
+		
+		//'min'
+		public Keyword getMINMinKeyword_4_0() { return cMINMinKeyword_4_0; }
+		
+		//MAX='max'
+		public EnumLiteralDeclaration getMAXEnumLiteralDeclaration_5() { return cMAXEnumLiteralDeclaration_5; }
+		
+		//'max'
+		public Keyword getMAXMaxKeyword_5_0() { return cMAXMaxKeyword_5_0; }
+		
+		//AS_SET='asSet'
+		public EnumLiteralDeclaration getAS_SETEnumLiteralDeclaration_6() { return cAS_SETEnumLiteralDeclaration_6; }
+		
+		//'asSet'
+		public Keyword getAS_SETAsSetKeyword_6_0() { return cAS_SETAsSetKeyword_6_0; }
+		
+		//FLATTEN='flatten'
+		public EnumLiteralDeclaration getFLATTENEnumLiteralDeclaration_7() { return cFLATTENEnumLiteralDeclaration_7; }
+		
+		//'flatten'
+		public Keyword getFLATTENFlattenKeyword_7_0() { return cFLATTENFlattenKeyword_7_0; }
 	}
 	public class BinarySetOperatorElements extends AbstractEnumRuleElementFinder {
 		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.BinarySetOperator");
@@ -4743,22 +4792,26 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cINCLUDINGIncludingKeyword_4_0 = (Keyword)cINCLUDINGEnumLiteralDeclaration_4.eContents().get(0);
 		private final EnumLiteralDeclaration cEXCLUDINGEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
 		private final Keyword cEXCLUDINGExcludingKeyword_5_0 = (Keyword)cEXCLUDINGEnumLiteralDeclaration_5.eContents().get(0);
-		private final EnumLiteralDeclaration cUNIONEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
-		private final Keyword cUNIONUnionKeyword_6_0 = (Keyword)cUNIONEnumLiteralDeclaration_6.eContents().get(0);
-		private final EnumLiteralDeclaration cINTERSECTIONEnumLiteralDeclaration_7 = (EnumLiteralDeclaration)cAlternatives.eContents().get(7);
-		private final Keyword cINTERSECTIONIntersectionKeyword_7_0 = (Keyword)cINTERSECTIONEnumLiteralDeclaration_7.eContents().get(0);
-		private final EnumLiteralDeclaration cSYMMETRIC_DIFFERENCEEnumLiteralDeclaration_8 = (EnumLiteralDeclaration)cAlternatives.eContents().get(8);
-		private final Keyword cSYMMETRIC_DIFFERENCESymmetricDifferenceKeyword_8_0 = (Keyword)cSYMMETRIC_DIFFERENCEEnumLiteralDeclaration_8.eContents().get(0);
+		private final EnumLiteralDeclaration cCOUNTEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
+		private final Keyword cCOUNTCountKeyword_6_0 = (Keyword)cCOUNTEnumLiteralDeclaration_6.eContents().get(0);
+		private final EnumLiteralDeclaration cUNIONEnumLiteralDeclaration_7 = (EnumLiteralDeclaration)cAlternatives.eContents().get(7);
+		private final Keyword cUNIONUnionKeyword_7_0 = (Keyword)cUNIONEnumLiteralDeclaration_7.eContents().get(0);
+		private final EnumLiteralDeclaration cINTERSECTIONEnumLiteralDeclaration_8 = (EnumLiteralDeclaration)cAlternatives.eContents().get(8);
+		private final Keyword cINTERSECTIONIntersectionKeyword_8_0 = (Keyword)cINTERSECTIONEnumLiteralDeclaration_8.eContents().get(0);
+		private final EnumLiteralDeclaration cSYMMETRIC_DIFFERENCEEnumLiteralDeclaration_9 = (EnumLiteralDeclaration)cAlternatives.eContents().get(9);
+		private final Keyword cSYMMETRIC_DIFFERENCESymmetricDifferenceKeyword_9_0 = (Keyword)cSYMMETRIC_DIFFERENCEEnumLiteralDeclaration_9.eContents().get(0);
+		private final EnumLiteralDeclaration cPRODUCTEnumLiteralDeclaration_10 = (EnumLiteralDeclaration)cAlternatives.eContents().get(10);
+		private final Keyword cPRODUCTProductKeyword_10_0 = (Keyword)cPRODUCTEnumLiteralDeclaration_10.eContents().get(0);
 		
 		//enum BinarySetOperator:
 		//	INCLUDES='includes' | INCLUDES_ALL='includesAll' | EXCLUDES='excludes' | EXCLUDES_ALL='excludesAll' |
-		//	INCLUDING='including' | EXCLUDING='excluding' | UNION='union' | INTERSECTION='intersection' |
-		//	SYMMETRIC_DIFFERENCE='symmetricDifference';
+		//	INCLUDING='including' | EXCLUDING='excluding' | COUNT='count' | UNION='union' | INTERSECTION='intersection' |
+		//	SYMMETRIC_DIFFERENCE='symmetricDifference' | PRODUCT='product';
 		public EnumRule getRule() { return rule; }
 		
 		//INCLUDES='includes' | INCLUDES_ALL='includesAll' | EXCLUDES='excludes' | EXCLUDES_ALL='excludesAll' |
-		//INCLUDING='including' | EXCLUDING='excluding' | UNION='union' | INTERSECTION='intersection' |
-		//SYMMETRIC_DIFFERENCE='symmetricDifference'
+		//INCLUDING='including' | EXCLUDING='excluding' | COUNT='count' | UNION='union' | INTERSECTION='intersection' |
+		//SYMMETRIC_DIFFERENCE='symmetricDifference' | PRODUCT='product'
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//INCLUDES='includes'
@@ -4797,74 +4850,85 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//'excluding'
 		public Keyword getEXCLUDINGExcludingKeyword_5_0() { return cEXCLUDINGExcludingKeyword_5_0; }
 		
+		//COUNT='count'
+		public EnumLiteralDeclaration getCOUNTEnumLiteralDeclaration_6() { return cCOUNTEnumLiteralDeclaration_6; }
+		
+		//'count'
+		public Keyword getCOUNTCountKeyword_6_0() { return cCOUNTCountKeyword_6_0; }
+		
 		//UNION='union'
-		public EnumLiteralDeclaration getUNIONEnumLiteralDeclaration_6() { return cUNIONEnumLiteralDeclaration_6; }
+		public EnumLiteralDeclaration getUNIONEnumLiteralDeclaration_7() { return cUNIONEnumLiteralDeclaration_7; }
 		
 		//'union'
-		public Keyword getUNIONUnionKeyword_6_0() { return cUNIONUnionKeyword_6_0; }
+		public Keyword getUNIONUnionKeyword_7_0() { return cUNIONUnionKeyword_7_0; }
 		
 		//INTERSECTION='intersection'
-		public EnumLiteralDeclaration getINTERSECTIONEnumLiteralDeclaration_7() { return cINTERSECTIONEnumLiteralDeclaration_7; }
+		public EnumLiteralDeclaration getINTERSECTIONEnumLiteralDeclaration_8() { return cINTERSECTIONEnumLiteralDeclaration_8; }
 		
 		//'intersection'
-		public Keyword getINTERSECTIONIntersectionKeyword_7_0() { return cINTERSECTIONIntersectionKeyword_7_0; }
+		public Keyword getINTERSECTIONIntersectionKeyword_8_0() { return cINTERSECTIONIntersectionKeyword_8_0; }
 		
 		//SYMMETRIC_DIFFERENCE='symmetricDifference'
-		public EnumLiteralDeclaration getSYMMETRIC_DIFFERENCEEnumLiteralDeclaration_8() { return cSYMMETRIC_DIFFERENCEEnumLiteralDeclaration_8; }
+		public EnumLiteralDeclaration getSYMMETRIC_DIFFERENCEEnumLiteralDeclaration_9() { return cSYMMETRIC_DIFFERENCEEnumLiteralDeclaration_9; }
 		
 		//'symmetricDifference'
-		public Keyword getSYMMETRIC_DIFFERENCESymmetricDifferenceKeyword_8_0() { return cSYMMETRIC_DIFFERENCESymmetricDifferenceKeyword_8_0; }
+		public Keyword getSYMMETRIC_DIFFERENCESymmetricDifferenceKeyword_9_0() { return cSYMMETRIC_DIFFERENCESymmetricDifferenceKeyword_9_0; }
+		
+		//PRODUCT='product'
+		public EnumLiteralDeclaration getPRODUCTEnumLiteralDeclaration_10() { return cPRODUCTEnumLiteralDeclaration_10; }
+		
+		//'product'
+		public Keyword getPRODUCTProductKeyword_10_0() { return cPRODUCTProductKeyword_10_0; }
 	}
 	public class UnaryIteratorElements extends AbstractEnumRuleElementFinder {
 		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.UnaryIterator");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final EnumLiteralDeclaration cCOUNTEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
-		private final Keyword cCOUNTCountKeyword_0_0 = (Keyword)cCOUNTEnumLiteralDeclaration_0.eContents().get(0);
-		private final EnumLiteralDeclaration cEXISTSEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
-		private final Keyword cEXISTSExistsKeyword_1_0 = (Keyword)cEXISTSEnumLiteralDeclaration_1.eContents().get(0);
-		private final EnumLiteralDeclaration cSELECTEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
-		private final Keyword cSELECTSelectKeyword_2_0 = (Keyword)cSELECTEnumLiteralDeclaration_2.eContents().get(0);
-		private final EnumLiteralDeclaration cREJECTEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
-		private final Keyword cREJECTRejectKeyword_3_0 = (Keyword)cREJECTEnumLiteralDeclaration_3.eContents().get(0);
+		private final EnumLiteralDeclaration cSELECTEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cSELECTSelectKeyword_0_0 = (Keyword)cSELECTEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cREJECTEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cREJECTRejectKeyword_1_0 = (Keyword)cREJECTEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cCOLLECTEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cCOLLECTCollectKeyword_2_0 = (Keyword)cCOLLECTEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cANYEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cANYAnyKeyword_3_0 = (Keyword)cANYEnumLiteralDeclaration_3.eContents().get(0);
 		private final EnumLiteralDeclaration cONEEnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
 		private final Keyword cONEOneKeyword_4_0 = (Keyword)cONEEnumLiteralDeclaration_4.eContents().get(0);
 		private final EnumLiteralDeclaration cIS_UNIQUEEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
 		private final Keyword cIS_UNIQUEIsUniqueKeyword_5_0 = (Keyword)cIS_UNIQUEEnumLiteralDeclaration_5.eContents().get(0);
-		private final EnumLiteralDeclaration cCOLLECTEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
-		private final Keyword cCOLLECTCollectKeyword_6_0 = (Keyword)cCOLLECTEnumLiteralDeclaration_6.eContents().get(0);
+		private final EnumLiteralDeclaration cCLOSUREEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
+		private final Keyword cCLOSUREClosureKeyword_6_0 = (Keyword)cCLOSUREEnumLiteralDeclaration_6.eContents().get(0);
 		
 		//enum UnaryIterator:
-		//	COUNT='count' | EXISTS='exists' | SELECT='select' | REJECT='reject' | ONE='one' | IS_UNIQUE='isUnique' |
-		//	COLLECT='collect';
+		//	SELECT='select' | REJECT='reject' | COLLECT='collect' | ANY='any' | ONE='one' |
+		//	IS_UNIQUE='isUnique' | CLOSURE='closure';
 		public EnumRule getRule() { return rule; }
 		
-		//COUNT='count' | EXISTS='exists' | SELECT='select' | REJECT='reject' | ONE='one' | IS_UNIQUE='isUnique' |
-		//COLLECT='collect'
+		//SELECT='select' | REJECT='reject' | COLLECT='collect' | ANY='any' | ONE='one' | IS_UNIQUE='isUnique' | CLOSURE='closure'
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//COUNT='count'
-		public EnumLiteralDeclaration getCOUNTEnumLiteralDeclaration_0() { return cCOUNTEnumLiteralDeclaration_0; }
-		
-		//'count'
-		public Keyword getCOUNTCountKeyword_0_0() { return cCOUNTCountKeyword_0_0; }
-		
-		//EXISTS='exists'
-		public EnumLiteralDeclaration getEXISTSEnumLiteralDeclaration_1() { return cEXISTSEnumLiteralDeclaration_1; }
-		
-		//'exists'
-		public Keyword getEXISTSExistsKeyword_1_0() { return cEXISTSExistsKeyword_1_0; }
-		
 		//SELECT='select'
-		public EnumLiteralDeclaration getSELECTEnumLiteralDeclaration_2() { return cSELECTEnumLiteralDeclaration_2; }
+		public EnumLiteralDeclaration getSELECTEnumLiteralDeclaration_0() { return cSELECTEnumLiteralDeclaration_0; }
 		
 		//'select'
-		public Keyword getSELECTSelectKeyword_2_0() { return cSELECTSelectKeyword_2_0; }
+		public Keyword getSELECTSelectKeyword_0_0() { return cSELECTSelectKeyword_0_0; }
 		
 		//REJECT='reject'
-		public EnumLiteralDeclaration getREJECTEnumLiteralDeclaration_3() { return cREJECTEnumLiteralDeclaration_3; }
+		public EnumLiteralDeclaration getREJECTEnumLiteralDeclaration_1() { return cREJECTEnumLiteralDeclaration_1; }
 		
 		//'reject'
-		public Keyword getREJECTRejectKeyword_3_0() { return cREJECTRejectKeyword_3_0; }
+		public Keyword getREJECTRejectKeyword_1_0() { return cREJECTRejectKeyword_1_0; }
+		
+		//COLLECT='collect'
+		public EnumLiteralDeclaration getCOLLECTEnumLiteralDeclaration_2() { return cCOLLECTEnumLiteralDeclaration_2; }
+		
+		//'collect'
+		public Keyword getCOLLECTCollectKeyword_2_0() { return cCOLLECTCollectKeyword_2_0; }
+		
+		//ANY='any'
+		public EnumLiteralDeclaration getANYEnumLiteralDeclaration_3() { return cANYEnumLiteralDeclaration_3; }
+		
+		//'any'
+		public Keyword getANYAnyKeyword_3_0() { return cANYAnyKeyword_3_0; }
 		
 		//ONE='one'
 		public EnumLiteralDeclaration getONEEnumLiteralDeclaration_4() { return cONEEnumLiteralDeclaration_4; }
@@ -4878,11 +4942,38 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		//'isUnique'
 		public Keyword getIS_UNIQUEIsUniqueKeyword_5_0() { return cIS_UNIQUEIsUniqueKeyword_5_0; }
 		
-		//COLLECT='collect'
-		public EnumLiteralDeclaration getCOLLECTEnumLiteralDeclaration_6() { return cCOLLECTEnumLiteralDeclaration_6; }
+		//CLOSURE='closure'
+		public EnumLiteralDeclaration getCLOSUREEnumLiteralDeclaration_6() { return cCLOSUREEnumLiteralDeclaration_6; }
 		
-		//'collect'
-		public Keyword getCOLLECTCollectKeyword_6_0() { return cCOLLECTCollectKeyword_6_0; }
+		//'closure'
+		public Keyword getCLOSUREClosureKeyword_6_0() { return cCLOSUREClosureKeyword_6_0; }
+	}
+	public class MultiaryIteratorElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "br.ufes.inf.nemo.ml2.ML2.MultiaryIterator");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cEXISTSEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cEXISTSExistsKeyword_0_0 = (Keyword)cEXISTSEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cFOR_ALLEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cFOR_ALLForAllKeyword_1_0 = (Keyword)cFOR_ALLEnumLiteralDeclaration_1.eContents().get(0);
+		
+		//enum MultiaryIterator:
+		//	EXISTS='exists' | FOR_ALL='forAll';
+		public EnumRule getRule() { return rule; }
+		
+		//EXISTS='exists' | FOR_ALL='forAll'
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//EXISTS='exists'
+		public EnumLiteralDeclaration getEXISTSEnumLiteralDeclaration_0() { return cEXISTSEnumLiteralDeclaration_0; }
+		
+		//'exists'
+		public Keyword getEXISTSExistsKeyword_0_0() { return cEXISTSExistsKeyword_0_0; }
+		
+		//FOR_ALL='forAll'
+		public EnumLiteralDeclaration getFOR_ALLEnumLiteralDeclaration_1() { return cFOR_ALLEnumLiteralDeclaration_1; }
+		
+		//'forAll'
+		public Keyword getFOR_ALLForAllKeyword_1_0() { return cFOR_ALLForAllKeyword_1_0; }
 	}
 	
 	private final ModelElements pModel;
@@ -4890,6 +4981,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	private final QualifiedNameWithWildcardElements pQualifiedNameWithWildcard;
 	private final ImportElements pImport;
 	private final ModelElementElements pModelElement;
+	private final AllModelElementsElements pAllModelElements;
 	private final EntityDeclarationElements pEntityDeclaration;
 	private final ClassElements pClass;
 	private final FirstOrderClassOrDataTypeElements pFirstOrderClassOrDataType;
@@ -4918,7 +5010,6 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	private final MultipleReferenceAssignmentElements pMultipleReferenceAssignment;
 	private final SingleAttributeAssignmentElements pSingleAttributeAssignment;
 	private final MultipleAttributeAssignmentElements pMultipleAttributeAssignment;
-	private final LiteralElements pLiteral;
 	private final BOOLEANElements pBOOLEAN;
 	private final NUMBERElements pNUMBER;
 	private final UnnamedIndividualElements pUnnamedIndividual;
@@ -4952,15 +5043,19 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	private final CallExpressionElements pCallExpression;
 	private final CallOperationElements pCallOperation;
 	private final DotOperationElements pDotOperation;
+	private final UnaryNumberOperationElements pUnaryNumberOperation;
+	private final UnaryNumberOperatorElements eUnaryNumberOperator;
+	private final BinaryNumberOperationElements pBinaryNumberOperation;
+	private final BinaryNumberOperatorElements eBinaryNumberOperator;
 	private final ArrowOperationElements pArrowOperation;
-	private final BuiltInOperationElements pBuiltInOperation;
 	private final UnarySetOperationElements pUnarySetOperation;
 	private final UnarySetOperatorElements eUnarySetOperator;
 	private final BinarySetOperationElements pBinarySetOperation;
 	private final BinarySetOperatorElements eBinarySetOperator;
 	private final UnaryIterationElements pUnaryIteration;
 	private final UnaryIteratorElements eUnaryIterator;
-	private final BinaryIterationElements pBinaryIteration;
+	private final MultiaryIterationElements pMultiaryIteration;
+	private final MultiaryIteratorElements eMultiaryIterator;
 	private final LiteralExpressionElements pLiteralExpression;
 	private final PrimitiveLiteralExpressionElements pPrimitiveLiteralExpression;
 	private final NullLiteralExpressionElements pNullLiteralExpression;
@@ -4993,6 +5088,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		this.pQualifiedNameWithWildcard = new QualifiedNameWithWildcardElements();
 		this.pImport = new ImportElements();
 		this.pModelElement = new ModelElementElements();
+		this.pAllModelElements = new AllModelElementsElements();
 		this.pEntityDeclaration = new EntityDeclarationElements();
 		this.pClass = new ClassElements();
 		this.pFirstOrderClassOrDataType = new FirstOrderClassOrDataTypeElements();
@@ -5021,7 +5117,6 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		this.pMultipleReferenceAssignment = new MultipleReferenceAssignmentElements();
 		this.pSingleAttributeAssignment = new SingleAttributeAssignmentElements();
 		this.pMultipleAttributeAssignment = new MultipleAttributeAssignmentElements();
-		this.pLiteral = new LiteralElements();
 		this.pBOOLEAN = new BOOLEANElements();
 		this.pNUMBER = new NUMBERElements();
 		this.pUnnamedIndividual = new UnnamedIndividualElements();
@@ -5055,15 +5150,19 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		this.pCallExpression = new CallExpressionElements();
 		this.pCallOperation = new CallOperationElements();
 		this.pDotOperation = new DotOperationElements();
+		this.pUnaryNumberOperation = new UnaryNumberOperationElements();
+		this.eUnaryNumberOperator = new UnaryNumberOperatorElements();
+		this.pBinaryNumberOperation = new BinaryNumberOperationElements();
+		this.eBinaryNumberOperator = new BinaryNumberOperatorElements();
 		this.pArrowOperation = new ArrowOperationElements();
-		this.pBuiltInOperation = new BuiltInOperationElements();
 		this.pUnarySetOperation = new UnarySetOperationElements();
 		this.eUnarySetOperator = new UnarySetOperatorElements();
 		this.pBinarySetOperation = new BinarySetOperationElements();
 		this.eBinarySetOperator = new BinarySetOperatorElements();
 		this.pUnaryIteration = new UnaryIterationElements();
 		this.eUnaryIterator = new UnaryIteratorElements();
-		this.pBinaryIteration = new BinaryIterationElements();
+		this.pMultiaryIteration = new MultiaryIterationElements();
+		this.eMultiaryIterator = new MultiaryIteratorElements();
 		this.pLiteralExpression = new LiteralExpressionElements();
 		this.pPrimitiveLiteralExpression = new PrimitiveLiteralExpressionElements();
 		this.pNullLiteralExpression = new NullLiteralExpressionElements();
@@ -5153,11 +5252,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//ModelElement:
-<<<<<<< HEAD
-	//	(Import | EntityDeclaration | GeneralizationSet | Feature | FeatureAssignment | ConstraintDeclaration) ';';
-=======
-	//	(Import | EntityDeclaration | GeneralizationSet) ';';
->>>>>>> development
+	//	(Import | EntityDeclaration | GeneralizationSet | ConstraintDeclaration) ';';
 	public ModelElementElements getModelElementAccess() {
 		return pModelElement;
 	}
@@ -5641,7 +5736,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//VariableDeclaration:
-	//	variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=LiteralExpression;
+	//	variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=TermExpression;
 	public VariableDeclarationElements getVariableDeclarationAccess() {
 		return pVariableDeclaration;
 	}
@@ -5845,7 +5940,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//CallOperation:
-	//	DotOperation | ArrowOperation;
+	//	'.' DotOperation | '->' ArrowOperation;
 	public CallOperationElements getCallOperationAccess() {
 		return pCallOperation;
 	}
@@ -5855,7 +5950,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//DotOperation:
-	//	'.' right=VariableExpression;
+	//	UnaryNumberOperation | BinaryNumberOperation | VariableExpression //'.' right=VariableExpression
+	//;
 	public DotOperationElements getDotOperationAccess() {
 		return pDotOperation;
 	}
@@ -5864,24 +5960,54 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		return getDotOperationAccess().getRule();
 	}
 	
+	//UnaryNumberOperation:
+	//	operator=UnaryNumberOperator '(' ')';
+	public UnaryNumberOperationElements getUnaryNumberOperationAccess() {
+		return pUnaryNumberOperation;
+	}
+	
+	public ParserRule getUnaryNumberOperationRule() {
+		return getUnaryNumberOperationAccess().getRule();
+	}
+	
+	//enum UnaryNumberOperator:
+	//	ABS='abs' | FLOOR='floor' | ROUND='round';
+	public UnaryNumberOperatorElements getUnaryNumberOperatorAccess() {
+		return eUnaryNumberOperator;
+	}
+	
+	public EnumRule getUnaryNumberOperatorRule() {
+		return getUnaryNumberOperatorAccess().getRule();
+	}
+	
+	//BinaryNumberOperation:
+	//	operator=BinaryNumberOperator '(' argument=OclExpression ')';
+	public BinaryNumberOperationElements getBinaryNumberOperationAccess() {
+		return pBinaryNumberOperation;
+	}
+	
+	public ParserRule getBinaryNumberOperationRule() {
+		return getBinaryNumberOperationAccess().getRule();
+	}
+	
+	//enum BinaryNumberOperator:
+	//	MIN='min' | MAX='max' | DIV='div';
+	public BinaryNumberOperatorElements getBinaryNumberOperatorAccess() {
+		return eBinaryNumberOperator;
+	}
+	
+	public EnumRule getBinaryNumberOperatorRule() {
+		return getBinaryNumberOperatorAccess().getRule();
+	}
+	
 	//ArrowOperation:
-	//	'->' right=BuiltInOperation;
+	//	UnarySetOperation | BinarySetOperation | UnaryIteration | MultiaryIteration;
 	public ArrowOperationElements getArrowOperationAccess() {
 		return pArrowOperation;
 	}
 	
 	public ParserRule getArrowOperationRule() {
 		return getArrowOperationAccess().getRule();
-	}
-	
-	//BuiltInOperation:
-	//	UnarySetOperation | BinarySetOperation | UnaryIteration | BinaryIteration;
-	public BuiltInOperationElements getBuiltInOperationAccess() {
-		return pBuiltInOperation;
-	}
-	
-	public ParserRule getBuiltInOperationRule() {
-		return getBuiltInOperationAccess().getRule();
 	}
 	
 	//UnarySetOperation:
@@ -5895,7 +6021,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//enum UnarySetOperator:
-	//	SIZE='size' | IS_EMPTY='isEmpty' | NOT_EMPTY='notEmpty' | SUM='sum';
+	//	SIZE='size' | IS_EMPTY='isEmpty' | NOT_EMPTY='notEmpty' | SUM='sum' | MIN='min' | MAX='max' |
+	//	AS_SET='asSet' | FLATTEN='flatten';
 	public UnarySetOperatorElements getUnarySetOperatorAccess() {
 		return eUnarySetOperator;
 	}
@@ -5916,8 +6043,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	
 	//enum BinarySetOperator:
 	//	INCLUDES='includes' | INCLUDES_ALL='includesAll' | EXCLUDES='excludes' | EXCLUDES_ALL='excludesAll' |
-	//	INCLUDING='including' | EXCLUDING='excluding' | UNION='union' | INTERSECTION='intersection' |
-	//	SYMMETRIC_DIFFERENCE='symmetricDifference';
+	//	INCLUDING='including' | EXCLUDING='excluding' | COUNT='count' | UNION='union' | INTERSECTION='intersection' |
+	//	SYMMETRIC_DIFFERENCE='symmetricDifference' | PRODUCT='product';
 	public BinarySetOperatorElements getBinarySetOperatorAccess() {
 		return eBinarySetOperator;
 	}
@@ -5927,7 +6054,7 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//UnaryIteration:
-	//	iterator=UnaryIterator '(' (variables+=ID '|')? body=OclExpression ')';
+	//	iterator=UnaryIterator '(' (variable=ID '|')? body=OclExpression ')';
 	public UnaryIterationElements getUnaryIterationAccess() {
 		return pUnaryIteration;
 	}
@@ -5937,8 +6064,8 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//enum UnaryIterator:
-	//	COUNT='count' | EXISTS='exists' | SELECT='select' | REJECT='reject' | ONE='one' | IS_UNIQUE='isUnique' |
-	//	COLLECT='collect';
+	//	SELECT='select' | REJECT='reject' | COLLECT='collect' | ANY='any' | ONE='one' |
+	//	IS_UNIQUE='isUnique' | CLOSURE='closure';
 	public UnaryIteratorElements getUnaryIteratorAccess() {
 		return eUnaryIterator;
 	}
@@ -5947,14 +6074,24 @@ public class ML2GrammarAccess extends AbstractGrammarElementFinder {
 		return getUnaryIteratorAccess().getRule();
 	}
 	
-	//BinaryIteration:
-	//	'forAll' '(' (variables+=ID ',' variables+=ID '|')? body=OclExpression ')';
-	public BinaryIterationElements getBinaryIterationAccess() {
-		return pBinaryIteration;
+	//MultiaryIteration:
+	//	iterator=MultiaryIterator '(' (variables+=ID (',' variables+=ID)+ '|')? body=OclExpression ')';
+	public MultiaryIterationElements getMultiaryIterationAccess() {
+		return pMultiaryIteration;
 	}
 	
-	public ParserRule getBinaryIterationRule() {
-		return getBinaryIterationAccess().getRule();
+	public ParserRule getMultiaryIterationRule() {
+		return getMultiaryIterationAccess().getRule();
+	}
+	
+	//enum MultiaryIterator:
+	//	EXISTS='exists' | FOR_ALL='forAll';
+	public MultiaryIteratorElements getMultiaryIteratorAccess() {
+		return eMultiaryIterator;
+	}
+	
+	public EnumRule getMultiaryIteratorRule() {
+		return getMultiaryIteratorAccess().getRule();
 	}
 	
 	//LiteralExpression:

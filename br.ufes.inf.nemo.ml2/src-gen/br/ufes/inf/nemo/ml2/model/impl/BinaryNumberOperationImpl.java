@@ -3,8 +3,8 @@
  */
 package br.ufes.inf.nemo.ml2.model.impl;
 
-import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
-import br.ufes.inf.nemo.ml2.model.BinarySetOperator;
+import br.ufes.inf.nemo.ml2.model.BinaryNumberOperation;
+import br.ufes.inf.nemo.ml2.model.BinaryNumberOperator;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.model.OclExpression;
 
@@ -18,19 +18,19 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Binary Set Operation</b></em>'.
+ * An implementation of the model object '<em><b>Binary Number Operation</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.BinarySetOperationImpl#getOperator <em>Operator</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.BinarySetOperationImpl#getArgument <em>Argument</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.BinaryNumberOperationImpl#getOperator <em>Operator</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.BinaryNumberOperationImpl#getArgument <em>Argument</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class BinarySetOperationImpl extends ArrowOperationImpl implements BinarySetOperation
+public class BinaryNumberOperationImpl extends DotOperationImpl implements BinaryNumberOperation
 {
   /**
    * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -40,7 +40,7 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
    * @generated
    * @ordered
    */
-  protected static final BinarySetOperator OPERATOR_EDEFAULT = BinarySetOperator.INCLUDES;
+  protected static final BinaryNumberOperator OPERATOR_EDEFAULT = BinaryNumberOperator.MIN;
 
   /**
    * The cached value of the '{@link #getOperator() <em>Operator</em>}' attribute.
@@ -50,7 +50,7 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
    * @generated
    * @ordered
    */
-  protected BinarySetOperator operator = OPERATOR_EDEFAULT;
+  protected BinaryNumberOperator operator = OPERATOR_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getArgument() <em>Argument</em>}' containment reference.
@@ -67,7 +67,7 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
    * <!-- end-user-doc -->
    * @generated
    */
-  protected BinarySetOperationImpl()
+  protected BinaryNumberOperationImpl()
   {
     super();
   }
@@ -80,7 +80,7 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
   @Override
   protected EClass eStaticClass()
   {
-    return ModelPackage.Literals.BINARY_SET_OPERATION;
+    return ModelPackage.Literals.BINARY_NUMBER_OPERATION;
   }
 
   /**
@@ -89,7 +89,7 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
    * @generated
    */
   @Override
-  public BinarySetOperator getOperator()
+  public BinaryNumberOperator getOperator()
   {
     return operator;
   }
@@ -100,12 +100,12 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
    * @generated
    */
   @Override
-  public void setOperator(BinarySetOperator newOperator)
+  public void setOperator(BinaryNumberOperator newOperator)
   {
-    BinarySetOperator oldOperator = operator;
+    BinaryNumberOperator oldOperator = operator;
     operator = newOperator == null ? OPERATOR_EDEFAULT : newOperator;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.BINARY_SET_OPERATION__OPERATOR, oldOperator, operator));
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.BINARY_NUMBER_OPERATION__OPERATOR, oldOperator, operator));
   }
 
   /**
@@ -130,7 +130,7 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
     argument = newArgument;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.BINARY_SET_OPERATION__ARGUMENT, oldArgument, newArgument);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.BINARY_NUMBER_OPERATION__ARGUMENT, oldArgument, newArgument);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -148,14 +148,14 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
     {
       NotificationChain msgs = null;
       if (argument != null)
-        msgs = ((InternalEObject)argument).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.BINARY_SET_OPERATION__ARGUMENT, null, msgs);
+        msgs = ((InternalEObject)argument).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.BINARY_NUMBER_OPERATION__ARGUMENT, null, msgs);
       if (newArgument != null)
-        msgs = ((InternalEObject)newArgument).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.BINARY_SET_OPERATION__ARGUMENT, null, msgs);
+        msgs = ((InternalEObject)newArgument).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.BINARY_NUMBER_OPERATION__ARGUMENT, null, msgs);
       msgs = basicSetArgument(newArgument, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.BINARY_SET_OPERATION__ARGUMENT, newArgument, newArgument));
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.BINARY_NUMBER_OPERATION__ARGUMENT, newArgument, newArgument));
   }
 
   /**
@@ -168,7 +168,7 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_SET_OPERATION__ARGUMENT:
+      case ModelPackage.BINARY_NUMBER_OPERATION__ARGUMENT:
         return basicSetArgument(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -184,9 +184,9 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_SET_OPERATION__OPERATOR:
+      case ModelPackage.BINARY_NUMBER_OPERATION__OPERATOR:
         return getOperator();
-      case ModelPackage.BINARY_SET_OPERATION__ARGUMENT:
+      case ModelPackage.BINARY_NUMBER_OPERATION__ARGUMENT:
         return getArgument();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -202,10 +202,10 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_SET_OPERATION__OPERATOR:
-        setOperator((BinarySetOperator)newValue);
+      case ModelPackage.BINARY_NUMBER_OPERATION__OPERATOR:
+        setOperator((BinaryNumberOperator)newValue);
         return;
-      case ModelPackage.BINARY_SET_OPERATION__ARGUMENT:
+      case ModelPackage.BINARY_NUMBER_OPERATION__ARGUMENT:
         setArgument((OclExpression)newValue);
         return;
     }
@@ -222,10 +222,10 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_SET_OPERATION__OPERATOR:
+      case ModelPackage.BINARY_NUMBER_OPERATION__OPERATOR:
         setOperator(OPERATOR_EDEFAULT);
         return;
-      case ModelPackage.BINARY_SET_OPERATION__ARGUMENT:
+      case ModelPackage.BINARY_NUMBER_OPERATION__ARGUMENT:
         setArgument((OclExpression)null);
         return;
     }
@@ -242,9 +242,9 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_SET_OPERATION__OPERATOR:
+      case ModelPackage.BINARY_NUMBER_OPERATION__OPERATOR:
         return operator != OPERATOR_EDEFAULT;
-      case ModelPackage.BINARY_SET_OPERATION__ARGUMENT:
+      case ModelPackage.BINARY_NUMBER_OPERATION__ARGUMENT:
         return argument != null;
     }
     return super.eIsSet(featureID);
@@ -267,4 +267,4 @@ public class BinarySetOperationImpl extends ArrowOperationImpl implements Binary
     return result.toString();
   }
 
-} //BinarySetOperationImpl
+} //BinaryNumberOperationImpl

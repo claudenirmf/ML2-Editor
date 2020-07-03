@@ -21,26 +21,6 @@ import org.eclipse.emf.common.util.Enumerator;
 public enum UnaryIterator implements Enumerator
 {
   /**
-   * The '<em><b>COUNT</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #COUNT_VALUE
-   * @generated
-   * @ordered
-   */
-  COUNT(0, "COUNT", "count"),
-
-  /**
-   * The '<em><b>EXISTS</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #EXISTS_VALUE
-   * @generated
-   * @ordered
-   */
-  EXISTS(1, "EXISTS", "exists"),
-
-  /**
    * The '<em><b>SELECT</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -48,7 +28,7 @@ public enum UnaryIterator implements Enumerator
    * @generated
    * @ordered
    */
-  SELECT(2, "SELECT", "select"),
+  SELECT(0, "SELECT", "select"),
 
   /**
    * The '<em><b>REJECT</b></em>' literal object.
@@ -58,7 +38,27 @@ public enum UnaryIterator implements Enumerator
    * @generated
    * @ordered
    */
-  REJECT(3, "REJECT", "reject"),
+  REJECT(1, "REJECT", "reject"),
+
+  /**
+   * The '<em><b>COLLECT</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #COLLECT_VALUE
+   * @generated
+   * @ordered
+   */
+  COLLECT(2, "COLLECT", "collect"),
+
+  /**
+   * The '<em><b>ANY</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #ANY_VALUE
+   * @generated
+   * @ordered
+   */
+  ANY(3, "ANY", "any"),
 
   /**
    * The '<em><b>ONE</b></em>' literal object.
@@ -81,36 +81,14 @@ public enum UnaryIterator implements Enumerator
   IS_UNIQUE(5, "IS_UNIQUE", "isUnique"),
 
   /**
-   * The '<em><b>COLLECT</b></em>' literal object.
+   * The '<em><b>CLOSURE</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #COLLECT_VALUE
+   * @see #CLOSURE_VALUE
    * @generated
    * @ordered
    */
-  COLLECT(6, "COLLECT", "collect");
-
-  /**
-   * The '<em><b>COUNT</b></em>' literal value.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #COUNT
-   * @model literal="count"
-   * @generated
-   * @ordered
-   */
-  public static final int COUNT_VALUE = 0;
-
-  /**
-   * The '<em><b>EXISTS</b></em>' literal value.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #EXISTS
-   * @model literal="exists"
-   * @generated
-   * @ordered
-   */
-  public static final int EXISTS_VALUE = 1;
+  CLOSURE(6, "CLOSURE", "closure");
 
   /**
    * The '<em><b>SELECT</b></em>' literal value.
@@ -121,7 +99,7 @@ public enum UnaryIterator implements Enumerator
    * @generated
    * @ordered
    */
-  public static final int SELECT_VALUE = 2;
+  public static final int SELECT_VALUE = 0;
 
   /**
    * The '<em><b>REJECT</b></em>' literal value.
@@ -132,7 +110,29 @@ public enum UnaryIterator implements Enumerator
    * @generated
    * @ordered
    */
-  public static final int REJECT_VALUE = 3;
+  public static final int REJECT_VALUE = 1;
+
+  /**
+   * The '<em><b>COLLECT</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #COLLECT
+   * @model literal="collect"
+   * @generated
+   * @ordered
+   */
+  public static final int COLLECT_VALUE = 2;
+
+  /**
+   * The '<em><b>ANY</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #ANY
+   * @model literal="any"
+   * @generated
+   * @ordered
+   */
+  public static final int ANY_VALUE = 3;
 
   /**
    * The '<em><b>ONE</b></em>' literal value.
@@ -157,15 +157,15 @@ public enum UnaryIterator implements Enumerator
   public static final int IS_UNIQUE_VALUE = 5;
 
   /**
-   * The '<em><b>COLLECT</b></em>' literal value.
+   * The '<em><b>CLOSURE</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #COLLECT
-   * @model literal="collect"
+   * @see #CLOSURE
+   * @model literal="closure"
    * @generated
    * @ordered
    */
-  public static final int COLLECT_VALUE = 6;
+  public static final int CLOSURE_VALUE = 6;
 
   /**
    * An array of all the '<em><b>Unary Iterator</b></em>' enumerators.
@@ -176,13 +176,13 @@ public enum UnaryIterator implements Enumerator
   private static final UnaryIterator[] VALUES_ARRAY =
     new UnaryIterator[]
     {
-      COUNT,
-      EXISTS,
       SELECT,
       REJECT,
+      COLLECT,
+      ANY,
       ONE,
       IS_UNIQUE,
-      COLLECT,
+      CLOSURE,
     };
 
   /**
@@ -247,13 +247,13 @@ public enum UnaryIterator implements Enumerator
   {
     switch (value)
     {
-      case COUNT_VALUE: return COUNT;
-      case EXISTS_VALUE: return EXISTS;
       case SELECT_VALUE: return SELECT;
       case REJECT_VALUE: return REJECT;
+      case COLLECT_VALUE: return COLLECT;
+      case ANY_VALUE: return ANY;
       case ONE_VALUE: return ONE;
       case IS_UNIQUE_VALUE: return IS_UNIQUE;
-      case COLLECT_VALUE: return COLLECT;
+      case CLOSURE_VALUE: return CLOSURE;
     }
     return null;
   }

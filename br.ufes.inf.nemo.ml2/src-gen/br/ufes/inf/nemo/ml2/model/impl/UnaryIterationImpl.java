@@ -8,19 +8,13 @@ import br.ufes.inf.nemo.ml2.model.OclExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
 import br.ufes.inf.nemo.ml2.model.UnaryIterator;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,13 +25,13 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * </p>
  * <ul>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.UnaryIterationImpl#getIterator <em>Iterator</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.UnaryIterationImpl#getVariables <em>Variables</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.UnaryIterationImpl#getVariable <em>Variable</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.UnaryIterationImpl#getBody <em>Body</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIteration
+public class UnaryIterationImpl extends ArrowOperationImpl implements UnaryIteration
 {
   /**
    * The default value of the '{@link #getIterator() <em>Iterator</em>}' attribute.
@@ -47,7 +41,7 @@ public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIte
    * @generated
    * @ordered
    */
-  protected static final UnaryIterator ITERATOR_EDEFAULT = UnaryIterator.COUNT;
+  protected static final UnaryIterator ITERATOR_EDEFAULT = UnaryIterator.SELECT;
 
   /**
    * The cached value of the '{@link #getIterator() <em>Iterator</em>}' attribute.
@@ -60,14 +54,24 @@ public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIte
   protected UnaryIterator iterator = ITERATOR_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getVariables() <em>Variables</em>}' attribute list.
+   * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getVariables()
+   * @see #getVariable()
    * @generated
    * @ordered
    */
-  protected EList<String> variables;
+  protected static final String VARIABLE_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getVariable() <em>Variable</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getVariable()
+   * @generated
+   * @ordered
+   */
+  protected String variable = VARIABLE_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference.
@@ -131,13 +135,23 @@ public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIte
    * @generated
    */
   @Override
-  public EList<String> getVariables()
+  public String getVariable()
   {
-    if (variables == null)
-    {
-      variables = new EDataTypeEList<String>(String.class, this, ModelPackage.UNARY_ITERATION__VARIABLES);
-    }
-    return variables;
+    return variable;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setVariable(String newVariable)
+  {
+    String oldVariable = variable;
+    variable = newVariable;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.UNARY_ITERATION__VARIABLE, oldVariable, variable));
   }
 
   /**
@@ -218,8 +232,8 @@ public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIte
     {
       case ModelPackage.UNARY_ITERATION__ITERATOR:
         return getIterator();
-      case ModelPackage.UNARY_ITERATION__VARIABLES:
-        return getVariables();
+      case ModelPackage.UNARY_ITERATION__VARIABLE:
+        return getVariable();
       case ModelPackage.UNARY_ITERATION__BODY:
         return getBody();
     }
@@ -231,7 +245,6 @@ public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIte
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -240,9 +253,8 @@ public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIte
       case ModelPackage.UNARY_ITERATION__ITERATOR:
         setIterator((UnaryIterator)newValue);
         return;
-      case ModelPackage.UNARY_ITERATION__VARIABLES:
-        getVariables().clear();
-        getVariables().addAll((Collection<? extends String>)newValue);
+      case ModelPackage.UNARY_ITERATION__VARIABLE:
+        setVariable((String)newValue);
         return;
       case ModelPackage.UNARY_ITERATION__BODY:
         setBody((OclExpression)newValue);
@@ -264,8 +276,8 @@ public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIte
       case ModelPackage.UNARY_ITERATION__ITERATOR:
         setIterator(ITERATOR_EDEFAULT);
         return;
-      case ModelPackage.UNARY_ITERATION__VARIABLES:
-        getVariables().clear();
+      case ModelPackage.UNARY_ITERATION__VARIABLE:
+        setVariable(VARIABLE_EDEFAULT);
         return;
       case ModelPackage.UNARY_ITERATION__BODY:
         setBody((OclExpression)null);
@@ -286,8 +298,8 @@ public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIte
     {
       case ModelPackage.UNARY_ITERATION__ITERATOR:
         return iterator != ITERATOR_EDEFAULT;
-      case ModelPackage.UNARY_ITERATION__VARIABLES:
-        return variables != null && !variables.isEmpty();
+      case ModelPackage.UNARY_ITERATION__VARIABLE:
+        return VARIABLE_EDEFAULT == null ? variable != null : !VARIABLE_EDEFAULT.equals(variable);
       case ModelPackage.UNARY_ITERATION__BODY:
         return body != null;
     }
@@ -307,8 +319,8 @@ public class UnaryIterationImpl extends BuiltInOperationImpl implements UnaryIte
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (iterator: ");
     result.append(iterator);
-    result.append(", variables: ");
-    result.append(variables);
+    result.append(", variable: ");
+    result.append(variable);
     result.append(')');
     return result.toString();
   }

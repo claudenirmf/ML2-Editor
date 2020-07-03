@@ -3,8 +3,9 @@
  */
 package br.ufes.inf.nemo.ml2.model.impl;
 
-import br.ufes.inf.nemo.ml2.model.BinaryIteration;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
+import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
+import br.ufes.inf.nemo.ml2.model.MultiaryIterator;
 import br.ufes.inf.nemo.ml2.model.OclExpression;
 
 import java.util.Collection;
@@ -23,20 +24,41 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Binary Iteration</b></em>'.
+ * An implementation of the model object '<em><b>Multiary Iteration</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.BinaryIterationImpl#getVariables <em>Variables</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.BinaryIterationImpl#getBody <em>Body</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.MultiaryIterationImpl#getIterator <em>Iterator</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.MultiaryIterationImpl#getVariables <em>Variables</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.MultiaryIterationImpl#getBody <em>Body</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryIteration
+public class MultiaryIterationImpl extends ArrowOperationImpl implements MultiaryIteration
 {
+  /**
+   * The default value of the '{@link #getIterator() <em>Iterator</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getIterator()
+   * @generated
+   * @ordered
+   */
+  protected static final MultiaryIterator ITERATOR_EDEFAULT = MultiaryIterator.EXISTS;
+
+  /**
+   * The cached value of the '{@link #getIterator() <em>Iterator</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getIterator()
+   * @generated
+   * @ordered
+   */
+  protected MultiaryIterator iterator = ITERATOR_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getVariables() <em>Variables</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -62,7 +84,7 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
    * <!-- end-user-doc -->
    * @generated
    */
-  protected BinaryIterationImpl()
+  protected MultiaryIterationImpl()
   {
     super();
   }
@@ -75,7 +97,32 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
   @Override
   protected EClass eStaticClass()
   {
-    return ModelPackage.Literals.BINARY_ITERATION;
+    return ModelPackage.Literals.MULTIARY_ITERATION;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public MultiaryIterator getIterator()
+  {
+    return iterator;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setIterator(MultiaryIterator newIterator)
+  {
+    MultiaryIterator oldIterator = iterator;
+    iterator = newIterator == null ? ITERATOR_EDEFAULT : newIterator;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.MULTIARY_ITERATION__ITERATOR, oldIterator, iterator));
   }
 
   /**
@@ -88,7 +135,7 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
   {
     if (variables == null)
     {
-      variables = new EDataTypeEList<String>(String.class, this, ModelPackage.BINARY_ITERATION__VARIABLES);
+      variables = new EDataTypeEList<String>(String.class, this, ModelPackage.MULTIARY_ITERATION__VARIABLES);
     }
     return variables;
   }
@@ -115,7 +162,7 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
     body = newBody;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.BINARY_ITERATION__BODY, oldBody, newBody);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.MULTIARY_ITERATION__BODY, oldBody, newBody);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -133,14 +180,14 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
     {
       NotificationChain msgs = null;
       if (body != null)
-        msgs = ((InternalEObject)body).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.BINARY_ITERATION__BODY, null, msgs);
+        msgs = ((InternalEObject)body).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.MULTIARY_ITERATION__BODY, null, msgs);
       if (newBody != null)
-        msgs = ((InternalEObject)newBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.BINARY_ITERATION__BODY, null, msgs);
+        msgs = ((InternalEObject)newBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.MULTIARY_ITERATION__BODY, null, msgs);
       msgs = basicSetBody(newBody, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.BINARY_ITERATION__BODY, newBody, newBody));
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.MULTIARY_ITERATION__BODY, newBody, newBody));
   }
 
   /**
@@ -153,7 +200,7 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_ITERATION__BODY:
+      case ModelPackage.MULTIARY_ITERATION__BODY:
         return basicSetBody(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -169,9 +216,11 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_ITERATION__VARIABLES:
+      case ModelPackage.MULTIARY_ITERATION__ITERATOR:
+        return getIterator();
+      case ModelPackage.MULTIARY_ITERATION__VARIABLES:
         return getVariables();
-      case ModelPackage.BINARY_ITERATION__BODY:
+      case ModelPackage.MULTIARY_ITERATION__BODY:
         return getBody();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -188,11 +237,14 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_ITERATION__VARIABLES:
+      case ModelPackage.MULTIARY_ITERATION__ITERATOR:
+        setIterator((MultiaryIterator)newValue);
+        return;
+      case ModelPackage.MULTIARY_ITERATION__VARIABLES:
         getVariables().clear();
         getVariables().addAll((Collection<? extends String>)newValue);
         return;
-      case ModelPackage.BINARY_ITERATION__BODY:
+      case ModelPackage.MULTIARY_ITERATION__BODY:
         setBody((OclExpression)newValue);
         return;
     }
@@ -209,10 +261,13 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_ITERATION__VARIABLES:
+      case ModelPackage.MULTIARY_ITERATION__ITERATOR:
+        setIterator(ITERATOR_EDEFAULT);
+        return;
+      case ModelPackage.MULTIARY_ITERATION__VARIABLES:
         getVariables().clear();
         return;
-      case ModelPackage.BINARY_ITERATION__BODY:
+      case ModelPackage.MULTIARY_ITERATION__BODY:
         setBody((OclExpression)null);
         return;
     }
@@ -229,9 +284,11 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
   {
     switch (featureID)
     {
-      case ModelPackage.BINARY_ITERATION__VARIABLES:
+      case ModelPackage.MULTIARY_ITERATION__ITERATOR:
+        return iterator != ITERATOR_EDEFAULT;
+      case ModelPackage.MULTIARY_ITERATION__VARIABLES:
         return variables != null && !variables.isEmpty();
-      case ModelPackage.BINARY_ITERATION__BODY:
+      case ModelPackage.MULTIARY_ITERATION__BODY:
         return body != null;
     }
     return super.eIsSet(featureID);
@@ -248,10 +305,12 @@ public class BinaryIterationImpl extends BuiltInOperationImpl implements BinaryI
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (variables: ");
+    result.append(" (iterator: ");
+    result.append(iterator);
+    result.append(", variables: ");
     result.append(variables);
     result.append(')');
     return result.toString();
   }
 
-} //BinaryIterationImpl
+} //MultiaryIterationImpl
