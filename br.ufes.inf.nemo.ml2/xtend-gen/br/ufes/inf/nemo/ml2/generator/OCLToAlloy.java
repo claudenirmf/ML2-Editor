@@ -470,11 +470,7 @@ public class OCLToAlloy {
     for (final CallOperation operation : _right) {
       result = this.generateCallExpression(operation, result);
     }
-    if ((this._oCLUtil.belongsToMainTree(expression) && this._oCLUtil.getReturnType(expression).equals("Boolean"))) {
-      return (("(" + result) + " = true)");
-    } else {
-      return result;
-    }
+    return result;
   }
   
   /**
@@ -859,7 +855,7 @@ public class OCLToAlloy {
             String referredTypeName = this.generateLiteralExpression(operation.getReferredType());
             br.ufes.inf.nemo.ml2.model.Class referredType = null;
             if ((((referredTypeName.equals("Boolean") || referredTypeName.equals("Number")) || referredTypeName.equals("String")) || referredTypeName.substring(0, 4).equals("Set{"))) {
-              return (((("(" + context) + " in ") + referredType) + ")");
+              return (((("(" + context) + " in ") + referredTypeName) + ")");
             } else {
               EObject container = operation;
               while ((!(container instanceof Model))) {
@@ -873,9 +869,9 @@ public class OCLToAlloy {
             int _size = subtypes.size();
             boolean _equals = (_size == 0);
             if (_equals) {
-              return (((("(" + context) + " in ") + referredType) + ")");
+              return (((("(" + context) + " in ") + referredTypeName) + ")");
             } else {
-              String result = (((((("((" + context) + " in ") + referredType) + ") and (# ") + context) + " & (");
+              String result = (((((("((" + context) + " in ") + referredTypeName) + ") and (# ") + context) + " & (");
               for (final br.ufes.inf.nemo.ml2.model.Class s : subtypes) {
                 br.ufes.inf.nemo.ml2.model.Class _last = IterableExtensions.<br.ufes.inf.nemo.ml2.model.Class>last(subtypes);
                 boolean _equals_1 = Objects.equal(s, _last);
@@ -1011,9 +1007,9 @@ public class OCLToAlloy {
   protected String _generatePrimitiveLiteralExpression(final BooleanLiteralExpression expression) {
     boolean _isBooleanSymbol = expression.isBooleanSymbol();
     if (_isBooleanSymbol) {
-      return "TRUE";
+      return "true";
     } else {
-      return "FALSE";
+      return "false";
     }
   }
   

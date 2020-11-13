@@ -845,8 +845,11 @@ public class OCLUtil {
   public boolean belongsToMainTree(final EObject expression) {
     EObject container = expression;
     while ((!(container instanceof Constraint))) {
-      if (((container instanceof BinarySetOperation) || (container instanceof MultiaryIteration))) {
-        return false;
+      {
+        if (((container instanceof BinarySetOperation) || (container instanceof MultiaryIteration))) {
+          return false;
+        }
+        container = container.eContainer();
       }
     }
     return true;

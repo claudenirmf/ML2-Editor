@@ -597,6 +597,8 @@ class OCLUtil {
 			if(container instanceof BinarySetOperation || container instanceof MultiaryIteration) {
 				return false
 			}
+			
+			container = container.eContainer
 		}
 		
 		return true

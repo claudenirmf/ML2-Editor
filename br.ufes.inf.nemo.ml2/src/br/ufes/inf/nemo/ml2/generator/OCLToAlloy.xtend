@@ -303,11 +303,18 @@ class OCLToAlloy {
 			result = generateCallExpression(operation, result)
 		}
 		
-		if(belongsToMainTree(expression) && getReturnType(expression).equals("Boolean")) {
-			return "(" + result + " = true)" // Handles boolean cases not supported in Alloy
-		} else {
-			return result
-		} 
+		return result
+		
+		//TODO: this approach has serious limitations and is only used as a workaround. Alloy does not support Booleans
+		// natively, and the approach used to model Booleans in this entire ML2 to Alloy transformation is not ideal to
+		// support operations using said Booleans. Therefore, this section was commented and Boolean treatment should be
+		// done by the user, until a rework of the approach to model Booleans in Alloy is done.
+		
+		//if(belongsToMainTree(expression) && getReturnType(expression).equals("Boolean")) {
+		//	return "(" + result + " = true)" // Handles boolean cases not supported in Alloy
+		//} else {
+		//	return result
+		//} 
 	}
 	
 	/**
@@ -576,7 +583,7 @@ class OCLToAlloy {
 					var Class referredType
 					
 					if(referredTypeName.equals("Boolean") || referredTypeName.equals("Number") || referredTypeName.equals("String") || referredTypeName.substring(0,4).equals("Set{")) {
-						return "(" + context + " in " + referredType + ")"
+						return "(" + context + " in " + referredTypeName + ")"
 					} else {
 						var EObject container = operation
 						
@@ -592,9 +599,9 @@ class OCLToAlloy {
 					var subtypes = classSubtypes(referredType)
 					
 					if(subtypes.size == 0) {
-						return "(" + context + " in " + referredType + ")"
+						return "(" + context + " in " + referredTypeName + ")"
 					} else {
-						var result = "((" + context + " in " + referredType + ") and (# " + context + " & ("
+						var result = "((" + context + " in " + referredTypeName + ") and (# " + context + " & ("
 						
 						// Union of all subtypes of referredType
 						for(s : subtypes) {
@@ -706,9 +713,9 @@ class OCLToAlloy {
 	 */
 	def dispatch generatePrimitiveLiteralExpression(BooleanLiteralExpression expression) {
 		if(expression.booleanSymbol) {
-			return "TRUE"
+			return "true"
 		} else {
-			return "FALSE"
+			return "false"
 		}
 	}
 	
