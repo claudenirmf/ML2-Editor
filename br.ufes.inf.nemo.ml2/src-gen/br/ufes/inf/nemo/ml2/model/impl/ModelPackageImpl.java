@@ -18,14 +18,11 @@ import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
 import br.ufes.inf.nemo.ml2.model.CallOperation;
 import br.ufes.inf.nemo.ml2.model.CategorizationType;
-import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.CollectionTypeName;
 import br.ufes.inf.nemo.ml2.model.ComparisonExpression;
 import br.ufes.inf.nemo.ml2.model.ComparisonOperation;
 import br.ufes.inf.nemo.ml2.model.ComparisonOperator;
 import br.ufes.inf.nemo.ml2.model.Constraint;
 import br.ufes.inf.nemo.ml2.model.DataType;
-import br.ufes.inf.nemo.ml2.model.DataTypeName;
 import br.ufes.inf.nemo.ml2.model.DerivationConstraint;
 import br.ufes.inf.nemo.ml2.model.DotOperation;
 import br.ufes.inf.nemo.ml2.model.EntityDeclaration;
@@ -49,16 +46,18 @@ import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
 import br.ufes.inf.nemo.ml2.model.MultiaryIterator;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
+import br.ufes.inf.nemo.ml2.model.MultiplicationOperation;
+import br.ufes.inf.nemo.ml2.model.MultiplicationOperator;
+import br.ufes.inf.nemo.ml2.model.NavigationSource;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.OclExpression;
-import br.ufes.inf.nemo.ml2.model.OclTypeName;
 import br.ufes.inf.nemo.ml2.model.OrExpression;
 import br.ufes.inf.nemo.ml2.model.OrderedClass;
 import br.ufes.inf.nemo.ml2.model.OrderlessClass;
 import br.ufes.inf.nemo.ml2.model.PrimitiveLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.PrimitiveType;
-import br.ufes.inf.nemo.ml2.model.PrimitiveTypeName;
+import br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.Reference;
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.model.RegularityAttribute;
@@ -68,11 +67,13 @@ import br.ufes.inf.nemo.ml2.model.RegularityReference;
 import br.ufes.inf.nemo.ml2.model.RelationalExpression;
 import br.ufes.inf.nemo.ml2.model.RelationalOperation;
 import br.ufes.inf.nemo.ml2.model.RelationalOperator;
+import br.ufes.inf.nemo.ml2.model.SetLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.SetTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.StringLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.TermExpression;
-import br.ufes.inf.nemo.ml2.model.TupleLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.TupleTypeName;
 import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.TypeOperation;
+import br.ufes.inf.nemo.ml2.model.TypeOperator;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
 import br.ufes.inf.nemo.ml2.model.UnaryIterator;
@@ -81,6 +82,7 @@ import br.ufes.inf.nemo.ml2.model.UnaryNumberOperator;
 import br.ufes.inf.nemo.ml2.model.UnaryOperator;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperator;
+import br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 import br.ufes.inf.nemo.ml2.model.VariableExpression;
 import br.ufes.inf.nemo.ml2.model.XorExpression;
@@ -386,6 +388,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass multiplicationOperationEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass unaryExpressionEClass = null;
 
   /**
@@ -401,6 +410,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   private EClass callExpressionEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass navigationSourceEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -470,6 +486,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass typeOperationEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass literalExpressionEClass = null;
 
   /**
@@ -478,13 +501,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   private EClass primitiveLiteralExpressionEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass nullLiteralExpressionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -512,7 +528,14 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass collectionLiteralExpressionEClass = null;
+  private EClass nullLiteralExpressionEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass setLiteralExpressionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -526,13 +549,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass tupleLiteralExpressionEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   private EClass variableExpressionEClass = null;
 
   /**
@@ -540,35 +556,21 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass primitiveTypeNameEClass = null;
+  private EClass primitiveTypeLiteralEClass = null;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass collectionTypeNameEClass = null;
+  private EClass setTypeLiteralEClass = null;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass tupleTypeNameEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass oclTypeNameEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass dataTypeNameEClass = null;
+  private EClass userDefinedTypeLiteralEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -611,6 +613,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   private EEnum additionOperatorEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum multiplicationOperatorEEnum = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -660,6 +669,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   private EEnum multiaryIteratorEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum typeOperatorEEnum = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -1489,20 +1505,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EAttribute getInvariantConstraint_ContextAlias()
-  {
-    return (EAttribute)invariantConstraintEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EAttribute getInvariantConstraint_InvariantAlias()
   {
-    return (EAttribute)invariantConstraintEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)invariantConstraintEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1522,9 +1527,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EReference getDerivationConstraint_FeatureContext()
+  public EAttribute getDerivationConstraint_FeatureContext()
   {
-    return (EReference)derivationConstraintEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)derivationConstraintEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1533,7 +1538,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EReference getDerivationConstraint_Typename()
+  public EReference getDerivationConstraint_ContextType()
   {
     return (EReference)derivationConstraintEClass.getEStructuralFeatures().get(1);
   }
@@ -2039,6 +2044,39 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
+  public EClass getMultiplicationOperation()
+  {
+    return multiplicationOperationEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getMultiplicationOperation_Operator()
+  {
+    return (EAttribute)multiplicationOperationEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getMultiplicationOperation_Right()
+  {
+    return (EReference)multiplicationOperationEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EClass getUnaryExpression()
   {
     return unaryExpressionEClass;
@@ -2108,6 +2146,28 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   public EReference getCallExpression_Right()
   {
     return (EReference)callExpressionEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getNavigationSource()
+  {
+    return navigationSourceEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getNavigationSource_Source()
+  {
+    return (EReference)navigationSourceEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -2347,6 +2407,39 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
+  public EClass getTypeOperation()
+  {
+    return typeOperationEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getTypeOperation_Operator()
+  {
+    return (EAttribute)typeOperationEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getTypeOperation_ReferredType()
+  {
+    return (EReference)typeOperationEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EClass getLiteralExpression()
   {
     return literalExpressionEClass;
@@ -2361,28 +2454,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   public EClass getPrimitiveLiteralExpression()
   {
     return primitiveLiteralExpressionEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getNullLiteralExpression()
-  {
-    return nullLiteralExpressionEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EAttribute getNullLiteralExpression_NullSymbol()
-  {
-    return (EAttribute)nullLiteralExpressionEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -2457,9 +2528,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EClass getCollectionLiteralExpression()
+  public EClass getNullLiteralExpression()
   {
-    return collectionLiteralExpressionEClass;
+    return nullLiteralExpressionEClass;
   }
 
   /**
@@ -2468,9 +2539,31 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EReference getCollectionLiteralExpression_Parts()
+  public EAttribute getNullLiteralExpression_NullSymbol()
   {
-    return (EReference)collectionLiteralExpressionEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)nullLiteralExpressionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getSetLiteralExpression()
+  {
+    return setLiteralExpressionEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getSetLiteralExpression_Parts()
+  {
+    return (EReference)setLiteralExpressionEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -2482,28 +2575,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   public EClass getTypeLiteralExpression()
   {
     return typeLiteralExpressionEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getTupleLiteralExpression()
-  {
-    return tupleLiteralExpressionEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EAttribute getTupleLiteralExpression_Variables()
-  {
-    return (EAttribute)tupleLiteralExpressionEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -2534,9 +2605,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EClass getPrimitiveTypeName()
+  public EClass getPrimitiveTypeLiteral()
   {
-    return primitiveTypeNameEClass;
+    return primitiveTypeLiteralEClass;
   }
 
   /**
@@ -2545,9 +2616,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EAttribute getPrimitiveTypeName_Typename()
+  public EAttribute getPrimitiveTypeLiteral_TypeName()
   {
-    return (EAttribute)primitiveTypeNameEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)primitiveTypeLiteralEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -2556,9 +2627,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EClass getCollectionTypeName()
+  public EClass getSetTypeLiteral()
   {
-    return collectionTypeNameEClass;
+    return setTypeLiteralEClass;
   }
 
   /**
@@ -2567,9 +2638,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EAttribute getCollectionTypeName_Typename()
+  public EAttribute getSetTypeLiteral_TypeName()
   {
-    return (EAttribute)collectionTypeNameEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)setTypeLiteralEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -2578,9 +2649,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EReference getCollectionTypeName_ElementType()
+  public EReference getSetTypeLiteral_SetType()
   {
-    return (EReference)collectionTypeNameEClass.getEStructuralFeatures().get(1);
+    return (EReference)setTypeLiteralEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -2589,9 +2660,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EClass getTupleTypeName()
+  public EClass getUserDefinedTypeLiteral()
   {
-    return tupleTypeNameEClass;
+    return userDefinedTypeLiteralEClass;
   }
 
   /**
@@ -2600,64 +2671,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
    * @generated
    */
   @Override
-  public EAttribute getTupleTypeName_Typename()
+  public EReference getUserDefinedTypeLiteral_TypeName()
   {
-    return (EAttribute)tupleTypeNameEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EAttribute getTupleTypeName_Variables()
-  {
-    return (EAttribute)tupleTypeNameEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getOclTypeName()
-  {
-    return oclTypeNameEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EAttribute getOclTypeName_Typename()
-  {
-    return (EAttribute)oclTypeNameEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getDataTypeName()
-  {
-    return dataTypeNameEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getDataTypeName_Typename()
-  {
-    return (EReference)dataTypeNameEClass.getEStructuralFeatures().get(0);
+    return (EReference)userDefinedTypeLiteralEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -2724,6 +2740,17 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   public EEnum getAdditionOperator()
   {
     return additionOperatorEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EEnum getMultiplicationOperator()
+  {
+    return multiplicationOperatorEEnum;
   }
 
   /**
@@ -2801,6 +2828,17 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
   public EEnum getMultiaryIterator()
   {
     return multiaryIteratorEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EEnum getTypeOperator()
+  {
+    return typeOperatorEEnum;
   }
 
   /**
@@ -2926,12 +2964,11 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     createEReference(constraintEClass, CONSTRAINT__EXPRESSION);
 
     invariantConstraintEClass = createEClass(INVARIANT_CONSTRAINT);
-    createEAttribute(invariantConstraintEClass, INVARIANT_CONSTRAINT__CONTEXT_ALIAS);
     createEAttribute(invariantConstraintEClass, INVARIANT_CONSTRAINT__INVARIANT_ALIAS);
 
     derivationConstraintEClass = createEClass(DERIVATION_CONSTRAINT);
-    createEReference(derivationConstraintEClass, DERIVATION_CONSTRAINT__FEATURE_CONTEXT);
-    createEReference(derivationConstraintEClass, DERIVATION_CONSTRAINT__TYPENAME);
+    createEAttribute(derivationConstraintEClass, DERIVATION_CONSTRAINT__FEATURE_CONTEXT);
+    createEReference(derivationConstraintEClass, DERIVATION_CONSTRAINT__CONTEXT_TYPE);
 
     oclExpressionEClass = createEClass(OCL_EXPRESSION);
 
@@ -2993,6 +3030,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     createEReference(multiplicationExpressionEClass, MULTIPLICATION_EXPRESSION__LEFT);
     createEReference(multiplicationExpressionEClass, MULTIPLICATION_EXPRESSION__RIGHT);
 
+    multiplicationOperationEClass = createEClass(MULTIPLICATION_OPERATION);
+    createEAttribute(multiplicationOperationEClass, MULTIPLICATION_OPERATION__OPERATOR);
+    createEReference(multiplicationOperationEClass, MULTIPLICATION_OPERATION__RIGHT);
+
     unaryExpressionEClass = createEClass(UNARY_EXPRESSION);
     createEAttribute(unaryExpressionEClass, UNARY_EXPRESSION__OPERATOR);
     createEReference(unaryExpressionEClass, UNARY_EXPRESSION__RIGHT);
@@ -3002,6 +3043,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     callExpressionEClass = createEClass(CALL_EXPRESSION);
     createEReference(callExpressionEClass, CALL_EXPRESSION__LEFT);
     createEReference(callExpressionEClass, CALL_EXPRESSION__RIGHT);
+
+    navigationSourceEClass = createEClass(NAVIGATION_SOURCE);
+    createEReference(navigationSourceEClass, NAVIGATION_SOURCE__SOURCE);
 
     callOperationEClass = createEClass(CALL_OPERATION);
 
@@ -3033,12 +3077,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     createEAttribute(multiaryIterationEClass, MULTIARY_ITERATION__VARIABLES);
     createEReference(multiaryIterationEClass, MULTIARY_ITERATION__BODY);
 
+    typeOperationEClass = createEClass(TYPE_OPERATION);
+    createEAttribute(typeOperationEClass, TYPE_OPERATION__OPERATOR);
+    createEReference(typeOperationEClass, TYPE_OPERATION__REFERRED_TYPE);
+
     literalExpressionEClass = createEClass(LITERAL_EXPRESSION);
 
     primitiveLiteralExpressionEClass = createEClass(PRIMITIVE_LITERAL_EXPRESSION);
-
-    nullLiteralExpressionEClass = createEClass(NULL_LITERAL_EXPRESSION);
-    createEAttribute(nullLiteralExpressionEClass, NULL_LITERAL_EXPRESSION__NULL_SYMBOL);
 
     booleanLiteralExpressionEClass = createEClass(BOOLEAN_LITERAL_EXPRESSION);
     createEAttribute(booleanLiteralExpressionEClass, BOOLEAN_LITERAL_EXPRESSION__BOOLEAN_SYMBOL);
@@ -3049,33 +3094,26 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     stringLiteralExpressionEClass = createEClass(STRING_LITERAL_EXPRESSION);
     createEAttribute(stringLiteralExpressionEClass, STRING_LITERAL_EXPRESSION__STRING_SYMBOL);
 
-    collectionLiteralExpressionEClass = createEClass(COLLECTION_LITERAL_EXPRESSION);
-    createEReference(collectionLiteralExpressionEClass, COLLECTION_LITERAL_EXPRESSION__PARTS);
+    nullLiteralExpressionEClass = createEClass(NULL_LITERAL_EXPRESSION);
+    createEAttribute(nullLiteralExpressionEClass, NULL_LITERAL_EXPRESSION__NULL_SYMBOL);
+
+    setLiteralExpressionEClass = createEClass(SET_LITERAL_EXPRESSION);
+    createEReference(setLiteralExpressionEClass, SET_LITERAL_EXPRESSION__PARTS);
 
     typeLiteralExpressionEClass = createEClass(TYPE_LITERAL_EXPRESSION);
-
-    tupleLiteralExpressionEClass = createEClass(TUPLE_LITERAL_EXPRESSION);
-    createEAttribute(tupleLiteralExpressionEClass, TUPLE_LITERAL_EXPRESSION__VARIABLES);
 
     variableExpressionEClass = createEClass(VARIABLE_EXPRESSION);
     createEAttribute(variableExpressionEClass, VARIABLE_EXPRESSION__REFERRING_VARIABLE);
 
-    primitiveTypeNameEClass = createEClass(PRIMITIVE_TYPE_NAME);
-    createEAttribute(primitiveTypeNameEClass, PRIMITIVE_TYPE_NAME__TYPENAME);
+    primitiveTypeLiteralEClass = createEClass(PRIMITIVE_TYPE_LITERAL);
+    createEAttribute(primitiveTypeLiteralEClass, PRIMITIVE_TYPE_LITERAL__TYPE_NAME);
 
-    collectionTypeNameEClass = createEClass(COLLECTION_TYPE_NAME);
-    createEAttribute(collectionTypeNameEClass, COLLECTION_TYPE_NAME__TYPENAME);
-    createEReference(collectionTypeNameEClass, COLLECTION_TYPE_NAME__ELEMENT_TYPE);
+    setTypeLiteralEClass = createEClass(SET_TYPE_LITERAL);
+    createEAttribute(setTypeLiteralEClass, SET_TYPE_LITERAL__TYPE_NAME);
+    createEReference(setTypeLiteralEClass, SET_TYPE_LITERAL__SET_TYPE);
 
-    tupleTypeNameEClass = createEClass(TUPLE_TYPE_NAME);
-    createEAttribute(tupleTypeNameEClass, TUPLE_TYPE_NAME__TYPENAME);
-    createEAttribute(tupleTypeNameEClass, TUPLE_TYPE_NAME__VARIABLES);
-
-    oclTypeNameEClass = createEClass(OCL_TYPE_NAME);
-    createEAttribute(oclTypeNameEClass, OCL_TYPE_NAME__TYPENAME);
-
-    dataTypeNameEClass = createEClass(DATA_TYPE_NAME);
-    createEReference(dataTypeNameEClass, DATA_TYPE_NAME__TYPENAME);
+    userDefinedTypeLiteralEClass = createEClass(USER_DEFINED_TYPE_LITERAL);
+    createEReference(userDefinedTypeLiteralEClass, USER_DEFINED_TYPE_LITERAL__TYPE_NAME);
 
     // Create enums
     categorizationTypeEEnum = createEEnum(CATEGORIZATION_TYPE);
@@ -3084,6 +3122,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     comparisonOperatorEEnum = createEEnum(COMPARISON_OPERATOR);
     relationalOperatorEEnum = createEEnum(RELATIONAL_OPERATOR);
     additionOperatorEEnum = createEEnum(ADDITION_OPERATOR);
+    multiplicationOperatorEEnum = createEEnum(MULTIPLICATION_OPERATOR);
     unaryOperatorEEnum = createEEnum(UNARY_OPERATOR);
     unaryNumberOperatorEEnum = createEEnum(UNARY_NUMBER_OPERATOR);
     binaryNumberOperatorEEnum = createEEnum(BINARY_NUMBER_OPERATOR);
@@ -3091,6 +3130,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     binarySetOperatorEEnum = createEEnum(BINARY_SET_OPERATOR);
     unaryIteratorEEnum = createEEnum(UNARY_ITERATOR);
     multiaryIteratorEEnum = createEEnum(MULTIARY_ITERATOR);
+    typeOperatorEEnum = createEEnum(TYPE_OPERATOR);
   }
 
   /**
@@ -3162,21 +3202,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     binarySetOperationEClass.getESuperTypes().add(this.getArrowOperation());
     unaryIterationEClass.getESuperTypes().add(this.getArrowOperation());
     multiaryIterationEClass.getESuperTypes().add(this.getArrowOperation());
+    typeOperationEClass.getESuperTypes().add(this.getDotOperation());
+    typeOperationEClass.getESuperTypes().add(this.getArrowOperation());
     literalExpressionEClass.getESuperTypes().add(this.getTermExpression());
     primitiveLiteralExpressionEClass.getESuperTypes().add(this.getLiteralExpression());
-    nullLiteralExpressionEClass.getESuperTypes().add(this.getPrimitiveLiteralExpression());
     booleanLiteralExpressionEClass.getESuperTypes().add(this.getPrimitiveLiteralExpression());
     numberLiteralExpressionEClass.getESuperTypes().add(this.getPrimitiveLiteralExpression());
     stringLiteralExpressionEClass.getESuperTypes().add(this.getPrimitiveLiteralExpression());
-    collectionLiteralExpressionEClass.getESuperTypes().add(this.getLiteralExpression());
+    nullLiteralExpressionEClass.getESuperTypes().add(this.getPrimitiveLiteralExpression());
+    setLiteralExpressionEClass.getESuperTypes().add(this.getLiteralExpression());
     typeLiteralExpressionEClass.getESuperTypes().add(this.getLiteralExpression());
-    tupleLiteralExpressionEClass.getESuperTypes().add(this.getLiteralExpression());
     variableExpressionEClass.getESuperTypes().add(this.getDotOperation());
-    primitiveTypeNameEClass.getESuperTypes().add(this.getTypeLiteralExpression());
-    collectionTypeNameEClass.getESuperTypes().add(this.getTypeLiteralExpression());
-    tupleTypeNameEClass.getESuperTypes().add(this.getTypeLiteralExpression());
-    oclTypeNameEClass.getESuperTypes().add(this.getTypeLiteralExpression());
-    dataTypeNameEClass.getESuperTypes().add(this.getTypeLiteralExpression());
+    primitiveTypeLiteralEClass.getESuperTypes().add(this.getTypeLiteralExpression());
+    setTypeLiteralEClass.getESuperTypes().add(this.getTypeLiteralExpression());
+    userDefinedTypeLiteralEClass.getESuperTypes().add(this.getTypeLiteralExpression());
 
     // Initialize classes and features; add operations and parameters
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3271,12 +3310,11 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     initEReference(getConstraint_Expression(), this.getOclExpression(), null, "expression", null, 0, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(invariantConstraintEClass, InvariantConstraint.class, "InvariantConstraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getInvariantConstraint_ContextAlias(), ecorePackage.getEString(), "contextAlias", null, 0, 1, InvariantConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getInvariantConstraint_InvariantAlias(), ecorePackage.getEString(), "invariantAlias", null, 0, 1, InvariantConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(derivationConstraintEClass, DerivationConstraint.class, "DerivationConstraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getDerivationConstraint_FeatureContext(), this.getFeature(), null, "featureContext", null, 0, 1, DerivationConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getDerivationConstraint_Typename(), this.getTypeLiteralExpression(), null, "typename", null, 0, 1, DerivationConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getDerivationConstraint_FeatureContext(), ecorePackage.getEString(), "featureContext", null, 0, -1, DerivationConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDerivationConstraint_ContextType(), this.getTypeLiteralExpression(), null, "contextType", null, 0, 1, DerivationConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(oclExpressionEClass, OclExpression.class, "OclExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -3287,7 +3325,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     initEClass(variableDeclarationEClass, VariableDeclaration.class, "VariableDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getVariableDeclaration_VariableName(), ecorePackage.getEString(), "variableName", null, 0, 1, VariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getVariableDeclaration_VariableType(), this.getTypeLiteralExpression(), null, "variableType", null, 0, 1, VariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getVariableDeclaration_InitialValue(), this.getTermExpression(), null, "initialValue", null, 0, 1, VariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getVariableDeclaration_InitialValue(), this.getImpliesExpression(), null, "initialValue", null, 0, 1, VariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(ifExpressionEClass, IfExpression.class, "IfExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getIfExpression_Condition(), this.getOclExpression(), null, "condition", null, 0, 1, IfExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3336,7 +3374,11 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
     initEClass(multiplicationExpressionEClass, MultiplicationExpression.class, "MultiplicationExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getMultiplicationExpression_Left(), this.getUnaryExpression(), null, "left", null, 0, 1, MultiplicationExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getMultiplicationExpression_Right(), this.getUnaryExpression(), null, "right", null, 0, -1, MultiplicationExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getMultiplicationExpression_Right(), this.getMultiplicationOperation(), null, "right", null, 0, -1, MultiplicationExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(multiplicationOperationEClass, MultiplicationOperation.class, "MultiplicationOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getMultiplicationOperation_Operator(), this.getMultiplicationOperator(), "operator", null, 0, 1, MultiplicationOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getMultiplicationOperation_Right(), this.getUnaryExpression(), null, "right", null, 0, 1, MultiplicationOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(unaryExpressionEClass, UnaryExpression.class, "UnaryExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getUnaryExpression_Operator(), this.getUnaryOperator(), "operator", null, 0, 1, UnaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3345,8 +3387,11 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     initEClass(termExpressionEClass, TermExpression.class, "TermExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(callExpressionEClass, CallExpression.class, "CallExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getCallExpression_Left(), this.getVariableExpression(), null, "left", null, 0, 1, CallExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCallExpression_Left(), this.getNavigationSource(), null, "left", null, 0, 1, CallExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getCallExpression_Right(), this.getCallOperation(), null, "right", null, 0, -1, CallExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(navigationSourceEClass, NavigationSource.class, "NavigationSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getNavigationSource_Source(), ecorePackage.getEObject(), null, "source", null, 0, 1, NavigationSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(callOperationEClass, CallOperation.class, "CallOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -3378,12 +3423,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     initEAttribute(getMultiaryIteration_Variables(), ecorePackage.getEString(), "variables", null, 0, -1, MultiaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMultiaryIteration_Body(), this.getOclExpression(), null, "body", null, 0, 1, MultiaryIteration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(typeOperationEClass, TypeOperation.class, "TypeOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getTypeOperation_Operator(), this.getTypeOperator(), "operator", null, 0, 1, TypeOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getTypeOperation_ReferredType(), this.getTypeLiteralExpression(), null, "referredType", null, 0, 1, TypeOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(literalExpressionEClass, LiteralExpression.class, "LiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(primitiveLiteralExpressionEClass, PrimitiveLiteralExpression.class, "PrimitiveLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(nullLiteralExpressionEClass, NullLiteralExpression.class, "NullLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getNullLiteralExpression_NullSymbol(), ecorePackage.getEString(), "nullSymbol", null, 0, 1, NullLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(booleanLiteralExpressionEClass, BooleanLiteralExpression.class, "BooleanLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBooleanLiteralExpression_BooleanSymbol(), ecorePackage.getEBoolean(), "booleanSymbol", null, 0, 1, BooleanLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3394,33 +3440,26 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     initEClass(stringLiteralExpressionEClass, StringLiteralExpression.class, "StringLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getStringLiteralExpression_StringSymbol(), ecorePackage.getEString(), "stringSymbol", null, 0, 1, StringLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(collectionLiteralExpressionEClass, CollectionLiteralExpression.class, "CollectionLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getCollectionLiteralExpression_Parts(), this.getLiteralExpression(), null, "parts", null, 0, -1, CollectionLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(nullLiteralExpressionEClass, NullLiteralExpression.class, "NullLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getNullLiteralExpression_NullSymbol(), ecorePackage.getEString(), "nullSymbol", null, 0, 1, NullLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(setLiteralExpressionEClass, SetLiteralExpression.class, "SetLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getSetLiteralExpression_Parts(), this.getPrimitiveLiteralExpression(), null, "parts", null, 0, -1, SetLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(typeLiteralExpressionEClass, TypeLiteralExpression.class, "TypeLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(tupleLiteralExpressionEClass, TupleLiteralExpression.class, "TupleLiteralExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getTupleLiteralExpression_Variables(), ecorePackage.getEString(), "variables", null, 0, -1, TupleLiteralExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(variableExpressionEClass, VariableExpression.class, "VariableExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getVariableExpression_ReferringVariable(), ecorePackage.getEString(), "referringVariable", null, 0, 1, VariableExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(primitiveTypeNameEClass, PrimitiveTypeName.class, "PrimitiveTypeName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getPrimitiveTypeName_Typename(), ecorePackage.getEString(), "typename", null, 0, 1, PrimitiveTypeName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(primitiveTypeLiteralEClass, PrimitiveTypeLiteral.class, "PrimitiveTypeLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getPrimitiveTypeLiteral_TypeName(), ecorePackage.getEString(), "typeName", null, 0, 1, PrimitiveTypeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(collectionTypeNameEClass, CollectionTypeName.class, "CollectionTypeName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getCollectionTypeName_Typename(), ecorePackage.getEString(), "typename", null, 0, 1, CollectionTypeName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getCollectionTypeName_ElementType(), this.getTypeLiteralExpression(), null, "elementType", null, 0, 1, CollectionTypeName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(setTypeLiteralEClass, SetTypeLiteral.class, "SetTypeLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getSetTypeLiteral_TypeName(), ecorePackage.getEString(), "typeName", null, 0, 1, SetTypeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getSetTypeLiteral_SetType(), this.getTypeLiteralExpression(), null, "setType", null, 0, 1, SetTypeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(tupleTypeNameEClass, TupleTypeName.class, "TupleTypeName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getTupleTypeName_Typename(), ecorePackage.getEString(), "typename", null, 0, 1, TupleTypeName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getTupleTypeName_Variables(), ecorePackage.getEString(), "variables", null, 0, -1, TupleTypeName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(oclTypeNameEClass, OclTypeName.class, "OclTypeName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getOclTypeName_Typename(), ecorePackage.getEString(), "typename", null, 0, 1, OclTypeName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(dataTypeNameEClass, DataTypeName.class, "DataTypeName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getDataTypeName_Typename(), this.getDataType(), null, "typename", null, 0, 1, DataTypeName.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(userDefinedTypeLiteralEClass, UserDefinedTypeLiteral.class, "UserDefinedTypeLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getUserDefinedTypeLiteral_TypeName(), this.getClass_(), null, "typeName", null, 0, 1, UserDefinedTypeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(categorizationTypeEEnum, CategorizationType.class, "CategorizationType");
@@ -3456,6 +3495,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     addEEnumLiteral(additionOperatorEEnum, AdditionOperator.PLUS);
     addEEnumLiteral(additionOperatorEEnum, AdditionOperator.MINUS);
 
+    initEEnum(multiplicationOperatorEEnum, MultiplicationOperator.class, "MultiplicationOperator");
+    addEEnumLiteral(multiplicationOperatorEEnum, MultiplicationOperator.TIMES);
+    addEEnumLiteral(multiplicationOperatorEEnum, MultiplicationOperator.OVER);
+
     initEEnum(unaryOperatorEEnum, UnaryOperator.class, "UnaryOperator");
     addEEnumLiteral(unaryOperatorEEnum, UnaryOperator.NONE);
     addEEnumLiteral(unaryOperatorEEnum, UnaryOperator.NOT);
@@ -3465,6 +3508,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     addEEnumLiteral(unaryNumberOperatorEEnum, UnaryNumberOperator.ABS);
     addEEnumLiteral(unaryNumberOperatorEEnum, UnaryNumberOperator.FLOOR);
     addEEnumLiteral(unaryNumberOperatorEEnum, UnaryNumberOperator.ROUND);
+    addEEnumLiteral(unaryNumberOperatorEEnum, UnaryNumberOperator.OCL_IS_UNDEFINED);
 
     initEEnum(binaryNumberOperatorEEnum, BinaryNumberOperator.class, "BinaryNumberOperator");
     addEEnumLiteral(binaryNumberOperatorEEnum, BinaryNumberOperator.MIN);
@@ -3492,7 +3536,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.UNION);
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.INTERSECTION);
     addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.SYMMETRIC_DIFFERENCE);
-    addEEnumLiteral(binarySetOperatorEEnum, BinarySetOperator.PRODUCT);
 
     initEEnum(unaryIteratorEEnum, UnaryIterator.class, "UnaryIterator");
     addEEnumLiteral(unaryIteratorEEnum, UnaryIterator.SELECT);
@@ -3506,6 +3549,11 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
     initEEnum(multiaryIteratorEEnum, MultiaryIterator.class, "MultiaryIterator");
     addEEnumLiteral(multiaryIteratorEEnum, MultiaryIterator.EXISTS);
     addEEnumLiteral(multiaryIteratorEEnum, MultiaryIterator.FOR_ALL);
+
+    initEEnum(typeOperatorEEnum, TypeOperator.class, "TypeOperator");
+    addEEnumLiteral(typeOperatorEEnum, TypeOperator.OCL_AS_TYPE);
+    addEEnumLiteral(typeOperatorEEnum, TypeOperator.OCL_IS_KIND_OF);
+    addEEnumLiteral(typeOperatorEEnum, TypeOperator.OCL_IS_TYPE_OF);
 
     // Create resource
     createResource(eNS_URI);

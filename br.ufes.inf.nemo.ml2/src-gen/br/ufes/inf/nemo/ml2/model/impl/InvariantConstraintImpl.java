@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.InvariantConstraintImpl#getContextAlias <em>Context Alias</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.InvariantConstraintImpl#getInvariantAlias <em>Invariant Alias</em>}</li>
  * </ul>
  *
@@ -28,26 +27,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class InvariantConstraintImpl extends ConstraintImpl implements InvariantConstraint
 {
-  /**
-   * The default value of the '{@link #getContextAlias() <em>Context Alias</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getContextAlias()
-   * @generated
-   * @ordered
-   */
-  protected static final String CONTEXT_ALIAS_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getContextAlias() <em>Context Alias</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getContextAlias()
-   * @generated
-   * @ordered
-   */
-  protected String contextAlias = CONTEXT_ALIAS_EDEFAULT;
-
   /**
    * The default value of the '{@link #getInvariantAlias() <em>Invariant Alias</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -95,31 +74,6 @@ public class InvariantConstraintImpl extends ConstraintImpl implements Invariant
    * @generated
    */
   @Override
-  public String getContextAlias()
-  {
-    return contextAlias;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setContextAlias(String newContextAlias)
-  {
-    String oldContextAlias = contextAlias;
-    contextAlias = newContextAlias;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.INVARIANT_CONSTRAINT__CONTEXT_ALIAS, oldContextAlias, contextAlias));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public String getInvariantAlias()
   {
     return invariantAlias;
@@ -149,8 +103,6 @@ public class InvariantConstraintImpl extends ConstraintImpl implements Invariant
   {
     switch (featureID)
     {
-      case ModelPackage.INVARIANT_CONSTRAINT__CONTEXT_ALIAS:
-        return getContextAlias();
       case ModelPackage.INVARIANT_CONSTRAINT__INVARIANT_ALIAS:
         return getInvariantAlias();
     }
@@ -167,9 +119,6 @@ public class InvariantConstraintImpl extends ConstraintImpl implements Invariant
   {
     switch (featureID)
     {
-      case ModelPackage.INVARIANT_CONSTRAINT__CONTEXT_ALIAS:
-        setContextAlias((String)newValue);
-        return;
       case ModelPackage.INVARIANT_CONSTRAINT__INVARIANT_ALIAS:
         setInvariantAlias((String)newValue);
         return;
@@ -187,9 +136,6 @@ public class InvariantConstraintImpl extends ConstraintImpl implements Invariant
   {
     switch (featureID)
     {
-      case ModelPackage.INVARIANT_CONSTRAINT__CONTEXT_ALIAS:
-        setContextAlias(CONTEXT_ALIAS_EDEFAULT);
-        return;
       case ModelPackage.INVARIANT_CONSTRAINT__INVARIANT_ALIAS:
         setInvariantAlias(INVARIANT_ALIAS_EDEFAULT);
         return;
@@ -207,8 +153,6 @@ public class InvariantConstraintImpl extends ConstraintImpl implements Invariant
   {
     switch (featureID)
     {
-      case ModelPackage.INVARIANT_CONSTRAINT__CONTEXT_ALIAS:
-        return CONTEXT_ALIAS_EDEFAULT == null ? contextAlias != null : !CONTEXT_ALIAS_EDEFAULT.equals(contextAlias);
       case ModelPackage.INVARIANT_CONSTRAINT__INVARIANT_ALIAS:
         return INVARIANT_ALIAS_EDEFAULT == null ? invariantAlias != null : !INVARIANT_ALIAS_EDEFAULT.equals(invariantAlias);
     }
@@ -226,9 +170,7 @@ public class InvariantConstraintImpl extends ConstraintImpl implements Invariant
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (contextAlias: ");
-    result.append(contextAlias);
-    result.append(", invariantAlias: ");
+    result.append(" (invariantAlias: ");
     result.append(invariantAlias);
     result.append(')');
     return result.toString();

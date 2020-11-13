@@ -11,135 +11,113 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Unary Number Operator</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Type Operator</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getUnaryNumberOperator()
+ * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getTypeOperator()
  * @model
  * @generated
  */
-public enum UnaryNumberOperator implements Enumerator
+public enum TypeOperator implements Enumerator
 {
   /**
-   * The '<em><b>ABS</b></em>' literal object.
+   * The '<em><b>OCL AS TYPE</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #ABS_VALUE
+   * @see #OCL_AS_TYPE_VALUE
    * @generated
    * @ordered
    */
-  ABS(0, "ABS", "abs"),
+  OCL_AS_TYPE(0, "OCL_AS_TYPE", "oclAsType"),
 
   /**
-   * The '<em><b>FLOOR</b></em>' literal object.
+   * The '<em><b>OCL IS KIND OF</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #FLOOR_VALUE
+   * @see #OCL_IS_KIND_OF_VALUE
    * @generated
    * @ordered
    */
-  FLOOR(1, "FLOOR", "floor"),
+  OCL_IS_KIND_OF(1, "OCL_IS_KIND_OF", "oclIsKindOf"),
 
   /**
-   * The '<em><b>ROUND</b></em>' literal object.
+   * The '<em><b>OCL IS TYPE OF</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #ROUND_VALUE
+   * @see #OCL_IS_TYPE_OF_VALUE
    * @generated
    * @ordered
    */
-  ROUND(2, "ROUND", "round"),
+  OCL_IS_TYPE_OF(2, "OCL_IS_TYPE_OF", "oclIsTypeOf");
 
   /**
-   * The '<em><b>OCL IS UNDEFINED</b></em>' literal object.
+   * The '<em><b>OCL AS TYPE</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #OCL_IS_UNDEFINED_VALUE
+   * @see #OCL_AS_TYPE
+   * @model literal="oclAsType"
    * @generated
    * @ordered
    */
-  OCL_IS_UNDEFINED(3, "OCL_IS_UNDEFINED", "oclIsUndefined");
+  public static final int OCL_AS_TYPE_VALUE = 0;
 
   /**
-   * The '<em><b>ABS</b></em>' literal value.
+   * The '<em><b>OCL IS KIND OF</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #ABS
-   * @model literal="abs"
+   * @see #OCL_IS_KIND_OF
+   * @model literal="oclIsKindOf"
    * @generated
    * @ordered
    */
-  public static final int ABS_VALUE = 0;
+  public static final int OCL_IS_KIND_OF_VALUE = 1;
 
   /**
-   * The '<em><b>FLOOR</b></em>' literal value.
+   * The '<em><b>OCL IS TYPE OF</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #FLOOR
-   * @model literal="floor"
+   * @see #OCL_IS_TYPE_OF
+   * @model literal="oclIsTypeOf"
    * @generated
    * @ordered
    */
-  public static final int FLOOR_VALUE = 1;
+  public static final int OCL_IS_TYPE_OF_VALUE = 2;
 
   /**
-   * The '<em><b>ROUND</b></em>' literal value.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #ROUND
-   * @model literal="round"
-   * @generated
-   * @ordered
-   */
-  public static final int ROUND_VALUE = 2;
-
-  /**
-   * The '<em><b>OCL IS UNDEFINED</b></em>' literal value.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #OCL_IS_UNDEFINED
-   * @model literal="oclIsUndefined"
-   * @generated
-   * @ordered
-   */
-  public static final int OCL_IS_UNDEFINED_VALUE = 3;
-
-  /**
-   * An array of all the '<em><b>Unary Number Operator</b></em>' enumerators.
+   * An array of all the '<em><b>Type Operator</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private static final UnaryNumberOperator[] VALUES_ARRAY =
-    new UnaryNumberOperator[]
+  private static final TypeOperator[] VALUES_ARRAY =
+    new TypeOperator[]
     {
-      ABS,
-      FLOOR,
-      ROUND,
-      OCL_IS_UNDEFINED,
+      OCL_AS_TYPE,
+      OCL_IS_KIND_OF,
+      OCL_IS_TYPE_OF,
     };
 
   /**
-   * A public read-only list of all the '<em><b>Unary Number Operator</b></em>' enumerators.
+   * A public read-only list of all the '<em><b>Type Operator</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List<UnaryNumberOperator> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<TypeOperator> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Unary Number Operator</b></em>' literal with the specified literal value.
+   * Returns the '<em><b>Type Operator</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param literal the literal.
    * @return the matching enumerator or <code>null</code>.
    * @generated
    */
-  public static UnaryNumberOperator get(String literal)
+  public static TypeOperator get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
-      UnaryNumberOperator result = VALUES_ARRAY[i];
+      TypeOperator result = VALUES_ARRAY[i];
       if (result.toString().equals(literal))
       {
         return result;
@@ -149,18 +127,18 @@ public enum UnaryNumberOperator implements Enumerator
   }
 
   /**
-   * Returns the '<em><b>Unary Number Operator</b></em>' literal with the specified name.
+   * Returns the '<em><b>Type Operator</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param name the name.
    * @return the matching enumerator or <code>null</code>.
    * @generated
    */
-  public static UnaryNumberOperator getByName(String name)
+  public static TypeOperator getByName(String name)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
-      UnaryNumberOperator result = VALUES_ARRAY[i];
+      TypeOperator result = VALUES_ARRAY[i];
       if (result.getName().equals(name))
       {
         return result;
@@ -170,21 +148,20 @@ public enum UnaryNumberOperator implements Enumerator
   }
 
   /**
-   * Returns the '<em><b>Unary Number Operator</b></em>' literal with the specified integer value.
+   * Returns the '<em><b>Type Operator</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the integer value.
    * @return the matching enumerator or <code>null</code>.
    * @generated
    */
-  public static UnaryNumberOperator get(int value)
+  public static TypeOperator get(int value)
   {
     switch (value)
     {
-      case ABS_VALUE: return ABS;
-      case FLOOR_VALUE: return FLOOR;
-      case ROUND_VALUE: return ROUND;
-      case OCL_IS_UNDEFINED_VALUE: return OCL_IS_UNDEFINED;
+      case OCL_AS_TYPE_VALUE: return OCL_AS_TYPE;
+      case OCL_IS_KIND_OF_VALUE: return OCL_IS_KIND_OF;
+      case OCL_IS_TYPE_OF_VALUE: return OCL_IS_TYPE_OF;
     }
     return null;
   }
@@ -216,7 +193,7 @@ public enum UnaryNumberOperator implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private UnaryNumberOperator(int value, String name, String literal)
+  private TypeOperator(int value, String name, String literal)
   {
     this.value = value;
     this.name = name;
@@ -268,4 +245,4 @@ public enum UnaryNumberOperator implements Enumerator
     return literal;
   }
   
-} //UnaryNumberOperator
+} //TypeOperator

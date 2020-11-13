@@ -3,21 +3,32 @@
  */
 package br.ufes.inf.nemo.ml2.validation;
 
+import br.ufes.inf.nemo.ml2.model.AdditionExpression;
+import br.ufes.inf.nemo.ml2.model.AndExpression;
 import br.ufes.inf.nemo.ml2.model.AttributeAssignment;
+import br.ufes.inf.nemo.ml2.model.Constraint;
 import br.ufes.inf.nemo.ml2.model.DataType;
+import br.ufes.inf.nemo.ml2.model.DerivationConstraint;
 import br.ufes.inf.nemo.ml2.model.EntityDeclaration;
 import br.ufes.inf.nemo.ml2.model.Feature;
 import br.ufes.inf.nemo.ml2.model.FeatureAssignment;
 import br.ufes.inf.nemo.ml2.model.GeneralizationSet;
 import br.ufes.inf.nemo.ml2.model.HighOrderClass;
 import br.ufes.inf.nemo.ml2.model.HigherOrderClass;
+import br.ufes.inf.nemo.ml2.model.IfExpression;
+import br.ufes.inf.nemo.ml2.model.ImpliesExpression;
+import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
+import br.ufes.inf.nemo.ml2.model.OrExpression;
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.model.RegularityFeature;
+import br.ufes.inf.nemo.ml2.model.RelationalExpression;
+import br.ufes.inf.nemo.ml2.model.UnaryExpression;
+import br.ufes.inf.nemo.ml2.model.XorExpression;
 import br.ufes.inf.nemo.ml2.util.ML2Util;
 import br.ufes.inf.nemo.ml2.validation.AbstractML2Validator;
 import br.ufes.inf.nemo.ml2.validation.LinguisticRules;
 import br.ufes.inf.nemo.ml2.validation.MLTRules;
-import br.ufes.inf.nemo.ml2.validation.UFORules;
+import br.ufes.inf.nemo.ml2.validation.OCLRules;
 import br.ufes.inf.nemo.ml2.validation.ValidationError;
 import br.ufes.inf.nemo.ml2.validation.ValidationIssue;
 import br.ufes.inf.nemo.ml2.validation.ValidationWarning;
@@ -50,7 +61,7 @@ public class ML2Validator extends AbstractML2Validator {
   
   @Inject
   @Extension
-  private UFORules _uFORules;
+  private OCLRules _oCLRules;
   
   public static final String INSTANTIATION_OF_DISJOINT_TYPES = "br.ufes.inf.nemo.ontol.InstantiationOfDisjointTypes";
   
@@ -361,6 +372,102 @@ public class ML2Validator extends AbstractML2Validator {
           }
         }
       }
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidFeatureContext(final DerivationConstraint constraint) {
+    ValidationError _hasValidFeatureContext = this._oCLRules.hasValidFeatureContext(constraint);
+    if (_hasValidFeatureContext!=null) {
+      this.runIssue(_hasValidFeatureContext);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidContextType(final DerivationConstraint constraint) {
+    ValidationError _hasValidContextType = this._oCLRules.hasValidContextType(constraint);
+    if (_hasValidContextType!=null) {
+      this.runIssue(_hasValidContextType);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidReturnType(final Constraint constraint) {
+    ValidationError _hasValidReturnType = this._oCLRules.hasValidReturnType(constraint);
+    if (_hasValidReturnType!=null) {
+      this.runIssue(_hasValidReturnType);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidIfCondition(final IfExpression expression) {
+    ValidationError _hasValidIfCondition = this._oCLRules.hasValidIfCondition(expression);
+    if (_hasValidIfCondition!=null) {
+      this.runIssue(_hasValidIfCondition);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidImpliesExpression(final ImpliesExpression expression) {
+    ValidationError _hasValidImpliesExpression = this._oCLRules.hasValidImpliesExpression(expression);
+    if (_hasValidImpliesExpression!=null) {
+      this.runIssue(_hasValidImpliesExpression);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidXorExpression(final XorExpression expression) {
+    ValidationError _hasValidXorExpression = this._oCLRules.hasValidXorExpression(expression);
+    if (_hasValidXorExpression!=null) {
+      this.runIssue(_hasValidXorExpression);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidOrExpression(final OrExpression expression) {
+    ValidationError _hasValidOrExpression = this._oCLRules.hasValidOrExpression(expression);
+    if (_hasValidOrExpression!=null) {
+      this.runIssue(_hasValidOrExpression);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidAndExpression(final AndExpression expression) {
+    ValidationError _hasValidAndExpression = this._oCLRules.hasValidAndExpression(expression);
+    if (_hasValidAndExpression!=null) {
+      this.runIssue(_hasValidAndExpression);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidRelationalExpression(final RelationalExpression expression) {
+    ValidationError _hasValidRelationalExpression = this._oCLRules.hasValidRelationalExpression(expression);
+    if (_hasValidRelationalExpression!=null) {
+      this.runIssue(_hasValidRelationalExpression);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidAdditionExpression(final AdditionExpression expression) {
+    ValidationError _hasValidAdditionExpression = this._oCLRules.hasValidAdditionExpression(expression);
+    if (_hasValidAdditionExpression!=null) {
+      this.runIssue(_hasValidAdditionExpression);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidMultiplicationExpression(final MultiplicationExpression expression) {
+    ValidationError _hasValidMultiplicationExpression = this._oCLRules.hasValidMultiplicationExpression(expression);
+    if (_hasValidMultiplicationExpression!=null) {
+      this.runIssue(_hasValidMultiplicationExpression);
+    }
+  }
+  
+  @Check(CheckType.FAST)
+  public void callCheckHasValidUnaryExpression(final UnaryExpression expression) {
+    ValidationError _hasValidUnaryExpression = this._oCLRules.hasValidUnaryExpression(expression);
+    if (_hasValidUnaryExpression!=null) {
+      this.runIssue(_hasValidUnaryExpression);
     }
   }
   

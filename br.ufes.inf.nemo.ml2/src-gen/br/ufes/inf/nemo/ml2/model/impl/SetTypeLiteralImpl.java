@@ -3,8 +3,8 @@
  */
 package br.ufes.inf.nemo.ml2.model.impl;
 
-import br.ufes.inf.nemo.ml2.model.CollectionTypeName;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
+import br.ufes.inf.nemo.ml2.model.SetTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -17,56 +17,56 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Collection Type Name</b></em>'.
+ * An implementation of the model object '<em><b>Set Type Literal</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.CollectionTypeNameImpl#getTypename <em>Typename</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.CollectionTypeNameImpl#getElementType <em>Element Type</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.SetTypeLiteralImpl#getTypeName <em>Type Name</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.SetTypeLiteralImpl#getSetType <em>Set Type</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements CollectionTypeName
+public class SetTypeLiteralImpl extends TypeLiteralExpressionImpl implements SetTypeLiteral
 {
   /**
-   * The default value of the '{@link #getTypename() <em>Typename</em>}' attribute.
+   * The default value of the '{@link #getTypeName() <em>Type Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypename()
+   * @see #getTypeName()
    * @generated
    * @ordered
    */
-  protected static final String TYPENAME_EDEFAULT = null;
+  protected static final String TYPE_NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getTypename() <em>Typename</em>}' attribute.
+   * The cached value of the '{@link #getTypeName() <em>Type Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypename()
+   * @see #getTypeName()
    * @generated
    * @ordered
    */
-  protected String typename = TYPENAME_EDEFAULT;
+  protected String typeName = TYPE_NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getElementType() <em>Element Type</em>}' containment reference.
+   * The cached value of the '{@link #getSetType() <em>Set Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getElementType()
+   * @see #getSetType()
    * @generated
    * @ordered
    */
-  protected TypeLiteralExpression elementType;
+  protected TypeLiteralExpression setType;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected CollectionTypeNameImpl()
+  protected SetTypeLiteralImpl()
   {
     super();
   }
@@ -79,7 +79,7 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
   @Override
   protected EClass eStaticClass()
   {
-    return ModelPackage.Literals.COLLECTION_TYPE_NAME;
+    return ModelPackage.Literals.SET_TYPE_LITERAL;
   }
 
   /**
@@ -88,9 +88,9 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
    * @generated
    */
   @Override
-  public String getTypename()
+  public String getTypeName()
   {
-    return typename;
+    return typeName;
   }
 
   /**
@@ -99,12 +99,12 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
    * @generated
    */
   @Override
-  public void setTypename(String newTypename)
+  public void setTypeName(String newTypeName)
   {
-    String oldTypename = typename;
-    typename = newTypename;
+    String oldTypeName = typeName;
+    typeName = newTypeName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.COLLECTION_TYPE_NAME__TYPENAME, oldTypename, typename));
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.SET_TYPE_LITERAL__TYPE_NAME, oldTypeName, typeName));
   }
 
   /**
@@ -113,9 +113,9 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
    * @generated
    */
   @Override
-  public TypeLiteralExpression getElementType()
+  public TypeLiteralExpression getSetType()
   {
-    return elementType;
+    return setType;
   }
 
   /**
@@ -123,13 +123,13 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetElementType(TypeLiteralExpression newElementType, NotificationChain msgs)
+  public NotificationChain basicSetSetType(TypeLiteralExpression newSetType, NotificationChain msgs)
   {
-    TypeLiteralExpression oldElementType = elementType;
-    elementType = newElementType;
+    TypeLiteralExpression oldSetType = setType;
+    setType = newSetType;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.COLLECTION_TYPE_NAME__ELEMENT_TYPE, oldElementType, newElementType);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.SET_TYPE_LITERAL__SET_TYPE, oldSetType, newSetType);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -141,20 +141,20 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
    * @generated
    */
   @Override
-  public void setElementType(TypeLiteralExpression newElementType)
+  public void setSetType(TypeLiteralExpression newSetType)
   {
-    if (newElementType != elementType)
+    if (newSetType != setType)
     {
       NotificationChain msgs = null;
-      if (elementType != null)
-        msgs = ((InternalEObject)elementType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.COLLECTION_TYPE_NAME__ELEMENT_TYPE, null, msgs);
-      if (newElementType != null)
-        msgs = ((InternalEObject)newElementType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.COLLECTION_TYPE_NAME__ELEMENT_TYPE, null, msgs);
-      msgs = basicSetElementType(newElementType, msgs);
+      if (setType != null)
+        msgs = ((InternalEObject)setType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.SET_TYPE_LITERAL__SET_TYPE, null, msgs);
+      if (newSetType != null)
+        msgs = ((InternalEObject)newSetType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.SET_TYPE_LITERAL__SET_TYPE, null, msgs);
+      msgs = basicSetSetType(newSetType, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.COLLECTION_TYPE_NAME__ELEMENT_TYPE, newElementType, newElementType));
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.SET_TYPE_LITERAL__SET_TYPE, newSetType, newSetType));
   }
 
   /**
@@ -167,8 +167,8 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_TYPE_NAME__ELEMENT_TYPE:
-        return basicSetElementType(null, msgs);
+      case ModelPackage.SET_TYPE_LITERAL__SET_TYPE:
+        return basicSetSetType(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -183,10 +183,10 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_TYPE_NAME__TYPENAME:
-        return getTypename();
-      case ModelPackage.COLLECTION_TYPE_NAME__ELEMENT_TYPE:
-        return getElementType();
+      case ModelPackage.SET_TYPE_LITERAL__TYPE_NAME:
+        return getTypeName();
+      case ModelPackage.SET_TYPE_LITERAL__SET_TYPE:
+        return getSetType();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -201,11 +201,11 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_TYPE_NAME__TYPENAME:
-        setTypename((String)newValue);
+      case ModelPackage.SET_TYPE_LITERAL__TYPE_NAME:
+        setTypeName((String)newValue);
         return;
-      case ModelPackage.COLLECTION_TYPE_NAME__ELEMENT_TYPE:
-        setElementType((TypeLiteralExpression)newValue);
+      case ModelPackage.SET_TYPE_LITERAL__SET_TYPE:
+        setSetType((TypeLiteralExpression)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -221,11 +221,11 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_TYPE_NAME__TYPENAME:
-        setTypename(TYPENAME_EDEFAULT);
+      case ModelPackage.SET_TYPE_LITERAL__TYPE_NAME:
+        setTypeName(TYPE_NAME_EDEFAULT);
         return;
-      case ModelPackage.COLLECTION_TYPE_NAME__ELEMENT_TYPE:
-        setElementType((TypeLiteralExpression)null);
+      case ModelPackage.SET_TYPE_LITERAL__SET_TYPE:
+        setSetType((TypeLiteralExpression)null);
         return;
     }
     super.eUnset(featureID);
@@ -241,10 +241,10 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_TYPE_NAME__TYPENAME:
-        return TYPENAME_EDEFAULT == null ? typename != null : !TYPENAME_EDEFAULT.equals(typename);
-      case ModelPackage.COLLECTION_TYPE_NAME__ELEMENT_TYPE:
-        return elementType != null;
+      case ModelPackage.SET_TYPE_LITERAL__TYPE_NAME:
+        return TYPE_NAME_EDEFAULT == null ? typeName != null : !TYPE_NAME_EDEFAULT.equals(typeName);
+      case ModelPackage.SET_TYPE_LITERAL__SET_TYPE:
+        return setType != null;
     }
     return super.eIsSet(featureID);
   }
@@ -260,10 +260,10 @@ public class CollectionTypeNameImpl extends TypeLiteralExpressionImpl implements
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (typename: ");
-    result.append(typename);
+    result.append(" (typeName: ");
+    result.append(typeName);
     result.append(')');
     return result.toString();
   }
 
-} //CollectionTypeNameImpl
+} //SetTypeLiteralImpl

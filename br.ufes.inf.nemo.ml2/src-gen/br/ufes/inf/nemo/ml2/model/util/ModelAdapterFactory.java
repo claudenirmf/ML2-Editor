@@ -14,13 +14,10 @@ import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
 import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
 import br.ufes.inf.nemo.ml2.model.CallOperation;
-import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.CollectionTypeName;
 import br.ufes.inf.nemo.ml2.model.ComparisonExpression;
 import br.ufes.inf.nemo.ml2.model.ComparisonOperation;
 import br.ufes.inf.nemo.ml2.model.Constraint;
 import br.ufes.inf.nemo.ml2.model.DataType;
-import br.ufes.inf.nemo.ml2.model.DataTypeName;
 import br.ufes.inf.nemo.ml2.model.DerivationConstraint;
 import br.ufes.inf.nemo.ml2.model.DotOperation;
 import br.ufes.inf.nemo.ml2.model.EntityDeclaration;
@@ -42,15 +39,16 @@ import br.ufes.inf.nemo.ml2.model.ModelElement;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
+import br.ufes.inf.nemo.ml2.model.MultiplicationOperation;
+import br.ufes.inf.nemo.ml2.model.NavigationSource;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.OclExpression;
-import br.ufes.inf.nemo.ml2.model.OclTypeName;
 import br.ufes.inf.nemo.ml2.model.OrExpression;
 import br.ufes.inf.nemo.ml2.model.OrderedClass;
 import br.ufes.inf.nemo.ml2.model.OrderlessClass;
 import br.ufes.inf.nemo.ml2.model.PrimitiveLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.PrimitiveTypeName;
+import br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.Reference;
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.model.RegularityAttribute;
@@ -58,15 +56,17 @@ import br.ufes.inf.nemo.ml2.model.RegularityFeature;
 import br.ufes.inf.nemo.ml2.model.RegularityReference;
 import br.ufes.inf.nemo.ml2.model.RelationalExpression;
 import br.ufes.inf.nemo.ml2.model.RelationalOperation;
+import br.ufes.inf.nemo.ml2.model.SetLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.SetTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.StringLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.TermExpression;
-import br.ufes.inf.nemo.ml2.model.TupleLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.TupleTypeName;
 import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.TypeOperation;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
 import br.ufes.inf.nemo.ml2.model.UnaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
+import br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 import br.ufes.inf.nemo.ml2.model.VariableExpression;
 import br.ufes.inf.nemo.ml2.model.XorExpression;
@@ -342,6 +342,11 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
         return createMultiplicationExpressionAdapter();
       }
       @Override
+      public Adapter caseMultiplicationOperation(MultiplicationOperation object)
+      {
+        return createMultiplicationOperationAdapter();
+      }
+      @Override
       public Adapter caseUnaryExpression(UnaryExpression object)
       {
         return createUnaryExpressionAdapter();
@@ -355,6 +360,11 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
       public Adapter caseCallExpression(CallExpression object)
       {
         return createCallExpressionAdapter();
+      }
+      @Override
+      public Adapter caseNavigationSource(NavigationSource object)
+      {
+        return createNavigationSourceAdapter();
       }
       @Override
       public Adapter caseCallOperation(CallOperation object)
@@ -402,6 +412,11 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
         return createMultiaryIterationAdapter();
       }
       @Override
+      public Adapter caseTypeOperation(TypeOperation object)
+      {
+        return createTypeOperationAdapter();
+      }
+      @Override
       public Adapter caseLiteralExpression(LiteralExpression object)
       {
         return createLiteralExpressionAdapter();
@@ -410,11 +425,6 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
       public Adapter casePrimitiveLiteralExpression(PrimitiveLiteralExpression object)
       {
         return createPrimitiveLiteralExpressionAdapter();
-      }
-      @Override
-      public Adapter caseNullLiteralExpression(NullLiteralExpression object)
-      {
-        return createNullLiteralExpressionAdapter();
       }
       @Override
       public Adapter caseBooleanLiteralExpression(BooleanLiteralExpression object)
@@ -432,9 +442,14 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
         return createStringLiteralExpressionAdapter();
       }
       @Override
-      public Adapter caseCollectionLiteralExpression(CollectionLiteralExpression object)
+      public Adapter caseNullLiteralExpression(NullLiteralExpression object)
       {
-        return createCollectionLiteralExpressionAdapter();
+        return createNullLiteralExpressionAdapter();
+      }
+      @Override
+      public Adapter caseSetLiteralExpression(SetLiteralExpression object)
+      {
+        return createSetLiteralExpressionAdapter();
       }
       @Override
       public Adapter caseTypeLiteralExpression(TypeLiteralExpression object)
@@ -442,39 +457,24 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
         return createTypeLiteralExpressionAdapter();
       }
       @Override
-      public Adapter caseTupleLiteralExpression(TupleLiteralExpression object)
-      {
-        return createTupleLiteralExpressionAdapter();
-      }
-      @Override
       public Adapter caseVariableExpression(VariableExpression object)
       {
         return createVariableExpressionAdapter();
       }
       @Override
-      public Adapter casePrimitiveTypeName(PrimitiveTypeName object)
+      public Adapter casePrimitiveTypeLiteral(PrimitiveTypeLiteral object)
       {
-        return createPrimitiveTypeNameAdapter();
+        return createPrimitiveTypeLiteralAdapter();
       }
       @Override
-      public Adapter caseCollectionTypeName(CollectionTypeName object)
+      public Adapter caseSetTypeLiteral(SetTypeLiteral object)
       {
-        return createCollectionTypeNameAdapter();
+        return createSetTypeLiteralAdapter();
       }
       @Override
-      public Adapter caseTupleTypeName(TupleTypeName object)
+      public Adapter caseUserDefinedTypeLiteral(UserDefinedTypeLiteral object)
       {
-        return createTupleTypeNameAdapter();
-      }
-      @Override
-      public Adapter caseOclTypeName(OclTypeName object)
-      {
-        return createOclTypeNameAdapter();
-      }
-      @Override
-      public Adapter caseDataTypeName(DataTypeName object)
-      {
-        return createDataTypeNameAdapter();
+        return createUserDefinedTypeLiteralAdapter();
       }
       @Override
       public Adapter defaultCase(EObject object)
@@ -1099,6 +1099,21 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.MultiplicationOperation <em>Multiplication Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see br.ufes.inf.nemo.ml2.model.MultiplicationOperation
+   * @generated
+   */
+  public Adapter createMultiplicationOperationAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.UnaryExpression <em>Unary Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1139,6 +1154,21 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createCallExpressionAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.NavigationSource <em>Navigation Source</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see br.ufes.inf.nemo.ml2.model.NavigationSource
+   * @generated
+   */
+  public Adapter createNavigationSourceAdapter()
   {
     return null;
   }
@@ -1279,6 +1309,21 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.TypeOperation <em>Type Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see br.ufes.inf.nemo.ml2.model.TypeOperation
+   * @generated
+   */
+  public Adapter createTypeOperationAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.LiteralExpression <em>Literal Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1304,21 +1349,6 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createPrimitiveLiteralExpressionAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.NullLiteralExpression <em>Null Literal Expression</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.NullLiteralExpression
-   * @generated
-   */
-  public Adapter createNullLiteralExpressionAdapter()
   {
     return null;
   }
@@ -1369,16 +1399,31 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression <em>Collection Literal Expression</em>}'.
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.NullLiteralExpression <em>Null Literal Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression
+   * @see br.ufes.inf.nemo.ml2.model.NullLiteralExpression
    * @generated
    */
-  public Adapter createCollectionLiteralExpressionAdapter()
+  public Adapter createNullLiteralExpressionAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.SetLiteralExpression <em>Set Literal Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see br.ufes.inf.nemo.ml2.model.SetLiteralExpression
+   * @generated
+   */
+  public Adapter createSetLiteralExpressionAdapter()
   {
     return null;
   }
@@ -1399,21 +1444,6 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.TupleLiteralExpression <em>Tuple Literal Expression</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.TupleLiteralExpression
-   * @generated
-   */
-  public Adapter createTupleLiteralExpressionAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.VariableExpression <em>Variable Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1429,76 +1459,46 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.PrimitiveTypeName <em>Primitive Type Name</em>}'.
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral <em>Primitive Type Literal</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.PrimitiveTypeName
+   * @see br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral
    * @generated
    */
-  public Adapter createPrimitiveTypeNameAdapter()
+  public Adapter createPrimitiveTypeLiteralAdapter()
   {
     return null;
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.CollectionTypeName <em>Collection Type Name</em>}'.
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.SetTypeLiteral <em>Set Type Literal</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.CollectionTypeName
+   * @see br.ufes.inf.nemo.ml2.model.SetTypeLiteral
    * @generated
    */
-  public Adapter createCollectionTypeNameAdapter()
+  public Adapter createSetTypeLiteralAdapter()
   {
     return null;
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.TupleTypeName <em>Tuple Type Name</em>}'.
+   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral <em>User Defined Type Literal</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.TupleTypeName
+   * @see br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral
    * @generated
    */
-  public Adapter createTupleTypeNameAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.OclTypeName <em>Ocl Type Name</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.OclTypeName
-   * @generated
-   */
-  public Adapter createOclTypeNameAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link br.ufes.inf.nemo.ml2.model.DataTypeName <em>Data Type Name</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see br.ufes.inf.nemo.ml2.model.DataTypeName
-   * @generated
-   */
-  public Adapter createDataTypeNameAdapter()
+  public Adapter createUserDefinedTypeLiteralAdapter()
   {
     return null;
   }

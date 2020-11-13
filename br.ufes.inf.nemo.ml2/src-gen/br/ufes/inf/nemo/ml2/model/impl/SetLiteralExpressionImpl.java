@@ -3,9 +3,9 @@
  */
 package br.ufes.inf.nemo.ml2.model.impl;
 
-import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.LiteralExpression;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
+import br.ufes.inf.nemo.ml2.model.PrimitiveLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.SetLiteralExpression;
 
 import java.util.Collection;
 
@@ -21,18 +21,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Collection Literal Expression</b></em>'.
+ * An implementation of the model object '<em><b>Set Literal Expression</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.CollectionLiteralExpressionImpl#getParts <em>Parts</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.SetLiteralExpressionImpl#getParts <em>Parts</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl implements CollectionLiteralExpression
+public class SetLiteralExpressionImpl extends LiteralExpressionImpl implements SetLiteralExpression
 {
   /**
    * The cached value of the '{@link #getParts() <em>Parts</em>}' containment reference list.
@@ -42,14 +42,14 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
    * @generated
    * @ordered
    */
-  protected EList<LiteralExpression> parts;
+  protected EList<PrimitiveLiteralExpression> parts;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected CollectionLiteralExpressionImpl()
+  protected SetLiteralExpressionImpl()
   {
     super();
   }
@@ -62,7 +62,7 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
   @Override
   protected EClass eStaticClass()
   {
-    return ModelPackage.Literals.COLLECTION_LITERAL_EXPRESSION;
+    return ModelPackage.Literals.SET_LITERAL_EXPRESSION;
   }
 
   /**
@@ -71,11 +71,11 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
    * @generated
    */
   @Override
-  public EList<LiteralExpression> getParts()
+  public EList<PrimitiveLiteralExpression> getParts()
   {
     if (parts == null)
     {
-      parts = new EObjectContainmentEList<LiteralExpression>(LiteralExpression.class, this, ModelPackage.COLLECTION_LITERAL_EXPRESSION__PARTS);
+      parts = new EObjectContainmentEList<PrimitiveLiteralExpression>(PrimitiveLiteralExpression.class, this, ModelPackage.SET_LITERAL_EXPRESSION__PARTS);
     }
     return parts;
   }
@@ -90,7 +90,7 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_LITERAL_EXPRESSION__PARTS:
+      case ModelPackage.SET_LITERAL_EXPRESSION__PARTS:
         return ((InternalEList<?>)getParts()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -106,7 +106,7 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_LITERAL_EXPRESSION__PARTS:
+      case ModelPackage.SET_LITERAL_EXPRESSION__PARTS:
         return getParts();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -123,9 +123,9 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_LITERAL_EXPRESSION__PARTS:
+      case ModelPackage.SET_LITERAL_EXPRESSION__PARTS:
         getParts().clear();
-        getParts().addAll((Collection<? extends LiteralExpression>)newValue);
+        getParts().addAll((Collection<? extends PrimitiveLiteralExpression>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -141,7 +141,7 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_LITERAL_EXPRESSION__PARTS:
+      case ModelPackage.SET_LITERAL_EXPRESSION__PARTS:
         getParts().clear();
         return;
     }
@@ -158,10 +158,10 @@ public class CollectionLiteralExpressionImpl extends LiteralExpressionImpl imple
   {
     switch (featureID)
     {
-      case ModelPackage.COLLECTION_LITERAL_EXPRESSION__PARTS:
+      case ModelPackage.SET_LITERAL_EXPRESSION__PARTS:
         return parts != null && !parts.isEmpty();
     }
     return super.eIsSet(featureID);
   }
 
-} //CollectionLiteralExpressionImpl
+} //SetLiteralExpressionImpl

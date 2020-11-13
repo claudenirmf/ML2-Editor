@@ -3,6 +3,7 @@
  */
 package br.ufes.inf.nemo.ml2.model;
 
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,7 +15,7 @@ package br.ufes.inf.nemo.ml2.model;
  * </p>
  * <ul>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getFeatureContext <em>Feature Context</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getTypename <em>Typename</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getContextType <em>Context Type</em>}</li>
  * </ul>
  *
  * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getDerivationConstraint()
@@ -24,47 +25,37 @@ package br.ufes.inf.nemo.ml2.model;
 public interface DerivationConstraint extends Constraint
 {
   /**
-   * Returns the value of the '<em><b>Feature Context</b></em>' reference.
+   * Returns the value of the '<em><b>Feature Context</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Feature Context</em>' reference.
-   * @see #setFeatureContext(Feature)
+   * @return the value of the '<em>Feature Context</em>' attribute list.
    * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getDerivationConstraint_FeatureContext()
-   * @model
+   * @model unique="false"
    * @generated
    */
-  Feature getFeatureContext();
+  EList<String> getFeatureContext();
 
   /**
-   * Sets the value of the '{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getFeatureContext <em>Feature Context</em>}' reference.
+   * Returns the value of the '<em><b>Context Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Feature Context</em>' reference.
-   * @see #getFeatureContext()
-   * @generated
-   */
-  void setFeatureContext(Feature value);
-
-  /**
-   * Returns the value of the '<em><b>Typename</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Typename</em>' containment reference.
-   * @see #setTypename(TypeLiteralExpression)
-   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getDerivationConstraint_Typename()
+   * @return the value of the '<em>Context Type</em>' containment reference.
+   * @see #setContextType(TypeLiteralExpression)
+   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getDerivationConstraint_ContextType()
    * @model containment="true"
    * @generated
    */
-  TypeLiteralExpression getTypename();
+  TypeLiteralExpression getContextType();
 
   /**
-   * Sets the value of the '{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getTypename <em>Typename</em>}' containment reference.
+   * Sets the value of the '{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getContextType <em>Context Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Typename</em>' containment reference.
-   * @see #getTypename()
+   * @param value the new value of the '<em>Context Type</em>' containment reference.
+   * @see #getContextType()
    * @generated
    */
-  void setTypename(TypeLiteralExpression value);
+  void setContextType(TypeLiteralExpression value);
 
 } // DerivationConstraint

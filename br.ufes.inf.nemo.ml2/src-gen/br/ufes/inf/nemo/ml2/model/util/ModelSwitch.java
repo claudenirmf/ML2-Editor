@@ -14,13 +14,10 @@ import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
 import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
 import br.ufes.inf.nemo.ml2.model.CallOperation;
-import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.CollectionTypeName;
 import br.ufes.inf.nemo.ml2.model.ComparisonExpression;
 import br.ufes.inf.nemo.ml2.model.ComparisonOperation;
 import br.ufes.inf.nemo.ml2.model.Constraint;
 import br.ufes.inf.nemo.ml2.model.DataType;
-import br.ufes.inf.nemo.ml2.model.DataTypeName;
 import br.ufes.inf.nemo.ml2.model.DerivationConstraint;
 import br.ufes.inf.nemo.ml2.model.DotOperation;
 import br.ufes.inf.nemo.ml2.model.EntityDeclaration;
@@ -42,15 +39,16 @@ import br.ufes.inf.nemo.ml2.model.ModelElement;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
+import br.ufes.inf.nemo.ml2.model.MultiplicationOperation;
+import br.ufes.inf.nemo.ml2.model.NavigationSource;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.OclExpression;
-import br.ufes.inf.nemo.ml2.model.OclTypeName;
 import br.ufes.inf.nemo.ml2.model.OrExpression;
 import br.ufes.inf.nemo.ml2.model.OrderedClass;
 import br.ufes.inf.nemo.ml2.model.OrderlessClass;
 import br.ufes.inf.nemo.ml2.model.PrimitiveLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.PrimitiveTypeName;
+import br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.Reference;
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.model.RegularityAttribute;
@@ -58,15 +56,17 @@ import br.ufes.inf.nemo.ml2.model.RegularityFeature;
 import br.ufes.inf.nemo.ml2.model.RegularityReference;
 import br.ufes.inf.nemo.ml2.model.RelationalExpression;
 import br.ufes.inf.nemo.ml2.model.RelationalOperation;
+import br.ufes.inf.nemo.ml2.model.SetLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.SetTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.StringLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.TermExpression;
-import br.ufes.inf.nemo.ml2.model.TupleLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.TupleTypeName;
 import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.TypeOperation;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
 import br.ufes.inf.nemo.ml2.model.UnaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
+import br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 import br.ufes.inf.nemo.ml2.model.VariableExpression;
 import br.ufes.inf.nemo.ml2.model.XorExpression;
@@ -482,6 +482,13 @@ public class ModelSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case ModelPackage.MULTIPLICATION_OPERATION:
+      {
+        MultiplicationOperation multiplicationOperation = (MultiplicationOperation)theEObject;
+        T result = caseMultiplicationOperation(multiplicationOperation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case ModelPackage.UNARY_EXPRESSION:
       {
         UnaryExpression unaryExpression = (UnaryExpression)theEObject;
@@ -501,6 +508,13 @@ public class ModelSwitch<T> extends Switch<T>
         CallExpression callExpression = (CallExpression)theEObject;
         T result = caseCallExpression(callExpression);
         if (result == null) result = caseTermExpression(callExpression);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ModelPackage.NAVIGATION_SOURCE:
+      {
+        NavigationSource navigationSource = (NavigationSource)theEObject;
+        T result = caseNavigationSource(navigationSource);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -581,6 +595,16 @@ public class ModelSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case ModelPackage.TYPE_OPERATION:
+      {
+        TypeOperation typeOperation = (TypeOperation)theEObject;
+        T result = caseTypeOperation(typeOperation);
+        if (result == null) result = caseDotOperation(typeOperation);
+        if (result == null) result = caseArrowOperation(typeOperation);
+        if (result == null) result = caseCallOperation(typeOperation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case ModelPackage.LITERAL_EXPRESSION:
       {
         LiteralExpression literalExpression = (LiteralExpression)theEObject;
@@ -595,16 +619,6 @@ public class ModelSwitch<T> extends Switch<T>
         T result = casePrimitiveLiteralExpression(primitiveLiteralExpression);
         if (result == null) result = caseLiteralExpression(primitiveLiteralExpression);
         if (result == null) result = caseTermExpression(primitiveLiteralExpression);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case ModelPackage.NULL_LITERAL_EXPRESSION:
-      {
-        NullLiteralExpression nullLiteralExpression = (NullLiteralExpression)theEObject;
-        T result = caseNullLiteralExpression(nullLiteralExpression);
-        if (result == null) result = casePrimitiveLiteralExpression(nullLiteralExpression);
-        if (result == null) result = caseLiteralExpression(nullLiteralExpression);
-        if (result == null) result = caseTermExpression(nullLiteralExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -638,12 +652,22 @@ public class ModelSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ModelPackage.COLLECTION_LITERAL_EXPRESSION:
+      case ModelPackage.NULL_LITERAL_EXPRESSION:
       {
-        CollectionLiteralExpression collectionLiteralExpression = (CollectionLiteralExpression)theEObject;
-        T result = caseCollectionLiteralExpression(collectionLiteralExpression);
-        if (result == null) result = caseLiteralExpression(collectionLiteralExpression);
-        if (result == null) result = caseTermExpression(collectionLiteralExpression);
+        NullLiteralExpression nullLiteralExpression = (NullLiteralExpression)theEObject;
+        T result = caseNullLiteralExpression(nullLiteralExpression);
+        if (result == null) result = casePrimitiveLiteralExpression(nullLiteralExpression);
+        if (result == null) result = caseLiteralExpression(nullLiteralExpression);
+        if (result == null) result = caseTermExpression(nullLiteralExpression);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ModelPackage.SET_LITERAL_EXPRESSION:
+      {
+        SetLiteralExpression setLiteralExpression = (SetLiteralExpression)theEObject;
+        T result = caseSetLiteralExpression(setLiteralExpression);
+        if (result == null) result = caseLiteralExpression(setLiteralExpression);
+        if (result == null) result = caseTermExpression(setLiteralExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -656,15 +680,6 @@ public class ModelSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ModelPackage.TUPLE_LITERAL_EXPRESSION:
-      {
-        TupleLiteralExpression tupleLiteralExpression = (TupleLiteralExpression)theEObject;
-        T result = caseTupleLiteralExpression(tupleLiteralExpression);
-        if (result == null) result = caseLiteralExpression(tupleLiteralExpression);
-        if (result == null) result = caseTermExpression(tupleLiteralExpression);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case ModelPackage.VARIABLE_EXPRESSION:
       {
         VariableExpression variableExpression = (VariableExpression)theEObject;
@@ -674,53 +689,33 @@ public class ModelSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ModelPackage.PRIMITIVE_TYPE_NAME:
+      case ModelPackage.PRIMITIVE_TYPE_LITERAL:
       {
-        PrimitiveTypeName primitiveTypeName = (PrimitiveTypeName)theEObject;
-        T result = casePrimitiveTypeName(primitiveTypeName);
-        if (result == null) result = caseTypeLiteralExpression(primitiveTypeName);
-        if (result == null) result = caseLiteralExpression(primitiveTypeName);
-        if (result == null) result = caseTermExpression(primitiveTypeName);
+        PrimitiveTypeLiteral primitiveTypeLiteral = (PrimitiveTypeLiteral)theEObject;
+        T result = casePrimitiveTypeLiteral(primitiveTypeLiteral);
+        if (result == null) result = caseTypeLiteralExpression(primitiveTypeLiteral);
+        if (result == null) result = caseLiteralExpression(primitiveTypeLiteral);
+        if (result == null) result = caseTermExpression(primitiveTypeLiteral);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ModelPackage.COLLECTION_TYPE_NAME:
+      case ModelPackage.SET_TYPE_LITERAL:
       {
-        CollectionTypeName collectionTypeName = (CollectionTypeName)theEObject;
-        T result = caseCollectionTypeName(collectionTypeName);
-        if (result == null) result = caseTypeLiteralExpression(collectionTypeName);
-        if (result == null) result = caseLiteralExpression(collectionTypeName);
-        if (result == null) result = caseTermExpression(collectionTypeName);
+        SetTypeLiteral setTypeLiteral = (SetTypeLiteral)theEObject;
+        T result = caseSetTypeLiteral(setTypeLiteral);
+        if (result == null) result = caseTypeLiteralExpression(setTypeLiteral);
+        if (result == null) result = caseLiteralExpression(setTypeLiteral);
+        if (result == null) result = caseTermExpression(setTypeLiteral);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ModelPackage.TUPLE_TYPE_NAME:
+      case ModelPackage.USER_DEFINED_TYPE_LITERAL:
       {
-        TupleTypeName tupleTypeName = (TupleTypeName)theEObject;
-        T result = caseTupleTypeName(tupleTypeName);
-        if (result == null) result = caseTypeLiteralExpression(tupleTypeName);
-        if (result == null) result = caseLiteralExpression(tupleTypeName);
-        if (result == null) result = caseTermExpression(tupleTypeName);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case ModelPackage.OCL_TYPE_NAME:
-      {
-        OclTypeName oclTypeName = (OclTypeName)theEObject;
-        T result = caseOclTypeName(oclTypeName);
-        if (result == null) result = caseTypeLiteralExpression(oclTypeName);
-        if (result == null) result = caseLiteralExpression(oclTypeName);
-        if (result == null) result = caseTermExpression(oclTypeName);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case ModelPackage.DATA_TYPE_NAME:
-      {
-        DataTypeName dataTypeName = (DataTypeName)theEObject;
-        T result = caseDataTypeName(dataTypeName);
-        if (result == null) result = caseTypeLiteralExpression(dataTypeName);
-        if (result == null) result = caseLiteralExpression(dataTypeName);
-        if (result == null) result = caseTermExpression(dataTypeName);
+        UserDefinedTypeLiteral userDefinedTypeLiteral = (UserDefinedTypeLiteral)theEObject;
+        T result = caseUserDefinedTypeLiteral(userDefinedTypeLiteral);
+        if (result == null) result = caseTypeLiteralExpression(userDefinedTypeLiteral);
+        if (result == null) result = caseLiteralExpression(userDefinedTypeLiteral);
+        if (result == null) result = caseTermExpression(userDefinedTypeLiteral);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -1369,6 +1364,22 @@ public class ModelSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Multiplication Operation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Multiplication Operation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMultiplicationOperation(MultiplicationOperation object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Unary Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1412,6 +1423,22 @@ public class ModelSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseCallExpression(CallExpression object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Navigation Source</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Navigation Source</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNavigationSource(NavigationSource object)
   {
     return null;
   }
@@ -1561,6 +1588,22 @@ public class ModelSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Type Operation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Type Operation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTypeOperation(TypeOperation object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Literal Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1588,22 +1631,6 @@ public class ModelSwitch<T> extends Switch<T>
    * @generated
    */
   public T casePrimitiveLiteralExpression(PrimitiveLiteralExpression object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Null Literal Expression</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Null Literal Expression</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseNullLiteralExpression(NullLiteralExpression object)
   {
     return null;
   }
@@ -1657,17 +1684,33 @@ public class ModelSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Collection Literal Expression</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Null Literal Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Collection Literal Expression</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Null Literal Expression</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseCollectionLiteralExpression(CollectionLiteralExpression object)
+  public T caseNullLiteralExpression(NullLiteralExpression object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Set Literal Expression</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Set Literal Expression</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSetLiteralExpression(SetLiteralExpression object)
   {
     return null;
   }
@@ -1689,22 +1732,6 @@ public class ModelSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Tuple Literal Expression</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Tuple Literal Expression</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseTupleLiteralExpression(TupleLiteralExpression object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Variable Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1721,81 +1748,49 @@ public class ModelSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Primitive Type Name</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Primitive Type Literal</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Primitive Type Name</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Primitive Type Literal</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T casePrimitiveTypeName(PrimitiveTypeName object)
+  public T casePrimitiveTypeLiteral(PrimitiveTypeLiteral object)
   {
     return null;
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Collection Type Name</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Set Type Literal</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Collection Type Name</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Set Type Literal</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseCollectionTypeName(CollectionTypeName object)
+  public T caseSetTypeLiteral(SetTypeLiteral object)
   {
     return null;
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Tuple Type Name</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>User Defined Type Literal</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Tuple Type Name</em>'.
+   * @return the result of interpreting the object as an instance of '<em>User Defined Type Literal</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseTupleTypeName(TupleTypeName object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Ocl Type Name</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Ocl Type Name</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseOclTypeName(OclTypeName object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Data Type Name</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Data Type Name</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseDataTypeName(DataTypeName object)
+  public T caseUserDefinedTypeLiteral(UserDefinedTypeLiteral object)
   {
     return null;
   }

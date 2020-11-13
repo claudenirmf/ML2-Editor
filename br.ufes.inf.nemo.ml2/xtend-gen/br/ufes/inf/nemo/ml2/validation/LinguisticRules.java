@@ -228,8 +228,7 @@ public class LinguisticRules {
         }
       }
     }
-    boolean _equals = Objects.equal(invalid, null);
-    if (_equals) {
+    if ((invalid == null)) {
       return null;
     } else {
       StringConcatenation _builder = new StringConcatenation();

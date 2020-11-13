@@ -132,7 +132,7 @@ class LinguisticRules {
 						else false
 					]
 		
-		if(invalid==null)	return null
+		if(invalid===null)	return null
 		else	return new ValidationError('''Invalid specialization of «invalid.name».''',
 				ModelPackage.eINSTANCE.class_SuperClasses,
 				c.superClasses.indexOf(invalid),

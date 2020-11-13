@@ -39,6 +39,10 @@
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//AdditionOperator/PLUS"/>
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//AdditionOperator/MINUS"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ML2.ecore#//MultiplicationOperator">
+      <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//MultiplicationOperator/TIMES"/>
+      <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//MultiplicationOperator/OVER"/>
+    </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="ML2.ecore#//UnaryOperator">
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//UnaryOperator/NONE"/>
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//UnaryOperator/NOT"/>
@@ -48,6 +52,7 @@
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//UnaryNumberOperator/ABS"/>
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//UnaryNumberOperator/FLOOR"/>
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//UnaryNumberOperator/ROUND"/>
+      <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//UnaryNumberOperator/OCL_IS_UNDEFINED"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="ML2.ecore#//BinaryNumberOperator">
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//BinaryNumberOperator/MIN"/>
@@ -75,7 +80,6 @@
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//BinarySetOperator/UNION"/>
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//BinarySetOperator/INTERSECTION"/>
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//BinarySetOperator/SYMMETRIC_DIFFERENCE"/>
-      <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//BinarySetOperator/PRODUCT"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="ML2.ecore#//UnaryIterator">
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//UnaryIterator/SELECT"/>
@@ -89,6 +93,11 @@
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="ML2.ecore#//MultiaryIterator">
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//MultiaryIterator/EXISTS"/>
       <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//MultiaryIterator/FOR_ALL"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ML2.ecore#//TypeOperator">
+      <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//TypeOperator/OCL_AS_TYPE"/>
+      <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//TypeOperator/OCL_IS_KIND_OF"/>
+      <genEnumLiterals ecoreEnumLiteral="ML2.ecore#//TypeOperator/OCL_IS_TYPE_OF"/>
     </genEnums>
     <genClasses ecoreClass="ML2.ecore#//Model">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//Model/name"/>
@@ -174,12 +183,11 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//Constraint/expression"/>
     </genClasses>
     <genClasses ecoreClass="ML2.ecore#//InvariantConstraint">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//InvariantConstraint/contextAlias"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//InvariantConstraint/invariantAlias"/>
     </genClasses>
     <genClasses ecoreClass="ML2.ecore#//DerivationConstraint">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ML2.ecore#//DerivationConstraint/featureContext"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//DerivationConstraint/typename"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//DerivationConstraint/featureContext"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//DerivationConstraint/contextType"/>
     </genClasses>
     <genClasses ecoreClass="ML2.ecore#//OclExpression"/>
     <genClasses ecoreClass="ML2.ecore#//LetExpression">
@@ -240,6 +248,10 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//MultiplicationExpression/left"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//MultiplicationExpression/right"/>
     </genClasses>
+    <genClasses ecoreClass="ML2.ecore#//MultiplicationOperation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//MultiplicationOperation/operator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//MultiplicationOperation/right"/>
+    </genClasses>
     <genClasses ecoreClass="ML2.ecore#//UnaryExpression">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//UnaryExpression/operator"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//UnaryExpression/right"/>
@@ -248,6 +260,9 @@
     <genClasses ecoreClass="ML2.ecore#//CallExpression">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//CallExpression/left"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//CallExpression/right"/>
+    </genClasses>
+    <genClasses ecoreClass="ML2.ecore#//NavigationSource">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//NavigationSource/source"/>
     </genClasses>
     <genClasses ecoreClass="ML2.ecore#//CallOperation"/>
     <genClasses ecoreClass="ML2.ecore#//DotOperation"/>
@@ -276,11 +291,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//MultiaryIteration/variables"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//MultiaryIteration/body"/>
     </genClasses>
+    <genClasses ecoreClass="ML2.ecore#//TypeOperation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//TypeOperation/operator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//TypeOperation/referredType"/>
+    </genClasses>
     <genClasses ecoreClass="ML2.ecore#//LiteralExpression"/>
     <genClasses ecoreClass="ML2.ecore#//PrimitiveLiteralExpression"/>
-    <genClasses ecoreClass="ML2.ecore#//NullLiteralExpression">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//NullLiteralExpression/nullSymbol"/>
-    </genClasses>
     <genClasses ecoreClass="ML2.ecore#//BooleanLiteralExpression">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//BooleanLiteralExpression/booleanSymbol"/>
     </genClasses>
@@ -290,32 +306,25 @@
     <genClasses ecoreClass="ML2.ecore#//StringLiteralExpression">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//StringLiteralExpression/stringSymbol"/>
     </genClasses>
-    <genClasses ecoreClass="ML2.ecore#//CollectionLiteralExpression">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//CollectionLiteralExpression/parts"/>
+    <genClasses ecoreClass="ML2.ecore#//NullLiteralExpression">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//NullLiteralExpression/nullSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="ML2.ecore#//SetLiteralExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//SetLiteralExpression/parts"/>
     </genClasses>
     <genClasses ecoreClass="ML2.ecore#//TypeLiteralExpression"/>
-    <genClasses ecoreClass="ML2.ecore#//TupleLiteralExpression">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//TupleLiteralExpression/variables"/>
-    </genClasses>
     <genClasses ecoreClass="ML2.ecore#//VariableExpression">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//VariableExpression/referringVariable"/>
     </genClasses>
-    <genClasses ecoreClass="ML2.ecore#//PrimitiveTypeName">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//PrimitiveTypeName/typename"/>
+    <genClasses ecoreClass="ML2.ecore#//PrimitiveTypeLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//PrimitiveTypeLiteral/typeName"/>
     </genClasses>
-    <genClasses ecoreClass="ML2.ecore#//CollectionTypeName">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//CollectionTypeName/typename"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//CollectionTypeName/elementType"/>
+    <genClasses ecoreClass="ML2.ecore#//SetTypeLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//SetTypeLiteral/typeName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ML2.ecore#//SetTypeLiteral/setType"/>
     </genClasses>
-    <genClasses ecoreClass="ML2.ecore#//TupleTypeName">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//TupleTypeName/typename"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//TupleTypeName/variables"/>
-    </genClasses>
-    <genClasses ecoreClass="ML2.ecore#//OclTypeName">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ML2.ecore#//OclTypeName/typename"/>
-    </genClasses>
-    <genClasses ecoreClass="ML2.ecore#//DataTypeName">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ML2.ecore#//DataTypeName/typename"/>
+    <genClasses ecoreClass="ML2.ecore#//UserDefinedTypeLiteral">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ML2.ecore#//UserDefinedTypeLiteral/typeName"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

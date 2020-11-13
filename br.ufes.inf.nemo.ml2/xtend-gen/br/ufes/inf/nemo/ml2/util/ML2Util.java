@@ -30,6 +30,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.xbase.lib.Exceptions;
@@ -571,5 +572,52 @@ public class ML2Util {
     } else {
     }
     return false;
+  }
+  
+  /**
+   * Returns a set of all subtypes of the given <b>type</b>. The set does not
+   * include the <b>type</b>.
+   * 
+   * @author Fernando Amaral Musso
+   */
+  public BasicEList<br.ufes.inf.nemo.ml2.model.Class> classSubtypes(final br.ufes.inf.nemo.ml2.model.Class c) {
+    EObject container = c;
+    BasicEList<br.ufes.inf.nemo.ml2.model.Class> subtypes = new BasicEList<br.ufes.inf.nemo.ml2.model.Class>();
+    while ((!(container instanceof Model))) {
+      container = container.eContainer();
+    }
+    if ((container instanceof Model)) {
+      EList<ModelElement> _elements = ((Model)container).getElements();
+      for (final ModelElement e : _elements) {
+        if ((e instanceof br.ufes.inf.nemo.ml2.model.Class)) {
+          boolean _notEquals = (!Objects.equal(e, c));
+          if (_notEquals) {
+            boolean _contains = this.classHierarchy(((br.ufes.inf.nemo.ml2.model.Class)e)).contains(c);
+            if (_contains) {
+              subtypes.add(((br.ufes.inf.nemo.ml2.model.Class)e));
+            }
+          }
+        }
+      }
+    }
+    return subtypes;
+  }
+  
+  /**
+   * Returns the <b>type</b> given its <b>name</b>.
+   * 
+   * @author Fernando Amaral Musso
+   */
+  public br.ufes.inf.nemo.ml2.model.Class getClass(final String name, final Model model) {
+    EList<ModelElement> _elements = model.getElements();
+    for (final ModelElement e : _elements) {
+      if ((e instanceof br.ufes.inf.nemo.ml2.model.Class)) {
+        boolean _equals = ((br.ufes.inf.nemo.ml2.model.Class)e).getName().equals(name);
+        if (_equals) {
+          return ((br.ufes.inf.nemo.ml2.model.Class)e);
+        }
+      }
+    }
+    return null;
   }
 }

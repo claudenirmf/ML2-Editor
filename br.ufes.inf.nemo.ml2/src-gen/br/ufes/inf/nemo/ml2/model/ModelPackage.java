@@ -1451,22 +1451,13 @@ public interface ModelPackage extends EPackage
   int INVARIANT_CONSTRAINT__EXPRESSION = CONSTRAINT__EXPRESSION;
 
   /**
-   * The feature id for the '<em><b>Context Alias</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int INVARIANT_CONSTRAINT__CONTEXT_ALIAS = CONSTRAINT_FEATURE_COUNT + 0;
-
-  /**
    * The feature id for the '<em><b>Invariant Alias</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int INVARIANT_CONSTRAINT__INVARIANT_ALIAS = CONSTRAINT_FEATURE_COUNT + 1;
+  int INVARIANT_CONSTRAINT__INVARIANT_ALIAS = CONSTRAINT_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Invariant Constraint</em>' class.
@@ -1475,7 +1466,7 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int INVARIANT_CONSTRAINT_FEATURE_COUNT = CONSTRAINT_FEATURE_COUNT + 2;
+  int INVARIANT_CONSTRAINT_FEATURE_COUNT = CONSTRAINT_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.DerivationConstraintImpl <em>Derivation Constraint</em>}' class.
@@ -1506,7 +1497,7 @@ public interface ModelPackage extends EPackage
   int DERIVATION_CONSTRAINT__EXPRESSION = CONSTRAINT__EXPRESSION;
 
   /**
-   * The feature id for the '<em><b>Feature Context</b></em>' reference.
+   * The feature id for the '<em><b>Feature Context</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1515,13 +1506,13 @@ public interface ModelPackage extends EPackage
   int DERIVATION_CONSTRAINT__FEATURE_CONTEXT = CONSTRAINT_FEATURE_COUNT + 0;
 
   /**
-   * The feature id for the '<em><b>Typename</b></em>' containment reference.
+   * The feature id for the '<em><b>Context Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int DERIVATION_CONSTRAINT__TYPENAME = CONSTRAINT_FEATURE_COUNT + 1;
+  int DERIVATION_CONSTRAINT__CONTEXT_TYPE = CONSTRAINT_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the '<em>Derivation Constraint</em>' class.
@@ -1540,7 +1531,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTermExpression()
    * @generated
    */
-  int TERM_EXPRESSION = 41;
+  int TERM_EXPRESSION = 42;
 
   /**
    * The number of structural features of the '<em>Term Expression</em>' class.
@@ -2107,6 +2098,43 @@ public interface ModelPackage extends EPackage
   int MULTIPLICATION_EXPRESSION_FEATURE_COUNT = 2;
 
   /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.MultiplicationOperationImpl <em>Multiplication Operation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.impl.MultiplicationOperationImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiplicationOperation()
+   * @generated
+   */
+  int MULTIPLICATION_OPERATION = 40;
+
+  /**
+   * The feature id for the '<em><b>Operator</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MULTIPLICATION_OPERATION__OPERATOR = 0;
+
+  /**
+   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MULTIPLICATION_OPERATION__RIGHT = 1;
+
+  /**
+   * The number of structural features of the '<em>Multiplication Operation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MULTIPLICATION_OPERATION_FEATURE_COUNT = 2;
+
+  /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.UnaryExpressionImpl <em>Unary Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2114,7 +2142,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryExpression()
    * @generated
    */
-  int UNARY_EXPRESSION = 40;
+  int UNARY_EXPRESSION = 41;
 
   /**
    * The feature id for the '<em><b>Operator</b></em>' attribute.
@@ -2151,7 +2179,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getCallExpression()
    * @generated
    */
-  int CALL_EXPRESSION = 42;
+  int CALL_EXPRESSION = 43;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2181,6 +2209,34 @@ public interface ModelPackage extends EPackage
   int CALL_EXPRESSION_FEATURE_COUNT = TERM_EXPRESSION_FEATURE_COUNT + 2;
 
   /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.NavigationSourceImpl <em>Navigation Source</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.impl.NavigationSourceImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getNavigationSource()
+   * @generated
+   */
+  int NAVIGATION_SOURCE = 44;
+
+  /**
+   * The feature id for the '<em><b>Source</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NAVIGATION_SOURCE__SOURCE = 0;
+
+  /**
+   * The number of structural features of the '<em>Navigation Source</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NAVIGATION_SOURCE_FEATURE_COUNT = 1;
+
+  /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.CallOperationImpl <em>Call Operation</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2188,7 +2244,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getCallOperation()
    * @generated
    */
-  int CALL_OPERATION = 43;
+  int CALL_OPERATION = 45;
 
   /**
    * The number of structural features of the '<em>Call Operation</em>' class.
@@ -2207,7 +2263,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getDotOperation()
    * @generated
    */
-  int DOT_OPERATION = 44;
+  int DOT_OPERATION = 46;
 
   /**
    * The number of structural features of the '<em>Dot Operation</em>' class.
@@ -2226,7 +2282,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryNumberOperation()
    * @generated
    */
-  int UNARY_NUMBER_OPERATION = 45;
+  int UNARY_NUMBER_OPERATION = 47;
 
   /**
    * The feature id for the '<em><b>Operator</b></em>' attribute.
@@ -2254,7 +2310,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinaryNumberOperation()
    * @generated
    */
-  int BINARY_NUMBER_OPERATION = 46;
+  int BINARY_NUMBER_OPERATION = 48;
 
   /**
    * The feature id for the '<em><b>Operator</b></em>' attribute.
@@ -2291,7 +2347,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getArrowOperation()
    * @generated
    */
-  int ARROW_OPERATION = 47;
+  int ARROW_OPERATION = 49;
 
   /**
    * The number of structural features of the '<em>Arrow Operation</em>' class.
@@ -2310,7 +2366,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnarySetOperation()
    * @generated
    */
-  int UNARY_SET_OPERATION = 48;
+  int UNARY_SET_OPERATION = 50;
 
   /**
    * The feature id for the '<em><b>Operator</b></em>' attribute.
@@ -2338,7 +2394,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinarySetOperation()
    * @generated
    */
-  int BINARY_SET_OPERATION = 49;
+  int BINARY_SET_OPERATION = 51;
 
   /**
    * The feature id for the '<em><b>Operator</b></em>' attribute.
@@ -2375,7 +2431,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryIteration()
    * @generated
    */
-  int UNARY_ITERATION = 50;
+  int UNARY_ITERATION = 52;
 
   /**
    * The feature id for the '<em><b>Iterator</b></em>' attribute.
@@ -2421,7 +2477,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiaryIteration()
    * @generated
    */
-  int MULTIARY_ITERATION = 51;
+  int MULTIARY_ITERATION = 53;
 
   /**
    * The feature id for the '<em><b>Iterator</b></em>' attribute.
@@ -2460,6 +2516,43 @@ public interface ModelPackage extends EPackage
   int MULTIARY_ITERATION_FEATURE_COUNT = ARROW_OPERATION_FEATURE_COUNT + 3;
 
   /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.TypeOperationImpl <em>Type Operation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.impl.TypeOperationImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTypeOperation()
+   * @generated
+   */
+  int TYPE_OPERATION = 54;
+
+  /**
+   * The feature id for the '<em><b>Operator</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_OPERATION__OPERATOR = DOT_OPERATION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Referred Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_OPERATION__REFERRED_TYPE = DOT_OPERATION_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Type Operation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_OPERATION_FEATURE_COUNT = DOT_OPERATION_FEATURE_COUNT + 2;
+
+  /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.LiteralExpressionImpl <em>Literal Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2467,7 +2560,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getLiteralExpression()
    * @generated
    */
-  int LITERAL_EXPRESSION = 52;
+  int LITERAL_EXPRESSION = 55;
 
   /**
    * The number of structural features of the '<em>Literal Expression</em>' class.
@@ -2486,7 +2579,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getPrimitiveLiteralExpression()
    * @generated
    */
-  int PRIMITIVE_LITERAL_EXPRESSION = 53;
+  int PRIMITIVE_LITERAL_EXPRESSION = 56;
 
   /**
    * The number of structural features of the '<em>Primitive Literal Expression</em>' class.
@@ -2498,34 +2591,6 @@ public interface ModelPackage extends EPackage
   int PRIMITIVE_LITERAL_EXPRESSION_FEATURE_COUNT = LITERAL_EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.NullLiteralExpressionImpl <em>Null Literal Expression</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.NullLiteralExpressionImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getNullLiteralExpression()
-   * @generated
-   */
-  int NULL_LITERAL_EXPRESSION = 54;
-
-  /**
-   * The feature id for the '<em><b>Null Symbol</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NULL_LITERAL_EXPRESSION__NULL_SYMBOL = PRIMITIVE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>Null Literal Expression</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NULL_LITERAL_EXPRESSION_FEATURE_COUNT = PRIMITIVE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
-
-  /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.BooleanLiteralExpressionImpl <em>Boolean Literal Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2533,7 +2598,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBooleanLiteralExpression()
    * @generated
    */
-  int BOOLEAN_LITERAL_EXPRESSION = 55;
+  int BOOLEAN_LITERAL_EXPRESSION = 57;
 
   /**
    * The feature id for the '<em><b>Boolean Symbol</b></em>' attribute.
@@ -2561,7 +2626,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getNumberLiteralExpression()
    * @generated
    */
-  int NUMBER_LITERAL_EXPRESSION = 56;
+  int NUMBER_LITERAL_EXPRESSION = 58;
 
   /**
    * The feature id for the '<em><b>Number Symbol</b></em>' attribute.
@@ -2589,7 +2654,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getStringLiteralExpression()
    * @generated
    */
-  int STRING_LITERAL_EXPRESSION = 57;
+  int STRING_LITERAL_EXPRESSION = 59;
 
   /**
    * The feature id for the '<em><b>String Symbol</b></em>' attribute.
@@ -2610,14 +2675,42 @@ public interface ModelPackage extends EPackage
   int STRING_LITERAL_EXPRESSION_FEATURE_COUNT = PRIMITIVE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.CollectionLiteralExpressionImpl <em>Collection Literal Expression</em>}' class.
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.NullLiteralExpressionImpl <em>Null Literal Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.CollectionLiteralExpressionImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getCollectionLiteralExpression()
+   * @see br.ufes.inf.nemo.ml2.model.impl.NullLiteralExpressionImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getNullLiteralExpression()
    * @generated
    */
-  int COLLECTION_LITERAL_EXPRESSION = 58;
+  int NULL_LITERAL_EXPRESSION = 60;
+
+  /**
+   * The feature id for the '<em><b>Null Symbol</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NULL_LITERAL_EXPRESSION__NULL_SYMBOL = PRIMITIVE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Null Literal Expression</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NULL_LITERAL_EXPRESSION_FEATURE_COUNT = PRIMITIVE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.SetLiteralExpressionImpl <em>Set Literal Expression</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.impl.SetLiteralExpressionImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getSetLiteralExpression()
+   * @generated
+   */
+  int SET_LITERAL_EXPRESSION = 61;
 
   /**
    * The feature id for the '<em><b>Parts</b></em>' containment reference list.
@@ -2626,16 +2719,16 @@ public interface ModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int COLLECTION_LITERAL_EXPRESSION__PARTS = LITERAL_EXPRESSION_FEATURE_COUNT + 0;
+  int SET_LITERAL_EXPRESSION__PARTS = LITERAL_EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the '<em>Collection Literal Expression</em>' class.
+   * The number of structural features of the '<em>Set Literal Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int COLLECTION_LITERAL_EXPRESSION_FEATURE_COUNT = LITERAL_EXPRESSION_FEATURE_COUNT + 1;
+  int SET_LITERAL_EXPRESSION_FEATURE_COUNT = LITERAL_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.TypeLiteralExpressionImpl <em>Type Literal Expression</em>}' class.
@@ -2645,7 +2738,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTypeLiteralExpression()
    * @generated
    */
-  int TYPE_LITERAL_EXPRESSION = 59;
+  int TYPE_LITERAL_EXPRESSION = 62;
 
   /**
    * The number of structural features of the '<em>Type Literal Expression</em>' class.
@@ -2657,34 +2750,6 @@ public interface ModelPackage extends EPackage
   int TYPE_LITERAL_EXPRESSION_FEATURE_COUNT = LITERAL_EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.TupleLiteralExpressionImpl <em>Tuple Literal Expression</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.TupleLiteralExpressionImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTupleLiteralExpression()
-   * @generated
-   */
-  int TUPLE_LITERAL_EXPRESSION = 60;
-
-  /**
-   * The feature id for the '<em><b>Variables</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TUPLE_LITERAL_EXPRESSION__VARIABLES = LITERAL_EXPRESSION_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>Tuple Literal Expression</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TUPLE_LITERAL_EXPRESSION_FEATURE_COUNT = LITERAL_EXPRESSION_FEATURE_COUNT + 1;
-
-  /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.VariableExpressionImpl <em>Variable Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2692,7 +2757,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getVariableExpression()
    * @generated
    */
-  int VARIABLE_EXPRESSION = 61;
+  int VARIABLE_EXPRESSION = 63;
 
   /**
    * The feature id for the '<em><b>Referring Variable</b></em>' attribute.
@@ -2713,162 +2778,97 @@ public interface ModelPackage extends EPackage
   int VARIABLE_EXPRESSION_FEATURE_COUNT = DOT_OPERATION_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeNameImpl <em>Primitive Type Name</em>}' class.
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeLiteralImpl <em>Primitive Type Literal</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeNameImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getPrimitiveTypeName()
+   * @see br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeLiteralImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getPrimitiveTypeLiteral()
    * @generated
    */
-  int PRIMITIVE_TYPE_NAME = 62;
+  int PRIMITIVE_TYPE_LITERAL = 64;
 
   /**
-   * The feature id for the '<em><b>Typename</b></em>' attribute.
+   * The feature id for the '<em><b>Type Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PRIMITIVE_TYPE_NAME__TYPENAME = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
+  int PRIMITIVE_TYPE_LITERAL__TYPE_NAME = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the '<em>Primitive Type Name</em>' class.
+   * The number of structural features of the '<em>Primitive Type Literal</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PRIMITIVE_TYPE_NAME_FEATURE_COUNT = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
+  int PRIMITIVE_TYPE_LITERAL_FEATURE_COUNT = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.CollectionTypeNameImpl <em>Collection Type Name</em>}' class.
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.SetTypeLiteralImpl <em>Set Type Literal</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.CollectionTypeNameImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getCollectionTypeName()
+   * @see br.ufes.inf.nemo.ml2.model.impl.SetTypeLiteralImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getSetTypeLiteral()
    * @generated
    */
-  int COLLECTION_TYPE_NAME = 63;
+  int SET_TYPE_LITERAL = 65;
 
   /**
-   * The feature id for the '<em><b>Typename</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int COLLECTION_TYPE_NAME__TYPENAME = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Element Type</b></em>' containment reference.
+   * The feature id for the '<em><b>Type Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int COLLECTION_TYPE_NAME__ELEMENT_TYPE = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
+  int SET_TYPE_LITERAL__TYPE_NAME = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the '<em>Collection Type Name</em>' class.
+   * The feature id for the '<em><b>Set Type</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int COLLECTION_TYPE_NAME_FEATURE_COUNT = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 2;
+  int SET_TYPE_LITERAL__SET_TYPE = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.TupleTypeNameImpl <em>Tuple Type Name</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.TupleTypeNameImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTupleTypeName()
-   * @generated
-   */
-  int TUPLE_TYPE_NAME = 64;
-
-  /**
-   * The feature id for the '<em><b>Typename</b></em>' attribute.
+   * The number of structural features of the '<em>Set Type Literal</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int TUPLE_TYPE_NAME__TYPENAME = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
+  int SET_TYPE_LITERAL_FEATURE_COUNT = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 2;
 
   /**
-   * The feature id for the '<em><b>Variables</b></em>' attribute list.
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.UserDefinedTypeLiteralImpl <em>User Defined Type Literal</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.impl.UserDefinedTypeLiteralImpl
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUserDefinedTypeLiteral()
+   * @generated
+   */
+  int USER_DEFINED_TYPE_LITERAL = 66;
+
+  /**
+   * The feature id for the '<em><b>Type Name</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int TUPLE_TYPE_NAME__VARIABLES = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
+  int USER_DEFINED_TYPE_LITERAL__TYPE_NAME = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the '<em>Tuple Type Name</em>' class.
+   * The number of structural features of the '<em>User Defined Type Literal</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int TUPLE_TYPE_NAME_FEATURE_COUNT = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 2;
-
-  /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.OclTypeNameImpl <em>Ocl Type Name</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.OclTypeNameImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getOclTypeName()
-   * @generated
-   */
-  int OCL_TYPE_NAME = 65;
-
-  /**
-   * The feature id for the '<em><b>Typename</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OCL_TYPE_NAME__TYPENAME = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>Ocl Type Name</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OCL_TYPE_NAME_FEATURE_COUNT = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
-
-  /**
-   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.impl.DataTypeNameImpl <em>Data Type Name</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see br.ufes.inf.nemo.ml2.model.impl.DataTypeNameImpl
-   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getDataTypeName()
-   * @generated
-   */
-  int DATA_TYPE_NAME = 66;
-
-  /**
-   * The feature id for the '<em><b>Typename</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int DATA_TYPE_NAME__TYPENAME = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>Data Type Name</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int DATA_TYPE_NAME_FEATURE_COUNT = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
+  int USER_DEFINED_TYPE_LITERAL_FEATURE_COUNT = TYPE_LITERAL_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.CategorizationType <em>Categorization Type</em>}' enum.
@@ -2931,6 +2931,16 @@ public interface ModelPackage extends EPackage
   int ADDITION_OPERATOR = 72;
 
   /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.MultiplicationOperator <em>Multiplication Operator</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.MultiplicationOperator
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiplicationOperator()
+   * @generated
+   */
+  int MULTIPLICATION_OPERATOR = 73;
+
+  /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.UnaryOperator <em>Unary Operator</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2938,7 +2948,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryOperator()
    * @generated
    */
-  int UNARY_OPERATOR = 73;
+  int UNARY_OPERATOR = 74;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.UnaryNumberOperator <em>Unary Number Operator</em>}' enum.
@@ -2948,7 +2958,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryNumberOperator()
    * @generated
    */
-  int UNARY_NUMBER_OPERATOR = 74;
+  int UNARY_NUMBER_OPERATOR = 75;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.BinaryNumberOperator <em>Binary Number Operator</em>}' enum.
@@ -2958,7 +2968,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinaryNumberOperator()
    * @generated
    */
-  int BINARY_NUMBER_OPERATOR = 75;
+  int BINARY_NUMBER_OPERATOR = 76;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.UnarySetOperator <em>Unary Set Operator</em>}' enum.
@@ -2968,7 +2978,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnarySetOperator()
    * @generated
    */
-  int UNARY_SET_OPERATOR = 76;
+  int UNARY_SET_OPERATOR = 77;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.BinarySetOperator <em>Binary Set Operator</em>}' enum.
@@ -2978,7 +2988,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getBinarySetOperator()
    * @generated
    */
-  int BINARY_SET_OPERATOR = 77;
+  int BINARY_SET_OPERATOR = 78;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.UnaryIterator <em>Unary Iterator</em>}' enum.
@@ -2988,7 +2998,7 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUnaryIterator()
    * @generated
    */
-  int UNARY_ITERATOR = 78;
+  int UNARY_ITERATOR = 79;
 
   /**
    * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.MultiaryIterator <em>Multiary Iterator</em>}' enum.
@@ -2998,7 +3008,17 @@ public interface ModelPackage extends EPackage
    * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiaryIterator()
    * @generated
    */
-  int MULTIARY_ITERATOR = 79;
+  int MULTIARY_ITERATOR = 80;
+
+  /**
+   * The meta object id for the '{@link br.ufes.inf.nemo.ml2.model.TypeOperator <em>Type Operator</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see br.ufes.inf.nemo.ml2.model.TypeOperator
+   * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTypeOperator()
+   * @generated
+   */
+  int TYPE_OPERATOR = 81;
 
 
   /**
@@ -3737,17 +3757,6 @@ public interface ModelPackage extends EPackage
   EClass getInvariantConstraint();
 
   /**
-   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.InvariantConstraint#getContextAlias <em>Context Alias</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Context Alias</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.InvariantConstraint#getContextAlias()
-   * @see #getInvariantConstraint()
-   * @generated
-   */
-  EAttribute getInvariantConstraint_ContextAlias();
-
-  /**
    * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.InvariantConstraint#getInvariantAlias <em>Invariant Alias</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3769,26 +3778,26 @@ public interface ModelPackage extends EPackage
   EClass getDerivationConstraint();
 
   /**
-   * Returns the meta object for the reference '{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getFeatureContext <em>Feature Context</em>}'.
+   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getFeatureContext <em>Feature Context</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Feature Context</em>'.
+   * @return the meta object for the attribute list '<em>Feature Context</em>'.
    * @see br.ufes.inf.nemo.ml2.model.DerivationConstraint#getFeatureContext()
    * @see #getDerivationConstraint()
    * @generated
    */
-  EReference getDerivationConstraint_FeatureContext();
+  EAttribute getDerivationConstraint_FeatureContext();
 
   /**
-   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getTypename <em>Typename</em>}'.
+   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.DerivationConstraint#getContextType <em>Context Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Typename</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.DerivationConstraint#getTypename()
+   * @return the meta object for the containment reference '<em>Context Type</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.DerivationConstraint#getContextType()
    * @see #getDerivationConstraint()
    * @generated
    */
-  EReference getDerivationConstraint_Typename();
+  EReference getDerivationConstraint_ContextType();
 
   /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.OclExpression <em>Ocl Expression</em>}'.
@@ -4271,6 +4280,38 @@ public interface ModelPackage extends EPackage
   EReference getMultiplicationExpression_Right();
 
   /**
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.MultiplicationOperation <em>Multiplication Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Multiplication Operation</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.MultiplicationOperation
+   * @generated
+   */
+  EClass getMultiplicationOperation();
+
+  /**
+   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.MultiplicationOperation#getOperator <em>Operator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Operator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.MultiplicationOperation#getOperator()
+   * @see #getMultiplicationOperation()
+   * @generated
+   */
+  EAttribute getMultiplicationOperation_Operator();
+
+  /**
+   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.MultiplicationOperation#getRight <em>Right</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Right</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.MultiplicationOperation#getRight()
+   * @see #getMultiplicationOperation()
+   * @generated
+   */
+  EReference getMultiplicationOperation_Right();
+
+  /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.UnaryExpression <em>Unary Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4343,6 +4384,27 @@ public interface ModelPackage extends EPackage
    * @generated
    */
   EReference getCallExpression_Right();
+
+  /**
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.NavigationSource <em>Navigation Source</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Navigation Source</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.NavigationSource
+   * @generated
+   */
+  EClass getNavigationSource();
+
+  /**
+   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.NavigationSource#getSource <em>Source</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Source</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.NavigationSource#getSource()
+   * @see #getNavigationSource()
+   * @generated
+   */
+  EReference getNavigationSource_Source();
 
   /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.CallOperation <em>Call Operation</em>}'.
@@ -4567,6 +4629,38 @@ public interface ModelPackage extends EPackage
   EReference getMultiaryIteration_Body();
 
   /**
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.TypeOperation <em>Type Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Type Operation</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.TypeOperation
+   * @generated
+   */
+  EClass getTypeOperation();
+
+  /**
+   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.TypeOperation#getOperator <em>Operator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Operator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.TypeOperation#getOperator()
+   * @see #getTypeOperation()
+   * @generated
+   */
+  EAttribute getTypeOperation_Operator();
+
+  /**
+   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.TypeOperation#getReferredType <em>Referred Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Referred Type</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.TypeOperation#getReferredType()
+   * @see #getTypeOperation()
+   * @generated
+   */
+  EReference getTypeOperation_ReferredType();
+
+  /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.LiteralExpression <em>Literal Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4585,27 +4679,6 @@ public interface ModelPackage extends EPackage
    * @generated
    */
   EClass getPrimitiveLiteralExpression();
-
-  /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.NullLiteralExpression <em>Null Literal Expression</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Null Literal Expression</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.NullLiteralExpression
-   * @generated
-   */
-  EClass getNullLiteralExpression();
-
-  /**
-   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.NullLiteralExpression#getNullSymbol <em>Null Symbol</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Null Symbol</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.NullLiteralExpression#getNullSymbol()
-   * @see #getNullLiteralExpression()
-   * @generated
-   */
-  EAttribute getNullLiteralExpression_NullSymbol();
 
   /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression <em>Boolean Literal Expression</em>}'.
@@ -4671,25 +4744,46 @@ public interface ModelPackage extends EPackage
   EAttribute getStringLiteralExpression_StringSymbol();
 
   /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression <em>Collection Literal Expression</em>}'.
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.NullLiteralExpression <em>Null Literal Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Collection Literal Expression</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression
+   * @return the meta object for class '<em>Null Literal Expression</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.NullLiteralExpression
    * @generated
    */
-  EClass getCollectionLiteralExpression();
+  EClass getNullLiteralExpression();
 
   /**
-   * Returns the meta object for the containment reference list '{@link br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression#getParts <em>Parts</em>}'.
+   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.NullLiteralExpression#getNullSymbol <em>Null Symbol</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Null Symbol</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.NullLiteralExpression#getNullSymbol()
+   * @see #getNullLiteralExpression()
+   * @generated
+   */
+  EAttribute getNullLiteralExpression_NullSymbol();
+
+  /**
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.SetLiteralExpression <em>Set Literal Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Set Literal Expression</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.SetLiteralExpression
+   * @generated
+   */
+  EClass getSetLiteralExpression();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link br.ufes.inf.nemo.ml2.model.SetLiteralExpression#getParts <em>Parts</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference list '<em>Parts</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression#getParts()
-   * @see #getCollectionLiteralExpression()
+   * @see br.ufes.inf.nemo.ml2.model.SetLiteralExpression#getParts()
+   * @see #getSetLiteralExpression()
    * @generated
    */
-  EReference getCollectionLiteralExpression_Parts();
+  EReference getSetLiteralExpression_Parts();
 
   /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.TypeLiteralExpression <em>Type Literal Expression</em>}'.
@@ -4700,27 +4794,6 @@ public interface ModelPackage extends EPackage
    * @generated
    */
   EClass getTypeLiteralExpression();
-
-  /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.TupleLiteralExpression <em>Tuple Literal Expression</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Tuple Literal Expression</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.TupleLiteralExpression
-   * @generated
-   */
-  EClass getTupleLiteralExpression();
-
-  /**
-   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.TupleLiteralExpression#getVariables <em>Variables</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>Variables</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.TupleLiteralExpression#getVariables()
-   * @see #getTupleLiteralExpression()
-   * @generated
-   */
-  EAttribute getTupleLiteralExpression_Variables();
 
   /**
    * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.VariableExpression <em>Variable Expression</em>}'.
@@ -4744,131 +4817,78 @@ public interface ModelPackage extends EPackage
   EAttribute getVariableExpression_ReferringVariable();
 
   /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.PrimitiveTypeName <em>Primitive Type Name</em>}'.
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral <em>Primitive Type Literal</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Primitive Type Name</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.PrimitiveTypeName
+   * @return the meta object for class '<em>Primitive Type Literal</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral
    * @generated
    */
-  EClass getPrimitiveTypeName();
+  EClass getPrimitiveTypeLiteral();
 
   /**
-   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.PrimitiveTypeName#getTypename <em>Typename</em>}'.
+   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral#getTypeName <em>Type Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Typename</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.PrimitiveTypeName#getTypename()
-   * @see #getPrimitiveTypeName()
+   * @return the meta object for the attribute '<em>Type Name</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral#getTypeName()
+   * @see #getPrimitiveTypeLiteral()
    * @generated
    */
-  EAttribute getPrimitiveTypeName_Typename();
+  EAttribute getPrimitiveTypeLiteral_TypeName();
 
   /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.CollectionTypeName <em>Collection Type Name</em>}'.
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.SetTypeLiteral <em>Set Type Literal</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Collection Type Name</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.CollectionTypeName
+   * @return the meta object for class '<em>Set Type Literal</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.SetTypeLiteral
    * @generated
    */
-  EClass getCollectionTypeName();
+  EClass getSetTypeLiteral();
 
   /**
-   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.CollectionTypeName#getTypename <em>Typename</em>}'.
+   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.SetTypeLiteral#getTypeName <em>Type Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Typename</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.CollectionTypeName#getTypename()
-   * @see #getCollectionTypeName()
+   * @return the meta object for the attribute '<em>Type Name</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.SetTypeLiteral#getTypeName()
+   * @see #getSetTypeLiteral()
    * @generated
    */
-  EAttribute getCollectionTypeName_Typename();
+  EAttribute getSetTypeLiteral_TypeName();
 
   /**
-   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.CollectionTypeName#getElementType <em>Element Type</em>}'.
+   * Returns the meta object for the containment reference '{@link br.ufes.inf.nemo.ml2.model.SetTypeLiteral#getSetType <em>Set Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Element Type</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.CollectionTypeName#getElementType()
-   * @see #getCollectionTypeName()
+   * @return the meta object for the containment reference '<em>Set Type</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.SetTypeLiteral#getSetType()
+   * @see #getSetTypeLiteral()
    * @generated
    */
-  EReference getCollectionTypeName_ElementType();
+  EReference getSetTypeLiteral_SetType();
 
   /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.TupleTypeName <em>Tuple Type Name</em>}'.
+   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral <em>User Defined Type Literal</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Tuple Type Name</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.TupleTypeName
+   * @return the meta object for class '<em>User Defined Type Literal</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral
    * @generated
    */
-  EClass getTupleTypeName();
+  EClass getUserDefinedTypeLiteral();
 
   /**
-   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.TupleTypeName#getTypename <em>Typename</em>}'.
+   * Returns the meta object for the reference '{@link br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral#getTypeName <em>Type Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Typename</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.TupleTypeName#getTypename()
-   * @see #getTupleTypeName()
+   * @return the meta object for the reference '<em>Type Name</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral#getTypeName()
+   * @see #getUserDefinedTypeLiteral()
    * @generated
    */
-  EAttribute getTupleTypeName_Typename();
-
-  /**
-   * Returns the meta object for the attribute list '{@link br.ufes.inf.nemo.ml2.model.TupleTypeName#getVariables <em>Variables</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>Variables</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.TupleTypeName#getVariables()
-   * @see #getTupleTypeName()
-   * @generated
-   */
-  EAttribute getTupleTypeName_Variables();
-
-  /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.OclTypeName <em>Ocl Type Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Ocl Type Name</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.OclTypeName
-   * @generated
-   */
-  EClass getOclTypeName();
-
-  /**
-   * Returns the meta object for the attribute '{@link br.ufes.inf.nemo.ml2.model.OclTypeName#getTypename <em>Typename</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Typename</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.OclTypeName#getTypename()
-   * @see #getOclTypeName()
-   * @generated
-   */
-  EAttribute getOclTypeName_Typename();
-
-  /**
-   * Returns the meta object for class '{@link br.ufes.inf.nemo.ml2.model.DataTypeName <em>Data Type Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Data Type Name</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.DataTypeName
-   * @generated
-   */
-  EClass getDataTypeName();
-
-  /**
-   * Returns the meta object for the reference '{@link br.ufes.inf.nemo.ml2.model.DataTypeName#getTypename <em>Typename</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Typename</em>'.
-   * @see br.ufes.inf.nemo.ml2.model.DataTypeName#getTypename()
-   * @see #getDataTypeName()
-   * @generated
-   */
-  EReference getDataTypeName_Typename();
+  EReference getUserDefinedTypeLiteral_TypeName();
 
   /**
    * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.model.CategorizationType <em>Categorization Type</em>}'.
@@ -4929,6 +4949,16 @@ public interface ModelPackage extends EPackage
    * @generated
    */
   EEnum getAdditionOperator();
+
+  /**
+   * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.model.MultiplicationOperator <em>Multiplication Operator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Multiplication Operator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.MultiplicationOperator
+   * @generated
+   */
+  EEnum getMultiplicationOperator();
 
   /**
    * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.model.UnaryOperator <em>Unary Operator</em>}'.
@@ -4999,6 +5029,16 @@ public interface ModelPackage extends EPackage
    * @generated
    */
   EEnum getMultiaryIterator();
+
+  /**
+   * Returns the meta object for enum '{@link br.ufes.inf.nemo.ml2.model.TypeOperator <em>Type Operator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Type Operator</em>'.
+   * @see br.ufes.inf.nemo.ml2.model.TypeOperator
+   * @generated
+   */
+  EEnum getTypeOperator();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -5624,14 +5664,6 @@ public interface ModelPackage extends EPackage
     EClass INVARIANT_CONSTRAINT = eINSTANCE.getInvariantConstraint();
 
     /**
-     * The meta object literal for the '<em><b>Context Alias</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute INVARIANT_CONSTRAINT__CONTEXT_ALIAS = eINSTANCE.getInvariantConstraint_ContextAlias();
-
-    /**
      * The meta object literal for the '<em><b>Invariant Alias</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5650,20 +5682,20 @@ public interface ModelPackage extends EPackage
     EClass DERIVATION_CONSTRAINT = eINSTANCE.getDerivationConstraint();
 
     /**
-     * The meta object literal for the '<em><b>Feature Context</b></em>' reference feature.
+     * The meta object literal for the '<em><b>Feature Context</b></em>' attribute list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference DERIVATION_CONSTRAINT__FEATURE_CONTEXT = eINSTANCE.getDerivationConstraint_FeatureContext();
+    EAttribute DERIVATION_CONSTRAINT__FEATURE_CONTEXT = eINSTANCE.getDerivationConstraint_FeatureContext();
 
     /**
-     * The meta object literal for the '<em><b>Typename</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Context Type</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference DERIVATION_CONSTRAINT__TYPENAME = eINSTANCE.getDerivationConstraint_Typename();
+    EReference DERIVATION_CONSTRAINT__CONTEXT_TYPE = eINSTANCE.getDerivationConstraint_ContextType();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.OclExpressionImpl <em>Ocl Expression</em>}' class.
@@ -6056,6 +6088,32 @@ public interface ModelPackage extends EPackage
     EReference MULTIPLICATION_EXPRESSION__RIGHT = eINSTANCE.getMultiplicationExpression_Right();
 
     /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.MultiplicationOperationImpl <em>Multiplication Operation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.impl.MultiplicationOperationImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiplicationOperation()
+     * @generated
+     */
+    EClass MULTIPLICATION_OPERATION = eINSTANCE.getMultiplicationOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MULTIPLICATION_OPERATION__OPERATOR = eINSTANCE.getMultiplicationOperation_Operator();
+
+    /**
+     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MULTIPLICATION_OPERATION__RIGHT = eINSTANCE.getMultiplicationOperation_Right();
+
+    /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.UnaryExpressionImpl <em>Unary Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6116,6 +6174,24 @@ public interface ModelPackage extends EPackage
      * @generated
      */
     EReference CALL_EXPRESSION__RIGHT = eINSTANCE.getCallExpression_Right();
+
+    /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.NavigationSourceImpl <em>Navigation Source</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.impl.NavigationSourceImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getNavigationSource()
+     * @generated
+     */
+    EClass NAVIGATION_SOURCE = eINSTANCE.getNavigationSource();
+
+    /**
+     * The meta object literal for the '<em><b>Source</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference NAVIGATION_SOURCE__SOURCE = eINSTANCE.getNavigationSource_Source();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.CallOperationImpl <em>Call Operation</em>}' class.
@@ -6304,6 +6380,32 @@ public interface ModelPackage extends EPackage
     EReference MULTIARY_ITERATION__BODY = eINSTANCE.getMultiaryIteration_Body();
 
     /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.TypeOperationImpl <em>Type Operation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.impl.TypeOperationImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTypeOperation()
+     * @generated
+     */
+    EClass TYPE_OPERATION = eINSTANCE.getTypeOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TYPE_OPERATION__OPERATOR = eINSTANCE.getTypeOperation_Operator();
+
+    /**
+     * The meta object literal for the '<em><b>Referred Type</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference TYPE_OPERATION__REFERRED_TYPE = eINSTANCE.getTypeOperation_ReferredType();
+
+    /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.LiteralExpressionImpl <em>Literal Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -6322,24 +6424,6 @@ public interface ModelPackage extends EPackage
      * @generated
      */
     EClass PRIMITIVE_LITERAL_EXPRESSION = eINSTANCE.getPrimitiveLiteralExpression();
-
-    /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.NullLiteralExpressionImpl <em>Null Literal Expression</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.NullLiteralExpressionImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getNullLiteralExpression()
-     * @generated
-     */
-    EClass NULL_LITERAL_EXPRESSION = eINSTANCE.getNullLiteralExpression();
-
-    /**
-     * The meta object literal for the '<em><b>Null Symbol</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute NULL_LITERAL_EXPRESSION__NULL_SYMBOL = eINSTANCE.getNullLiteralExpression_NullSymbol();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.BooleanLiteralExpressionImpl <em>Boolean Literal Expression</em>}' class.
@@ -6396,14 +6480,32 @@ public interface ModelPackage extends EPackage
     EAttribute STRING_LITERAL_EXPRESSION__STRING_SYMBOL = eINSTANCE.getStringLiteralExpression_StringSymbol();
 
     /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.CollectionLiteralExpressionImpl <em>Collection Literal Expression</em>}' class.
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.NullLiteralExpressionImpl <em>Null Literal Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.CollectionLiteralExpressionImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getCollectionLiteralExpression()
+     * @see br.ufes.inf.nemo.ml2.model.impl.NullLiteralExpressionImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getNullLiteralExpression()
      * @generated
      */
-    EClass COLLECTION_LITERAL_EXPRESSION = eINSTANCE.getCollectionLiteralExpression();
+    EClass NULL_LITERAL_EXPRESSION = eINSTANCE.getNullLiteralExpression();
+
+    /**
+     * The meta object literal for the '<em><b>Null Symbol</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute NULL_LITERAL_EXPRESSION__NULL_SYMBOL = eINSTANCE.getNullLiteralExpression_NullSymbol();
+
+    /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.SetLiteralExpressionImpl <em>Set Literal Expression</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.impl.SetLiteralExpressionImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getSetLiteralExpression()
+     * @generated
+     */
+    EClass SET_LITERAL_EXPRESSION = eINSTANCE.getSetLiteralExpression();
 
     /**
      * The meta object literal for the '<em><b>Parts</b></em>' containment reference list feature.
@@ -6411,7 +6513,7 @@ public interface ModelPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference COLLECTION_LITERAL_EXPRESSION__PARTS = eINSTANCE.getCollectionLiteralExpression_Parts();
+    EReference SET_LITERAL_EXPRESSION__PARTS = eINSTANCE.getSetLiteralExpression_Parts();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.TypeLiteralExpressionImpl <em>Type Literal Expression</em>}' class.
@@ -6422,24 +6524,6 @@ public interface ModelPackage extends EPackage
      * @generated
      */
     EClass TYPE_LITERAL_EXPRESSION = eINSTANCE.getTypeLiteralExpression();
-
-    /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.TupleLiteralExpressionImpl <em>Tuple Literal Expression</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.TupleLiteralExpressionImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTupleLiteralExpression()
-     * @generated
-     */
-    EClass TUPLE_LITERAL_EXPRESSION = eINSTANCE.getTupleLiteralExpression();
-
-    /**
-     * The meta object literal for the '<em><b>Variables</b></em>' attribute list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute TUPLE_LITERAL_EXPRESSION__VARIABLES = eINSTANCE.getTupleLiteralExpression_Variables();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.VariableExpressionImpl <em>Variable Expression</em>}' class.
@@ -6460,110 +6544,66 @@ public interface ModelPackage extends EPackage
     EAttribute VARIABLE_EXPRESSION__REFERRING_VARIABLE = eINSTANCE.getVariableExpression_ReferringVariable();
 
     /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeNameImpl <em>Primitive Type Name</em>}' class.
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeLiteralImpl <em>Primitive Type Literal</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeNameImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getPrimitiveTypeName()
+     * @see br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeLiteralImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getPrimitiveTypeLiteral()
      * @generated
      */
-    EClass PRIMITIVE_TYPE_NAME = eINSTANCE.getPrimitiveTypeName();
+    EClass PRIMITIVE_TYPE_LITERAL = eINSTANCE.getPrimitiveTypeLiteral();
 
     /**
-     * The meta object literal for the '<em><b>Typename</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Type Name</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute PRIMITIVE_TYPE_NAME__TYPENAME = eINSTANCE.getPrimitiveTypeName_Typename();
+    EAttribute PRIMITIVE_TYPE_LITERAL__TYPE_NAME = eINSTANCE.getPrimitiveTypeLiteral_TypeName();
 
     /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.CollectionTypeNameImpl <em>Collection Type Name</em>}' class.
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.SetTypeLiteralImpl <em>Set Type Literal</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.CollectionTypeNameImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getCollectionTypeName()
+     * @see br.ufes.inf.nemo.ml2.model.impl.SetTypeLiteralImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getSetTypeLiteral()
      * @generated
      */
-    EClass COLLECTION_TYPE_NAME = eINSTANCE.getCollectionTypeName();
+    EClass SET_TYPE_LITERAL = eINSTANCE.getSetTypeLiteral();
 
     /**
-     * The meta object literal for the '<em><b>Typename</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Type Name</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute COLLECTION_TYPE_NAME__TYPENAME = eINSTANCE.getCollectionTypeName_Typename();
+    EAttribute SET_TYPE_LITERAL__TYPE_NAME = eINSTANCE.getSetTypeLiteral_TypeName();
 
     /**
-     * The meta object literal for the '<em><b>Element Type</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Set Type</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference COLLECTION_TYPE_NAME__ELEMENT_TYPE = eINSTANCE.getCollectionTypeName_ElementType();
+    EReference SET_TYPE_LITERAL__SET_TYPE = eINSTANCE.getSetTypeLiteral_SetType();
 
     /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.TupleTypeNameImpl <em>Tuple Type Name</em>}' class.
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.UserDefinedTypeLiteralImpl <em>User Defined Type Literal</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.TupleTypeNameImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTupleTypeName()
+     * @see br.ufes.inf.nemo.ml2.model.impl.UserDefinedTypeLiteralImpl
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getUserDefinedTypeLiteral()
      * @generated
      */
-    EClass TUPLE_TYPE_NAME = eINSTANCE.getTupleTypeName();
+    EClass USER_DEFINED_TYPE_LITERAL = eINSTANCE.getUserDefinedTypeLiteral();
 
     /**
-     * The meta object literal for the '<em><b>Typename</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Type Name</b></em>' reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute TUPLE_TYPE_NAME__TYPENAME = eINSTANCE.getTupleTypeName_Typename();
-
-    /**
-     * The meta object literal for the '<em><b>Variables</b></em>' attribute list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute TUPLE_TYPE_NAME__VARIABLES = eINSTANCE.getTupleTypeName_Variables();
-
-    /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.OclTypeNameImpl <em>Ocl Type Name</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.OclTypeNameImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getOclTypeName()
-     * @generated
-     */
-    EClass OCL_TYPE_NAME = eINSTANCE.getOclTypeName();
-
-    /**
-     * The meta object literal for the '<em><b>Typename</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute OCL_TYPE_NAME__TYPENAME = eINSTANCE.getOclTypeName_Typename();
-
-    /**
-     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.impl.DataTypeNameImpl <em>Data Type Name</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see br.ufes.inf.nemo.ml2.model.impl.DataTypeNameImpl
-     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getDataTypeName()
-     * @generated
-     */
-    EClass DATA_TYPE_NAME = eINSTANCE.getDataTypeName();
-
-    /**
-     * The meta object literal for the '<em><b>Typename</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference DATA_TYPE_NAME__TYPENAME = eINSTANCE.getDataTypeName_Typename();
+    EReference USER_DEFINED_TYPE_LITERAL__TYPE_NAME = eINSTANCE.getUserDefinedTypeLiteral_TypeName();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.CategorizationType <em>Categorization Type</em>}' enum.
@@ -6624,6 +6664,16 @@ public interface ModelPackage extends EPackage
      * @generated
      */
     EEnum ADDITION_OPERATOR = eINSTANCE.getAdditionOperator();
+
+    /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.MultiplicationOperator <em>Multiplication Operator</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.MultiplicationOperator
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getMultiplicationOperator()
+     * @generated
+     */
+    EEnum MULTIPLICATION_OPERATOR = eINSTANCE.getMultiplicationOperator();
 
     /**
      * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.UnaryOperator <em>Unary Operator</em>}' enum.
@@ -6694,6 +6744,16 @@ public interface ModelPackage extends EPackage
      * @generated
      */
     EEnum MULTIARY_ITERATOR = eINSTANCE.getMultiaryIterator();
+
+    /**
+     * The meta object literal for the '{@link br.ufes.inf.nemo.ml2.model.TypeOperator <em>Type Operator</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see br.ufes.inf.nemo.ml2.model.TypeOperator
+     * @see br.ufes.inf.nemo.ml2.model.impl.ModelPackageImpl#getTypeOperator()
+     * @generated
+     */
+    EEnum TYPE_OPERATOR = eINSTANCE.getTypeOperator();
 
   }
 

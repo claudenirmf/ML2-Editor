@@ -18,14 +18,11 @@ import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
 import br.ufes.inf.nemo.ml2.model.CallOperation;
 import br.ufes.inf.nemo.ml2.model.CategorizationType;
-import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.CollectionTypeName;
 import br.ufes.inf.nemo.ml2.model.ComparisonExpression;
 import br.ufes.inf.nemo.ml2.model.ComparisonOperation;
 import br.ufes.inf.nemo.ml2.model.ComparisonOperator;
 import br.ufes.inf.nemo.ml2.model.Constraint;
 import br.ufes.inf.nemo.ml2.model.DataType;
-import br.ufes.inf.nemo.ml2.model.DataTypeName;
 import br.ufes.inf.nemo.ml2.model.DerivationConstraint;
 import br.ufes.inf.nemo.ml2.model.DotOperation;
 import br.ufes.inf.nemo.ml2.model.EntityDeclaration;
@@ -49,16 +46,18 @@ import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
 import br.ufes.inf.nemo.ml2.model.MultiaryIterator;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
+import br.ufes.inf.nemo.ml2.model.MultiplicationOperation;
+import br.ufes.inf.nemo.ml2.model.MultiplicationOperator;
+import br.ufes.inf.nemo.ml2.model.NavigationSource;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.OclExpression;
-import br.ufes.inf.nemo.ml2.model.OclTypeName;
 import br.ufes.inf.nemo.ml2.model.OrExpression;
 import br.ufes.inf.nemo.ml2.model.OrderedClass;
 import br.ufes.inf.nemo.ml2.model.OrderlessClass;
 import br.ufes.inf.nemo.ml2.model.PrimitiveLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.PrimitiveType;
-import br.ufes.inf.nemo.ml2.model.PrimitiveTypeName;
+import br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.Reference;
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.model.RegularityAttribute;
@@ -68,11 +67,13 @@ import br.ufes.inf.nemo.ml2.model.RegularityReference;
 import br.ufes.inf.nemo.ml2.model.RelationalExpression;
 import br.ufes.inf.nemo.ml2.model.RelationalOperation;
 import br.ufes.inf.nemo.ml2.model.RelationalOperator;
+import br.ufes.inf.nemo.ml2.model.SetLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.SetTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.StringLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.TermExpression;
-import br.ufes.inf.nemo.ml2.model.TupleLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.TupleTypeName;
 import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.TypeOperation;
+import br.ufes.inf.nemo.ml2.model.TypeOperator;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
 import br.ufes.inf.nemo.ml2.model.UnaryIterator;
@@ -81,6 +82,7 @@ import br.ufes.inf.nemo.ml2.model.UnaryNumberOperator;
 import br.ufes.inf.nemo.ml2.model.UnaryOperator;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperator;
+import br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 import br.ufes.inf.nemo.ml2.model.VariableExpression;
 import br.ufes.inf.nemo.ml2.model.XorExpression;
@@ -186,9 +188,11 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
       case ModelPackage.ADDITION_EXPRESSION: return createAdditionExpression();
       case ModelPackage.ADDITION_OPERATION: return createAdditionOperation();
       case ModelPackage.MULTIPLICATION_EXPRESSION: return createMultiplicationExpression();
+      case ModelPackage.MULTIPLICATION_OPERATION: return createMultiplicationOperation();
       case ModelPackage.UNARY_EXPRESSION: return createUnaryExpression();
       case ModelPackage.TERM_EXPRESSION: return createTermExpression();
       case ModelPackage.CALL_EXPRESSION: return createCallExpression();
+      case ModelPackage.NAVIGATION_SOURCE: return createNavigationSource();
       case ModelPackage.CALL_OPERATION: return createCallOperation();
       case ModelPackage.DOT_OPERATION: return createDotOperation();
       case ModelPackage.UNARY_NUMBER_OPERATION: return createUnaryNumberOperation();
@@ -198,21 +202,19 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
       case ModelPackage.BINARY_SET_OPERATION: return createBinarySetOperation();
       case ModelPackage.UNARY_ITERATION: return createUnaryIteration();
       case ModelPackage.MULTIARY_ITERATION: return createMultiaryIteration();
+      case ModelPackage.TYPE_OPERATION: return createTypeOperation();
       case ModelPackage.LITERAL_EXPRESSION: return createLiteralExpression();
       case ModelPackage.PRIMITIVE_LITERAL_EXPRESSION: return createPrimitiveLiteralExpression();
-      case ModelPackage.NULL_LITERAL_EXPRESSION: return createNullLiteralExpression();
       case ModelPackage.BOOLEAN_LITERAL_EXPRESSION: return createBooleanLiteralExpression();
       case ModelPackage.NUMBER_LITERAL_EXPRESSION: return createNumberLiteralExpression();
       case ModelPackage.STRING_LITERAL_EXPRESSION: return createStringLiteralExpression();
-      case ModelPackage.COLLECTION_LITERAL_EXPRESSION: return createCollectionLiteralExpression();
+      case ModelPackage.NULL_LITERAL_EXPRESSION: return createNullLiteralExpression();
+      case ModelPackage.SET_LITERAL_EXPRESSION: return createSetLiteralExpression();
       case ModelPackage.TYPE_LITERAL_EXPRESSION: return createTypeLiteralExpression();
-      case ModelPackage.TUPLE_LITERAL_EXPRESSION: return createTupleLiteralExpression();
       case ModelPackage.VARIABLE_EXPRESSION: return createVariableExpression();
-      case ModelPackage.PRIMITIVE_TYPE_NAME: return createPrimitiveTypeName();
-      case ModelPackage.COLLECTION_TYPE_NAME: return createCollectionTypeName();
-      case ModelPackage.TUPLE_TYPE_NAME: return createTupleTypeName();
-      case ModelPackage.OCL_TYPE_NAME: return createOclTypeName();
-      case ModelPackage.DATA_TYPE_NAME: return createDataTypeName();
+      case ModelPackage.PRIMITIVE_TYPE_LITERAL: return createPrimitiveTypeLiteral();
+      case ModelPackage.SET_TYPE_LITERAL: return createSetTypeLiteral();
+      case ModelPackage.USER_DEFINED_TYPE_LITERAL: return createUserDefinedTypeLiteral();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -240,6 +242,8 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
         return createRelationalOperatorFromString(eDataType, initialValue);
       case ModelPackage.ADDITION_OPERATOR:
         return createAdditionOperatorFromString(eDataType, initialValue);
+      case ModelPackage.MULTIPLICATION_OPERATOR:
+        return createMultiplicationOperatorFromString(eDataType, initialValue);
       case ModelPackage.UNARY_OPERATOR:
         return createUnaryOperatorFromString(eDataType, initialValue);
       case ModelPackage.UNARY_NUMBER_OPERATOR:
@@ -254,6 +258,8 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
         return createUnaryIteratorFromString(eDataType, initialValue);
       case ModelPackage.MULTIARY_ITERATOR:
         return createMultiaryIteratorFromString(eDataType, initialValue);
+      case ModelPackage.TYPE_OPERATOR:
+        return createTypeOperatorFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -281,6 +287,8 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
         return convertRelationalOperatorToString(eDataType, instanceValue);
       case ModelPackage.ADDITION_OPERATOR:
         return convertAdditionOperatorToString(eDataType, instanceValue);
+      case ModelPackage.MULTIPLICATION_OPERATOR:
+        return convertMultiplicationOperatorToString(eDataType, instanceValue);
       case ModelPackage.UNARY_OPERATOR:
         return convertUnaryOperatorToString(eDataType, instanceValue);
       case ModelPackage.UNARY_NUMBER_OPERATOR:
@@ -295,6 +303,8 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
         return convertUnaryIteratorToString(eDataType, instanceValue);
       case ModelPackage.MULTIARY_ITERATOR:
         return convertMultiaryIteratorToString(eDataType, instanceValue);
+      case ModelPackage.TYPE_OPERATOR:
+        return convertTypeOperatorToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -786,6 +796,18 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
+  public MultiplicationOperation createMultiplicationOperation()
+  {
+    MultiplicationOperationImpl multiplicationOperation = new MultiplicationOperationImpl();
+    return multiplicationOperation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public UnaryExpression createUnaryExpression()
   {
     UnaryExpressionImpl unaryExpression = new UnaryExpressionImpl();
@@ -814,6 +836,18 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
   {
     CallExpressionImpl callExpression = new CallExpressionImpl();
     return callExpression;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NavigationSource createNavigationSource()
+  {
+    NavigationSourceImpl navigationSource = new NavigationSourceImpl();
+    return navigationSource;
   }
 
   /**
@@ -930,6 +964,18 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
+  public TypeOperation createTypeOperation()
+  {
+    TypeOperationImpl typeOperation = new TypeOperationImpl();
+    return typeOperation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public LiteralExpression createLiteralExpression()
   {
     LiteralExpressionImpl literalExpression = new LiteralExpressionImpl();
@@ -946,18 +992,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
   {
     PrimitiveLiteralExpressionImpl primitiveLiteralExpression = new PrimitiveLiteralExpressionImpl();
     return primitiveLiteralExpression;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public NullLiteralExpression createNullLiteralExpression()
-  {
-    NullLiteralExpressionImpl nullLiteralExpression = new NullLiteralExpressionImpl();
-    return nullLiteralExpression;
   }
 
   /**
@@ -1002,10 +1036,22 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
-  public CollectionLiteralExpression createCollectionLiteralExpression()
+  public NullLiteralExpression createNullLiteralExpression()
   {
-    CollectionLiteralExpressionImpl collectionLiteralExpression = new CollectionLiteralExpressionImpl();
-    return collectionLiteralExpression;
+    NullLiteralExpressionImpl nullLiteralExpression = new NullLiteralExpressionImpl();
+    return nullLiteralExpression;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public SetLiteralExpression createSetLiteralExpression()
+  {
+    SetLiteralExpressionImpl setLiteralExpression = new SetLiteralExpressionImpl();
+    return setLiteralExpression;
   }
 
   /**
@@ -1026,18 +1072,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
-  public TupleLiteralExpression createTupleLiteralExpression()
-  {
-    TupleLiteralExpressionImpl tupleLiteralExpression = new TupleLiteralExpressionImpl();
-    return tupleLiteralExpression;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public VariableExpression createVariableExpression()
   {
     VariableExpressionImpl variableExpression = new VariableExpressionImpl();
@@ -1050,10 +1084,10 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
-  public PrimitiveTypeName createPrimitiveTypeName()
+  public PrimitiveTypeLiteral createPrimitiveTypeLiteral()
   {
-    PrimitiveTypeNameImpl primitiveTypeName = new PrimitiveTypeNameImpl();
-    return primitiveTypeName;
+    PrimitiveTypeLiteralImpl primitiveTypeLiteral = new PrimitiveTypeLiteralImpl();
+    return primitiveTypeLiteral;
   }
 
   /**
@@ -1062,10 +1096,10 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
-  public CollectionTypeName createCollectionTypeName()
+  public SetTypeLiteral createSetTypeLiteral()
   {
-    CollectionTypeNameImpl collectionTypeName = new CollectionTypeNameImpl();
-    return collectionTypeName;
+    SetTypeLiteralImpl setTypeLiteral = new SetTypeLiteralImpl();
+    return setTypeLiteral;
   }
 
   /**
@@ -1074,34 +1108,10 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   @Override
-  public TupleTypeName createTupleTypeName()
+  public UserDefinedTypeLiteral createUserDefinedTypeLiteral()
   {
-    TupleTypeNameImpl tupleTypeName = new TupleTypeNameImpl();
-    return tupleTypeName;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public OclTypeName createOclTypeName()
-  {
-    OclTypeNameImpl oclTypeName = new OclTypeNameImpl();
-    return oclTypeName;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public DataTypeName createDataTypeName()
-  {
-    DataTypeNameImpl dataTypeName = new DataTypeNameImpl();
-    return dataTypeName;
+    UserDefinedTypeLiteralImpl userDefinedTypeLiteral = new UserDefinedTypeLiteralImpl();
+    return userDefinedTypeLiteral;
   }
 
   /**
@@ -1232,6 +1242,28 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   public String convertAdditionOperatorToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public MultiplicationOperator createMultiplicationOperatorFromString(EDataType eDataType, String initialValue)
+  {
+    MultiplicationOperator result = MultiplicationOperator.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertMultiplicationOperatorToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }
@@ -1386,6 +1418,28 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * @generated
    */
   public String convertMultiaryIteratorToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public TypeOperator createTypeOperatorFromString(EDataType eDataType, String initialValue)
+  {
+    TypeOperator result = TypeOperator.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertTypeOperatorToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

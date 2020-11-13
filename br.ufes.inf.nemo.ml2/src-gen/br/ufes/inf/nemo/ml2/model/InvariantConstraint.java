@@ -13,7 +13,6 @@ package br.ufes.inf.nemo.ml2.model;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.InvariantConstraint#getContextAlias <em>Context Alias</em>}</li>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.InvariantConstraint#getInvariantAlias <em>Invariant Alias</em>}</li>
  * </ul>
  *
@@ -23,28 +22,6 @@ package br.ufes.inf.nemo.ml2.model;
  */
 public interface InvariantConstraint extends Constraint
 {
-  /**
-   * Returns the value of the '<em><b>Context Alias</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Context Alias</em>' attribute.
-   * @see #setContextAlias(String)
-   * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getInvariantConstraint_ContextAlias()
-   * @model
-   * @generated
-   */
-  String getContextAlias();
-
-  /**
-   * Sets the value of the '{@link br.ufes.inf.nemo.ml2.model.InvariantConstraint#getContextAlias <em>Context Alias</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Context Alias</em>' attribute.
-   * @see #getContextAlias()
-   * @generated
-   */
-  void setContextAlias(String value);
-
   /**
    * Returns the value of the '<em><b>Invariant Alias</b></em>' attribute.
    * <!-- begin-user-doc -->

@@ -11,6 +11,7 @@ import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.AbstractElementAlias;
+import org.eclipse.xtext.serializer.analysis.GrammarAlias.AlternativeAlias;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.GroupAlias;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.TokenAlias;
 import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISynNavigable;
@@ -22,6 +23,7 @@ public abstract class AbstractML2SyntacticSequencer extends AbstractSyntacticSeq
 
 	protected ML2GrammarAccess grammarAccess;
 	protected AbstractElementAlias match_Attribute_AttKeyword_1_0_q;
+	protected AbstractElementAlias match_CallOperation_FullStopKeyword_0_0_or_HyphenMinusGreaterThanSignKeyword_1_0;
 	protected AbstractElementAlias match_DataType___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q;
 	protected AbstractElementAlias match_FirstOrderClass___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q;
 	protected AbstractElementAlias match_HighOrderClass___LeftCurlyBracketKeyword_8_0_RightCurlyBracketKeyword_8_2__q;
@@ -37,6 +39,7 @@ public abstract class AbstractML2SyntacticSequencer extends AbstractSyntacticSeq
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (ML2GrammarAccess) access;
 		match_Attribute_AttKeyword_1_0_q = new TokenAlias(false, true, grammarAccess.getAttributeAccess().getAttKeyword_1_0());
+		match_CallOperation_FullStopKeyword_0_0_or_HyphenMinusGreaterThanSignKeyword_1_0 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getCallOperationAccess().getFullStopKeyword_0_0()), new TokenAlias(false, false, grammarAccess.getCallOperationAccess().getHyphenMinusGreaterThanSignKeyword_1_0()));
 		match_DataType___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getDataTypeAccess().getLeftCurlyBracketKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getDataTypeAccess().getRightCurlyBracketKeyword_4_2()));
 		match_FirstOrderClass___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getFirstOrderClassAccess().getLeftCurlyBracketKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getFirstOrderClassAccess().getRightCurlyBracketKeyword_4_2()));
 		match_HighOrderClass___LeftCurlyBracketKeyword_8_0_RightCurlyBracketKeyword_8_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getHighOrderClassAccess().getLeftCurlyBracketKeyword_8_0()), new TokenAlias(false, false, grammarAccess.getHighOrderClassAccess().getRightCurlyBracketKeyword_8_2()));
@@ -63,6 +66,8 @@ public abstract class AbstractML2SyntacticSequencer extends AbstractSyntacticSeq
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
 			if (match_Attribute_AttKeyword_1_0_q.equals(syntax))
 				emit_Attribute_AttKeyword_1_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_CallOperation_FullStopKeyword_0_0_or_HyphenMinusGreaterThanSignKeyword_1_0.equals(syntax))
+				emit_CallOperation_FullStopKeyword_0_0_or_HyphenMinusGreaterThanSignKeyword_1_0(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_DataType___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q.equals(syntax))
 				emit_DataType___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_FirstOrderClass___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q.equals(syntax))
@@ -95,6 +100,17 @@ public abstract class AbstractML2SyntacticSequencer extends AbstractSyntacticSeq
 	 *     (rule start) (ambiguity) name=ID
 	 */
 	protected void emit_Attribute_AttKeyword_1_0_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * Ambiguous syntax:
+	 *     '.' | '->'
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     (rule start) (ambiguity) operator=TypeOperator
+	 */
+	protected void emit_CallOperation_FullStopKeyword_0_0_or_HyphenMinusGreaterThanSignKeyword_1_0(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

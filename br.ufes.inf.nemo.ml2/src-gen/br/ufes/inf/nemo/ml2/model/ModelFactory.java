@@ -384,6 +384,15 @@ public interface ModelFactory extends EFactory
   MultiplicationExpression createMultiplicationExpression();
 
   /**
+   * Returns a new object of class '<em>Multiplication Operation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Multiplication Operation</em>'.
+   * @generated
+   */
+  MultiplicationOperation createMultiplicationOperation();
+
+  /**
    * Returns a new object of class '<em>Unary Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -409,6 +418,15 @@ public interface ModelFactory extends EFactory
    * @generated
    */
   CallExpression createCallExpression();
+
+  /**
+   * Returns a new object of class '<em>Navigation Source</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Navigation Source</em>'.
+   * @generated
+   */
+  NavigationSource createNavigationSource();
 
   /**
    * Returns a new object of class '<em>Call Operation</em>'.
@@ -492,6 +510,15 @@ public interface ModelFactory extends EFactory
   MultiaryIteration createMultiaryIteration();
 
   /**
+   * Returns a new object of class '<em>Type Operation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Type Operation</em>'.
+   * @generated
+   */
+  TypeOperation createTypeOperation();
+
+  /**
    * Returns a new object of class '<em>Literal Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -508,15 +535,6 @@ public interface ModelFactory extends EFactory
    * @generated
    */
   PrimitiveLiteralExpression createPrimitiveLiteralExpression();
-
-  /**
-   * Returns a new object of class '<em>Null Literal Expression</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Null Literal Expression</em>'.
-   * @generated
-   */
-  NullLiteralExpression createNullLiteralExpression();
 
   /**
    * Returns a new object of class '<em>Boolean Literal Expression</em>'.
@@ -546,13 +564,22 @@ public interface ModelFactory extends EFactory
   StringLiteralExpression createStringLiteralExpression();
 
   /**
-   * Returns a new object of class '<em>Collection Literal Expression</em>'.
+   * Returns a new object of class '<em>Null Literal Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Collection Literal Expression</em>'.
+   * @return a new object of class '<em>Null Literal Expression</em>'.
    * @generated
    */
-  CollectionLiteralExpression createCollectionLiteralExpression();
+  NullLiteralExpression createNullLiteralExpression();
+
+  /**
+   * Returns a new object of class '<em>Set Literal Expression</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Set Literal Expression</em>'.
+   * @generated
+   */
+  SetLiteralExpression createSetLiteralExpression();
 
   /**
    * Returns a new object of class '<em>Type Literal Expression</em>'.
@@ -564,15 +591,6 @@ public interface ModelFactory extends EFactory
   TypeLiteralExpression createTypeLiteralExpression();
 
   /**
-   * Returns a new object of class '<em>Tuple Literal Expression</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Tuple Literal Expression</em>'.
-   * @generated
-   */
-  TupleLiteralExpression createTupleLiteralExpression();
-
-  /**
    * Returns a new object of class '<em>Variable Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -582,49 +600,31 @@ public interface ModelFactory extends EFactory
   VariableExpression createVariableExpression();
 
   /**
-   * Returns a new object of class '<em>Primitive Type Name</em>'.
+   * Returns a new object of class '<em>Primitive Type Literal</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Primitive Type Name</em>'.
+   * @return a new object of class '<em>Primitive Type Literal</em>'.
    * @generated
    */
-  PrimitiveTypeName createPrimitiveTypeName();
+  PrimitiveTypeLiteral createPrimitiveTypeLiteral();
 
   /**
-   * Returns a new object of class '<em>Collection Type Name</em>'.
+   * Returns a new object of class '<em>Set Type Literal</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Collection Type Name</em>'.
+   * @return a new object of class '<em>Set Type Literal</em>'.
    * @generated
    */
-  CollectionTypeName createCollectionTypeName();
+  SetTypeLiteral createSetTypeLiteral();
 
   /**
-   * Returns a new object of class '<em>Tuple Type Name</em>'.
+   * Returns a new object of class '<em>User Defined Type Literal</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Tuple Type Name</em>'.
+   * @return a new object of class '<em>User Defined Type Literal</em>'.
    * @generated
    */
-  TupleTypeName createTupleTypeName();
-
-  /**
-   * Returns a new object of class '<em>Ocl Type Name</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Ocl Type Name</em>'.
-   * @generated
-   */
-  OclTypeName createOclTypeName();
-
-  /**
-   * Returns a new object of class '<em>Data Type Name</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Data Type Name</em>'.
-   * @generated
-   */
-  DataTypeName createDataTypeName();
+  UserDefinedTypeLiteral createUserDefinedTypeLiteral();
 
   /**
    * Returns the package supported by this factory.

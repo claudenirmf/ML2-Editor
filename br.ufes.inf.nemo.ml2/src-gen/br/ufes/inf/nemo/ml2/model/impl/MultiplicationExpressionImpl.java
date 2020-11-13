@@ -5,6 +5,7 @@ package br.ufes.inf.nemo.ml2.model.impl;
 
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
+import br.ufes.inf.nemo.ml2.model.MultiplicationOperation;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 
 import java.util.Collection;
@@ -57,7 +58,7 @@ public class MultiplicationExpressionImpl extends MinimalEObjectImpl.Container i
    * @generated
    * @ordered
    */
-  protected EList<UnaryExpression> right;
+  protected EList<MultiplicationOperation> right;
 
   /**
    * <!-- begin-user-doc -->
@@ -136,11 +137,11 @@ public class MultiplicationExpressionImpl extends MinimalEObjectImpl.Container i
    * @generated
    */
   @Override
-  public EList<UnaryExpression> getRight()
+  public EList<MultiplicationOperation> getRight()
   {
     if (right == null)
     {
-      right = new EObjectContainmentEList<UnaryExpression>(UnaryExpression.class, this, ModelPackage.MULTIPLICATION_EXPRESSION__RIGHT);
+      right = new EObjectContainmentEList<MultiplicationOperation>(MultiplicationOperation.class, this, ModelPackage.MULTIPLICATION_EXPRESSION__RIGHT);
     }
     return right;
   }
@@ -197,7 +198,7 @@ public class MultiplicationExpressionImpl extends MinimalEObjectImpl.Container i
         return;
       case ModelPackage.MULTIPLICATION_EXPRESSION__RIGHT:
         getRight().clear();
-        getRight().addAll((Collection<? extends UnaryExpression>)newValue);
+        getRight().addAll((Collection<? extends MultiplicationOperation>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

@@ -50,7 +50,7 @@ public interface MultiplicationExpression extends EObject
 
   /**
    * Returns the value of the '<em><b>Right</b></em>' containment reference list.
-   * The list contents are of type {@link br.ufes.inf.nemo.ml2.model.UnaryExpression}.
+   * The list contents are of type {@link br.ufes.inf.nemo.ml2.model.MultiplicationOperation}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the value of the '<em>Right</em>' containment reference list.
@@ -58,6 +58,6 @@ public interface MultiplicationExpression extends EObject
    * @model containment="true"
    * @generated
    */
-  EList<UnaryExpression> getRight();
+  EList<MultiplicationOperation> getRight();
 
 } // MultiplicationExpression

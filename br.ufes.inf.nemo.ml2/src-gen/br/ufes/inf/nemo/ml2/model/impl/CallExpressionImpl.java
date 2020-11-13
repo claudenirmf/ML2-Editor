@@ -6,7 +6,7 @@ package br.ufes.inf.nemo.ml2.model.impl;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
 import br.ufes.inf.nemo.ml2.model.CallOperation;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
-import br.ufes.inf.nemo.ml2.model.VariableExpression;
+import br.ufes.inf.nemo.ml2.model.NavigationSource;
 
 import java.util.Collection;
 
@@ -47,7 +47,7 @@ public class CallExpressionImpl extends TermExpressionImpl implements CallExpres
    * @generated
    * @ordered
    */
-  protected VariableExpression left;
+  protected NavigationSource left;
 
   /**
    * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference list.
@@ -86,7 +86,7 @@ public class CallExpressionImpl extends TermExpressionImpl implements CallExpres
    * @generated
    */
   @Override
-  public VariableExpression getLeft()
+  public NavigationSource getLeft()
   {
     return left;
   }
@@ -96,9 +96,9 @@ public class CallExpressionImpl extends TermExpressionImpl implements CallExpres
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetLeft(VariableExpression newLeft, NotificationChain msgs)
+  public NotificationChain basicSetLeft(NavigationSource newLeft, NotificationChain msgs)
   {
-    VariableExpression oldLeft = left;
+    NavigationSource oldLeft = left;
     left = newLeft;
     if (eNotificationRequired())
     {
@@ -114,7 +114,7 @@ public class CallExpressionImpl extends TermExpressionImpl implements CallExpres
    * @generated
    */
   @Override
-  public void setLeft(VariableExpression newLeft)
+  public void setLeft(NavigationSource newLeft)
   {
     if (newLeft != left)
     {
@@ -193,7 +193,7 @@ public class CallExpressionImpl extends TermExpressionImpl implements CallExpres
     switch (featureID)
     {
       case ModelPackage.CALL_EXPRESSION__LEFT:
-        setLeft((VariableExpression)newValue);
+        setLeft((NavigationSource)newValue);
         return;
       case ModelPackage.CALL_EXPRESSION__RIGHT:
         getRight().clear();
@@ -214,7 +214,7 @@ public class CallExpressionImpl extends TermExpressionImpl implements CallExpres
     switch (featureID)
     {
       case ModelPackage.CALL_EXPRESSION__LEFT:
-        setLeft((VariableExpression)null);
+        setLeft((NavigationSource)null);
         return;
       case ModelPackage.CALL_EXPRESSION__RIGHT:
         getRight().clear();

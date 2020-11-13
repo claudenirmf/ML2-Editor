@@ -3,8 +3,8 @@
  */
 package br.ufes.inf.nemo.ml2.model.impl;
 
+import br.ufes.inf.nemo.ml2.model.ImpliesExpression;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
-import br.ufes.inf.nemo.ml2.model.TermExpression;
 import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 
@@ -72,7 +72,7 @@ public class VariableDeclarationImpl extends MinimalEObjectImpl.Container implem
    * @generated
    * @ordered
    */
-  protected TermExpression initialValue;
+  protected ImpliesExpression initialValue;
 
   /**
    * <!-- begin-user-doc -->
@@ -176,7 +176,7 @@ public class VariableDeclarationImpl extends MinimalEObjectImpl.Container implem
    * @generated
    */
   @Override
-  public TermExpression getInitialValue()
+  public ImpliesExpression getInitialValue()
   {
     return initialValue;
   }
@@ -186,9 +186,9 @@ public class VariableDeclarationImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetInitialValue(TermExpression newInitialValue, NotificationChain msgs)
+  public NotificationChain basicSetInitialValue(ImpliesExpression newInitialValue, NotificationChain msgs)
   {
-    TermExpression oldInitialValue = initialValue;
+    ImpliesExpression oldInitialValue = initialValue;
     initialValue = newInitialValue;
     if (eNotificationRequired())
     {
@@ -204,7 +204,7 @@ public class VariableDeclarationImpl extends MinimalEObjectImpl.Container implem
    * @generated
    */
   @Override
-  public void setInitialValue(TermExpression newInitialValue)
+  public void setInitialValue(ImpliesExpression newInitialValue)
   {
     if (newInitialValue != initialValue)
     {
@@ -275,7 +275,7 @@ public class VariableDeclarationImpl extends MinimalEObjectImpl.Container implem
         setVariableType((TypeLiteralExpression)newValue);
         return;
       case ModelPackage.VARIABLE_DECLARATION__INITIAL_VALUE:
-        setInitialValue((TermExpression)newValue);
+        setInitialValue((ImpliesExpression)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -298,7 +298,7 @@ public class VariableDeclarationImpl extends MinimalEObjectImpl.Container implem
         setVariableType((TypeLiteralExpression)null);
         return;
       case ModelPackage.VARIABLE_DECLARATION__INITIAL_VALUE:
-        setInitialValue((TermExpression)null);
+        setInitialValue((ImpliesExpression)null);
         return;
     }
     super.eUnset(featureID);

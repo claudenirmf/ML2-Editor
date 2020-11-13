@@ -167,7 +167,6 @@ enum PrimitiveType returns PrimitiveType:
 	| BOOLEAN='Boolean' 
 ;
 
-
 enum RegularityFeatureType:
 	DETERMINES_MAX_VALUE="determinesMaxValue"
 	| DETERMINES_MIN_VALUE="determinesMinValue"
@@ -277,12 +276,12 @@ ConstraintDeclaration returns Constraint:
 ;
 
 InvariantConstraint:
-	'context' (contextAlias=ID ':')? classContext=[Class]
+	'context' classContext=[Class]
 	'inv' (invariantAlias=ID)? ':' expression=OclExpression
 ;
 
 DerivationConstraint:
-	'context' classContext=[Class] '::' featureContext=[Feature] ':' typename=TypeLiteralExpression
+	'context' classContext=[Class] ('::' featureContext+=ID)+ ':' contextType=TypeLiteralExpression
 	'derive' ':' expression=OclExpression
 ;
 
@@ -296,7 +295,7 @@ LetExpression:
 ;
 	
 VariableDeclaration:
-	variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=TermExpression
+	variableName=ID ':' variableType=TypeLiteralExpression '=' initialValue=ImpliesExpression
 ;
 	
 IfExpression:
@@ -358,10 +357,18 @@ AdditionOperation:
 enum AdditionOperator:
 	PLUS='+' | MINUS='-'
 ;
-	
+
 MultiplicationExpression:
-	left=UnaryExpression ('*' right+=UnaryExpression)*
-;	
+	left=UnaryExpression (right+=MultiplicationOperation)*
+;
+
+MultiplicationOperation:
+	operator=MultiplicationOperator right=UnaryExpression
+;
+
+enum MultiplicationOperator:
+	TIMES='*' | OVER='/'
+;
 
 UnaryExpression:
 	(operator=UnaryOperator)? right=TermExpression
@@ -376,7 +383,11 @@ TermExpression:
 ;
 
 CallExpression:
-	left=VariableExpression (right+=CallOperation)*
+	left=NavigationSource (right+=CallOperation)*
+;
+
+NavigationSource:
+	source=TypeLiteralExpression '.' 'allInstances' '(' ')' | source=VariableExpression
 ;
 	
 CallOperation:
@@ -384,7 +395,7 @@ CallOperation:
 ;
 	
 DotOperation:
-	UnaryNumberOperation | BinaryNumberOperation | VariableExpression //'.' right=VariableExpression
+	UnaryNumberOperation | BinaryNumberOperation | TypeOperation | VariableExpression
 ;
 
 UnaryNumberOperation:
@@ -392,7 +403,7 @@ UnaryNumberOperation:
 ;
 
 enum UnaryNumberOperator:
-	ABS='abs' | FLOOR='floor' | ROUND='round'
+	ABS='abs' | FLOOR='floor' | ROUND='round' | OCL_IS_UNDEFINED='oclIsUndefined'
 ;
 
 BinaryNumberOperation:
@@ -404,9 +415,9 @@ enum BinaryNumberOperator:
 ;
 	
 ArrowOperation:
-	UnarySetOperation | BinarySetOperation | UnaryIteration | MultiaryIteration
+	UnarySetOperation | BinarySetOperation | UnaryIteration | MultiaryIteration | TypeOperation
 ;
-	
+
 UnarySetOperation:
 	operator=UnarySetOperator '(' ')'
 ;
@@ -423,7 +434,7 @@ BinarySetOperation:
 enum BinarySetOperator:
 	INCLUDES='includes' | INCLUDES_ALL='includesAll' | EXCLUDES='excludes' | EXCLUDES_ALL='excludesAll' |
 	INCLUDING='including' | EXCLUDING='excluding' |	COUNT='count' | UNION='union' | INTERSECTION='intersection' |
-	SYMMETRIC_DIFFERENCE='symmetricDifference' | PRODUCT='product'
+	SYMMETRIC_DIFFERENCE='symmetricDifference'
 ;
 
 UnaryIteration:
@@ -443,16 +454,20 @@ enum MultiaryIterator:
 	EXISTS='exists' | FOR_ALL='forAll'
 ;
 
+TypeOperation:
+	operator=TypeOperator '(' (referredType=TypeLiteralExpression | 'self') ')'
+;
+
+enum TypeOperator:
+	OCL_AS_TYPE='oclAsType' | OCL_IS_KIND_OF='oclIsKindOf' | OCL_IS_TYPE_OF='oclIsTypeOf'
+;
+
 LiteralExpression:
-	PrimitiveLiteralExpression | CollectionLiteralExpression | TypeLiteralExpression | TupleLiteralExpression
+	PrimitiveLiteralExpression | SetLiteralExpression | TypeLiteralExpression
 ;
 
 PrimitiveLiteralExpression:
-	NullLiteralExpression | BooleanLiteralExpression | NumberLiteralExpression | StringLiteralExpression
-;
-
-NullLiteralExpression:
-	nullSymbol='null'
+	BooleanLiteralExpression | NumberLiteralExpression | StringLiteralExpression | NullLiteralExpression
 ;
 
 BooleanLiteralExpression:
@@ -467,22 +482,32 @@ StringLiteralExpression:
 	stringSymbol=STRING
 ;
 
-//TODO: LiteralExpression cannot be a collection here
-CollectionLiteralExpression:
-	'Set' '{' parts+=LiteralExpression (',' parts+=LiteralExpression)* '}'
+NullLiteralExpression:
+	nullSymbol='null'
+;
+
+SetLiteralExpression:
+	{SetLiteralExpression} 'Set' '{' (parts+=PrimitiveLiteralExpression (',' parts+=PrimitiveLiteralExpression)*)? '}'
 ;
 
 TypeLiteralExpression:
-	PrimitiveTypeName | CollectionTypeName | TupleTypeName | OclTypeName | DataTypeName
-;
-
-//TODO: review
-TupleLiteralExpression:
-	'Tuple' '{' variables+=ID (',' variables+=ID)* '}'
+	PrimitiveTypeLiteral | SetTypeLiteral | UserDefinedTypeLiteral
 ;
 
 VariableExpression:
-	referringVariable=ID | referringVariable='self'
+	referringVariable='self' | referringVariable=ID
+;
+
+PrimitiveTypeLiteral:
+	typeName='Boolean' | typeName='Number' | typeName='String'
+;
+
+SetTypeLiteral:
+	typeName='Set' '(' setType=TypeLiteralExpression ')'
+;
+
+UserDefinedTypeLiteral:
+	typeName=[Class]
 ;
 
 BOOLEAN_LITERAL returns ecore::EBoolean:
@@ -491,26 +516,4 @@ BOOLEAN_LITERAL returns ecore::EBoolean:
 
 NUMBER_LITERAL returns ecore::EDouble:
 	INT ( '.' INT )?
-;
-
-PrimitiveTypeName:
-	typename='Boolean' | typename='Number' | typename='String'
-;
-
-CollectionTypeName:
-	typename='Set' '(' elementType=TypeLiteralExpression ')'
-;
-
-//TODO: review
-TupleTypeName:
-	typename='Tuple' '(' (variables+=ID (',' variables+=ID)*)? ')'
-;
-
-OclTypeName:
-	typename='OclAny' | typename='OclVoid'
-;
-
-// TODO
-DataTypeName:
-	typename=[DataType]
 ;

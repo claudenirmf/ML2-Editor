@@ -12,12 +12,9 @@ import br.ufes.inf.nemo.ml2.model.BinaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.BinarySetOperation;
 import br.ufes.inf.nemo.ml2.model.BooleanLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.CallExpression;
-import br.ufes.inf.nemo.ml2.model.CollectionLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.CollectionTypeName;
 import br.ufes.inf.nemo.ml2.model.ComparisonExpression;
 import br.ufes.inf.nemo.ml2.model.ComparisonOperation;
 import br.ufes.inf.nemo.ml2.model.DataType;
-import br.ufes.inf.nemo.ml2.model.DataTypeName;
 import br.ufes.inf.nemo.ml2.model.DerivationConstraint;
 import br.ufes.inf.nemo.ml2.model.FirstOrderClass;
 import br.ufes.inf.nemo.ml2.model.GeneralizationSet;
@@ -32,25 +29,28 @@ import br.ufes.inf.nemo.ml2.model.Model;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.model.MultiaryIteration;
 import br.ufes.inf.nemo.ml2.model.MultiplicationExpression;
+import br.ufes.inf.nemo.ml2.model.MultiplicationOperation;
+import br.ufes.inf.nemo.ml2.model.NavigationSource;
 import br.ufes.inf.nemo.ml2.model.NullLiteralExpression;
 import br.ufes.inf.nemo.ml2.model.NumberLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.OclTypeName;
 import br.ufes.inf.nemo.ml2.model.OrExpression;
 import br.ufes.inf.nemo.ml2.model.OrderlessClass;
-import br.ufes.inf.nemo.ml2.model.PrimitiveTypeName;
+import br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.Reference;
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment;
 import br.ufes.inf.nemo.ml2.model.RegularityAttribute;
 import br.ufes.inf.nemo.ml2.model.RegularityReference;
 import br.ufes.inf.nemo.ml2.model.RelationalExpression;
 import br.ufes.inf.nemo.ml2.model.RelationalOperation;
+import br.ufes.inf.nemo.ml2.model.SetLiteralExpression;
+import br.ufes.inf.nemo.ml2.model.SetTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.StringLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.TupleLiteralExpression;
-import br.ufes.inf.nemo.ml2.model.TupleTypeName;
+import br.ufes.inf.nemo.ml2.model.TypeOperation;
 import br.ufes.inf.nemo.ml2.model.UnaryExpression;
 import br.ufes.inf.nemo.ml2.model.UnaryIteration;
 import br.ufes.inf.nemo.ml2.model.UnaryNumberOperation;
 import br.ufes.inf.nemo.ml2.model.UnarySetOperation;
+import br.ufes.inf.nemo.ml2.model.UserDefinedTypeLiteral;
 import br.ufes.inf.nemo.ml2.model.VariableDeclaration;
 import br.ufes.inf.nemo.ml2.model.VariableExpression;
 import br.ufes.inf.nemo.ml2.model.XorExpression;
@@ -132,12 +132,6 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 			case ModelPackage.CALL_EXPRESSION:
 				sequence_CallExpression(context, (CallExpression) semanticObject); 
 				return; 
-			case ModelPackage.COLLECTION_LITERAL_EXPRESSION:
-				sequence_CollectionLiteralExpression(context, (CollectionLiteralExpression) semanticObject); 
-				return; 
-			case ModelPackage.COLLECTION_TYPE_NAME:
-				sequence_CollectionTypeName(context, (CollectionTypeName) semanticObject); 
-				return; 
 			case ModelPackage.COMPARISON_EXPRESSION:
 				sequence_ComparisonExpression(context, (ComparisonExpression) semanticObject); 
 				return; 
@@ -146,9 +140,6 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 				return; 
 			case ModelPackage.DATA_TYPE:
 				sequence_DataType(context, (DataType) semanticObject); 
-				return; 
-			case ModelPackage.DATA_TYPE_NAME:
-				sequence_DataTypeName(context, (DataTypeName) semanticObject); 
 				return; 
 			case ModelPackage.DERIVATION_CONSTRAINT:
 				sequence_DerivationConstraint(context, (DerivationConstraint) semanticObject); 
@@ -199,14 +190,17 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 			case ModelPackage.MULTIPLICATION_EXPRESSION:
 				sequence_MultiplicationExpression(context, (MultiplicationExpression) semanticObject); 
 				return; 
+			case ModelPackage.MULTIPLICATION_OPERATION:
+				sequence_MultiplicationOperation(context, (MultiplicationOperation) semanticObject); 
+				return; 
+			case ModelPackage.NAVIGATION_SOURCE:
+				sequence_NavigationSource(context, (NavigationSource) semanticObject); 
+				return; 
 			case ModelPackage.NULL_LITERAL_EXPRESSION:
 				sequence_NullLiteralExpression(context, (NullLiteralExpression) semanticObject); 
 				return; 
 			case ModelPackage.NUMBER_LITERAL_EXPRESSION:
 				sequence_NumberLiteralExpression(context, (NumberLiteralExpression) semanticObject); 
-				return; 
-			case ModelPackage.OCL_TYPE_NAME:
-				sequence_OclTypeName(context, (OclTypeName) semanticObject); 
 				return; 
 			case ModelPackage.OR_EXPRESSION:
 				sequence_OrExpression(context, (OrExpression) semanticObject); 
@@ -214,8 +208,8 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 			case ModelPackage.ORDERLESS_CLASS:
 				sequence_OrderlessClass(context, (OrderlessClass) semanticObject); 
 				return; 
-			case ModelPackage.PRIMITIVE_TYPE_NAME:
-				sequence_PrimitiveTypeName(context, (PrimitiveTypeName) semanticObject); 
+			case ModelPackage.PRIMITIVE_TYPE_LITERAL:
+				sequence_PrimitiveTypeLiteral(context, (PrimitiveTypeLiteral) semanticObject); 
 				return; 
 			case ModelPackage.REFERENCE:
 				sequence_Reference(context, (Reference) semanticObject); 
@@ -247,14 +241,17 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 			case ModelPackage.RELATIONAL_OPERATION:
 				sequence_RelationalOperation(context, (RelationalOperation) semanticObject); 
 				return; 
+			case ModelPackage.SET_LITERAL_EXPRESSION:
+				sequence_SetLiteralExpression(context, (SetLiteralExpression) semanticObject); 
+				return; 
+			case ModelPackage.SET_TYPE_LITERAL:
+				sequence_SetTypeLiteral(context, (SetTypeLiteral) semanticObject); 
+				return; 
 			case ModelPackage.STRING_LITERAL_EXPRESSION:
 				sequence_StringLiteralExpression(context, (StringLiteralExpression) semanticObject); 
 				return; 
-			case ModelPackage.TUPLE_LITERAL_EXPRESSION:
-				sequence_TupleLiteralExpression(context, (TupleLiteralExpression) semanticObject); 
-				return; 
-			case ModelPackage.TUPLE_TYPE_NAME:
-				sequence_TupleTypeName(context, (TupleTypeName) semanticObject); 
+			case ModelPackage.TYPE_OPERATION:
+				sequence_TypeOperation(context, (TypeOperation) semanticObject); 
 				return; 
 			case ModelPackage.UNARY_EXPRESSION:
 				sequence_UnaryExpression(context, (UnaryExpression) semanticObject); 
@@ -267,6 +264,9 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 				return; 
 			case ModelPackage.UNARY_SET_OPERATION:
 				sequence_UnarySetOperation(context, (UnarySetOperation) semanticObject); 
+				return; 
+			case ModelPackage.USER_DEFINED_TYPE_LITERAL:
+				sequence_UserDefinedTypeLiteral(context, (UserDefinedTypeLiteral) semanticObject); 
 				return; 
 			case ModelPackage.VARIABLE_DECLARATION:
 				sequence_VariableDeclaration(context, (VariableDeclaration) semanticObject); 
@@ -419,48 +419,10 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *     CallExpression returns CallExpression
 	 *
 	 * Constraint:
-	 *     (left=VariableExpression right+=CallOperation*)
+	 *     (left=NavigationSource right+=CallOperation*)
 	 */
 	protected void sequence_CallExpression(ISerializationContext context, CallExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     TermExpression returns CollectionLiteralExpression
-	 *     LiteralExpression returns CollectionLiteralExpression
-	 *     CollectionLiteralExpression returns CollectionLiteralExpression
-	 *
-	 * Constraint:
-	 *     (parts+=LiteralExpression parts+=LiteralExpression*)
-	 */
-	protected void sequence_CollectionLiteralExpression(ISerializationContext context, CollectionLiteralExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     TermExpression returns CollectionTypeName
-	 *     LiteralExpression returns CollectionTypeName
-	 *     TypeLiteralExpression returns CollectionTypeName
-	 *     CollectionTypeName returns CollectionTypeName
-	 *
-	 * Constraint:
-	 *     (typename='Set' elementType=TypeLiteralExpression)
-	 */
-	protected void sequence_CollectionTypeName(ISerializationContext context, CollectionTypeName semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.COLLECTION_TYPE_NAME__TYPENAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.COLLECTION_TYPE_NAME__TYPENAME));
-			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.COLLECTION_TYPE_NAME__ELEMENT_TYPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.COLLECTION_TYPE_NAME__ELEMENT_TYPE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getCollectionTypeNameAccess().getTypenameSetKeyword_0_0(), semanticObject.getTypename());
-		feeder.accept(grammarAccess.getCollectionTypeNameAccess().getElementTypeTypeLiteralExpressionParserRuleCall_2_0(), semanticObject.getElementType());
-		feeder.finish();
 	}
 	
 	
@@ -499,27 +461,6 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     TermExpression returns DataTypeName
-	 *     LiteralExpression returns DataTypeName
-	 *     TypeLiteralExpression returns DataTypeName
-	 *     DataTypeName returns DataTypeName
-	 *
-	 * Constraint:
-	 *     typename=[DataType|ID]
-	 */
-	protected void sequence_DataTypeName(ISerializationContext context, DataTypeName semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.DATA_TYPE_NAME__TYPENAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.DATA_TYPE_NAME__TYPENAME));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getDataTypeNameAccess().getTypenameDataTypeIDTerminalRuleCall_0_1(), semanticObject.eGet(ModelPackage.Literals.DATA_TYPE_NAME__TYPENAME, false));
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     ModelElement returns DataType
 	 *     AllModelElements returns DataType
 	 *     EntityDeclaration returns DataType
@@ -547,25 +488,10 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *     DerivationConstraint returns DerivationConstraint
 	 *
 	 * Constraint:
-	 *     (classContext=[Class|ID] featureContext=[Feature|ID] typename=TypeLiteralExpression expression=OclExpression)
+	 *     (classContext=[Class|ID] featureContext+=ID+ contextType=TypeLiteralExpression expression=OclExpression)
 	 */
 	protected void sequence_DerivationConstraint(ISerializationContext context, DerivationConstraint semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.CONSTRAINT__CLASS_CONTEXT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.CONSTRAINT__CLASS_CONTEXT));
-			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.DERIVATION_CONSTRAINT__FEATURE_CONTEXT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.DERIVATION_CONSTRAINT__FEATURE_CONTEXT));
-			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.DERIVATION_CONSTRAINT__TYPENAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.DERIVATION_CONSTRAINT__TYPENAME));
-			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.CONSTRAINT__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.CONSTRAINT__EXPRESSION));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getDerivationConstraintAccess().getClassContextClassIDTerminalRuleCall_1_0_1(), semanticObject.eGet(ModelPackage.Literals.CONSTRAINT__CLASS_CONTEXT, false));
-		feeder.accept(grammarAccess.getDerivationConstraintAccess().getFeatureContextFeatureIDTerminalRuleCall_3_0_1(), semanticObject.eGet(ModelPackage.Literals.DERIVATION_CONSTRAINT__FEATURE_CONTEXT, false));
-		feeder.accept(grammarAccess.getDerivationConstraintAccess().getTypenameTypeLiteralExpressionParserRuleCall_5_0(), semanticObject.getTypename());
-		feeder.accept(grammarAccess.getDerivationConstraintAccess().getExpressionOclExpressionParserRuleCall_8_0(), semanticObject.getExpression());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -723,7 +649,7 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *     InvariantConstraint returns InvariantConstraint
 	 *
 	 * Constraint:
-	 *     (contextAlias=ID? classContext=[Class|ID] invariantAlias=ID? expression=OclExpression)
+	 *     (classContext=[Class|ID] invariantAlias=ID? expression=OclExpression)
 	 */
 	protected void sequence_InvariantConstraint(ISerializationContext context, InvariantConstraint semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -878,10 +804,10 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *         (
 	 *             attribute=[Attribute|QualifiedName] 
 	 *             (stringValues+=STRING | numberValues+=NUMBER | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual) 
-	 *             numberValues+=NUMBER? 
+	 *             booleanValues+=BOOLEAN? 
 	 *             (
-	 *                 (stringValues+=STRING | booleanValues+=BOOLEAN | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? 
-	 *                 numberValues+=NUMBER?
+	 *                 (stringValues+=STRING | numberValues+=NUMBER | datatypeValues+=[Individual|QualifiedName] | unnamedValues+=UnnamedIndividual)? 
+	 *                 booleanValues+=BOOLEAN?
 	 *             )*
 	 *         )
 	 *     )
@@ -896,9 +822,42 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *     MultiplicationExpression returns MultiplicationExpression
 	 *
 	 * Constraint:
-	 *     (left=UnaryExpression right+=UnaryExpression*)
+	 *     (left=UnaryExpression right+=MultiplicationOperation*)
 	 */
 	protected void sequence_MultiplicationExpression(ISerializationContext context, MultiplicationExpression semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     MultiplicationOperation returns MultiplicationOperation
+	 *
+	 * Constraint:
+	 *     (operator=MultiplicationOperator right=UnaryExpression)
+	 */
+	protected void sequence_MultiplicationOperation(ISerializationContext context, MultiplicationOperation semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.MULTIPLICATION_OPERATION__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.MULTIPLICATION_OPERATION__OPERATOR));
+			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.MULTIPLICATION_OPERATION__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.MULTIPLICATION_OPERATION__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getMultiplicationOperationAccess().getOperatorMultiplicationOperatorEnumRuleCall_0_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getMultiplicationOperationAccess().getRightUnaryExpressionParserRuleCall_1_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     NavigationSource returns NavigationSource
+	 *
+	 * Constraint:
+	 *     (source=TypeLiteralExpression | source=VariableExpression)
+	 */
+	protected void sequence_NavigationSource(ISerializationContext context, NavigationSource semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -947,21 +906,6 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     TermExpression returns OclTypeName
-	 *     LiteralExpression returns OclTypeName
-	 *     TypeLiteralExpression returns OclTypeName
-	 *     OclTypeName returns OclTypeName
-	 *
-	 * Constraint:
-	 *     (typename='OclAny' | typename='OclVoid')
-	 */
-	protected void sequence_OclTypeName(ISerializationContext context, OclTypeName semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     OrExpression returns OrExpression
 	 *
 	 * Constraint:
@@ -999,15 +943,15 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     TermExpression returns PrimitiveTypeName
-	 *     LiteralExpression returns PrimitiveTypeName
-	 *     TypeLiteralExpression returns PrimitiveTypeName
-	 *     PrimitiveTypeName returns PrimitiveTypeName
+	 *     TermExpression returns PrimitiveTypeLiteral
+	 *     LiteralExpression returns PrimitiveTypeLiteral
+	 *     TypeLiteralExpression returns PrimitiveTypeLiteral
+	 *     PrimitiveTypeLiteral returns PrimitiveTypeLiteral
 	 *
 	 * Constraint:
-	 *     (typename='Boolean' | typename='Number' | typename='String')
+	 *     (typeName='Boolean' | typeName='Number' | typeName='String')
 	 */
-	protected void sequence_PrimitiveTypeName(ISerializationContext context, PrimitiveTypeName semanticObject) {
+	protected void sequence_PrimitiveTypeLiteral(ISerializationContext context, PrimitiveTypeLiteral semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1116,6 +1060,44 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
+	 *     TermExpression returns SetLiteralExpression
+	 *     LiteralExpression returns SetLiteralExpression
+	 *     SetLiteralExpression returns SetLiteralExpression
+	 *
+	 * Constraint:
+	 *     (parts+=PrimitiveLiteralExpression parts+=PrimitiveLiteralExpression*)?
+	 */
+	protected void sequence_SetLiteralExpression(ISerializationContext context, SetLiteralExpression semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     TermExpression returns SetTypeLiteral
+	 *     LiteralExpression returns SetTypeLiteral
+	 *     TypeLiteralExpression returns SetTypeLiteral
+	 *     SetTypeLiteral returns SetTypeLiteral
+	 *
+	 * Constraint:
+	 *     (typeName='Set' setType=TypeLiteralExpression)
+	 */
+	protected void sequence_SetTypeLiteral(ISerializationContext context, SetTypeLiteral semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.SET_TYPE_LITERAL__TYPE_NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.SET_TYPE_LITERAL__TYPE_NAME));
+			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.SET_TYPE_LITERAL__SET_TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.SET_TYPE_LITERAL__SET_TYPE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getSetTypeLiteralAccess().getTypeNameSetKeyword_0_0(), semanticObject.getTypeName());
+		feeder.accept(grammarAccess.getSetTypeLiteralAccess().getSetTypeTypeLiteralExpressionParserRuleCall_2_0(), semanticObject.getSetType());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     SingleAttributeAssignment returns AttributeAssignment
 	 *
 	 * Constraint:
@@ -1179,29 +1161,15 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
-	 *     TermExpression returns TupleLiteralExpression
-	 *     LiteralExpression returns TupleLiteralExpression
-	 *     TupleLiteralExpression returns TupleLiteralExpression
+	 *     CallOperation returns TypeOperation
+	 *     DotOperation returns TypeOperation
+	 *     ArrowOperation returns TypeOperation
+	 *     TypeOperation returns TypeOperation
 	 *
 	 * Constraint:
-	 *     (variables+=ID variables+=ID*)
+	 *     (operator=TypeOperator referredType=TypeLiteralExpression?)
 	 */
-	protected void sequence_TupleLiteralExpression(ISerializationContext context, TupleLiteralExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     TermExpression returns TupleTypeName
-	 *     LiteralExpression returns TupleTypeName
-	 *     TypeLiteralExpression returns TupleTypeName
-	 *     TupleTypeName returns TupleTypeName
-	 *
-	 * Constraint:
-	 *     (typename='Tuple' (variables+=ID variables+=ID*)?)
-	 */
-	protected void sequence_TupleTypeName(ISerializationContext context, TupleTypeName semanticObject) {
+	protected void sequence_TypeOperation(ISerializationContext context, TypeOperation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1286,10 +1254,31 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	
 	/**
 	 * Contexts:
+	 *     TermExpression returns UserDefinedTypeLiteral
+	 *     LiteralExpression returns UserDefinedTypeLiteral
+	 *     TypeLiteralExpression returns UserDefinedTypeLiteral
+	 *     UserDefinedTypeLiteral returns UserDefinedTypeLiteral
+	 *
+	 * Constraint:
+	 *     typeName=[Class|ID]
+	 */
+	protected void sequence_UserDefinedTypeLiteral(ISerializationContext context, UserDefinedTypeLiteral semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ModelPackage.Literals.USER_DEFINED_TYPE_LITERAL__TYPE_NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ModelPackage.Literals.USER_DEFINED_TYPE_LITERAL__TYPE_NAME));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getUserDefinedTypeLiteralAccess().getTypeNameClassIDTerminalRuleCall_0_1(), semanticObject.eGet(ModelPackage.Literals.USER_DEFINED_TYPE_LITERAL__TYPE_NAME, false));
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     VariableDeclaration returns VariableDeclaration
 	 *
 	 * Constraint:
-	 *     (variableName=ID variableType=TypeLiteralExpression initialValue=TermExpression)
+	 *     (variableName=ID variableType=TypeLiteralExpression initialValue=ImpliesExpression)
 	 */
 	protected void sequence_VariableDeclaration(ISerializationContext context, VariableDeclaration semanticObject) {
 		if (errorAcceptor != null) {
@@ -1303,7 +1292,7 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getVariableDeclarationAccess().getVariableNameIDTerminalRuleCall_0_0(), semanticObject.getVariableName());
 		feeder.accept(grammarAccess.getVariableDeclarationAccess().getVariableTypeTypeLiteralExpressionParserRuleCall_2_0(), semanticObject.getVariableType());
-		feeder.accept(grammarAccess.getVariableDeclarationAccess().getInitialValueTermExpressionParserRuleCall_4_0(), semanticObject.getInitialValue());
+		feeder.accept(grammarAccess.getVariableDeclarationAccess().getInitialValueImpliesExpressionParserRuleCall_4_0(), semanticObject.getInitialValue());
 		feeder.finish();
 	}
 	
@@ -1315,7 +1304,7 @@ public abstract class AbstractML2SemanticSequencer extends AbstractDelegatingSem
 	 *     VariableExpression returns VariableExpression
 	 *
 	 * Constraint:
-	 *     (referringVariable=ID | referringVariable='self')
+	 *     (referringVariable='self' | referringVariable=ID)
 	 */
 	protected void sequence_VariableExpression(ISerializationContext context, VariableExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

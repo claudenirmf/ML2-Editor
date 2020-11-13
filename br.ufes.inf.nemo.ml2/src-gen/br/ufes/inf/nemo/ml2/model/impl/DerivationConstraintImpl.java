@@ -4,17 +4,22 @@
 package br.ufes.inf.nemo.ml2.model.impl;
 
 import br.ufes.inf.nemo.ml2.model.DerivationConstraint;
-import br.ufes.inf.nemo.ml2.model.Feature;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
 import br.ufes.inf.nemo.ml2.model.TypeLiteralExpression;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +30,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * </p>
  * <ul>
  *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.DerivationConstraintImpl#getFeatureContext <em>Feature Context</em>}</li>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.DerivationConstraintImpl#getTypename <em>Typename</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.DerivationConstraintImpl#getContextType <em>Context Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -33,24 +38,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 public class DerivationConstraintImpl extends ConstraintImpl implements DerivationConstraint
 {
   /**
-   * The cached value of the '{@link #getFeatureContext() <em>Feature Context</em>}' reference.
+   * The cached value of the '{@link #getFeatureContext() <em>Feature Context</em>}' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getFeatureContext()
    * @generated
    * @ordered
    */
-  protected Feature featureContext;
+  protected EList<String> featureContext;
 
   /**
-   * The cached value of the '{@link #getTypename() <em>Typename</em>}' containment reference.
+   * The cached value of the '{@link #getContextType() <em>Context Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypename()
+   * @see #getContextType()
    * @generated
    * @ordered
    */
-  protected TypeLiteralExpression typename;
+  protected TypeLiteralExpression contextType;
 
   /**
    * <!-- begin-user-doc -->
@@ -79,17 +84,11 @@ public class DerivationConstraintImpl extends ConstraintImpl implements Derivati
    * @generated
    */
   @Override
-  public Feature getFeatureContext()
+  public EList<String> getFeatureContext()
   {
-    if (featureContext != null && featureContext.eIsProxy())
+    if (featureContext == null)
     {
-      InternalEObject oldFeatureContext = (InternalEObject)featureContext;
-      featureContext = (Feature)eResolveProxy(oldFeatureContext);
-      if (featureContext != oldFeatureContext)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.DERIVATION_CONSTRAINT__FEATURE_CONTEXT, oldFeatureContext, featureContext));
-      }
+      featureContext = new EDataTypeEList<String>(String.class, this, ModelPackage.DERIVATION_CONSTRAINT__FEATURE_CONTEXT);
     }
     return featureContext;
   }
@@ -99,23 +98,10 @@ public class DerivationConstraintImpl extends ConstraintImpl implements Derivati
    * <!-- end-user-doc -->
    * @generated
    */
-  public Feature basicGetFeatureContext()
-  {
-    return featureContext;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   @Override
-  public void setFeatureContext(Feature newFeatureContext)
+  public TypeLiteralExpression getContextType()
   {
-    Feature oldFeatureContext = featureContext;
-    featureContext = newFeatureContext;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DERIVATION_CONSTRAINT__FEATURE_CONTEXT, oldFeatureContext, featureContext));
+    return contextType;
   }
 
   /**
@@ -123,24 +109,13 @@ public class DerivationConstraintImpl extends ConstraintImpl implements Derivati
    * <!-- end-user-doc -->
    * @generated
    */
-  @Override
-  public TypeLiteralExpression getTypename()
+  public NotificationChain basicSetContextType(TypeLiteralExpression newContextType, NotificationChain msgs)
   {
-    return typename;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetTypename(TypeLiteralExpression newTypename, NotificationChain msgs)
-  {
-    TypeLiteralExpression oldTypename = typename;
-    typename = newTypename;
+    TypeLiteralExpression oldContextType = contextType;
+    contextType = newContextType;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.DERIVATION_CONSTRAINT__TYPENAME, oldTypename, newTypename);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.DERIVATION_CONSTRAINT__CONTEXT_TYPE, oldContextType, newContextType);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -152,20 +127,20 @@ public class DerivationConstraintImpl extends ConstraintImpl implements Derivati
    * @generated
    */
   @Override
-  public void setTypename(TypeLiteralExpression newTypename)
+  public void setContextType(TypeLiteralExpression newContextType)
   {
-    if (newTypename != typename)
+    if (newContextType != contextType)
     {
       NotificationChain msgs = null;
-      if (typename != null)
-        msgs = ((InternalEObject)typename).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.DERIVATION_CONSTRAINT__TYPENAME, null, msgs);
-      if (newTypename != null)
-        msgs = ((InternalEObject)newTypename).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.DERIVATION_CONSTRAINT__TYPENAME, null, msgs);
-      msgs = basicSetTypename(newTypename, msgs);
+      if (contextType != null)
+        msgs = ((InternalEObject)contextType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.DERIVATION_CONSTRAINT__CONTEXT_TYPE, null, msgs);
+      if (newContextType != null)
+        msgs = ((InternalEObject)newContextType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.DERIVATION_CONSTRAINT__CONTEXT_TYPE, null, msgs);
+      msgs = basicSetContextType(newContextType, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DERIVATION_CONSTRAINT__TYPENAME, newTypename, newTypename));
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DERIVATION_CONSTRAINT__CONTEXT_TYPE, newContextType, newContextType));
   }
 
   /**
@@ -178,8 +153,8 @@ public class DerivationConstraintImpl extends ConstraintImpl implements Derivati
   {
     switch (featureID)
     {
-      case ModelPackage.DERIVATION_CONSTRAINT__TYPENAME:
-        return basicSetTypename(null, msgs);
+      case ModelPackage.DERIVATION_CONSTRAINT__CONTEXT_TYPE:
+        return basicSetContextType(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -195,10 +170,9 @@ public class DerivationConstraintImpl extends ConstraintImpl implements Derivati
     switch (featureID)
     {
       case ModelPackage.DERIVATION_CONSTRAINT__FEATURE_CONTEXT:
-        if (resolve) return getFeatureContext();
-        return basicGetFeatureContext();
-      case ModelPackage.DERIVATION_CONSTRAINT__TYPENAME:
-        return getTypename();
+        return getFeatureContext();
+      case ModelPackage.DERIVATION_CONSTRAINT__CONTEXT_TYPE:
+        return getContextType();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -208,16 +182,18 @@ public class DerivationConstraintImpl extends ConstraintImpl implements Derivati
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case ModelPackage.DERIVATION_CONSTRAINT__FEATURE_CONTEXT:
-        setFeatureContext((Feature)newValue);
+        getFeatureContext().clear();
+        getFeatureContext().addAll((Collection<? extends String>)newValue);
         return;
-      case ModelPackage.DERIVATION_CONSTRAINT__TYPENAME:
-        setTypename((TypeLiteralExpression)newValue);
+      case ModelPackage.DERIVATION_CONSTRAINT__CONTEXT_TYPE:
+        setContextType((TypeLiteralExpression)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -234,10 +210,10 @@ public class DerivationConstraintImpl extends ConstraintImpl implements Derivati
     switch (featureID)
     {
       case ModelPackage.DERIVATION_CONSTRAINT__FEATURE_CONTEXT:
-        setFeatureContext((Feature)null);
+        getFeatureContext().clear();
         return;
-      case ModelPackage.DERIVATION_CONSTRAINT__TYPENAME:
-        setTypename((TypeLiteralExpression)null);
+      case ModelPackage.DERIVATION_CONSTRAINT__CONTEXT_TYPE:
+        setContextType((TypeLiteralExpression)null);
         return;
     }
     super.eUnset(featureID);
@@ -254,11 +230,28 @@ public class DerivationConstraintImpl extends ConstraintImpl implements Derivati
     switch (featureID)
     {
       case ModelPackage.DERIVATION_CONSTRAINT__FEATURE_CONTEXT:
-        return featureContext != null;
-      case ModelPackage.DERIVATION_CONSTRAINT__TYPENAME:
-        return typename != null;
+        return featureContext != null && !featureContext.isEmpty();
+      case ModelPackage.DERIVATION_CONSTRAINT__CONTEXT_TYPE:
+        return contextType != null;
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (featureContext: ");
+    result.append(featureContext);
+    result.append(')');
+    return result.toString();
   }
 
 } //DerivationConstraintImpl

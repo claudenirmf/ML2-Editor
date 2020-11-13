@@ -27,6 +27,7 @@ import br.ufes.inf.nemo.ml2.model.RegularityFeature
 import br.ufes.inf.nemo.ml2.model.RegularityAttribute
 import br.ufes.inf.nemo.ml2.model.RegularityReference
 import java.util.List
+import org.eclipse.emf.common.util.BasicEList
 
 class ML2Util {
 	
@@ -409,5 +410,50 @@ class ML2Util {
 		}
 		return false
 	}
-
+	
+	/** 
+	 * Returns a set of all subtypes of the given <b>type</b>. The set does not
+	 * include the <b>type</b>.
+	 * 
+	 * @author Fernando Amaral Musso
+	 */
+	def classSubtypes(Class c) {
+		var EObject container = c
+		var subtypes = new BasicEList<Class>
+		
+		while(! (container instanceof Model)) {
+			container = container.eContainer
+		}
+		
+		if(container instanceof Model) {
+			for(e : container.elements) {
+				if(e instanceof Class) {
+					if(e != c) {
+						if(e.classHierarchy.contains(c)) {
+							subtypes.add(e)
+						}
+					}
+				}
+			}
+		}
+		
+		return subtypes
+	}
+	
+	/** 
+	 * Returns the <b>type</b> given its <b>name</b>.
+	 * 
+	 * @author Fernando Amaral Musso
+	 */
+	def getClass(String name, Model model) {
+		for(e : model.elements) {
+			if(e instanceof Class) {
+				if(e.name.equals(name)) {
+					return e
+				}
+			}
+		}
+		
+		return null
+	}
 }

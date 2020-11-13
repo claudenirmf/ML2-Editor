@@ -7,6 +7,7 @@ import com.google.inject.Inject
 import org.eclipse.xtext.validation.CheckType
 import org.eclipse.xtext.validation.Check
 import br.ufes.inf.nemo.ml2.util.ML2Util
+
 import br.ufes.inf.nemo.ml2.model.Class
 import br.ufes.inf.nemo.ml2.model.EntityDeclaration
 import br.ufes.inf.nemo.ml2.model.FeatureAssignment
@@ -19,6 +20,18 @@ import br.ufes.inf.nemo.ml2.model.RegularityFeature
 import br.ufes.inf.nemo.ml2.model.ReferenceAssignment
 import br.ufes.inf.nemo.ml2.model.AttributeAssignment
 
+import br.ufes.inf.nemo.ml2.model.Constraint
+import br.ufes.inf.nemo.ml2.model.DerivationConstraint
+import br.ufes.inf.nemo.ml2.model.IfExpression
+import br.ufes.inf.nemo.ml2.model.ImpliesExpression
+import br.ufes.inf.nemo.ml2.model.XorExpression
+import br.ufes.inf.nemo.ml2.model.OrExpression
+import br.ufes.inf.nemo.ml2.model.AndExpression
+import br.ufes.inf.nemo.ml2.model.RelationalExpression
+import br.ufes.inf.nemo.ml2.model.AdditionExpression
+import br.ufes.inf.nemo.ml2.model.MultiplicationExpression
+import br.ufes.inf.nemo.ml2.model.UnaryExpression
+
 /**
  * This class contains custom validation rules. 
  *
@@ -30,7 +43,7 @@ class ML2Validator extends AbstractML2Validator {
 	
 	@Inject extension LinguisticRules
 	@Inject extension MLTRules
-	@Inject extension UFORules
+	@Inject extension OCLRules
 	
 	public static val INSTANTIATION_OF_DISJOINT_TYPES = "br.ufes.inf.nemo.ontol.InstantiationOfDisjointTypes"
 	public static val MISSING_COMPLETE_INSTANTIATION = "br.ufes.inf.nemo.ontol.MissingCompleteInstantiation"
@@ -237,4 +250,63 @@ class ML2Validator extends AbstractML2Validator {
 			warning(message,feature)
 	}
 	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidFeatureContext(DerivationConstraint constraint) {
+		constraint.hasValidFeatureContext?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidContextType(DerivationConstraint constraint) {
+		constraint.hasValidContextType?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidReturnType(Constraint constraint) {
+		constraint.hasValidReturnType?.runIssue
+	}
+
+	@Check(CheckType.FAST)
+	def void callCheckHasValidIfCondition(IfExpression expression) {
+		expression.hasValidIfCondition?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidImpliesExpression(ImpliesExpression expression) {
+		expression.hasValidImpliesExpression?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidXorExpression(XorExpression expression) {
+		expression.hasValidXorExpression?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidOrExpression(OrExpression expression) {
+		expression.hasValidOrExpression?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidAndExpression(AndExpression expression) {
+		expression.hasValidAndExpression?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidRelationalExpression(RelationalExpression expression) {
+		expression.hasValidRelationalExpression?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidAdditionExpression(AdditionExpression expression) {
+		expression.hasValidAdditionExpression?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidMultiplicationExpression(MultiplicationExpression expression) {
+		expression.hasValidMultiplicationExpression?.runIssue
+	}
+	
+	@Check(CheckType.FAST)
+	def void callCheckHasValidUnaryExpression(UnaryExpression expression) {
+		expression.hasValidUnaryExpression?.runIssue
+	}
 }

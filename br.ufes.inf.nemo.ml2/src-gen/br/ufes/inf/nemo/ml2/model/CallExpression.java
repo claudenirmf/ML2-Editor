@@ -29,12 +29,12 @@ public interface CallExpression extends TermExpression
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the value of the '<em>Left</em>' containment reference.
-   * @see #setLeft(VariableExpression)
+   * @see #setLeft(NavigationSource)
    * @see br.ufes.inf.nemo.ml2.model.ModelPackage#getCallExpression_Left()
    * @model containment="true"
    * @generated
    */
-  VariableExpression getLeft();
+  NavigationSource getLeft();
 
   /**
    * Sets the value of the '{@link br.ufes.inf.nemo.ml2.model.CallExpression#getLeft <em>Left</em>}' containment reference.
@@ -44,7 +44,7 @@ public interface CallExpression extends TermExpression
    * @see #getLeft()
    * @generated
    */
-  void setLeft(VariableExpression value);
+  void setLeft(NavigationSource value);
 
   /**
    * Returns the value of the '<em><b>Right</b></em>' containment reference list.

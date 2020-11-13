@@ -3,48 +3,56 @@
  */
 package br.ufes.inf.nemo.ml2.model.impl;
 
-import br.ufes.inf.nemo.ml2.model.DataType;
-import br.ufes.inf.nemo.ml2.model.DataTypeName;
 import br.ufes.inf.nemo.ml2.model.ModelPackage;
+import br.ufes.inf.nemo.ml2.model.PrimitiveTypeLiteral;
 
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Data Type Name</b></em>'.
+ * An implementation of the model object '<em><b>Primitive Type Literal</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.DataTypeNameImpl#getTypename <em>Typename</em>}</li>
+ *   <li>{@link br.ufes.inf.nemo.ml2.model.impl.PrimitiveTypeLiteralImpl#getTypeName <em>Type Name</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class DataTypeNameImpl extends TypeLiteralExpressionImpl implements DataTypeName
+public class PrimitiveTypeLiteralImpl extends TypeLiteralExpressionImpl implements PrimitiveTypeLiteral
 {
   /**
-   * The cached value of the '{@link #getTypename() <em>Typename</em>}' reference.
+   * The default value of the '{@link #getTypeName() <em>Type Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypename()
+   * @see #getTypeName()
    * @generated
    * @ordered
    */
-  protected DataType typename;
+  protected static final String TYPE_NAME_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getTypeName() <em>Type Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTypeName()
+   * @generated
+   * @ordered
+   */
+  protected String typeName = TYPE_NAME_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected DataTypeNameImpl()
+  protected PrimitiveTypeLiteralImpl()
   {
     super();
   }
@@ -57,7 +65,7 @@ public class DataTypeNameImpl extends TypeLiteralExpressionImpl implements DataT
   @Override
   protected EClass eStaticClass()
   {
-    return ModelPackage.Literals.DATA_TYPE_NAME;
+    return ModelPackage.Literals.PRIMITIVE_TYPE_LITERAL;
   }
 
   /**
@@ -66,29 +74,9 @@ public class DataTypeNameImpl extends TypeLiteralExpressionImpl implements DataT
    * @generated
    */
   @Override
-  public DataType getTypename()
+  public String getTypeName()
   {
-    if (typename != null && typename.eIsProxy())
-    {
-      InternalEObject oldTypename = (InternalEObject)typename;
-      typename = (DataType)eResolveProxy(oldTypename);
-      if (typename != oldTypename)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.DATA_TYPE_NAME__TYPENAME, oldTypename, typename));
-      }
-    }
-    return typename;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public DataType basicGetTypename()
-  {
-    return typename;
+    return typeName;
   }
 
   /**
@@ -97,12 +85,12 @@ public class DataTypeNameImpl extends TypeLiteralExpressionImpl implements DataT
    * @generated
    */
   @Override
-  public void setTypename(DataType newTypename)
+  public void setTypeName(String newTypeName)
   {
-    DataType oldTypename = typename;
-    typename = newTypename;
+    String oldTypeName = typeName;
+    typeName = newTypeName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DATA_TYPE_NAME__TYPENAME, oldTypename, typename));
+      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.PRIMITIVE_TYPE_LITERAL__TYPE_NAME, oldTypeName, typeName));
   }
 
   /**
@@ -115,9 +103,8 @@ public class DataTypeNameImpl extends TypeLiteralExpressionImpl implements DataT
   {
     switch (featureID)
     {
-      case ModelPackage.DATA_TYPE_NAME__TYPENAME:
-        if (resolve) return getTypename();
-        return basicGetTypename();
+      case ModelPackage.PRIMITIVE_TYPE_LITERAL__TYPE_NAME:
+        return getTypeName();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -132,8 +119,8 @@ public class DataTypeNameImpl extends TypeLiteralExpressionImpl implements DataT
   {
     switch (featureID)
     {
-      case ModelPackage.DATA_TYPE_NAME__TYPENAME:
-        setTypename((DataType)newValue);
+      case ModelPackage.PRIMITIVE_TYPE_LITERAL__TYPE_NAME:
+        setTypeName((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -149,8 +136,8 @@ public class DataTypeNameImpl extends TypeLiteralExpressionImpl implements DataT
   {
     switch (featureID)
     {
-      case ModelPackage.DATA_TYPE_NAME__TYPENAME:
-        setTypename((DataType)null);
+      case ModelPackage.PRIMITIVE_TYPE_LITERAL__TYPE_NAME:
+        setTypeName(TYPE_NAME_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -166,10 +153,27 @@ public class DataTypeNameImpl extends TypeLiteralExpressionImpl implements DataT
   {
     switch (featureID)
     {
-      case ModelPackage.DATA_TYPE_NAME__TYPENAME:
-        return typename != null;
+      case ModelPackage.PRIMITIVE_TYPE_LITERAL__TYPE_NAME:
+        return TYPE_NAME_EDEFAULT == null ? typeName != null : !TYPE_NAME_EDEFAULT.equals(typeName);
     }
     return super.eIsSet(featureID);
   }
 
-} //DataTypeNameImpl
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (typeName: ");
+    result.append(typeName);
+    result.append(')');
+    return result.toString();
+  }
+
+} //PrimitiveTypeLiteralImpl
